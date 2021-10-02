@@ -31,21 +31,35 @@
         <spring-format.version>0.0.19</spring-format.version>
 
     </properties>
-<developers>
-    <developer>
-        <id>TNS</id>
-        <name>Pablo Marin</name>
-        <email>pabmargom3@alum.us.es</email>
-        <url>https://github.com/TheNeoStormZ</url>
+    <developers>
+        <developer>
+            <id>TNS</id>
+            <name>Pablo Marin</name>
+            <email>pabmargom3@alum.us.es</email>
+            <url>https://github.com/TheNeoStormZ</url>
+            <roles>
+                <role>Member</role>
+            </roles>
+            <properties>
+                <picUrl>https://avatars.githubusercontent.com/u/73660500?s=400</picUrl>
+            </properties>
+        </developer>
+        <developer>
+        <id>DiegoRuizGil</id>
+        <name>Diego</name>
+        <email>diegoruiz@gmail.com</email>
+        <url>http://www.tmht.com/leo</url>
         <roles>
-            <role>Member</role>
+          <role>admin</role>
         </roles>
         <properties>
-            <picUrl>https://avatars.githubusercontent.com/u/73660500?s=400</picUrl>
+          <picUrl>
+            https://pbs.twimg.com/media/Eh4n9GhUMAAdO8x?format=jpg&name=large
+          </picUrl>
         </properties>
-    </developer>
-    <!-- More developers ...-->
-</developers>
+      </developer>
+        <!-- More developers ...-->
+    </developers>
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
         <dependency>
