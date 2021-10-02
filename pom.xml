@@ -31,7 +31,21 @@
         <spring-format.version>0.0.19</spring-format.version>
 
     </properties>
-
+<developers>
+    <developer>
+        <id>TNS</id>
+        <name>Pablo Marin</name>
+        <email>pabmargom3@alum.us.es</email>
+        <url>https://github.com/TheNeoStormZ</url>
+        <roles>
+            <role>Member</role>
+        </roles>
+        <properties>
+            <picUrl>https://avatars.githubusercontent.com/u/73660500?s=400</picUrl>
+        </properties>
+    </developer>
+    <!-- More developers ...-->
+</developers>
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
         <dependency>
