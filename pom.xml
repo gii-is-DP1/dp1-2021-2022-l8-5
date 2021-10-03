@@ -45,6 +45,21 @@
                 <picUrl>https://www.hogarmania.com/archivos/201809/nutria-668x400x80xX.jpg</picUrl>
             </properties>
         </developer>
+        
+         <developer>
+			<id>FJM</id>
+			<name>Francisco Javier Migueles</name>
+			<email>miguelesdominguez@gmail.com</email>
+			<url>https://github.com/xiscomigueles</url>
+			<roles>
+			  <role>Member</role>
+			</roles>
+			<properties>
+			  <picUrl>
+				https://www.hogarmania.com/archivos/201809/nutria-668x400x80xX.jpg
+			  </picUrl>
+			</properties>
+      </developer>
 
         <!-- More developers ...-->
 
