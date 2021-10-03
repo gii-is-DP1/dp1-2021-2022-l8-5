@@ -32,6 +32,7 @@
 
     </properties>
     <developers>
+	
         <developer>
             <id>PAC</id>
             <name>Pablo Álvarez</name>
@@ -44,10 +45,40 @@
                 <picUrl>https://www.hogarmania.com/archivos/201809/nutria-668x400x80xX.jpg</picUrl>
             </properties>
         </developer>
-	  
+
         <!-- More developers ...-->
+
+        <developer>
+			<id>DiegoRuizGil</id>
+			<name>Diego</name>
+			<email>diegoruiz@gmail.com</email>
+			<url>http://www.tmht.com/leo</url>
+			<roles>
+			  <role>admin</role>
+			</roles>
+			<properties>
+			  <picUrl>
+				https://www.hogarmania.com/archivos/201809/nutria-668x400x80xX.jpg
+			  </picUrl>
+			</properties>
+      </developer>
+	  
+	  <developer>
+            <id>TNS</id>
+            <name>Pablo Marin</name>
+            <email>pabmargom3@alum.us.es</email>
+            <url>https://github.com/TheNeoStormZ</url>
+            <roles>
+                <role>Member</role>
+            </roles>
+            <properties>
+                <picUrl>https://avatars.githubusercontent.com/u/73660500?s=400</picUrl>
+            </properties>
+        </developer>
+	  
+
     </developers>
-	
+
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
         <dependency>
