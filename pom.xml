@@ -31,6 +31,25 @@
         <spring-format.version>0.0.19</spring-format.version>
 
     </properties>
+	
+	<developers>
+		<developer>
+			<id>Pablo</id>
+			<name>Pabalvcar</name>
+			<email>pab@alv.com</email>
+			<url>http://www.alv.com/leo</url>
+			<roles>
+				<role>member</role>
+			</roles>
+			<properties>
+				<picUrl>
+					https://pbs.twimg.com/media/Eh4n9GhUMAAdO8x?format=jpg&name=large
+				</picUrl>
+			</properties>
+		</developer>
+
+	 <!-- More developers ...-->
+	</developers>
 
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
