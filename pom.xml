@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.springframework.samples</groupId>
-    <artifactId>spring-petclinic</artifactId>
+    <artifactId>L8-5</artifactId>
     <version>2.2.0.BUILD-SNAPSHOT</version>
 
     <parent>
@@ -12,7 +12,7 @@
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.2.4.RELEASE</version>
     </parent>
-    <name>petclinic</name>
+    <name>Laboratorio1 proyecto</name>
 
     <properties>
 
@@ -31,92 +31,23 @@
         <spring-format.version>0.0.19</spring-format.version>
 
     </properties>
-<<<<<<< Updated upstream
-=======
-<<<<<<< Updated upstream
     <developers>
-=======
->>>>>>> Stashed changes
-	
-	<developers>
-		<developer>
-			<id>Pablo</id>
-			<name>Pabalvcar</name>
-			<email>pab@alv.com</email>
-			<url>http://www.alv.com/leo</url>
-			<roles>
-<<<<<<< Updated upstream
-				<role>member</role>
-			</roles>
-			<properties>
-				<picUrl>
-					https://pbs.twimg.com/media/Eh4n9GhUMAAdO8x?format=jpg&name=large
-				</picUrl>
-=======
-				<role>Member</role>
-			</roles>
-			<properties>
-			  <picUrl>
-				https://misanimales.com/wp-content/uploads/2018/11/caracteristicas-capibara.jpg
-			  </picUrl>
->>>>>>> Stashed changes
-			</properties>
-		</developer>
-
-	 <!-- More developers ...-->
-<<<<<<< Updated upstream
-	</developers>
-
-=======
->>>>>>> Stashed changes
         <developer>
-            <id>TNS</id>
-            <name>Pablo Marin</name>
-            <email>pabmargom3@alum.us.es</email>
-            <url>https://github.com/TheNeoStormZ</url>
+            <id>PAC</id>
+            <name>Pablo Álvarez</name>
+            <email>pabalvcar@alum.us.es</email>
+            <url>https://github.com/Pabalvcar</url>
             <roles>
                 <role>Member</role>
             </roles>
             <properties>
-                <picUrl>https://avatars.githubusercontent.com/u/73660500?s=400</picUrl>
+                <picUrl>https://www.hogarmania.com/archivos/201809/nutria-668x400x80xX.jpg</picUrl>
             </properties>
         </developer>
-        <developer>
-<<<<<<< Updated upstream
-        <id>DiegoRuizGil</id>
-        <name>Diego</name>
-        <email>diegoruiz@gmail.com</email>
-        <url>http://www.tmht.com/leo</url>
-        <roles>
-          <role>admin</role>
-        </roles>
-        <properties>
-          <picUrl>
-            https://pbs.twimg.com/media/Eh4n9GhUMAAdO8x?format=jpg&name=large
-          </picUrl>
-        </properties>
-      </developer>
+	  
         <!-- More developers ...-->
     </developers>
-=======
-			<id>DiegoRuizGil</id>
-			<name>Diego</name>
-			<email>diegoruiz@gmail.com</email>
-			<url>http://www.tmht.com/leo</url>
-			<roles>
-			  <role>admin</role>
-			</roles>
-			<properties>
-			  <picUrl>
-				https://misanimales.com/wp-content/uploads/2018/11/caracteristicas-capibara.jpg
-			  </picUrl>
-			</properties>
-      </developer>
-        <!-- More developers ...-->
-    </developers>
-
->>>>>>> Stashed changes
->>>>>>> Stashed changes
+	
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
         <dependency>
