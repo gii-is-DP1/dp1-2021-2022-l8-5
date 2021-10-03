@@ -8,9 +8,10 @@
 <petclinic:layout pageName="home">
     <h2><fmt:message key="welcome"/></h2>
     <div class="row">
-    <h2>Proyecto ${title}</h2>
-    <p><h2>Group ${group}</h2></p>
-    <p><ul>
+    <h2><img class="img-responsive"  src="/resources/images/5d75429b60bb3.jpeg" width="30" height="30"/>Proyecto ${title}</h2>
+    <p><h2> Group ${group}</h2></p>
+    <p>
+    <ul>
     <c:forEach items="${persons}" var="person">
     	<li> ${person.firstName} ${person.lastName} </li>
     	</c:forEach>
