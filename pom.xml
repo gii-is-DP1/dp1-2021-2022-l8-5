@@ -31,7 +31,22 @@
         <spring-format.version>0.0.19</spring-format.version>
 
     </properties>
-
+	<developers>
+ 		<developer>
+			 <id>josgarboh</id>
+			 <name>Jose Ignacio Garcia Bohorquez</name>
+			 <email>garciaji700@gmail.com</email>
+			 <url>https://github.com/josgarboh</url>
+			 <roles>
+			 <role>member</role>
+			 </roles>
+			 <properties>
+			 <picUrl>
+			https://avatars.githubusercontent.com/u/80249164?v=4
+			</picUrl>
+			 </properties>
+ 		</developer>
+	</developers>
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
         <dependency>
