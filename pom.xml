@@ -60,7 +60,20 @@
 			  </picUrl>
 			</properties>
       </developer>
-
+        
+      <developer>
+            <id>DZF</id>
+            <name>David Zamora</name>
+            <email>davzamfer@alum.us.es</email>
+            <url>https://github.com/Dr-Vell</url>
+            <roles>
+                <role>Member</role>
+            </roles>
+            <properties>
+                <picUrl>http://pm1.narvii.com/6575/493e9a1647b0d6d184356c0309d7fd930a9602ab_00.jpg</picUrl>
+            </properties>
+      </developer>
+        
         <!-- More developers ...-->
 
         <developer>
