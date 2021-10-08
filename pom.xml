@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.springframework.samples</groupId>
-    <artifactId>spring-petclinic</artifactId>
+    <artifactId>L8-5</artifactId>
     <version>2.2.0.BUILD-SNAPSHOT</version>
 
     <parent>
@@ -12,7 +12,7 @@
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.2.4.RELEASE</version>
     </parent>
-    <name>petclinic</name>
+    <name>Laboratorio1 proyecto</name>
 
     <properties>
 
@@ -31,8 +31,67 @@
         <spring-format.version>0.0.19</spring-format.version>
 
     </properties>
-	<developers>
- 		<developer>
+    <developers>
+	
+        <developer>
+            <id>PAC</id>
+            <name>Pablo Álvarez</name>
+            <email>pabalvcar@alum.us.es</email>
+            <url>https://github.com/Pabalvcar</url>
+            <roles>
+                <role>Member</role>
+            </roles>
+            <properties>
+                <picUrl>https://www.hogarmania.com/archivos/201809/nutria-668x400x80xX.jpg</picUrl>
+            </properties>
+        </developer>
+        
+         <developer>
+			<id>FJM</id>
+			<name>Francisco Javier Migueles</name>
+			<email>miguelesdominguez@gmail.com</email>
+			<url>https://github.com/xiscomigueles</url>
+			<roles>
+			  <role>Member</role>
+			</roles>
+			<properties>
+			  <picUrl>
+				https://www.hogarmania.com/archivos/201809/nutria-668x400x80xX.jpg
+			  </picUrl>
+			</properties>
+      </developer>
+
+        <!-- More developers ...-->
+
+        <developer>
+			<id>DiegoRuizGil</id>
+			<name>Diego</name>
+			<email>diegoruiz@gmail.com</email>
+			<url>http://www.tmht.com/leo</url>
+			<roles>
+			  <role>admin</role>
+			</roles>
+			<properties>
+			  <picUrl>
+				https://www.hogarmania.com/archivos/201809/nutria-668x400x80xX.jpg
+			  </picUrl>
+			</properties>
+      </developer>
+	  
+	  <developer>
+            <id>TNS</id>
+            <name>Pablo Marin</name>
+            <email>pabmargom3@alum.us.es</email>
+            <url>https://github.com/TheNeoStormZ</url>
+            <roles>
+                <role>Member</role>
+            </roles>
+            <properties>
+                <picUrl>https://avatars.githubusercontent.com/u/73660500?s=400</picUrl>
+            </properties>
+        </developer>
+	  
+		<developer>
 			 <id>josgarboh</id>
 			 <name>Jose Ignacio Garcia Bohorquez</name>
 			 <email>garciaji700@gmail.com</email>
@@ -46,7 +105,8 @@
 			</picUrl>
 			 </properties>
  		</developer>
-	</developers>
+    </developers>
+
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
         <dependency>
