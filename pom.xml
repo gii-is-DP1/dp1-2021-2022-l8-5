@@ -91,7 +91,20 @@
             </properties>
         </developer>
 	  
-
+		<developer>
+			 <id>josgarboh</id>
+			 <name>Jose Ignacio Garcia Bohorquez</name>
+			 <email>garciaji700@gmail.com</email>
+			 <url>https://github.com/josgarboh</url>
+			 <roles>
+			 <role>member</role>
+			 </roles>
+			 <properties>
+			 <picUrl>
+			https://avatars.githubusercontent.com/u/80249164?v=4
+			</picUrl>
+			 </properties>
+ 		</developer>
     </developers>
 
     <dependencies>
