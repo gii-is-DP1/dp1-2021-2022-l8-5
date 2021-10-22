@@ -1,4 +1,7 @@
-# Spring PetClinic Sample Application 
+# Proyecto Grupo L8-5
+
+Enlace a gameplay explicativo: https://www.youtube.com/watch?v=kt3YIV1h20w
+
 
 This is a fork of https://github.com/spring-projects/spring-petclinic to be used for the DP1 course. The main changes that have been performed were:
 - Trimming several parts of the application to keep the example low
