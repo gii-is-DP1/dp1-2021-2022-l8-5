@@ -16,18 +16,22 @@
 package org.springframework.samples.petclinic.player;
 
 import java.util.Map;
+import java.util.Optional;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.owner.Owner;
 import org.springframework.samples.petclinic.owner.OwnerService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -41,6 +45,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/players")
 public class PlayerController {
+	
+	private static final String VIEWS_PLAYER_CREATE_OR_UPDATE_FORM = "players/createOrUpdatePlayerForm";
 
 
 	@Autowired
@@ -54,5 +60,41 @@ public class PlayerController {
 		modelMap.addAttribute("players", players);
 		return view;
 
+	}
+	
+	@GetMapping(path="/delete/{playerId}")
+	public String deletePlayer(@PathVariable("playerId") Integer playerId,ModelMap modelMap) {
+		String view = "players/listPlayers";
+		Optional<Player> player = playerService.findByPlayerId(playerId);
+		if (player.isPresent()) {
+			playerService.delete(player.get());
+			modelMap.addAttribute("message", "Player deleted!");
+		} else {
+			modelMap.addAttribute("message", "Player not found!");
+		}
+		return view;
+
+	}
+	
+	
+	@GetMapping(value = "/update/{playerId}")
+	public String initUpdateOwnerForm(@PathVariable("playerId") int playerId, Model model) {
+		String view = "players/listPlayers";
+		Player player = this.playerService.findByPlayerId(playerId).get();
+		model.addAttribute(player);
+		return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
+	}
+
+	@PostMapping(value = "/update/{playerId}")
+	public String processUpdateOwnerForm(@Valid Player player, BindingResult result,
+			@PathVariable("playerId") int playerId) {
+		if (result.hasErrors()) {
+			return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
+		}
+		else {
+			player.setId(playerId);
+			this.playerService.savePlayer(player);
+			return "redirect:/players";
+		}
 	}
 }

@@ -16,7 +16,7 @@ public class WelcomeController {
 	  public String welcome(Map<String, Object> model) {	
 		  List<Person> Persons =new ArrayList<Person>();
 		  
-		  List<String> nombres = List.of("Pablo", "David", "Pablo", "Diego", "Francisco Javier", "Jose Ignacio");
+		  List<String> nombres = List.of("Pablo ", "David ", "Pablo ", "Diego ", "Francisco Javier ", "Jose Ignacio ");
 		  List<String> apellidos = List.of("Marin", "Zamora", "Alvarez", "Ruiz", "Migueles", "Garcia");
 		  
 		  for (int i=0; i<nombres.size();i++) {
@@ -28,7 +28,7 @@ public class WelcomeController {
 		  }
 		  
 		  model.put("persons", Persons);
-		  model.put("title", "Laboratorio 1");
+		  model.put("title", "Dwarf");
 		  model.put("group", "L8-5");
 		  
 		  
