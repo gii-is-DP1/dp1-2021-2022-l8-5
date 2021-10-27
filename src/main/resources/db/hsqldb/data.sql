@@ -8,6 +8,10 @@ INSERT INTO users(username,password,enabled) VALUES ('davzamfer','0wn3r',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (2,'owner1','owner');
 INSERT INTO authorities(id,username,authority) VALUES (5,'pabmargom3','owner');
 INSERT INTO authorities(id,username,authority) VALUES (4,'davzamfer','owner');
+
+-- One player MyPlayer, named PC1 with passwor pass
+INSERT INTO players(username,password,enabled) VALUES ('PC1','pass',TRUE);
+
 -- One vet user, named vet1 with passwor v3t
 INSERT INTO users(username,password,enabled) VALUES ('vet1','v3t',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (3,'vet1','veterinarian');
