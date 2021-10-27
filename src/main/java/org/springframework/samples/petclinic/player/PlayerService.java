@@ -35,20 +35,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class PlayerService {
 
-	private PlayerRepository PlayerRepository;
-
 	@Autowired
-	public PlayerService(PlayerRepository PlayerRepository) {
-		this.PlayerRepository = PlayerRepository;
+	private PlayerRepository playerRepo;
+	
+	@Transactional
+	public int playerCount() {
+		return (int) playerRepo.count();
 	}
 
-	@Transactional
-	public void savePlayer(Player Player) throws DataAccessException {
-		Player.setEnabled(true);
-		PlayerRepository.save(Player);
-	}
-	
-	public Optional<Player> findPlayer(String Playername) {
-		return PlayerRepository.findById(Playername);
+	public Iterable<Player> findAll() {
+		return playerRepo.findAll();
 	}
 }
