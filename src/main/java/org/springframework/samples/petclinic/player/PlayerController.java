@@ -23,11 +23,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.owner.Owner;
 import org.springframework.samples.petclinic.owner.OwnerService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * @author Juergen Hoeller
@@ -35,41 +37,22 @@ import org.springframework.web.bind.annotation.PostMapping;
  * @author Arjen Poutsma
  * @author Michael Isvy
  */
+
 @Controller
+@RequestMapping("/players")
 public class PlayerController {
 
-	private static final String VIEWS_OWNER_CREATE_FORM = "players/createOwnerForm";
-
-	private final OwnerService ownerService;
 
 	@Autowired
-	public PlayerController
-(OwnerService clinicService) {
-		this.ownerService = clinicService;
-	}
+	private PlayerService playerService;
 
-	@InitBinder
-	public void setAllowedFields(WebDataBinder dataBinder) {
-		dataBinder.setDisallowedFields("id");
-	}
 
-	@GetMapping(value = "/players/new")
-	public String initCreationForm(Map<String, Object> model) {
-		Owner owner = new Owner();
-		model.put("owner", owner);
-		return VIEWS_OWNER_CREATE_FORM;
-	}
+	@GetMapping()
+	public String listPlayers(ModelMap modelMap) {
+		String view = "players/listPlayers";
+		Iterable<Player> players = playerService.findAll();
+		modelMap.addAttribute("players", players);
+		return view;
 
-	@PostMapping(value = "/players/new")
-	public String processCreationForm(@Valid Owner owner, BindingResult result) {
-		if (result.hasErrors()) {
-			return VIEWS_OWNER_CREATE_FORM;
-		}
-		else {
-			//creating owner, user, and authority
-			this.ownerService.saveOwner(owner);
-			return "redirect:/";
-		}
 	}
-
 }
