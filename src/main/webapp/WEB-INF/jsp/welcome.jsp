@@ -8,7 +8,7 @@
 <petclinic:layout pageName="home">
     <h2><fmt:message key="welcome"/></h2>
     <div class="row">
-    <h2><img class="img-responsive"  src="/resources/images/5d75429b60bb3.jpeg" width="30" height="30"/>Proyecto ${title}</h2>
+     <h2><!-- <img class="img-responsive"  src="/resources/images/5d75429b60bb3.jpeg" width="30" height="30"/>-->Proyect ${title}</h2>
     <p><h2> Group ${group}</h2></p>
     <p>
     <ul>
@@ -18,10 +18,11 @@
     </ul>
     </p>
     </div>
-     <div class="row">
+    <!--  <div class="row">
         <div class="col-md-12">
             <spring:url value="/resources/images/pets.png" htmlEscape="true" var="petsImage"/>
             <img class="img-responsive" src="${petsImage}"/>
         </div>
     </div>
+     -->
 </petclinic:layout>

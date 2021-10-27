@@ -13,13 +13,18 @@
     <table id="playersTable" class="table table-striped">
         <thead>
         <tr>
+         	<th style="width: 150px;">ID</th>
             <th style="width: 150px;">Username</th>
-            <th style="width: 150px;">Puntuación total</th>
+            <th style="width: 150px;">Total Points</th>
+            <th style="width: 150px;">Actions</th>
         </tr>
         </thead>
         <tbody>
         <c:forEach items="${players}" var="player">
             <tr>
+             <td>
+                    <c:out value="${player.id}"/>
+                </td>
                 <td>
                     <c:out value="${player.username}"/>
                 </td>
@@ -27,10 +32,25 @@
                  <td>
                     <c:out value="${player.totalPoints}"/>
                 </td>
+                 
+				<td> 
+                    <spring:url value="/players/delete/{playerId}" var="playerUrl">
+                        <spring:param name="playerId" value="${player.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(playerUrl)}">Delete</a>
+                    
+                    <spring:url value="/players/update/{playerId}" var="editUrl">
+       					 <spring:param name="playerId" value="${player.id}"/>
+    				</spring:url>
+    				 <a href="${fn:escapeXml(editUrl)}">Update</a>
+                    
+				</tr>
                 
             </tr>
             
         </c:forEach>
         </tbody>
     </table>
+
+	
 </petclinic:layout>
