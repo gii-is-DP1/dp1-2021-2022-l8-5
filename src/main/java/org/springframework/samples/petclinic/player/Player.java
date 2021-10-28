@@ -10,7 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.model.Person;
@@ -29,7 +31,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "players")
-public class Player{
+public class Player extends BaseEntity{
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	Integer id;
 	
@@ -40,7 +42,7 @@ public class Player{
 	boolean enabled;
 	
 	@Column(name = "TOTALPOINTS")
-	@NotEmpty
+	@NotNull
 	Integer totalPoints;
 	
 	/*@OneToMany(cascade = CascadeType.ALL, mappedBy = "player")

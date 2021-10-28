@@ -20,7 +20,7 @@ public class PlayerServiceTests {
 	@Test
 	public void testCountWithInitialData() {
 		int count = playerService.playerCount();
-		assertEquals(count,1);
+		assertEquals(count,5);
 	}
 	
 	@Test
@@ -58,8 +58,8 @@ public class PlayerServiceTests {
 		//playerTest.setEnabled(true);
 		playerTest.setTotalPoints(69);
 		
-		int id = playerTest.getId();
 		playerService.savePlayer(playerTest);
+		int id = playerTest.getId();
 		
 		Optional<Player> player = playerService.findByPlayerId(id);
 		System.out.println("------------TEST SAVE PLAYER------------");
