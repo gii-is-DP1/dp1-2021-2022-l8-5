@@ -48,10 +48,12 @@ public class PlayerController {
 	
 	private static final String VIEWS_PLAYER_CREATE_OR_UPDATE_FORM = "players/createOrUpdatePlayerForm";
 
-
-	@Autowired
 	private PlayerService playerService;
 
+	@Autowired
+	public PlayerController(PlayerService playerService) {
+		this.playerService = playerService;
+	}
 
 	@GetMapping()
 	public String listPlayers(ModelMap modelMap) {
@@ -79,7 +81,6 @@ public class PlayerController {
 	
 	@GetMapping(value = "/update/{playerId}")
 	public String initUpdateOwnerForm(@PathVariable("playerId") int playerId, Model model) {
-		String view = "players/listPlayers";
 		Player player = this.playerService.findByPlayerId(playerId).get();
 		model.addAttribute(player);
 		return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;

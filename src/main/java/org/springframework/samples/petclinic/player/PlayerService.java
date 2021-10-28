@@ -21,6 +21,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.owner.Owner;
+import org.springframework.samples.petclinic.vet.VetRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,8 +37,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class PlayerService {
 
-	@Autowired
+	
 	private PlayerRepository playerRepo;
+	
+	@Autowired
+	public PlayerService(PlayerRepository PlayerRepository) {
+		this.playerRepo = PlayerRepository;
+	}		
 	
 	@Transactional
 	public int playerCount() {
@@ -47,7 +53,7 @@ public class PlayerService {
 	public Iterable<Player> findAll() {
 		return playerRepo.findAll();
 	}
-	
+	@Transactional(readOnly = true)
 	public Optional<Player> findByPlayerId(int id){
 		return playerRepo.findById(id);
 	}

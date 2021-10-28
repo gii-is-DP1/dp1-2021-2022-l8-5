@@ -37,15 +37,17 @@
                     <spring:url value="/players/delete/{playerId}" var="playerUrl">
                         <spring:param name="playerId" value="${player.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(playerUrl)}">Delete</a>
+                    <a href="${fn:escapeXml(playerUrl)}"><span class=" glyphicon glyphicon-trash" aria-hidden="true"></span>
+                    <span>Delete</span></a>
                     
                     <spring:url value="/players/update/{playerId}" var="editUrl">
        					 <spring:param name="playerId" value="${player.id}"/>
     				</spring:url>
-    				 <a href="${fn:escapeXml(editUrl)}">Update</a>
+    				 <a href="${fn:escapeXml(editUrl)}"><span class=" glyphicon glyphicon-edit" aria-hidden="true"></span>
+							<span>Update</span></a>
                     
 				</tr>
-                
+               
             </tr>
             
         </c:forEach>
