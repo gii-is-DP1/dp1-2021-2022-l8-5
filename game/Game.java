@@ -47,12 +47,17 @@ public class Game extends BaseEntity{
 	@NotEmpty
 	Integer currentRound;
 	
+	@Column(name = "firstPlayer")
 	@NotEmpty
-	Player rankingfirst;
+	Player firstPlayer;
+	
+	@Column(name = "secondPlayer")
 	@NotEmpty
-	Player rankingsecond;
+	Player secondPlayer;
+	
+	@Column(name = "thirdPlayer")
 	@NotEmpty
-	Player rankingthird;
+	Player thirdPlayer;
 	
 	
 	@Column(name = "startDate")
