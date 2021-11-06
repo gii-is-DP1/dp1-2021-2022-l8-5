@@ -47,6 +47,14 @@ public class Game extends BaseEntity{
 	@NotEmpty
 	Integer currentRound;
 	
+	@NotEmpty
+	Player rankingfirst;
+	@NotEmpty
+	Player rankingsecond;
+	@NotEmpty
+	Player rankingthird;
+	
+	
 	@Column(name = "startDate")
 	@NotEmpty
 	LocalDate startDate;
