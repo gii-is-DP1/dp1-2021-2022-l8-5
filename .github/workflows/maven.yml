@@ -5,9 +5,13 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      -master
+      -TheNeoStormZ
   pull_request:
-    branches: [ master ]
+    branches: 
+      -master
+      -TheNeoStormZ
 
 jobs:
   build:
