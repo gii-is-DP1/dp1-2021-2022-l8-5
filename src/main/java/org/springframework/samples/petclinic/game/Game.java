@@ -47,6 +47,19 @@ public class Game extends BaseEntity{
 	@NotEmpty
 	Integer currentRound;
 	
+	@Column(name = "firstPlayer")
+	@NotEmpty
+	Player firstPlayer;
+	
+	@Column(name = "secondPlayer")
+	@NotEmpty
+	Player secondPlayer;
+	
+	@Column(name = "thirdPlayer")
+	@NotEmpty
+	Player thirdPlayer;
+	
+	
 	@Column(name = "startDate")
 	@NotEmpty
 	LocalDate startDate;
