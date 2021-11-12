@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.springframework.samples.petclinic.worker;
+package org.springframework.samples.petclinic.resources;
 
 
 import java.util.Optional;
@@ -27,40 +27,39 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  *
  * @author David Zamora
- * @author José Ignacio García
  *
  */
 @Service
-public class WorkerService {
+public class ResourcesService {
 
 	
-	private WorkerRepository workerRepo;
+	private ResourcesRepository ResourcesRepo;
 	
 	@Autowired
-	public WorkerService(WorkerRepository WorkerRepository) {
-		this.workerRepo = WorkerRepository;
+	public ResourcesService(ResourcesRepository ResourcesRepository) {
+		this.ResourcesRepo = ResourcesRepository;
 	}		
 	
 	@Transactional
-	public int WorkerCount() {
-		return (int) workerRepo.count();
+	public int ResourcesCount() {
+		return (int) ResourcesRepo.count();
 	}
 
-	public Iterable<Worker> findAll() {
-		return workerRepo.findAll();
+	public Iterable<Resources> findAll() {
+		return ResourcesRepo.findAll();
 	}
 	@Transactional(readOnly = true)
-	public Optional<Worker> findByWorkerId(int id){
-		return workerRepo.findById(id);
+	public Optional<Resources> findByResourcesId(int id){
+		return ResourcesRepo.findById(id);
 	}
 	
-	public void delete(Worker worker) {
-		workerRepo.delete(worker);
+	public void delete(Resources Resources) {
+		ResourcesRepo.delete(Resources);
 	}
 	
 	@Transactional
-	public void saveWorker(Worker worker) throws DataAccessException {
-		workerRepo.save(worker);		
+	public void saveResources(Resources Resources) throws DataAccessException {
+		ResourcesRepo.save(Resources);		
 
 	}		
 	

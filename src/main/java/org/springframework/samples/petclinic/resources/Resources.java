@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.worker;
+package org.springframework.samples.petclinic.resources;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +11,6 @@ import org.springframework.samples.petclinic.model.BaseEntity;
 /**
  * Simple JavaBean domain object representing a player.
  *
- * @author Jose Ingacio
  * @author David Zamora
  */
 
@@ -22,10 +21,14 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "workers")
-public class Worker extends BaseEntity{
+public class Resources extends BaseEntity{
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	
-    Integer position;
+    Integer iron;
+    Integer gold;
+    Integer steel;
+    Integer items;
+    Integer badges;
 	
 
 }
