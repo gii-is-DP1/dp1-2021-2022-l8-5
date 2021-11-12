@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch DwarfApplication",
+            "request": "launch",
+            "mainClass": "org.springframework.samples.petclinic.DwarfApplication",
+            "projectName": "L8-5"
+        },
+        {
+            "type": "java",
             "name": "Debug (Launch)-PetClinicApplication<spring-petclinic>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
