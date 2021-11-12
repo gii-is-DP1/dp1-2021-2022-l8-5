@@ -13,6 +13,7 @@
         <tr>
         	<th style="width: 150px;">ID</th>
             <th style="width: 150px;">Name</th>
+             <th style="width: 150px;">Username</th>
         </tr>
         </thead>
         <tbody>
@@ -27,7 +28,11 @@
                         <spring:param name="player2id" value="${player.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(player2Url)}"><c:out value="${player.firstName} ${player.lastName}"/></a>
-                </td>           
+                </td>   
+                
+             <td>
+              <c:out value="${player.user.username}"/>
+             </td>        
             </tr>
         </c:forEach>
         </tbody>
