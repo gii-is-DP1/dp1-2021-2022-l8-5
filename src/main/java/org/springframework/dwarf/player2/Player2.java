@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.dwarf.owner;
+package org.springframework.dwarf.player2;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -29,40 +29,19 @@ import org.springframework.dwarf.model.Person;
 import org.springframework.dwarf.user.User;
 
 /**
- * Simple JavaBean domain object representing an owner.
+ * Simple JavaBean domain object representing an player.
  *
- * @author Ken Krebs
- * @author Juergen Hoeller
- * @author Sam Brannen
- * @author Michael Isvy
+ * @author Pablo Marín
  */
 @Entity
-@Table(name = "owners")
-public class Owner extends Person {
+@Table(name = "player2")
+public class Player2 extends Person {
 
-	@Column(name = "address")
-	@NotEmpty
-	private String address;
-
-	@Column(name = "city")
-	@NotEmpty
-	private String city;
-
-	@Column(name = "telephone")
-	@NotEmpty
-	@Digits(fraction = 0, integer = 10)
-	private String telephone;
-
-	//
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
 	//
 	
-	public String getAddress() {
-		return this.address;
-	}
-
 	public User getUser() {
 		return user;
 	}
@@ -71,32 +50,14 @@ public class Owner extends Person {
 		this.user = user;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
 
-	public String getCity() {
-		return this.city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getTelephone() {
-		return this.telephone;
-	}
-
-	public void setTelephone(String telephone) {
-		this.telephone = telephone;
-	}
 	@Override
 	public String toString() {
 		return new ToStringCreator(this)
 
 				.append("id", this.getId()).append("new", this.isNew()).append("lastName", this.getLastName())
-				.append("firstName", this.getFirstName()).append("address", this.address).append("city", this.city)
-				.append("telephone", this.telephone).toString();
+				.append("firstName", this.getFirstName())
+				.toString();
 	}
 
 }

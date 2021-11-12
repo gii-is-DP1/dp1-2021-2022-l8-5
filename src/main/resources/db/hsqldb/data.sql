@@ -20,17 +20,10 @@ INSERT INTO players(username,password,enabled,totalPoints) VALUES ('xiscomiguele
  INSERT INTO mountain_cards(name, description, position) VALUES ('alloy steel', 'exchange 3 iron for 2 steel', 1);
 
 
-INSERT INTO owners VALUES (1, 'George', 'Franklin', '110 W. Liberty St.', 'Madison', '6085551023', 'owner1');
-INSERT INTO owners VALUES (2, 'Betty', 'Davis', '638 Cardinal Ave.', 'Sun Prairie', '6085551749', 'owner1');
-INSERT INTO owners VALUES (3, 'Eduardo', 'Rodriquez', '2693 Commerce St.', 'McFarland', '6085558763', 'owner1');
-INSERT INTO owners VALUES (4, 'Harold', 'Davis', '563 Friendly St.', 'Windsor', '6085553198', 'owner1');
-INSERT INTO owners VALUES (5, 'Peter', 'McTavish', '2387 S. Fair Way', 'Madison', '6085552765', 'owner1');
-INSERT INTO owners VALUES (6, 'Jean', 'Coleman', '105 N. Lake St.', 'Monona', '6085552654', 'owner1');
-INSERT INTO owners VALUES (7, 'Jeff', 'Black', '1450 Oak Blvd.', 'Monona', '6085555387', 'owner1');
-INSERT INTO owners VALUES (8, 'Maria', 'Escobito', '345 Maple St.', 'Madison', '6085557683', 'owner1');
-INSERT INTO owners VALUES (9, 'David', 'Schroeder', '2749 Blackhawk Trail', 'Madison', '6085559435', 'owner1');
-INSERT INTO owners VALUES (10, 'Carlos', 'Estaban', '2335 Independence La.', 'Waunakee', '6085555487', 'owner1');
-INSERT INTO owners VALUES (11, 'Pablo', 'Marin', '64  Lees Gwynno.', 'Lawson', '636709741', 'pabmargom3');
-INSERT INTO owners VALUES (12, 'David', 'Zamora', '64 Lord Llanio.', 'Teilo', '613880809', 'davzamfer');
+
+
+
+INSERT INTO player2 VALUES (1, 'Pablo', 'Marin', 'pabmargom3');
+INSERT INTO player2 VALUES (2, 'David', 'Zamora', 'davzamfer');
 
 
