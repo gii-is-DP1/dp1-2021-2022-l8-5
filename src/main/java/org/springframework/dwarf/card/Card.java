@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.Valid;
@@ -29,16 +30,18 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity
+@MappedSuperclass
 @Table(name = "cards")
 public class Card extends BaseEntity{
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	Integer id;
 	
 	@Column(name = "name")
+	@NotEmpty
 	String name;
 	
 	@Column(name = "description")
+	@NotEmpty
 	String description;
 
 
