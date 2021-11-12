@@ -37,11 +37,11 @@ public class GameService {
 	public void delete(Game game) {
 		gameRepo.delete(game);
 	}
-	
+	/*
 	@Transactional
 	public void saveGame(Game game) throws DataAccessException {
 		//creating game
 		gameRepo.save(game);		
 
-	}
+	}*/
 }
