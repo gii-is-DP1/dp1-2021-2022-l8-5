@@ -16,6 +16,9 @@ INSERT INTO players(username,password,enabled,totalPoints) VALUES ('BetrayalGD',
 INSERT INTO players(username,password,enabled,totalPoints) VALUES ('DRG64','pass',TRUE,32321243);
 INSERT INTO players(username,password,enabled,totalPoints) VALUES ('xiscomigueles','pass',TRUE,45454354);
 
+-- Cards
+ INSERT INTO mountain_cards(name, description, position) VALUES ('alloy steel', 'exchange 3 iron for 2 steel', 1);
+
 
 INSERT INTO owners VALUES (1, 'George', 'Franklin', '110 W. Liberty St.', 'Madison', '6085551023', 'owner1');
 INSERT INTO owners VALUES (2, 'Betty', 'Davis', '638 Cardinal Ave.', 'Sun Prairie', '6085551749', 'owner1');
