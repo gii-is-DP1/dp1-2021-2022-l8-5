@@ -23,8 +23,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.dwarf.owner.Owner;
-import org.springframework.dwarf.owner.OwnerService;
+import org.springframework.dwarf.player2.Player2;
+import org.springframework.dwarf.player2.Player2Service;
 import org.springframework.dwarf.user.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,11 +62,11 @@ import org.springframework.transaction.annotation.Transactional;
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 class OwnerServiceTests {                
         @Autowired
-	protected OwnerService ownerService;
+	protected Player2Service ownerService;
 
 	@Test
 	void shouldFindOwnersByLastName() {
-		Collection<Owner> owners = this.ownerService.findOwnerByLastName("Davis");
+		Collection<Player2> owners = this.ownerService.findOwnerByLastName("Davis");
 		assertThat(owners.size()).isEqualTo(2);
 
 		owners = this.ownerService.findOwnerByLastName("Daviss");
@@ -75,22 +75,19 @@ class OwnerServiceTests {
 
 	@Test
 	void shouldFindSingleOwner() {
-		Owner owner = this.ownerService.findOwnerById(1);
+		Player2 owner = this.ownerService.findOwnerById(1);
 		assertThat(owner.getLastName()).startsWith("Franklin");
 	}
 
 	@Test
 	@Transactional
 	public void shouldInsertOwner() {
-		Collection<Owner> owners = this.ownerService.findOwnerByLastName("Schultz");
+		Collection<Player2> owners = this.ownerService.findOwnerByLastName("Schultz");
 		int found = owners.size();
 
-		Owner owner = new Owner();
+		Player2 owner = new Player2();
 		owner.setFirstName("Sam");
 		owner.setLastName("Schultz");
-		owner.setAddress("4, Evans Street");
-		owner.setCity("Wollongong");
-		owner.setTelephone("4444444444");
                 User user=new User();
                 user.setUsername("Sam");
                 user.setPassword("supersecretpassword");
@@ -107,7 +104,7 @@ class OwnerServiceTests {
 	@Test
 	@Transactional
 	void shouldUpdateOwner() {
-		Owner owner = this.ownerService.findOwnerById(1);
+		Player2 owner = this.ownerService.findOwnerById(1);
 		String oldLastName = owner.getLastName();
 		String newLastName = oldLastName + "X";
 

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.dwarf.owner;
+package org.springframework.dwarf.player2;
 
 import java.util.Collection;
 
@@ -22,22 +22,23 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.dwarf.model.BaseEntity;
-import org.springframework.dwarf.owner.OwnerRepository;
+import org.springframework.dwarf.player2.Player2Repository;
 
 /**
  * Spring Data JPA OwnerRepository interface
  *
  * @author Michael Isvy
+ * @author Pablo Marín
  * @since 15.1.2013
  */
-public interface OwnerRepository extends Repository<Owner, Integer> {
+public interface Player2Repository extends Repository<Player2, Integer> {
 
 	/**
 	 * Save an <code>Owner</code> to the data store, either inserting or updating it.
 	 * @param owner the <code>Owner</code> to save
 	 * @see BaseEntity#isNew
 	 */
-	void save(Owner owner) throws DataAccessException;
+	void save(Player2 owner) throws DataAccessException;
 
 	/**
 	 * Retrieve <code>Owner</code>s from the data store by last name, returning all owners
@@ -46,8 +47,8 @@ public interface OwnerRepository extends Repository<Owner, Integer> {
 	 * @return a <code>Collection</code> of matching <code>Owner</code>s (or an empty
 	 * <code>Collection</code> if none found)
 	 */	
-	@Query("SELECT DISTINCT owner FROM Owner owner WHERE owner.lastName LIKE :lastName%")
-	public Collection<Owner> findByLastName(@Param("lastName") String lastName);
+	@Query("SELECT DISTINCT player2 FROM Player2 player2 WHERE player2.lastName LIKE :lastName%")
+	public Collection<Player2> findByLastName(@Param("lastName") String lastName);
 
 
 	/**
@@ -56,7 +57,7 @@ public interface OwnerRepository extends Repository<Owner, Integer> {
 	 * @return the <code>Owner</code> if found
 	 * @throws org.springframework.dao.DataRetrievalFailureException if not found
 	 */	
-	@Query("SELECT owner FROM Owner owner WHERE owner.id =:id")
-	public Owner findById(@Param("id") int id);
+	@Query("SELECT player2 FROM Player2 player2 WHERE player2.id =:id")
+	public Player2 findById(@Param("id") int id);
 
 }
