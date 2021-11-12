@@ -44,6 +44,7 @@ public class GameController {
 		return view;
 	}
 	
+	/*
 	@GetMapping(path="/delete/{gameId}")
 	public String deleteGame(@PathVariable("gameId") Integer gameId, ModelMap modelMap) {
 		String view = "games/listGames";
@@ -55,5 +56,5 @@ public class GameController {
 			modelMap.addAttribute("message", "game not found!");
 		}
 		return view;
-	}
+	}*/
 }
