@@ -74,12 +74,9 @@ class OwnerServiceTests {
 	}
 
 	@Test
-	void shouldFindSingleOwnerWithPet() {
+	void shouldFindSingleOwner() {
 		Owner owner = this.ownerService.findOwnerById(1);
 		assertThat(owner.getLastName()).startsWith("Franklin");
-		assertThat(owner.getPets().size()).isEqualTo(1);
-		assertThat(owner.getPets().get(0).getType()).isNotNull();
-		assertThat(owner.getPets().get(0).getType().getName()).isEqualTo("cat");
 	}
 
 	@Test

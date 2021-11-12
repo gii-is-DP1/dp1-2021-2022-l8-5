@@ -46,7 +46,7 @@ public interface OwnerRepository extends Repository<Owner, Integer> {
 	 * @return a <code>Collection</code> of matching <code>Owner</code>s (or an empty
 	 * <code>Collection</code> if none found)
 	 */	
-	@Query("SELECT DISTINCT owner FROM Owner owner left join fetch owner.pets WHERE owner.lastName LIKE :lastName%")
+	@Query("SELECT DISTINCT owner FROM Owner owner WHERE owner.lastName LIKE :lastName%")
 	public Collection<Owner> findByLastName(@Param("lastName") String lastName);
 
 
@@ -56,7 +56,7 @@ public interface OwnerRepository extends Repository<Owner, Integer> {
 	 * @return the <code>Owner</code> if found
 	 * @throws org.springframework.dao.DataRetrievalFailureException if not found
 	 */	
-	@Query("SELECT owner FROM Owner owner left join fetch owner.pets WHERE owner.id =:id")
+	@Query("SELECT owner FROM Owner owner WHERE owner.id =:id")
 	public Owner findById(@Param("id") int id);
 
 }
