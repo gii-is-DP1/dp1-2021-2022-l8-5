@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.springframework.samples.petclinic.worker;
+package org.springframework.dwarf.worker;
 
 
 import java.util.Optional;

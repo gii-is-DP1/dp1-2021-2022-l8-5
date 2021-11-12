@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.springframework.samples.petclinic.resources;
+package org.springframework.dwarf.resources;
 
 
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.resources;
+package org.springframework.dwarf.resources;
 
 import org.springframework.data.repository.CrudRepository;
 
