@@ -30,26 +30,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * @author David Zamora
+ * @author Jose Ignacio Garcia
  */
 
 @Controller
-@RequestMapping("/Resourcess")
+@RequestMapping("/resources")
 public class ResourcesController {
 	
-	private static final String VIEWS_Resources_CREATE_OR_UPDATE_FORM = "Resourcess/createOrUpdateResourcesForm";
+	private static final String VIEWS_RESOURCES_CREATE_OR_UPDATE_FORM = "resources/createOrUpdateResourcesForm";
 
-	private ResourcesService ResourcesService;
+	private ResourcesService resourcesService;
 
 	@Autowired
-	public ResourcesController(ResourcesService ResourcesService) {
-		this.ResourcesService = ResourcesService;
+	public ResourcesController(ResourcesService resourcesService) {
+		this.resourcesService = resourcesService;
 	}
 
 	@GetMapping()
-	public String listResourcess(ModelMap modelMap) {
-		String view = "Resourcess/listResourcess";
-		Iterable<Resources> Resourcess = ResourcesService.findAll();
-		modelMap.addAttribute("Resourcess", Resourcess);
+	public String listResources(ModelMap modelMap) {
+		String view = "resources/listResources";
+		Iterable<Resources> resources = resourcesService.findAll();
+		modelMap.addAttribute("resources", resources);
 		return view;
 
 	}
@@ -69,23 +70,23 @@ public class ResourcesController {
 	}*/
 	
 	
-	@GetMapping(value = "/update/{ResourcesId}")
-	public String initUpdateOwnerForm(@PathVariable("ResourcesId") int ResourcesId, Model model) {
-		Resources Resources = this.ResourcesService.findByResourcesId(ResourcesId).get();
-		model.addAttribute(Resources);
-		return VIEWS_Resources_CREATE_OR_UPDATE_FORM;
+	@GetMapping(value = "/update/{resourcesId}")
+	public String initUpdateOwnerForm(@PathVariable("resourcesId") int resourcesId, Model model) {
+		Resources resource = this.resourcesService.findByResourcesId(resourcesId).get();
+		model.addAttribute(resource);
+		return VIEWS_RESOURCES_CREATE_OR_UPDATE_FORM;
 	}
 
-	@PostMapping(value = "/update/{ResourcesId}")
-	public String processUpdateOwnerForm(@Valid Resources Resources, BindingResult result,
-			@PathVariable("ResourcesId") int ResourcesId) {
+	@PostMapping(value = "/update/{resourcesId}")
+	public String processUpdateOwnerForm(@Valid Resources resources, BindingResult result,
+			@PathVariable("resourcesId") int resourcesId) {
 		if (result.hasErrors()) {
-			return VIEWS_Resources_CREATE_OR_UPDATE_FORM;
+			return VIEWS_RESOURCES_CREATE_OR_UPDATE_FORM;
 		}
 		else {
-			Resources.setId(ResourcesId);
-			this.ResourcesService.saveResources(Resources);
-			return "redirect:/Resourcess";
+			resources.setId(resourcesId);
+			this.resourcesService.saveResources(resources);
+			return "redirect:/resources";
 		}
 	}
 }

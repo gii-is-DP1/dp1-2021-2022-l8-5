@@ -21,7 +21,7 @@ public class WorkerServiceTest {
 	@Test
 	public void testCountWithInitialData() {
 		int count = workerService.WorkerCount();
-		assertEquals(count,5);
+		assertEquals(count,0);
 	}
 	
 	

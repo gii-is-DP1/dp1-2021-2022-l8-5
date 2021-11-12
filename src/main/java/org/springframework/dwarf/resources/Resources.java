@@ -1,16 +1,14 @@
 package org.springframework.dwarf.resources;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.springframework.dwarf.model.BaseEntity;
 /**
- * Simple JavaBean domain object representing a player.
+ * Simple JavaBean domain object representing the resources of the game.
  *
  * @author David Zamora
+ * @author Jose Ignacio Garcia
  */
 
 import lombok.Getter;
@@ -19,9 +17,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "workers")
+@Table(name = "resources")
 public class Resources extends BaseEntity{
-	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	
     Integer iron;
     Integer gold;
