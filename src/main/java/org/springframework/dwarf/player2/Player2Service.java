@@ -58,7 +58,7 @@ public class Player2Service {
 	}
 
 	@Transactional
-	public void saveOwner(Player2 owner) throws DataAccessException {
+	public void savePlayer(Player2 owner) throws DataAccessException {
 		//creating owner
 		ownerRepository.save(owner);		
 		//creating user
