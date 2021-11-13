@@ -1,14 +1,15 @@
-package org.springframework.dwarf.mountain_card;
+package org.springframework.dwarf.special_card;
 
 
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.Range;
 import org.springframework.dwarf.card.Card;
+import org.springframework.dwarf.mountain_card.MountainCard;
 
 /**
  * Simple JavaBean domain object representing a mountain card.
@@ -23,12 +24,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "mountainCards")
-public class MountainCard extends Card{
+@Table(name = "specialCards")
+public class SpecialCard extends Card{
 
-	@Column(name = "position")
-	@NotNull
-	@Range(min= 0, max= 8)
-	Integer position;
+	@OneToOne(optional = false)
+	@JoinColumn(name = "backCard")
+	private MountainCard backCard;
 		
 }

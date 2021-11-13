@@ -16,13 +16,16 @@ INSERT INTO players(username,password,enabled,totalPoints) VALUES ('BetrayalGD',
 INSERT INTO players(username,password,enabled,totalPoints) VALUES ('DRG64','pass',TRUE,32321243);
 INSERT INTO players(username,password,enabled,totalPoints) VALUES ('xiscomigueles','pass',TRUE,45454354);
 
--- Cards
- INSERT INTO mountain_cards(name, description, position) VALUES ('alloy steel', 'exchange 3 iron for 2 steel', 1);
+-- Mountain cards
+ INSERT INTO mountain_cards(name, description, position) VALUES ('Iron Seam', 'Take 3 iron from the supply', 0);
+ 
+-- Special cards
+ INSERT INTO special_cards(name, description, back_card) VALUES ('Muster an Army', 'When resolving actions this turn, treat all defend cards as if they are ocuppied', 1);
 
 
 
 
-
+-- Players2
 INSERT INTO player2 (id,first_name,last_name,username,avatar_url) VALUES  (1, 'Pablo', 'Marin' ,'pabmargom3','https://www.w3schools.com/w3images/avatar1.png');
 INSERT INTO player2  (id,first_name,last_name,username,avatar_url) VALUES (2, 'David', 'Zamora', 'davzamfer','https://www.w3schools.com/w3images/avatar2.png');
 
