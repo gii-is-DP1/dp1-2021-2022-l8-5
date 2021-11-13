@@ -17,7 +17,7 @@ INSERT INTO players(username,password,enabled,totalPoints) VALUES ('DRG64','pass
 INSERT INTO players(username,password,enabled,totalPoints) VALUES ('xiscomigueles','pass',TRUE,45454354);
 
 -- Mountain cards
- INSERT INTO mountain_cards(name, description, position) VALUES ('Iron Seam', 'Take 3 iron from the supply', 0);
+ INSERT INTO mountain_cards(name, description, position, type) VALUES ('Iron Seam', 'Take 3 iron from the supply', 0, 'MINE');
  
 -- Special cards
  INSERT INTO special_cards(name, description, back_card) VALUES ('Muster an Army', 'When resolving actions this turn, treat all defend cards as if they are ocuppied', 1);

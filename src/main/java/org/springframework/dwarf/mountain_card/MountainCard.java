@@ -4,6 +4,8 @@ package org.springframework.dwarf.mountain_card;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -30,5 +32,10 @@ public class MountainCard extends Card{
 	@NotNull
 	@Range(min= 0, max= 8)
 	Integer position;
+	
+	@Column(name = "type")
+	@NotNull
+	@Enumerated(value = EnumType.STRING)
+	CardType cardType;
 		
 }
