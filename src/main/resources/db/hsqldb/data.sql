@@ -26,4 +26,4 @@ INSERT INTO players(username,password,enabled,totalPoints) VALUES ('xiscomiguele
 INSERT INTO player2 (id,first_name,last_name,username,avatar_url) VALUES  (1, 'Pablo', 'Marin' ,'pabmargom3','https://www.w3schools.com/w3images/avatar1.png');
 INSERT INTO player2  (id,first_name,last_name,username,avatar_url) VALUES (2, 'David', 'Zamora', 'davzamfer','https://www.w3schools.com/w3images/avatar2.png');
 
-
+INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,secondPlayer,thirdPlayer,startDate,finishDate) VALUES (2,'ACTION_SELECTION',2,5,1,2,'2021-11-12 16:42:00', '2021-11-12 17:42:00');
