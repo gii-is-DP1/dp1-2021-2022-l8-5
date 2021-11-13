@@ -36,11 +36,16 @@ import org.springframework.dwarf.user.User;
 @Entity
 @Table(name = "player2")
 public class Player2 extends Person {
+	
+	
 
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
 	//
+	@Column(name = "avatar_url")
+	@NotEmpty
+	String avatarUrl;
 	
 	public User getUser() {
 		return user;
@@ -50,6 +55,13 @@ public class Player2 extends Person {
 		this.user = user;
 	}
 
+	public String getAvatarUrl() {
+		return avatarUrl;
+	}
+
+	public void setAvatarUrl(String avatarUrl) {
+		this.avatarUrl = avatarUrl;
+	}
 
 	@Override
 	public String toString() {

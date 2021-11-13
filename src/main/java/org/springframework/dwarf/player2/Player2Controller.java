@@ -70,7 +70,7 @@ public class Player2Controller {
 		}
 		else {
 			//creating owner, user and authorities
-			this.playerService.saveOwner(owner);
+			this.playerService.savePlayer(owner);
 			
 			return "redirect:/players2/" + owner.getId();
 		}
@@ -124,7 +124,7 @@ public class Player2Controller {
 		}
 		else {
 			player2.setId(player2id);
-			this.playerService.saveOwner(player2);
+			this.playerService.savePlayer(player2);
 			return "redirect:/players2/{player2id}";
 		}
 	}

@@ -23,7 +23,7 @@ INSERT INTO players(username,password,enabled,totalPoints) VALUES ('xiscomiguele
 
 
 
-INSERT INTO player2 VALUES (1, 'Pablo', 'Marin', 'pabmargom3');
-INSERT INTO player2 VALUES (2, 'David', 'Zamora', 'davzamfer');
+INSERT INTO player2 (id,first_name,last_name,username,avatar_url) VALUES  (1, 'Pablo', 'Marin' ,'pabmargom3','https://www.w3schools.com/w3images/avatar1.png');
+INSERT INTO player2  (id,first_name,last_name,username,avatar_url) VALUES (2, 'David', 'Zamora', 'davzamfer','https://www.w3schools.com/w3images/avatar2.png');
 
 

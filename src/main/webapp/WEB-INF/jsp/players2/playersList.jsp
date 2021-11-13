@@ -11,6 +11,7 @@
     <table id="players2Table" class="table table-striped">
         <thead>
         <tr>
+       		 <th style="width: 150px;">Profile Picture</th>
         	<th style="width: 150px;">ID</th>
             <th style="width: 150px;">Name</th>
              <th style="width: 150px;">Username</th>
@@ -19,6 +20,8 @@
         <tbody>
         <c:forEach items="${selections}" var="player">
             <tr>
+              	<td>
+                   <img height="50rem" src="<c:out value="${player.avatarUrl}"/>"/></td>
             	<td>
                     <c:out value="${player.id}"/>
             	</td>

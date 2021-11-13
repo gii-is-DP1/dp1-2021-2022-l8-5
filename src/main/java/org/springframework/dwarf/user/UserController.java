@@ -66,7 +66,7 @@ public class UserController {
 		}
 		else {
 			//creating owner, user, and authority
-			this.ownerService.saveOwner(owner);
+			this.ownerService.savePlayer(owner);
 			return "redirect:/";
 		}
 	}

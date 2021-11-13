@@ -75,45 +75,46 @@ class Player2ServiceTests {
 
 	@Test
 	void shouldFindSinglePlayer() {
-		Player2 owner = this.playerService.findOwnerById(1);
-		assertThat(owner.getLastName()).startsWith("Marin");
+		Player2 player = this.playerService.findOwnerById(1);
+		assertThat(player.getLastName()).startsWith("Marin");
 	}
 
 	@Test
 	@Transactional
 	public void shouldInsertPlayer() {
-		Collection<Player2> owners = this.playerService.findOwnerByLastName("Schultz");
-		int found = owners.size();
+		Collection<Player2> players = this.playerService.findOwnerByLastName("Schultz");
+		int found = players.size();
 
-		Player2 owner = new Player2();
-		owner.setFirstName("Sam");
-		owner.setLastName("Schultz");
+		Player2 player = new Player2();
+		player.setFirstName("Sam");
+		player.setLastName("Schultz");
+		player.setAvatarUrl("https://www.w3schools.com/w3images/avatar2.png");
                 User user=new User();
                 user.setUsername("Sam");
                 user.setPassword("supersecretpassword");
                 user.setEnabled(true);
-                owner.setUser(user);                
+                player.setUser(user);                
                 
-		this.playerService.saveOwner(owner);
-		assertThat(owner.getId().longValue()).isNotEqualTo(0);
+		this.playerService.savePlayer(player);
+		assertThat(player.getId().longValue()).isNotEqualTo(0);
 
-		owners = this.playerService.findOwnerByLastName("Schultz");
-		assertThat(owners.size()).isEqualTo(found + 1);
+		players = this.playerService.findOwnerByLastName("Schultz");
+		assertThat(players.size()).isEqualTo(found + 1);
 	}
 
 	@Test
 	@Transactional
 	void shouldUpdatePlayer() {
-		Player2 owner = this.playerService.findOwnerById(1);
-		String oldLastName = owner.getLastName();
+		Player2 player = this.playerService.findOwnerById(1);
+		String oldLastName = player.getLastName();
 		String newLastName = oldLastName + "X";
 
-		owner.setLastName(newLastName);
-		this.playerService.saveOwner(owner);
+		player.setLastName(newLastName);
+		this.playerService.savePlayer(player);
 
 		// retrieving new name from database
-		owner = this.playerService.findOwnerById(1);
-		assertThat(owner.getLastName()).isEqualTo(newLastName);
+		player = this.playerService.findOwnerById(1);
+		assertThat(player.getLastName()).isEqualTo(newLastName);
 	}
 
 
