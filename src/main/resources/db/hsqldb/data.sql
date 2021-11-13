@@ -30,4 +30,4 @@ INSERT INTO owners VALUES (10, 'Carlos', 'Estaban', '2335 Independence La.', 'Wa
 INSERT INTO owners VALUES (11, 'Pablo', 'Marin', '64  Lees Gwynno.', 'Lawson', '636709741', 'pabmargom3');
 INSERT INTO owners VALUES (12, 'David', 'Zamora', '64 Lord Llanio.', 'Teilo', '613880809', 'davzamfer');
 
-
+INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,secondPlayer,thirdPlayer,startDate,finishDate) VALUES (2,'ACTION_SELECTION',2,5,1,2,'2021-11-12 16:42:00', '2021-11-12 17:42:00');
