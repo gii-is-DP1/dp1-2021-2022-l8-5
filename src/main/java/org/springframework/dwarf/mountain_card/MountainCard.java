@@ -1,18 +1,23 @@
 package org.springframework.dwarf.mountain_card;
 
 
-import javax.persistence.CascadeType;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Range;
 import org.springframework.dwarf.card.Card;
+
+import org.springframework.dwarf.game.BoardCell;
 import org.springframework.dwarf.user.User;
 
 /**
@@ -35,5 +40,20 @@ public class MountainCard extends Card{
 	@NotNull
 	@Range(min= 0, max= 8)
 	Integer position;
+	
+	@Column(name = "type")
+	@NotNull
+	@Enumerated(value = EnumType.STRING)
+	CardType cardType;
+
+	//las cartas de grupo 1 son las 9 iniciales, las de grupo 2 y grupo 3 se mezclan por separado y después se situan las de grupo 2 sobre las de grupo 3, las de grupo 0 son el revés de las cartas especiales
+	@Column(name = "cardgroup") 
+	@NotNull
+	@Range(min= 0, max= 3)
+	Integer group;
+
+	@ManyToOne
+	BoardCell boardCell;
+
 		
 }

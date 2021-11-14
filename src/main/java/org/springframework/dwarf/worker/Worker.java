@@ -22,6 +22,6 @@ import lombok.Setter;
 public class Worker extends BaseEntity{
 	
     Integer position;
-	
+	Boolean status;
 
 }

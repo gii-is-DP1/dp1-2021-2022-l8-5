@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,8 +45,8 @@ public class GameController {
 		return view;
 	}
 	
-	/*
-	@GetMapping(path="/delete/{gameId}")
+	
+	@DeleteMapping(path="/delete/{gameId}")
 	public String deleteGame(@PathVariable("gameId") Integer gameId, ModelMap modelMap) {
 		String view = "games/listGames";
 		Optional<Game> game = gameService.findByGameId(gameId);
@@ -56,5 +57,5 @@ public class GameController {
 			modelMap.addAttribute("message", "game not found!");
 		}
 		return view;
-	}*/
+	}
 }
