@@ -1,50 +1,83 @@
+/*
+ * Copyright 2002-2013 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.springframework.dwarf.player;
-
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.Valid;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
-import org.springframework.dwarf.model.BaseEntity;
+import org.springframework.core.style.ToStringCreator;
 import org.springframework.dwarf.model.Person;
+import org.springframework.dwarf.user.User;
 
 /**
- * Simple JavaBean domain object representing a player.
+ * Simple JavaBean domain object representing an player.
  *
- * @author Pablo Marin
- * @author David Zamora
+ *  @author Pablo Marin
+ * @autor Pablo Alvarez
  */
-
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
 @Entity
-@Table(name = "players")
-public class Player extends BaseEntity{
-	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
-	Integer id;
+@Table(name = "player")
+public class Player extends Person {
 	
-	String username;
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "username", referencedColumnName = "username")
+	private User user;
+	//
+	@Column(name = "avatar_url")
+	@NotEmpty
+	String avatarUrl;
 	
-	String password;
+	public User getUser() {
+		return user;
+	}
 
-	boolean enabled;
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public String getAvatarUrl() {
+		return avatarUrl;
+	}
+
+	public void setAvatarUrl(String avatarUrl) {
+		this.avatarUrl = avatarUrl;
+	}
 	
-	@Column(name = "TOTALPOINTS")
-	@NotNull
-	Integer totalPoints;
+	public String getUsername() {
+		return user.getUsername();
+	}
+
+	public void setUsername(String Username) {
+		user.setUsername(Username);
+	}
 	
-	/*@OneToMany(cascade = CascadeType.ALL, mappedBy = "player")
-	private Set<Authorities> authorities;*/
+
+	@Override
+	public String toString() {
+		return new ToStringCreator(this)
+
+				.append("id", this.getId()).append("new", this.isNew()).append("lastName", this.getLastName())
+				.append("firstName", this.getFirstName())
+				.toString();
+	}
+
 }

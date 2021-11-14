@@ -1,4 +1,4 @@
-package org.springframework.dwarf.player2;
+package org.springframework.dwarf.player;
 
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
@@ -19,9 +19,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.dwarf.configuration.SecurityConfiguration;
-import org.springframework.dwarf.player2.Player2;
-import org.springframework.dwarf.player2.Player2Controller;
-import org.springframework.dwarf.player2.Player2Service;
+import org.springframework.dwarf.player.Player;
+import org.springframework.dwarf.player.PlayerController;
+import org.springframework.dwarf.player.PlayerService;
 import org.springframework.dwarf.user.AuthoritiesService;
 import org.springframework.dwarf.user.UserService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
@@ -29,21 +29,21 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 /**
- * Test class for {@link Player2Controller}
+ * Test class for {@link PlayerController}
  *
  * @author Colin But
  */
 
-@WebMvcTest(controllers = Player2Controller.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
-class OwnerControllerTests {
+@WebMvcTest(controllers = PlayerController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
+class PlayerControllerTests {
 
-	private static final int TEST_OWNER_ID = 1;
+	private static final int TEST_PLAYER_ID = 1;
 
 	@Autowired
-	private Player2Controller playerController;
+	private PlayerController playerController;
 
 	@MockBean
-	private Player2Service playerService;
+	private PlayerService playerService;
 
 	@MockBean
 	private UserService userService;
@@ -54,31 +54,31 @@ class OwnerControllerTests {
 	@Autowired
 	private MockMvc mockMvc;
 
-	private Player2 george;
+	private Player george;
 
 	@BeforeEach
 	void setup() {
 
-		george = new Player2();
-		george.setId(TEST_OWNER_ID);
+		george = new Player();
+		george.setId(TEST_PLAYER_ID);
 		george.setFirstName("George");
 		george.setLastName("Franklin");
-		given(this.playerService.findOwnerById(TEST_OWNER_ID)).willReturn(george);
+		given(this.playerService.findPlayerById(TEST_PLAYER_ID)).willReturn(george);
 
 	}
 	/*
 	@WithMockUser(value = "spring")
 	@Test
 	void testInitCreationForm() throws Exception {
-		mockMvc.perform(get("/players2/new")).andExpect(status().isOk()).andExpect(model().attributeExists("owner"))
-				.andExpect(view().name("players2/createOrUpdateOwnerForm"));
+		mockMvc.perform(get("/players2/new")).andExpect(status().isOk()).andExpect(model().attributeExists("player2"))
+				.andExpect(view().name("players2/createOrUpdatePlayerForm"));
 	}
 
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
 		mockMvc.perform(post("/players2/new").param("firstName", "Joe").param("lastName", "Bloggs").with(csrf())
-				.param("address", "123 Caramel Street").param("city", "London").param("telephone", "01316761638"))
+				)
 				.andExpect(status().is3xxRedirection());
 	}
 
@@ -86,16 +86,14 @@ class OwnerControllerTests {
 	@Test
 	void testProcessCreationFormHasErrors() throws Exception {
 		mockMvc.perform(post("/players2/new").with(csrf()).param("firstName", "Joe").param("lastName", "Bloggs")
-				.param("city", "London")).andExpect(status().isOk()).andExpect(model().attributeHasErrors("owner"))
-				.andExpect(model().attributeHasFieldErrors("owner", "address"))
-				.andExpect(model().attributeHasFieldErrors("owner", "telephone"))
-				.andExpect(view().name("players2/createOrUpdateOwnerForm"));
+				).andExpect(status().isOk()).andExpect(model().attributeHasErrors("player2"))
+				.andExpect(view().name("players2/createOrUpdatePlayerForm"));
 	}
 
 	@WithMockUser(value = "spring")
 	@Test
 	void testInitFindForm() throws Exception {
-		mockMvc.perform(get("/players2/find")).andExpect(status().isOk()).andExpect(model().attributeExists("owner"))
+		mockMvc.perform(get("/players2/find")).andExpect(status().isOk()).andExpect(model().attributeExists("player2"))
 				.andExpect(view().name("players2/findplayers2"));
 	}
 

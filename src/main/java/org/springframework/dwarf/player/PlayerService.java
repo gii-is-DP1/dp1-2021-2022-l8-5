@@ -15,12 +15,12 @@
  */
 package org.springframework.dwarf.player;
 
-
-import java.util.Optional;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dwarf.player2.Player2;
+import org.springframework.dwarf.user.AuthoritiesService;
+import org.springframework.dwarf.user.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,44 +28,48 @@ import org.springframework.transaction.annotation.Transactional;
  * Mostly used as a facade for all Petclinic controllers Also a placeholder
  * for @Transactional and @Cacheable annotations
  *
+ * @author Michael Isvy
  * @author Pablo Marin
- * @author David Zamora
- * @author Pablo Álvarez
- *
+ * @autor Pablo Alvarez
  */
 @Service
 public class PlayerService {
 
-	
-	private PlayerRepository playerRepo;
+	private PlayerRepository ownerRepository;	
 	
 	@Autowired
-	public PlayerService(PlayerRepository PlayerRepository) {
-		this.playerRepo = PlayerRepository;
-	}		
+	private UserService userService;
 	
-	@Transactional
-	public int playerCount() {
-		return (int) playerRepo.count();
+	@Autowired
+	private AuthoritiesService authoritiesService;
+
+	@Autowired
+	public PlayerService(PlayerRepository playerRepository) {
+		this.ownerRepository = playerRepository;
+	}	
+
+	@Transactional(readOnly = true)
+	public Player findPlayerById(int id) throws DataAccessException {
+		return ownerRepository.findById(id);
 	}
 
-	public Iterable<Player> findAll() {
-		return playerRepo.findAll();
-	}
 	@Transactional(readOnly = true)
-	public Optional<Player> findByPlayerId(int id){
-		return playerRepo.findById(id);
+	public Collection<Player> findPlayerByLastName(String lastName) throws DataAccessException {
+		return ownerRepository.findByLastName(lastName);
 	}
-	
-	public void delete(Player player) {
-		playerRepo.delete(player);
-	}
-	
+
 	@Transactional
 	public void savePlayer(Player player) throws DataAccessException {
 		//creating owner
-		playerRepo.save(player);		
-
-	}		
+		ownerRepository.save(player);		
+		//creating user
+		userService.saveUser(player.getUser());
+		//creating authorities
+		authoritiesService.saveAuthorities(player.getUser().getUsername(), "owner");
+	}
 	
+	public void delete(Player player) {
+		userService.delete(player.getUser());
+	}
+
 }

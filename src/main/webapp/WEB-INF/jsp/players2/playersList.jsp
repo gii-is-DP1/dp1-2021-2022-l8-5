@@ -15,6 +15,7 @@
         	<th style="width: 150px;">ID</th>
             <th style="width: 150px;">Name</th>
              <th style="width: 150px;">Username</th>
+             <th style="width: 150px;">Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -34,10 +35,32 @@
                 </td>   
                 
              <td>
-              <c:out value="${player.user.username}"/>
-             </td>        
+              <c:out value="${player.username}"/>
+             </td> 
+             
+    			<td> 
+                    <spring:url value="/players/delete/{playerId}" var="playerUrl">
+                        <spring:param name="playerId" value="${player.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(playerUrl)}"><span class=" glyphicon glyphicon-trash" aria-hidden="true"></span>
+                    <span>Delete</span></a>
+                    
+                    <spring:url value="/players2/{playerId}/edit" var="editUrl">
+       					 <spring:param name="playerId" value="${player.id}"/>
+    				</spring:url>
+    				 <a href="${fn:escapeXml(editUrl)}"><span class=" glyphicon glyphicon-edit" aria-hidden="true"></span>
+							<span>Update</span></a>
+                 </td>   
+				</tr>       
             </tr>
         </c:forEach>
         </tbody>
     </table>
+       <sec:authorize access="hasAuthority('admin')">
+		<a class="btn btn-default" href='<spring:url value="/players2/new" htmlEscape="true"/>'>Add Player</a>
+	</sec:authorize>
+	
+	       <sec:authorize access="hasAuthority('admin')">
+		<a class="btn btn-default" href='<spring:url value="/players2/find" htmlEscape="true"/>'>Find Player</a>
+	</sec:authorize>
 </petclinic:layout>
