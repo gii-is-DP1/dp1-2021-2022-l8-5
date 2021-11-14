@@ -1,11 +1,13 @@
 package org.springframework.dwarf.game;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -30,39 +32,42 @@ import lombok.Setter;
 public class Game extends BaseEntity{
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "game")
-	private List<BoardCell> board;
+	List<BoardCell> board;
 	
 	@NotNull
 	@OneToOne
-	@JoinColumn(name = "currentPlayer")
-	private Player currentPlayer;
+	@JoinColumn(name = "CURRENTPLAYER", referencedColumnName="ID")
+	Player currentPlayer;
 	
 	@NotNull
-	private GamePhase currentPhase;
+	@Enumerated(value = EnumType.STRING)
+	@Column(name = "CURRENTPHASE")
+	GamePhase currentPhase;
 	
 	@NotNull
-	private Integer currentRound;
-	
-	@NotNull
-	@OneToOne
-	@JoinColumn(name = "firstPlayer")
-	private Player firstPlayer;
+	@Column(name = "CURRENTROUND")
+	Integer currentRound;
 	
 	@NotNull
 	@OneToOne
-	@JoinColumn(name = "secondPlayer")
-	private Player secondPlayer;
+	@JoinColumn(name = "FIRSTPLAYER", referencedColumnName="ID")
+	Player firstPlayer;
 	
 	@NotNull
 	@OneToOne
-	@JoinColumn(name = "thirdPlayer")
-	private Player thirdPlayer;
+	@JoinColumn(name = "SECONDPLAYER", referencedColumnName="ID")
+	Player secondPlayer;
 	
 	@NotNull
-	@Column(name = "startDate")
-	private LocalDate startDate;
+	@OneToOne
+	@JoinColumn(name = "THIRDPLAYER", referencedColumnName="ID")
+	Player thirdPlayer;
 	
-	@Column(name = "finishDate")
-	private LocalDate finishDate;
+	@NotNull
+	@Column(name = "STARTDATE")
+	LocalDateTime startDate;
+	
+	@Column(name = "FINISHDATE")
+	LocalDateTime finishDate;
     
 }
