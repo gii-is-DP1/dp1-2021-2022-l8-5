@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.dwarf.mountain_card;
+package org.springframework.dwarf.special_card;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,21 +29,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 
 @Controller
-@RequestMapping("/cards/mountain")
-public class MountainCardController {
+@RequestMapping("/cards/special")
+public class SpecialCardController {
 
-	private MountainCardService mountainCardService;
+	private SpecialCardService specialCardService;
 
 	@Autowired
-	public MountainCardController(MountainCardService mountainCardService) {
-		this.mountainCardService = mountainCardService;
+	public SpecialCardController(SpecialCardService specialCardService) {
+		this.specialCardService = specialCardService;
 	}
 
 	@GetMapping()
-	public String listMountainCards(ModelMap modelMap) {
-		String view = "cards/mountain/listCards";
-		Iterable<MountainCard> mountainCards = mountainCardService.findAll();
-		modelMap.addAttribute("mountainCards", mountainCards);
+	public String listSpecialCards(ModelMap modelMap) {
+		String view = "cards/special/listCards";
+		Iterable<SpecialCard> specialCards = specialCardService.findAll();
+		modelMap.addAttribute("specialCards", specialCards);
 		return view;
 
 	}
