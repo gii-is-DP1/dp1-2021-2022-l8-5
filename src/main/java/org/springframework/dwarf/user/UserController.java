@@ -20,8 +20,8 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dwarf.player2.Player2;
-import org.springframework.dwarf.player2.Player2Service;
+import org.springframework.dwarf.player.Player;
+import org.springframework.dwarf.player.PlayerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -40,10 +40,10 @@ public class UserController {
 
 	private static final String VIEWS_PLAYER_CREATE_FORM = "users/createPlayerForm";
 
-	private final Player2Service playerService;
+	private final PlayerService playerService;
 
 	@Autowired
-	public UserController(Player2Service clinicService) {
+	public UserController(PlayerService clinicService) {
 		this.playerService = clinicService;
 	}
 
@@ -54,13 +54,13 @@ public class UserController {
 
 	@GetMapping(value = "/users/new")
 	public String initCreationForm(Map<String, Object> model) {
-		Player2 user = new Player2();
-		model.put("player2", user);
+		Player user = new Player();
+		model.put("player", user);
 		return VIEWS_PLAYER_CREATE_FORM;
 	}
 
 	@PostMapping(value = "/users/new")
-	public String processCreationForm(@Valid Player2 player2, BindingResult result) {
+	public String processCreationForm(@Valid Player player2, BindingResult result) {
 		if (result.hasErrors()) {
 			return VIEWS_PLAYER_CREATE_FORM;
 		}

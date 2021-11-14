@@ -15,15 +15,15 @@
  */
 package org.springframework.dwarf.player;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dwarf.player2.Player2;
-import org.springframework.dwarf.player2.Player2Service;
+import org.springframework.dwarf.user.AuthoritiesService;
+import org.springframework.dwarf.user.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -33,70 +33,127 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author Juergen Hoeller
  * @author Ken Krebs
  * @author Arjen Poutsma
  * @author Michael Isvy
+ * 
+ * @author Pablo Marin
+ * @autor Pablo Alvarez
  */
-
 @Controller
-@RequestMapping("/players")
 public class PlayerController {
-	
-	private static final String VIEWS_PLAYER_CREATE_OR_UPDATE_FORM = "players/createOrUpdatePlayerForm";
 
-	private PlayerService playerService;
+	private static final String VIEWS_PLAYER_CREATE_OR_UPDATE_FORM = "players2/createOrUpdatePlayerForm";
+
+	private final PlayerService playerService;
 
 	@Autowired
-	public PlayerController(PlayerService playerService) {
+	public PlayerController(PlayerService playerService, UserService userService, AuthoritiesService authoritiesService) {
 		this.playerService = playerService;
 	}
 
-	@GetMapping()
-	public String listPlayers(ModelMap modelMap) {
-		String view = "players/listPlayers";
-		Iterable<Player> players = playerService.findAll();
-		modelMap.addAttribute("players", players);
-		return view;
-
+	@InitBinder
+	public void setAllowedFields(WebDataBinder dataBinder) {
+		dataBinder.setDisallowedFields("id");
 	}
-	
-	@GetMapping(path="/delete/{playerId}")
-	public String deletePlayer(@PathVariable("playerId") Integer playerId,ModelMap modelMap) {
-		String view = "players/listPlayers";
-		Optional<Player> player = playerService.findByPlayerId(playerId);
-		if (player.isPresent()) {
-			playerService.delete(player.get());
-			modelMap.addAttribute("message", "Player deleted!");
-		} else {
-			modelMap.addAttribute("message", "Player not found!");
-		}
-		return view;
 
-	}
-	
-	
-	
-	@GetMapping(value = "/update/{playerId}")
-	public String initUpdateOwnerForm(@PathVariable("playerId") int playerId, Model model) {
-		Player player = this.playerService.findByPlayerId(playerId).get();
-		model.addAttribute(player);
+	@GetMapping(value = "/players2/new")
+	public String initCreationForm(Map<String, Object> model) {
+		Player player2 = new Player();
+		model.put("player", player2);
 		return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
 	}
 
-	@PostMapping(value = "/update/{playerId}")
-	public String processUpdateOwnerForm(@Valid Player player, BindingResult result,
-			@PathVariable("playerId") int playerId) {
+	@PostMapping(value = "/players2/new")
+	public String processCreationForm(@Valid Player player2, BindingResult result) {
 		if (result.hasErrors()) {
 			return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
 		}
 		else {
-			player.setId(playerId);
-			this.playerService.savePlayer(player);
-			return "redirect:/players";
+			//creating owner, user and authorities
+			this.playerService.savePlayer(player2);
+			
+			return "redirect:/players2";
 		}
 	}
+
+	@GetMapping(value = "/players2/find")
+	public String initFindForm(Map<String, Object> model) {
+		model.put("players2", new Player());
+		return "players2/findPlayers";
+	}
+
+	@GetMapping(value = "/players2")
+	public String processFindForm(Player player2, BindingResult result, Map<String, Object> model) {
+
+		// allow parameterless GET request for /players to return all records
+		if (player2.getLastName() == null) {
+			player2.setLastName(""); // empty string signifies broadest possible search
+		}
+
+		// find players by last name
+		Collection<Player> results = this.playerService.findPlayerByLastName(player2.getLastName());
+		if (results.isEmpty()) {
+			// no players found
+			result.rejectValue("lastName", "notFound", "not found");
+			model.put("players2", new Player());
+			return "players2/findPlayers";
+		}
+		else {
+			// multiple players found
+			model.put("selections", results);
+			return "players2/playersList";
+		}
+	}
+
+	@GetMapping(value = "/players2/{player2id}/edit")
+	public String initUpdateOwnerForm(@PathVariable("player2id") int player2id, Model model) {
+		Player player2 = this.playerService.findPlayerById(player2id);
+		model.addAttribute(player2);
+		return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
+	}
+
+	@PostMapping(value = "/players2/{player2id}/edit")
+	public String processUpdateOwnerForm(@Valid Player player2, BindingResult result,
+			@PathVariable("player2id") int player2id) {
+		if (result.hasErrors()) {
+			return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
+		}
+		else {
+			player2.setId(player2id);
+			this.playerService.savePlayer(player2);
+			return "redirect:/players2";
+		}
+	}
+
+	/**
+	 * Custom handler for displaying an owner.
+	 * @param ownerId the ID of the owner to display
+	 * @return a ModelMap with the model attributes for the view
+	 */
+	@GetMapping("/players2/{player2id}")
+	public ModelAndView showOwner(@PathVariable("player2id") int ownerId) {
+		ModelAndView mav = new ModelAndView("players/ownerDetails");
+		mav.addObject(this.playerService.findPlayerById(ownerId));
+		return mav;
+	}
+	
+	@GetMapping("/players2/{player2id}/delete")
+	public String deletePlayer(@PathVariable("playerId") Integer playerId,ModelMap modelMap) {
+		String view = "players/listPlayers";
+		Player player = playerService.findPlayerById(playerId);
+		playerService.delete(player);
+		modelMap.addAttribute("message", "Player deleted!");
+		return view;
+
+	}
+	
+	
+
 }
+
+

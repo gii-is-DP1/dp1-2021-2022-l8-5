@@ -1,4 +1,4 @@
-package org.springframework.dwarf.player2;
+package org.springframework.dwarf.player;
 
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
@@ -19,9 +19,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.dwarf.configuration.SecurityConfiguration;
-import org.springframework.dwarf.player2.Player2;
-import org.springframework.dwarf.player2.Player2Controller;
-import org.springframework.dwarf.player2.Player2Service;
+import org.springframework.dwarf.player.Player;
+import org.springframework.dwarf.player.PlayerController;
+import org.springframework.dwarf.player.PlayerService;
 import org.springframework.dwarf.user.AuthoritiesService;
 import org.springframework.dwarf.user.UserService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
@@ -29,21 +29,21 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 /**
- * Test class for {@link Player2Controller}
+ * Test class for {@link PlayerController}
  *
  * @author Colin But
  */
 
-@WebMvcTest(controllers = Player2Controller.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
+@WebMvcTest(controllers = PlayerController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 class PlayerControllerTests {
 
 	private static final int TEST_PLAYER_ID = 1;
 
 	@Autowired
-	private Player2Controller playerController;
+	private PlayerController playerController;
 
 	@MockBean
-	private Player2Service playerService;
+	private PlayerService playerService;
 
 	@MockBean
 	private UserService userService;
@@ -54,12 +54,12 @@ class PlayerControllerTests {
 	@Autowired
 	private MockMvc mockMvc;
 
-	private Player2 george;
+	private Player george;
 
 	@BeforeEach
 	void setup() {
 
-		george = new Player2();
+		george = new Player();
 		george.setId(TEST_PLAYER_ID);
 		george.setFirstName("George");
 		george.setLastName("Franklin");

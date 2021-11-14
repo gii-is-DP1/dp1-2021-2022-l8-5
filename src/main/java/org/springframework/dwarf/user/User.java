@@ -11,7 +11,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.springframework.dwarf.model.BaseEntity;
-import org.springframework.dwarf.player2.Player2;
+import org.springframework.dwarf.player.Player;
 
 import lombok.Getter;
 import lombok.Setter;

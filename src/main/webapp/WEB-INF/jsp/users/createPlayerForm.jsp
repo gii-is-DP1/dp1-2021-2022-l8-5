@@ -8,9 +8,9 @@
 
 <petclinic:layout pageName="player2">
     <h2>
-        <c:if test="${player2['new']}">New </c:if> Player
+        <c:if test="${player['new']}">New </c:if> Player
     </h2>
-    <form:form modelAttribute="player2" class="form-horizontal" id="add-player-form">
+    <form:form modelAttribute="player" class="form-horizontal" id="add-player-form">
         <div class="form-group has-feedback">
             <petclinic:inputField label="First Name" name="firstName"/>
             <petclinic:inputField label="Last Name" name="lastName"/>
@@ -21,7 +21,7 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <c:choose>
-                    <c:when test="${player2['new']}">
+                    <c:when test="${player['new']}">
                         <button class="btn btn-default" type="submit">Add Player</button>
                     </c:when>
                     <c:otherwise>

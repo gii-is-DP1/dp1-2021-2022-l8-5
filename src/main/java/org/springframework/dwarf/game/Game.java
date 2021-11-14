@@ -36,7 +36,7 @@ public class Game extends BaseEntity{
 	
 	@NotNull
 	@OneToOne
-	@JoinColumn(name = "CURRENTPLAYER", referencedColumnName="ID")
+	@JoinColumn(name = "CURRENTPLAYER", referencedColumnName="id")
 	Player currentPlayer;
 	
 	@NotNull
@@ -50,17 +50,17 @@ public class Game extends BaseEntity{
 	
 	@NotNull
 	@OneToOne
-	@JoinColumn(name = "FIRSTPLAYER", referencedColumnName="ID")
+	@JoinColumn(name = "FIRSTPLAYER", referencedColumnName="id")
 	Player firstPlayer;
 	
 	@NotNull
 	@OneToOne
-	@JoinColumn(name = "SECONDPLAYER", referencedColumnName="ID")
+	@JoinColumn(name = "SECONDPLAYER", referencedColumnName="id")
 	Player secondPlayer;
 	
 	@NotNull
 	@OneToOne
-	@JoinColumn(name = "THIRDPLAYER", referencedColumnName="ID")
+	@JoinColumn(name = "THIRDPLAYER", referencedColumnName="id")
 	Player thirdPlayer;
 	
 	@NotNull
