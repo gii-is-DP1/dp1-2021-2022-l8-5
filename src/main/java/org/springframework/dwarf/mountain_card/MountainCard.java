@@ -14,7 +14,6 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Range;
 import org.springframework.dwarf.card.Card;
-import org.springframework.dwarf.game.BoardCell;
 import org.springframework.dwarf.user.User;
 
 /**
@@ -37,8 +36,4 @@ public class MountainCard extends Card{
 	@NotNull
 	@Range(min= 0, max= 8)
 	Integer position;
-	
-	@ManyToOne
-	BoardCell boardCell;
-		
 }

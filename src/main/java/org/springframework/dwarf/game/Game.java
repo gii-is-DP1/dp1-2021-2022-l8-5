@@ -31,9 +31,6 @@ import lombok.Setter;
 @Table(name = "games")
 public class Game extends BaseEntity{
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "game")
-	List<BoardCell> board;
-	
 	@NotNull
 	@OneToOne
 	@JoinColumn(name = "CURRENTPLAYER", referencedColumnName="ID")
