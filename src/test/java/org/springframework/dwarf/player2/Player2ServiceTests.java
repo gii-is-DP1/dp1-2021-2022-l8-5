@@ -66,23 +66,23 @@ class Player2ServiceTests {
 
 	@Test
 	void shouldFindPlayersByLastName() {
-		Collection<Player2> players = this.playerService.findOwnerByLastName("Marin");
+		Collection<Player2> players = this.playerService.findPlayerByLastName("Marin");
 		assertThat(players.size()).isEqualTo(1);
 
-		players = this.playerService.findOwnerByLastName("Daviss");
+		players = this.playerService.findPlayerByLastName("Daviss");
 		assertThat(players.isEmpty()).isTrue();
 	}
 
 	@Test
 	void shouldFindSinglePlayer() {
-		Player2 player = this.playerService.findOwnerById(1);
+		Player2 player = this.playerService.findPlayerById(1);
 		assertThat(player.getLastName()).startsWith("Marin");
 	}
 
 	@Test
 	@Transactional
 	public void shouldInsertPlayer() {
-		Collection<Player2> players = this.playerService.findOwnerByLastName("Schultz");
+		Collection<Player2> players = this.playerService.findPlayerByLastName("Schultz");
 		int found = players.size();
 
 		Player2 player = new Player2();
@@ -98,14 +98,14 @@ class Player2ServiceTests {
 		this.playerService.savePlayer(player);
 		assertThat(player.getId().longValue()).isNotEqualTo(0);
 
-		players = this.playerService.findOwnerByLastName("Schultz");
+		players = this.playerService.findPlayerByLastName("Schultz");
 		assertThat(players.size()).isEqualTo(found + 1);
 	}
 
 	@Test
 	@Transactional
 	void shouldUpdatePlayer() {
-		Player2 player = this.playerService.findOwnerById(1);
+		Player2 player = this.playerService.findPlayerById(1);
 		String oldLastName = player.getLastName();
 		String newLastName = oldLastName + "X";
 
@@ -113,7 +113,7 @@ class Player2ServiceTests {
 		this.playerService.savePlayer(player);
 
 		// retrieving new name from database
-		player = this.playerService.findOwnerById(1);
+		player = this.playerService.findPlayerById(1);
 		assertThat(player.getLastName()).isEqualTo(newLastName);
 	}
 

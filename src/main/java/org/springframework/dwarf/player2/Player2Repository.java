@@ -28,23 +28,24 @@ import org.springframework.dwarf.player2.Player2Repository;
  * Spring Data JPA OwnerRepository interface
  *
  * @author Michael Isvy
- * @author Pablo Marín
+ *  * @author Pablo Marin
+ * @autor Pablo Alvarez
  * @since 15.1.2013
  */
 public interface Player2Repository extends Repository<Player2, Integer> {
 
 	/**
-	 * Save an <code>Owner</code> to the data store, either inserting or updating it.
-	 * @param owner the <code>Owner</code> to save
+	 * Save an <code>Player</code> to the data store, either inserting or updating it.
+	 * @param owner the <code>Player</code> to save
 	 * @see BaseEntity#isNew
 	 */
 	void save(Player2 owner) throws DataAccessException;
 
 	/**
-	 * Retrieve <code>Owner</code>s from the data store by last name, returning all owners
+	 * Retrieve <code>Player</code>s from the data store by last name, returning all owners
 	 * whose last name <i>starts</i> with the given name.
 	 * @param lastName Value to search for
-	 * @return a <code>Collection</code> of matching <code>Owner</code>s (or an empty
+	 * @return a <code>Collection</code> of matching <code>Player</code>s (or an empty
 	 * <code>Collection</code> if none found)
 	 */	
 	@Query("SELECT DISTINCT player2 FROM Player2 player2 WHERE player2.lastName LIKE :lastName%")

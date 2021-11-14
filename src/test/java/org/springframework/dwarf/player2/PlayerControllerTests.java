@@ -35,9 +35,9 @@ import org.springframework.test.web.servlet.MockMvc;
  */
 
 @WebMvcTest(controllers = Player2Controller.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
-class OwnerControllerTests {
+class PlayerControllerTests {
 
-	private static final int TEST_OWNER_ID = 1;
+	private static final int TEST_PLAYER_ID = 1;
 
 	@Autowired
 	private Player2Controller playerController;
@@ -60,25 +60,25 @@ class OwnerControllerTests {
 	void setup() {
 
 		george = new Player2();
-		george.setId(TEST_OWNER_ID);
+		george.setId(TEST_PLAYER_ID);
 		george.setFirstName("George");
 		george.setLastName("Franklin");
-		given(this.playerService.findOwnerById(TEST_OWNER_ID)).willReturn(george);
+		given(this.playerService.findPlayerById(TEST_PLAYER_ID)).willReturn(george);
 
 	}
 	/*
 	@WithMockUser(value = "spring")
 	@Test
 	void testInitCreationForm() throws Exception {
-		mockMvc.perform(get("/players2/new")).andExpect(status().isOk()).andExpect(model().attributeExists("owner"))
-				.andExpect(view().name("players2/createOrUpdateOwnerForm"));
+		mockMvc.perform(get("/players2/new")).andExpect(status().isOk()).andExpect(model().attributeExists("player2"))
+				.andExpect(view().name("players2/createOrUpdatePlayerForm"));
 	}
 
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
 		mockMvc.perform(post("/players2/new").param("firstName", "Joe").param("lastName", "Bloggs").with(csrf())
-				.param("address", "123 Caramel Street").param("city", "London").param("telephone", "01316761638"))
+				)
 				.andExpect(status().is3xxRedirection());
 	}
 
@@ -86,16 +86,14 @@ class OwnerControllerTests {
 	@Test
 	void testProcessCreationFormHasErrors() throws Exception {
 		mockMvc.perform(post("/players2/new").with(csrf()).param("firstName", "Joe").param("lastName", "Bloggs")
-				.param("city", "London")).andExpect(status().isOk()).andExpect(model().attributeHasErrors("owner"))
-				.andExpect(model().attributeHasFieldErrors("owner", "address"))
-				.andExpect(model().attributeHasFieldErrors("owner", "telephone"))
-				.andExpect(view().name("players2/createOrUpdateOwnerForm"));
+				).andExpect(status().isOk()).andExpect(model().attributeHasErrors("player2"))
+				.andExpect(view().name("players2/createOrUpdatePlayerForm"));
 	}
 
 	@WithMockUser(value = "spring")
 	@Test
 	void testInitFindForm() throws Exception {
-		mockMvc.perform(get("/players2/find")).andExpect(status().isOk()).andExpect(model().attributeExists("owner"))
+		mockMvc.perform(get("/players2/find")).andExpect(status().isOk()).andExpect(model().attributeExists("player2"))
 				.andExpect(view().name("players2/findplayers2"));
 	}
 

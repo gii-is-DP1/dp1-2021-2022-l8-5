@@ -31,14 +31,13 @@ import org.springframework.dwarf.user.User;
 /**
  * Simple JavaBean domain object representing an player.
  *
- * @author Pablo Marín
+ *  @author Pablo Marin
+ * @autor Pablo Alvarez
  */
 @Entity
 @Table(name = "player2")
 public class Player2 extends Person {
 	
-	
-
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
@@ -62,6 +61,15 @@ public class Player2 extends Person {
 	public void setAvatarUrl(String avatarUrl) {
 		this.avatarUrl = avatarUrl;
 	}
+	
+	public String getUsername() {
+		return user.getUsername();
+	}
+
+	public void setUsername(String Username) {
+		user.setUsername(Username);
+	}
+	
 
 	@Override
 	public String toString() {

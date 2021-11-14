@@ -19,6 +19,7 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.user.AuthoritiesService;
 import org.springframework.dwarf.user.UserService;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,8 @@ import org.springframework.transaction.annotation.Transactional;
  * for @Transactional and @Cacheable annotations
  *
  * @author Michael Isvy
- * @autor Pablo Marín
+ * @author Pablo Marin
+ * @autor Pablo Alvarez
  */
 @Service
 public class Player2Service {
@@ -43,28 +45,32 @@ public class Player2Service {
 	private AuthoritiesService authoritiesService;
 
 	@Autowired
-	public Player2Service(Player2Repository ownerRepository) {
-		this.ownerRepository = ownerRepository;
+	public Player2Service(Player2Repository playerRepository) {
+		this.ownerRepository = playerRepository;
 	}	
 
 	@Transactional(readOnly = true)
-	public Player2 findOwnerById(int id) throws DataAccessException {
+	public Player2 findPlayerById(int id) throws DataAccessException {
 		return ownerRepository.findById(id);
 	}
 
 	@Transactional(readOnly = true)
-	public Collection<Player2> findOwnerByLastName(String lastName) throws DataAccessException {
+	public Collection<Player2> findPlayerByLastName(String lastName) throws DataAccessException {
 		return ownerRepository.findByLastName(lastName);
 	}
 
 	@Transactional
-	public void savePlayer(Player2 owner) throws DataAccessException {
+	public void savePlayer(Player2 player) throws DataAccessException {
 		//creating owner
-		ownerRepository.save(owner);		
+		ownerRepository.save(player);		
 		//creating user
-		userService.saveUser(owner.getUser());
+		userService.saveUser(player.getUser());
 		//creating authorities
-		authoritiesService.saveAuthorities(owner.getUser().getUsername(), "owner");
-	}		
+		authoritiesService.saveAuthorities(player.getUser().getUsername(), "owner");
+	}
+	
+	public void delete(Player2 player) {
+		userService.delete(player.getUser());
+	}
 
 }

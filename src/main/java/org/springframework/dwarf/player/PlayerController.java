@@ -79,6 +79,7 @@ public class PlayerController {
 	}
 	
 	
+	
 	@GetMapping(value = "/update/{playerId}")
 	public String initUpdateOwnerForm(@PathVariable("playerId") int playerId, Model model) {
 		Player player = this.playerService.findByPlayerId(playerId).get();
