@@ -37,5 +37,11 @@ public class MountainCard extends Card{
 	@NotNull
 	@Enumerated(value = EnumType.STRING)
 	CardType cardType;
+
+	//las cartas de grupo 1 son las 9 iniciales, las de grupo 2 y grupo 3 se mezclan por separado y después se situan las de grupo 2 sobre las de grupo 3, las de grupo 0 son el revés de las cartas especiales
+	@Column(name = "cardgroup") 
+	@NotNull
+	@Range(min= 0, max= 3)
+	Integer group;
 		
 }
