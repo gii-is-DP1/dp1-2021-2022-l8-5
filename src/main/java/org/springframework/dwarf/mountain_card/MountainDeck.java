@@ -2,7 +2,9 @@ package org.springframework.dwarf.mountain_card;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -22,9 +24,10 @@ import lombok.Setter;
 @Entity
 @Table(name = "mountainDecks")
 public class MountainDeck extends BaseEntity{
-	
+	@Column(name ="xposition")
 	@Range(min=0,max=4)
     int xPosition;
+	@Column(name ="yposition")
     @Range(min=0,max=2)
     int yPosition;
     
