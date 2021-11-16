@@ -31,4 +31,5 @@ public class SpecialCard extends Card{
 	@JoinColumn(name = "backCard")
 	private MountainCard backCard;
 		
+	
 }
