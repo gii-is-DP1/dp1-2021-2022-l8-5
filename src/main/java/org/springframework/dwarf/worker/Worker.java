@@ -1,5 +1,6 @@
 package org.springframework.dwarf.worker;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -21,7 +22,10 @@ import lombok.Setter;
 @Table(name = "workers")
 public class Worker extends BaseEntity{
 	
+	@Column(name = "position")
     Integer position;
+    
+	@Column(name = "status")
 	Boolean status;
 
 }
