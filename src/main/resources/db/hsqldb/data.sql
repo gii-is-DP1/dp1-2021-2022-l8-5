@@ -51,6 +51,8 @@ INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,secondPlay
  
 -- Special cards (card sheet 7 front & back)
  INSERT INTO special_cards(name, description, back_card) VALUES ('Muster an Army', 'When resolving actions this turn, treat all defend cards as if they are ocuppied', 1);
+ INSERT INTO special_decks(xposition, yposition) VALUES (0,0);
+ INSERT INTO SPECIAL_DECKS_SPECIAL_CARD(SPECIAL_DECK_ID, SPECIAL_CARD_ID) VALUES (1,1);
 -- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Iron Seam', 'Take 3 iron from the supply', 0, 'MINE', 0);
 
 INSERT INTO mountain_decks(xposition, yposition) VALUES (0,0);
