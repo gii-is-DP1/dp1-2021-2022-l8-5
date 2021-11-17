@@ -34,10 +34,15 @@ import lombok.Setter;
 @Table(name = "mountainCards")
 public class MountainCard extends Card{
 
-	@Column(name = "position")
+	@Column(name = "xposition")
 	@NotNull
-	@Range(min= 0, max= 8)
-	Integer position;
+	@Range(min= 1, max= 3)
+	Integer xPosition;
+	
+	@Column(name = "yposition")
+	@NotNull
+	@Range(min= 0, max= 2)
+	Integer yPosition;
 	
 	@Column(name = "type")
 	@NotNull
@@ -49,4 +54,13 @@ public class MountainCard extends Card{
 	@NotNull
 	@Range(min= 0, max= 3)
 	Integer group;
+	
+	
+	public Integer getPositionXInPixels(Integer size) {
+    	return (xPosition)*size;
+    }
+    
+    public Integer getPositionYInPixels(Integer size) {
+    	return (yPosition)*size;
+    }
 }
