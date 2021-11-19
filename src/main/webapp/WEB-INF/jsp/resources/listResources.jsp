@@ -51,6 +51,12 @@
                     <c:out value="${resources.badges}"/>
                 </td>
                  
+                    
+                    <spring:url value="/resources/update/{resourcesId}" var="resourceUrl">
+       					 <spring:param name="resourcesId" value="${resources.id}"/>
+    				</spring:url>
+    				 <a href="${fn:escapeXml(editUrl)}"><span class=" glyphicon glyphicon-edit" aria-hidden="true"></span>
+							<span>Update</span></a>
             </tr>
             
         </c:forEach>
