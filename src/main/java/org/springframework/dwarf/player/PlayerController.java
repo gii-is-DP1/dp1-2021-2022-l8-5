@@ -24,6 +24,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dwarf.user.AuthoritiesService;
 import org.springframework.dwarf.user.UserService;
+import org.springframework.dwarf.web.CorrentUserController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -118,7 +119,7 @@ public class PlayerController {
 	}
 
 	@PostMapping(value = "/players2/{player2id}/edit")
-	public String processUpdateOwnerForm(@Valid Player player2, BindingResult result,
+	public String processUpdatePlayerForm(@Valid Player player2, BindingResult result,
 			@PathVariable("player2id") int player2id) {
 		if (result.hasErrors()) {
 			return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
@@ -130,6 +131,30 @@ public class PlayerController {
 		}
 	}
 
+	
+	@GetMapping(value = "/editProfile")
+	public String initUpdateMeForm(Model model) {
+		String username = CorrentUserController.returnCurrentUserName();
+		Integer player2id = playerService.findPlayerByUserName(username);
+		Player player2 = this.playerService.findPlayerById(player2id);
+		model.addAttribute(player2);
+		return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
+	}
+	
+	@PostMapping(value = "/editProfile")
+	public String processUpdateMeForm(@Valid Player player2, BindingResult result) {
+		String username = CorrentUserController.returnCurrentUserName();
+		Integer player2id = playerService.findPlayerByUserName(username);
+		if (result.hasErrors()) {
+			return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
+		}
+		else {
+			player2.setId(player2id);
+			this.playerService.savePlayer(player2);
+			return "redirect:/players2";
+		}
+	}
+	
 	/**
 	 * Custom handler for displaying an owner.
 	 * @param ownerId the ID of the owner to display
