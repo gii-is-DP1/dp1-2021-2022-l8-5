@@ -36,7 +36,7 @@ public class MountainCard extends Card{
 
 	@Column(name = "xposition")
 	@NotNull
-	@Range(min= 1, max= 3)
+	@Range(min= 0, max= 4)
 	Integer xPosition;
 	
 	@Column(name = "yposition")

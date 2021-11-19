@@ -12,7 +12,7 @@
         <div class="col-md-12">
             <petclinic:board board="${board}"/>
             <c:forEach items="${board.mountainDeck.mountainCards}" var="mountainCard">
-            	<petclinic:mountainCard size="160" mountainCard="${mountainCard}"/>
+            	<petclinic:mountainCard padding="20" xsize="130" ysize="180" mountainCard="${mountainCard}"/>
             	
             </c:forEach> 
         </div>
