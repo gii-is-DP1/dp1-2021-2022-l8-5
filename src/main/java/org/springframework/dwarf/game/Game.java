@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.dwarf.model.BaseEntity;
@@ -30,6 +31,18 @@ import lombok.Setter;
 @Entity
 @Table(name = "games")
 public class Game extends BaseEntity{
+	
+	@Transient
+	private GameState gameState;
+
+	public Game () {
+		setPhase(new MineralExtraction());
+	}
+
+	private void setPhase(GameState gameState){
+		this.gameState = gameState;
+		this.gameState.setGame(this);
+	}
 	
 	@NotNull
 	@OneToOne
