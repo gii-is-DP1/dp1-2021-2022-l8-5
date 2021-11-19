@@ -34,12 +34,6 @@
                 <td>
                     <c:out value="${worker.player.username}"/>
                 </td>
-                				                    
-                    <spring:url value="/workers/update/{WorkerId}" var="workerUrl">
-       					 <spring:param name="WorkerId" value="${worker.id}"/>
-    				</spring:url>
-    				 <a href="${fn:escapeXml(editUrl)}"><span class=" glyphicon glyphicon-edit" aria-hidden="true"></span>
-							<span>Update</span></a>
                
             </tr>
             
