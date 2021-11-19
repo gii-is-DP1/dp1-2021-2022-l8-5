@@ -34,6 +34,12 @@
 					<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 					<span>Players</span>
 				</petclinic:menuItem>
+				
+				<petclinic:menuItem active="${name eq 'game'}" url="/game"
+					title="Buscar Partida">
+					<span class="bi bi-cloud" aria-hidden="true"></span>
+					<span>Game</span>
+				</petclinic:menuItem>
 
 				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
 					title="trigger a RuntimeException to see how it is handled">
