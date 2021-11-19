@@ -70,6 +70,15 @@ public class Player extends Person {
 		user.setUsername(Username);
 	}
 	
+	public String getEmail() {
+		return user.getEmail();
+	}
+
+	public void setEmail(String email) {
+		user.setEmail(email);
+	}
+	
+	
 
 	@Override
 	public String toString() {

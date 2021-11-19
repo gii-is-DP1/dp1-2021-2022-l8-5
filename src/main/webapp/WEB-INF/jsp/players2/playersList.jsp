@@ -15,6 +15,7 @@
         	<th style="width: 150px;">ID</th>
             <th style="width: 150px;">Name</th>
              <th style="width: 150px;">Username</th>
+             <th style="width: 150px;">E-Mail</th>
              <th style="width: 150px;">Actions</th>
         </tr>
         </thead>
@@ -37,6 +38,10 @@
              <td>
               <c:out value="${player.username}"/>
              </td> 
+
+             <td>
+                <c:out value="${player.email}"/>
+               </td> 
              
     			<td> 
                     <spring:url value="/players/delete/{playerId}" var="playerUrl">
