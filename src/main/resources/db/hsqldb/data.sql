@@ -55,7 +55,7 @@ INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,secondPlay
 
 INSERT INTO mountain_decks(xposition, yposition) VALUES (0,0);
  
-INSERT INTO boards(background,width,height,mountaindeck) VALUES ('resources/images/oro_erebor.jpg',800,480,1);
+INSERT INTO boards(background,width,height,mountaindeck) VALUES ('resources/images/oro_erebor.jpg',750,600,1);
 
 INSERT INTO MOUNTAIN_DECKS_MOUNTAIN_CARDS(MOUNTAIN_DECK_ID, MOUNTAIN_CARDS_ID) VALUES (1,1);
 INSERT INTO MOUNTAIN_DECKS_MOUNTAIN_CARDS(MOUNTAIN_DECK_ID, MOUNTAIN_CARDS_ID) VALUES (1,2);
