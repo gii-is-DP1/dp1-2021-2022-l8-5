@@ -14,12 +14,13 @@
         <thead>
         <tr>
          	<th style="width: 150px;">ID</th>
-             <th style="width: 150px;">GameID</th>
+            <th style="width: 150px;">GameID</th>
             <th style="width: 150px;">Player</th>
             <th style="width: 150px;">Iron</th>
             <th style="width: 150px;">Steel</th>
             <th style="width: 150px;">Gold</th>
-            <th style="width: 150px;">Meddals</th>
+            <th style="width: 150px;">Items</th>
+            <th style="width: 150px;">Badges</th>
         </tr>
         </thead>
         <tbody>
@@ -29,31 +30,33 @@
                     <c:out value="${resources.id}"/>
                 </td>
                 <td>
+                    <c:out value="${resources.game.id}"/>
+                </td>
+                <td>
                     <c:out value="${resources.player.username}"/>
                 </td>
                 <td>
-                    <c:out value="${resources.secondPlayer.username}"/>
+                    <c:out value="${resources.iron}"/>
                 </td>
                 <td>
-                    <c:out value="${resources.thirdPlayer.username}"/>
+                    <c:out value="${resources.steel}"/>
+                </td>
+                <td>
+                    <c:out value="${resources.gold}"/>
+                </td>
+                <td>
+                    <c:out value="${resources.items}"/>
+                </td>
+                <td>
+                    <c:out value="${resources.badges}"/>
                 </td>
                  
-				<td> 
-					
-                    <spring:url value="/games/delete/{gameId}" var="gameUrl">
-                        <spring:param name="gameId" value="${game.id}"/>
-                    </spring:url>
-                    <a href="${fn:escapeXml(gameUrl)}"><span class=" glyphicon glyphicon-trash" aria-hidden="true"></span>
-                    <span>Delete</span></a>
                     
-                    <spring:url value="/games/update/{playerId}" var="editUrl">
-       					 <spring:param name="gameId" value="${player.id}"/>
+                    <spring:url value="/resources/update/{resourcesId}" var="resourceUrl">
+       					 <spring:param name="resourcesId" value="${resources.id}"/>
     				</spring:url>
     				 <a href="${fn:escapeXml(editUrl)}"><span class=" glyphicon glyphicon-edit" aria-hidden="true"></span>
 							<span>Update</span></a>
-                    
-				</tr>
-               
             </tr>
             
         </c:forEach>
