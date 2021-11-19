@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * @author Jose Ingacio
+ * @author Jose Ignacio Garcia
  * @author David Zamora
  */
 
@@ -37,20 +37,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/workers")
 public class WorkerController {
 	
-	private static final String VIEWS_Worker_CREATE_OR_UPDATE_FORM = "workers/createOrUpdateWorkerForm";
+	private static final String VIEWS_Worker_CREATE_OR_UPDATE_FORM = "workers/createOrUpdateWorkersForm";
 
-	private WorkerService WorkerService;
+	private WorkerService workersService;
 
 	@Autowired
-	public WorkerController(WorkerService WorkerService) {
-		this.WorkerService = WorkerService;
+	public WorkerController(WorkerService workersService) {
+		this.workersService = workersService;
 	}
 
 	@GetMapping()
 	public String listWorkers(ModelMap modelMap) {
 		String view = "Workers/listWorkers";
-		Iterable<Worker> Workers = WorkerService.findAll();
-		modelMap.addAttribute("Workers", Workers);
+		Iterable<Worker> Workers = workersService.findAll();
+		modelMap.addAttribute("workers", Workers);
 		return view;
 
 	}
@@ -58,9 +58,9 @@ public class WorkerController {
 	@GetMapping(path="/delete/{WorkerId}")
 	public String deleteWorker(@PathVariable("WorkerId") Integer WorkerId,ModelMap modelMap) {
 		String view = "Workers/listWorkers";
-		Optional<Worker> worker = WorkerService.findByWorkerId(WorkerId);
+		Optional<Worker> worker = workersService.findByWorkerId(WorkerId);
 		if (Worker.isPresent()) {
-			WorkerService.delete(worker.get());
+			workersService.delete(worker.get());
 			modelMap.addAttribute("message", "Worker deleted!");
 		} else {
 			modelMap.addAttribute("message", "Worker not found!");
@@ -70,23 +70,23 @@ public class WorkerController {
 	}*/
 	
 	
-	@GetMapping(value = "/update/{WorkerId}")
-	public String initUpdateOwnerForm(@PathVariable("WorkerId") int WorkerId, Model model) {
-		Worker Worker = this.WorkerService.findByWorkerId(WorkerId).get();
+	@GetMapping(value = "/update/{workerId}")
+	public String initUpdateOwnerForm(@PathVariable("workerId") int workerId, Model model) {
+		Worker Worker = this.workersService.findByWorkerId(workerId).get();
 		model.addAttribute(Worker);
 		return VIEWS_Worker_CREATE_OR_UPDATE_FORM;
 	}
 
-	@PostMapping(value = "/update/{WorkerId}")
+	@PostMapping(value = "/update/{workerId}")
 	public String processUpdateOwnerForm(@Valid Worker Worker, BindingResult result,
-			@PathVariable("WorkerId") int WorkerId) {
+			@PathVariable("workerId") int WorkerId) {
 		if (result.hasErrors()) {
 			return VIEWS_Worker_CREATE_OR_UPDATE_FORM;
 		}
 		else {
 			Worker.setId(WorkerId);
-			this.WorkerService.saveWorker(Worker);
-			return "redirect:/Workers";
+			this.workersService.saveWorker(Worker);
+			return "redirect:/workers";
 		}
 	}
 }
