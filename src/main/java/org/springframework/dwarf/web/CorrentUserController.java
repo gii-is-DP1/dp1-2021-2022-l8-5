@@ -24,8 +24,18 @@ public class CorrentUserController {
 		}
 		return "welcome";
 	}
+	
+	public static String returnCurrentUserName() {
+		Authentication auth =SecurityContextHolder.getContext().getAuthentication();
+		if (auth!=null) {
+			if (auth.isAuthenticated() && auth.getPrincipal() instanceof User) {
+				User user = (User) auth.getPrincipal();
+				return user.getUsername();
+		}
+			
 	}
+		return "";
 	
-	
-	
+	}
+}
 
