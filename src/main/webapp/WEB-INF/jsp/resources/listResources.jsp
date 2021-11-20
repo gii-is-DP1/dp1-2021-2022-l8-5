@@ -52,11 +52,13 @@
                 </td>
                  
                     
-                    <spring:url value="/resources/update/{resourcesId}" var="resourceUrl">
+    			<td>              
+                    <spring:url value="/resources/{resourcesId}/edit" var="editUrl">
        					 <spring:param name="resourcesId" value="${resources.id}"/>
     				</spring:url>
     				 <a href="${fn:escapeXml(editUrl)}"><span class=" glyphicon glyphicon-edit" aria-hidden="true"></span>
 							<span>Update</span></a>
+                 </td> 
             </tr>
             
         </c:forEach>

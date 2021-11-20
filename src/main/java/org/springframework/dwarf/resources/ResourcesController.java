@@ -54,30 +54,20 @@ public class ResourcesController {
 		return view;
 
 	}
-	/*
-	@GetMapping(path="/delete/{ResourcesId}")
-	public String deleteResources(@PathVariable("ResourcesId") Integer ResourcesId,ModelMap modelMap) {
-		String view = "Resourcess/listResourcess";
-		Optional<Resources> Resources = ResourcesService.findByResourcesId(ResourcesId);
-		if (Resources.isPresent()) {
-			ResourcesService.delete(Resources.get());
-			modelMap.addAttribute("message", "Resources deleted!");
-		} else {
-			modelMap.addAttribute("message", "Resources not found!");
-		}
-		return view;
+	
 
-	}*/
-	
-	
-	@GetMapping(value = "/update/{resourcesId}")
+
+
+	//UPDATE
+
+	@GetMapping(value = "/{resourcesId}/edit")
 	public String initUpdateOwnerForm(@PathVariable("resourcesId") int resourcesId, Model model) {
-		Resources resource = this.resourcesService.findByResourcesId(resourcesId).get();
-		model.addAttribute(resource);
+		Resources resources = this.resourcesService.findByResourcesId(resourcesId).get();
+		model.addAttribute(resources);
 		return VIEWS_RESOURCES_CREATE_OR_UPDATE_FORM;
 	}
 
-	@PostMapping(value = "/update/{resourcesId}")
+	@PostMapping(value = "/{resourcesId}/edit")
 	public String processUpdateOwnerForm(@Valid Resources resources, BindingResult result,
 			@PathVariable("resourcesId") int resourcesId) {
 		if (result.hasErrors()) {
