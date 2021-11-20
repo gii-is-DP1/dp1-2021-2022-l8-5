@@ -65,6 +65,7 @@ public class PlayerController {
 	@GetMapping(value = "/players2/new")
 	public String initCreationForm(Map<String, Object> model) {
 		Player player2 = new Player();
+		player2.setAvatarUrl("https://www.w3schools.com/w3images/avatar1.png");
 		model.put("player", player2);
 		return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
 	}
@@ -135,7 +136,7 @@ public class PlayerController {
 	@GetMapping(value = "/editProfile")
 	public String initUpdateMeForm(Model model) {
 		String username = CorrentUserController.returnCurrentUserName();
-		Integer player2id = playerService.findPlayerByUserName(username);
+		Integer player2id = playerService.findPlayerByUserName(username).getId();
 		Player player2 = this.playerService.findPlayerById(player2id);
 		model.addAttribute(player2);
 		return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
@@ -144,7 +145,7 @@ public class PlayerController {
 	@PostMapping(value = "/editProfile")
 	public String processUpdateMeForm(@Valid Player player2, BindingResult result) {
 		String username = CorrentUserController.returnCurrentUserName();
-		Integer player2id = playerService.findPlayerByUserName(username);
+		Integer player2id = playerService.findPlayerByUserName(username).getId();
 		if (result.hasErrors()) {
 			return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
 		}
@@ -162,6 +163,7 @@ public class PlayerController {
 	 */
 	@GetMapping("/players2/{player2id}")
 	public ModelAndView showOwner(@PathVariable("player2id") int ownerId) {
+
 		ModelAndView mav = new ModelAndView("players/ownerDetails");
 		mav.addObject(this.playerService.findPlayerById(ownerId));
 		return mav;

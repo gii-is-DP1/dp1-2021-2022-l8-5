@@ -63,8 +63,8 @@ public interface PlayerRepository extends Repository<Player, Integer> {
 	
 	/**
 	 * Retrieve an <code>Player</code> from the data store by username.
-	 * @param id the id to search for
-	 * @return the <code>Player</code> if found
+	 * @param username the username to search for
+	 * @return the <code>Player id</code> if found
 	 * @throws org.springframework.dao.DataRetrievalFailureException if not found
 	 */	
 	
