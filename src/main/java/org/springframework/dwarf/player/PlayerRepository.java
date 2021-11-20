@@ -53,22 +53,12 @@ public interface PlayerRepository extends Repository<Player, Integer> {
 
 
 	/**
-	 * Retrieve an <code>Player</code> from the data store by id.
+	 * Retrieve an <code>Owner</code> from the data store by id.
 	 * @param id the id to search for
-	 * @return the <code>Player</code> if found
+	 * @return the <code>Owner</code> if found
 	 * @throws org.springframework.dao.DataRetrievalFailureException if not found
 	 */	
 	@Query("SELECT player2 FROM Player player2 WHERE player2.id =:id")
 	public Player findById(@Param("id") int id);
-	
-	/**
-	 * Retrieve an <code>Player</code> from the data store by username.
-	 * @param id the id to search for
-	 * @return the <code>Player</code> if found
-	 * @throws org.springframework.dao.DataRetrievalFailureException if not found
-	 */	
-	
-	@Query(value="SELECT player2.id FROM Player player2 WHERE player2.username =:username",nativeQuery = true)
-	public Integer findByUsername(@Param("username") String username);
 
 }

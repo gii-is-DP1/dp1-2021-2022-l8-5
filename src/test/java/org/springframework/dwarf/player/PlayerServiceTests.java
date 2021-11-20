@@ -92,7 +92,6 @@ class PlayerServiceTests {
                 User user=new User();
                 user.setUsername("Sam");
                 user.setPassword("supersecretpassword");
-                user.setEmail("superemail@email.com");
                 user.setEnabled(true);
                 player.setUser(user);                
                 

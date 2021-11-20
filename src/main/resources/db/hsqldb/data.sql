@@ -1,11 +1,11 @@
 -- One admin user, named admin1 with passwor 4dm1n and authority admin
-INSERT INTO users(username,password,enabled,email) VALUES ('admin1','4dm1n',TRUE,'test9@test.com');
+INSERT INTO users(username,password,enabled) VALUES ('admin1','4dm1n',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
 -- One owner user, named owner1 with passwor 0wn3r
-INSERT INTO users(username,password,enabled,email) VALUES ('owner1','0wn3r',TRUE,'test@test.com');
-INSERT INTO users(username,password,enabled,email) VALUES ('pabmargom3','0wn3r',TRUE,'test2@test.com');
-INSERT INTO users(username,password,enabled,email) VALUES ('davzamfer','0wn3r',TRUE,'test3@test.com');
-INSERT INTO users(username,password,enabled,email) VALUES ('dieruigil','0wn3r',TRUE,'test4@test.com');
+INSERT INTO users(username,password,enabled) VALUES ('owner1','0wn3r',TRUE);
+INSERT INTO users(username,password,enabled) VALUES ('pabmargom3','0wn3r',TRUE);
+INSERT INTO users(username,password,enabled) VALUES ('davzamfer','0wn3r',TRUE);
+INSERT INTO users(username,password,enabled) VALUES ('dieruigil','0wn3r',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (2,'owner1','owner');
 INSERT INTO authorities(id,username,authority) VALUES (3,'pabmargom3','owner');
 INSERT INTO authorities(id,username,authority) VALUES (4,'davzamfer','owner');
@@ -68,14 +68,3 @@ INSERT INTO MOUNTAIN_DECKS_MOUNTAIN_CARDS(MOUNTAIN_DECK_ID, MOUNTAIN_CARDS_ID) V
 INSERT INTO MOUNTAIN_DECKS_MOUNTAIN_CARDS(MOUNTAIN_DECK_ID, MOUNTAIN_CARDS_ID) VALUES (1,7);
 INSERT INTO MOUNTAIN_DECKS_MOUNTAIN_CARDS(MOUNTAIN_DECK_ID, MOUNTAIN_CARDS_ID) VALUES (1,8);
 INSERT INTO MOUNTAIN_DECKS_MOUNTAIN_CARDS(MOUNTAIN_DECK_ID, MOUNTAIN_CARDS_ID) VALUES (1,9);
-
-
--- WORKERS
-
-INSERT INTO Workers(id, position, status, gameId, playerId) VALUES (1, 1, FALSE, 1, 1);
--- INSERT INTO Workers(id, position, status, gameId, playerId) VALUES (2, 8, TRUE, 1, 1);
--- INSERT INTO Workers(id, position, status, gameId, playerId) VALUES (3, 5, FALSE, 2, 2);
-
--- RESOURCES
-
-INSERT INTO resources(id,badges,gold,iron,items,steel,gameId,playerId)  VALUES (1,2,3,6,2,1,1,1);

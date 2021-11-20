@@ -15,9 +15,8 @@
             <petclinic:inputField label="First Name" name="firstName"/>
             <petclinic:inputField label="Last Name" name="lastName"/>
             <petclinic:inputField label="Username" name="user.username"/>
-            <petclinic:inputField label="E-Mail" name="user.email"/> 
-            <petclinic:inputField label="AvatarUrl" name="avatarUrl"/>
-            <petclinic:inputField label="Password" name="user.password" />
+               <petclinic:inputField label="AvatarUrl" name="avatarUrl"/>
+            <petclinic:inputField label="Password" name="user.password"/>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
@@ -33,4 +32,3 @@
         </div>
     </form:form>
 </petclinic:layout>
-

@@ -35,7 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class PlayerService {
 
-	private PlayerRepository playerRepository;	
+	private PlayerRepository ownerRepository;	
 	
 	@Autowired
 	private UserService userService;
@@ -45,28 +45,23 @@ public class PlayerService {
 
 	@Autowired
 	public PlayerService(PlayerRepository playerRepository) {
-		this.playerRepository = playerRepository;
+		this.ownerRepository = playerRepository;
 	}	
 
 	@Transactional(readOnly = true)
 	public Player findPlayerById(int id) throws DataAccessException {
-		return playerRepository.findById(id);
+		return ownerRepository.findById(id);
 	}
 
 	@Transactional(readOnly = true)
 	public Collection<Player> findPlayerByLastName(String lastName) throws DataAccessException {
-		return playerRepository.findByLastName(lastName);
-	}
-	
-	@Transactional(readOnly = true)
-	public Integer findPlayerByUserName(String username) throws DataAccessException {
-		return playerRepository.findByUsername(username);
+		return ownerRepository.findByLastName(lastName);
 	}
 
 	@Transactional
 	public void savePlayer(Player player) throws DataAccessException {
 		//creating owner
-		playerRepository.save(player);		
+		ownerRepository.save(player);		
 		//creating user
 		userService.saveUser(player.getUser());
 		//creating authorities

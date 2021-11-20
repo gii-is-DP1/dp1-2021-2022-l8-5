@@ -29,7 +29,6 @@ public class BoardService {
 	public Iterable<Board> findAll() {
 		return boardRepo.findAll();
 	}
-
 	@Transactional(readOnly = true)
 	public Optional<Board> findByBoardId(int id){
 		return boardRepo.findById(id);

@@ -25,7 +25,7 @@ public class ResourcesServiceTest {
 	@Test
 	public void testCountWithInitialData() {
 		int count = resourcesService.ResourcesCount();
-		assertEquals(count,1);
+		assertEquals(count,0);
 	}
 	
 	
