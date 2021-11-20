@@ -14,7 +14,11 @@
         <div class="form-group has-feedback">
             <petclinic:inputField label="First Name" name="firstName"/>
             <petclinic:inputField label="Last Name" name="lastName"/>
-            <petclinic:inputField label="Username" name="user.username"/>
+             <c:choose>
+                    <c:when test="${player['new']}">
+                       <petclinic:inputField label="Username" name="user.username" />
+                    </c:when>
+               </c:choose>
               <petclinic:inputField label="E-Mail" name="user.email"/> 
                <petclinic:inputField label="AvatarUrl" name="avatarUrl"/>
             <petclinic:inputField label="Password" name="user.password"/>

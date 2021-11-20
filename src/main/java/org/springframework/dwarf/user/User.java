@@ -24,6 +24,7 @@ import lombok.Setter;
 @Table(name = "users")
 public class User{
 	@Id
+	@Column(updatable=true)
 	String username;
 	
 	String password;
@@ -36,4 +37,5 @@ public class User{
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	private Set<Authorities> authorities;
+	
 }
