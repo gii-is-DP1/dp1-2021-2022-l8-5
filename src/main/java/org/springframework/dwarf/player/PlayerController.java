@@ -21,6 +21,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dwarf.user.AuthoritiesService;
 import org.springframework.dwarf.user.UserService;
@@ -126,8 +127,12 @@ public class PlayerController {
 			return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
 		}
 		else {
-			player2.setId(player2id);
-			this.playerService.savePlayer(player2);
+			Player playerFound = playerService.findPlayerById(player2id);
+			BeanUtils.copyProperties(player2, playerFound,"id");
+			BeanUtils.copyProperties(player2.getUser(), playerFound.getUser(),"email","username");
+			//Hay que copiar las propiedades para evitar problemas
+			this.playerService.savePlayer(playerFound);
+			//this.playerService.savePlayer(player2);
 			return "redirect:/players2";
 		}
 	}

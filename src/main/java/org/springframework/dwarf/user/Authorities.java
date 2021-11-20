@@ -1,5 +1,6 @@
 package org.springframework.dwarf.user;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,7 +19,7 @@ import lombok.Setter;
 public class Authorities extends BaseEntity{
 	
 	@ManyToOne
-	@JoinColumn(name = "username")
+	@JoinColumn(name = "username",updatable = true)
 	User user;
 	
 	@Size(min = 3, max = 50)
