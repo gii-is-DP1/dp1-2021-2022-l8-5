@@ -1,5 +1,6 @@
 package org.springframework.dwarf.game;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,14 +35,19 @@ public class GameService {
 		return gameRepo.findById(id);
 	}
 	
+	@Transactional(readOnly = true)
+	public List<Game> findGamesToJoin(){
+		return gameRepo.searchGamesToJoin();
+	}
+	
 	public void delete(Game game) {
 		gameRepo.delete(game);
 	}
-	/*
+	
 	@Transactional
 	public void saveGame(Game game) throws DataAccessException {
 		//creating game
 		gameRepo.save(game);		
 
-	}*/
+	}
 }

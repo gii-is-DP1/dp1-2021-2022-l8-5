@@ -1,15 +1,12 @@
 package org.springframework.dwarf.game;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -36,6 +33,9 @@ public class Game extends BaseEntity{
 	private GameState gameState;
 
 	public Game () {
+		this.currentPhase = GamePhase.MINERAL_EXTRACTION;
+		this.currentRound = 1;
+		this.startDate = LocalDateTime.now();
 		setPhase(new MineralExtraction());
 	}
 
@@ -63,12 +63,10 @@ public class Game extends BaseEntity{
 	@JoinColumn(name = "FIRSTPLAYER", referencedColumnName="id")
 	Player firstPlayer;
 	
-	@NotNull
 	@OneToOne
 	@JoinColumn(name = "SECONDPLAYER", referencedColumnName="id")
 	Player secondPlayer;
 	
-	@NotNull
 	@OneToOne
 	@JoinColumn(name = "THIRDPLAYER", referencedColumnName="id")
 	Player thirdPlayer;
