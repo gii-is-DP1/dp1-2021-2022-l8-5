@@ -1,6 +1,8 @@
 package org.springframework.dwarf.player;
 
 import static org.hamcrest.Matchers.hasProperty;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -24,6 +26,7 @@ import org.springframework.dwarf.player.PlayerController;
 import org.springframework.dwarf.player.PlayerService;
 import org.springframework.dwarf.user.AuthoritiesService;
 import org.springframework.dwarf.user.UserService;
+import org.springframework.dwarf.web.CorrentUserController;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -66,13 +69,61 @@ class PlayerControllerTests {
 		given(this.playerService.findPlayerById(TEST_PLAYER_ID)).willReturn(george);
 
 	}
+	@WithMockUser(username = "fernandoAlonso", password = "worldChampion") //Engañamos al programa (Jodete JA Parejo)
+    @Test
+    void loginSuccesful() throws Exception {
+        String userLogged = CorrentUserController.returnCurrentUserName();
+        assertEquals(userLogged, "fernandoAlonso");       
+    }
+	@Test
+	@WithMockUser(username = "fernandoAlonso", password = "worldChampion") 
+    void loginUnSuccesful() throws Exception {
+        String userLogged = CorrentUserController.returnCurrentUserName();
+        assertNotEquals(userLogged, "michaeljordan");       
+    }
+	
 	/*
 	@WithMockUser(value = "spring")
 	@Test
 	void testInitCreationForm() throws Exception {
-		mockMvc.perform(get("/players2/new")).andExpect(status().isOk()).andExpect(model().attributeExists("player2"))
+		mockMvc.perform(get("/players2/new")).andExpect(status().isOk()).andExpect(model().attributeExists("player"))
 				.andExpect(view().name("players2/createOrUpdatePlayerForm"));
 	}
+	@WithMockUser(value = "spring")
+	@Test
+	void testInitLogin() throws Exception {
+		mockMvc.perform(get("/login")).andExpect(status().isOk());
+	}
+	
+	@WithMockUser()
+	@Test
+	void testProcessLoginFormSuccess() throws Exception {
+		mockMvc.perform(post("/login").param("username", "test").param("password", "1").with(csrf())
+				)
+				.andExpect(status());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessLoginFormHasErrors() throws Exception {
+		mockMvc.perform(post("/login").with(csrf()).param("username", "noexist").param("password", "nope")
+				).andExpect(status().isOk())
+				.andExpect(view().name("welcome"));
+	}
+*/
+	
+	/*
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessCreationFormSuccess() throws Exception {
+		mockMvc.perform(post("/users/new").param("firstName", "John").param("lastName", "Bloggs").param("user.username", "joemama").param("user.email", "joemama@test.com").param("user.password", "1").with(csrf())
+				)
+		.andExpect(view().name("/welcome"));
+	}
+	*/
+	
+	
+	/*
 
 	@WithMockUser(value = "spring")
 	@Test
