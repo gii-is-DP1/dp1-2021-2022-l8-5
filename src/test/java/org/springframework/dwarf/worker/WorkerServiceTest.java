@@ -32,20 +32,13 @@ public class WorkerServiceTest {
 		Optional<Worker> Worker = workerService.findByWorkerId(id);
 		System.out.println("------------TEST FIND BY Worker ID------------");
 		Worker p = Worker.orElse(null);
-		//assertEquals(p, null);
-		
-		if(p != null) {
-			System.out.println("Worker username with id: " + id );
-		}else {
-			System.out.println("Worker not found");
-		}
-		System.out.println("------------------------");
+		assertEquals(p.getPosition(), 1);
 	}
 	
 	@Test
 	public void testSaveWorker() {
 		Worker WorkerTest = new Worker();
-		//WorkerTest.setEnabled(true);
+		WorkerTest.setStatus(true);
 		WorkerTest.setPosition(3);
 		
 		workerService.saveWorker(WorkerTest);
@@ -54,21 +47,17 @@ public class WorkerServiceTest {
 		Optional<Worker> Worker = workerService.findByWorkerId(id);
 		System.out.println("------------TEST SAVE Worker------------");
 		Worker p = Worker.orElse(null);
-		if(p != null) {
-			System.out.println("Worker username with id " + id );
-		}else {
-			System.out.println("Worker not found");
-		}
-		System.out.println("------------------------");
+		assertEquals(p.getPosition(), 3);
 	}
 	
 	@Test
 	public void testDeleteWorker() {
-		int id = 2;
+		int id = 1;
 		
 		Optional<Worker> Worker = workerService.findByWorkerId(id);
 		System.out.println("------------TEST DELETE Worker------------");
 		Worker p = Worker.orElse(null);
+		
 		if(p != null) {
 			workerService.delete(p);
 			Worker deletedWorker = workerService.findByWorkerId(id).orElse(null);
@@ -79,4 +68,3 @@ public class WorkerServiceTest {
 		System.out.println("------------------------");
 	}
 }
-
