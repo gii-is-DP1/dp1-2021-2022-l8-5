@@ -173,20 +173,20 @@ public class PlayerController {
 	
 	/**
 	 * Custom handler for displaying an owner.
-	 * @param ownerId the ID of the owner to display
+	 * @param playerId the ID of the owner to display
 	 * @return a ModelMap with the model attributes for the view
 	 */
 	@GetMapping("/players2/{player2id}")
-	public ModelAndView showOwner(@PathVariable("player2id") int ownerId) {
+	public ModelAndView showOwner(@PathVariable("player2id") int playerId) {
 
-		ModelAndView mav = new ModelAndView("players/ownerDetails");
-		mav.addObject(this.playerService.findPlayerById(ownerId));
+		ModelAndView mav = new ModelAndView("players2/playerDetails");
+		mav.addObject(this.playerService.findPlayerById(playerId));
 		return mav;
 	}
 	
 	@GetMapping("/players2/{player2Id}/delete")
 	public String deletePlayer(@PathVariable("player2Id") Integer playerId,ModelMap modelMap) {
-		String view = "players/listPlayers";
+		String view = "players2/listPlayers";
 		Player player = playerService.findPlayerById(playerId);
 		playerService.delete(player);
 		modelMap.addAttribute("message", "Player deleted!");
