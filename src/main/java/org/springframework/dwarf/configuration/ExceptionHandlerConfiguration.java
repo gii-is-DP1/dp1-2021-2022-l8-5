@@ -3,6 +3,7 @@ package org.springframework.dwarf.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
 import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.dwarf.error.MyErrorController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -19,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 public class ExceptionHandlerConfiguration 
 {
 	@Autowired
-	private BasicErrorController errorController;
+	private MyErrorController myError;
     // add any exceptions/validations/binding problems
 
    @ExceptionHandler(Exception.class)

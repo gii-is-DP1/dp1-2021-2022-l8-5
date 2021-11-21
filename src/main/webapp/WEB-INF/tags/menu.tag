@@ -28,18 +28,20 @@
 					<span>Home</span>
 				</petclinic:menuItem>
 				
-				
+				<sec:authorize access="hasAuthority('admin')">
 				<petclinic:menuItem active="${name eq 'players2'}" url="/players2"
 					title="players">
 					<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 					<span>Players</span>
 				</petclinic:menuItem>
-				
-				<petclinic:menuItem active="${name eq 'searchGames'}" url="/games/searchGames"
-					title="Play">
-					<span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span>
-					<span>Play</span>
-				</petclinic:menuItem>
+				</sec:authorize>
+				<sec:authorize access="isAuthenticated()">
+					<petclinic:menuItem active="${name eq 'searchGames'}" url="/games/searchGames"
+						title="Play">
+						<span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span>
+						<span>Play</span>
+					</petclinic:menuItem>
+				</sec:authorize>
 
 				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
 					title="trigger a RuntimeException to see how it is handled">
