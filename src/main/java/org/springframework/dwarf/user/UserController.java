@@ -54,8 +54,11 @@ public class UserController {
 
 	@GetMapping(value = "/users/new")
 	public String initCreationForm(Map<String, Object> model) {
-		Player user = new Player();
-		model.put("player", user);
+		Player player = new Player();
+		User user = new User();
+		player.setUser(user);
+		player.setAvatarUrl("https://www.w3schools.com/w3images/avatar1.png");
+		model.put("player", player);
 		return VIEWS_PLAYER_CREATE_FORM;
 	}
 

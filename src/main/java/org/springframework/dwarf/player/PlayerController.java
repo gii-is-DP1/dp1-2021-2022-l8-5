@@ -21,6 +21,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dwarf.user.AuthoritiesService;
 import org.springframework.dwarf.user.UserService;
@@ -65,6 +66,7 @@ public class PlayerController {
 	@GetMapping(value = "/players2/new")
 	public String initCreationForm(Map<String, Object> model) {
 		Player player2 = new Player();
+		player2.setAvatarUrl("https://www.w3schools.com/w3images/avatar1.png");
 		model.put("player", player2);
 		return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
 	}
@@ -125,8 +127,12 @@ public class PlayerController {
 			return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
 		}
 		else {
-			player2.setId(player2id);
-			this.playerService.savePlayer(player2);
+			Player playerFound = playerService.findPlayerById(player2id);
+			BeanUtils.copyProperties(player2, playerFound,"id");
+			BeanUtils.copyProperties(player2.getUser(), playerFound.getUser(),"email","username");
+			//Hay que copiar las propiedades para evitar problemas
+			this.playerService.savePlayer(playerFound);
+			//this.playerService.savePlayer(player2);
 			return "redirect:/players2";
 		}
 	}
@@ -135,7 +141,7 @@ public class PlayerController {
 	@GetMapping(value = "/editProfile")
 	public String initUpdateMeForm(Model model) {
 		String username = CorrentUserController.returnCurrentUserName();
-		Integer player2id = playerService.findPlayerByUserName(username);
+		Integer player2id = playerService.findPlayerByUserName(username).getId();
 		Player player2 = this.playerService.findPlayerById(player2id);
 		model.addAttribute(player2);
 		return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
@@ -144,7 +150,7 @@ public class PlayerController {
 	@PostMapping(value = "/editProfile")
 	public String processUpdateMeForm(@Valid Player player2, BindingResult result) {
 		String username = CorrentUserController.returnCurrentUserName();
-		Integer player2id = playerService.findPlayerByUserName(username);
+		Integer player2id = playerService.findPlayerByUserName(username).getId();
 		if (result.hasErrors()) {
 			return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
 		}
@@ -162,19 +168,19 @@ public class PlayerController {
 	 */
 	@GetMapping("/players2/{player2id}")
 	public ModelAndView showOwner(@PathVariable("player2id") int ownerId) {
+
 		ModelAndView mav = new ModelAndView("players/ownerDetails");
 		mav.addObject(this.playerService.findPlayerById(ownerId));
 		return mav;
 	}
 	
-	@GetMapping("/players2/{player2id}/delete")
-	public String deletePlayer(@PathVariable("playerId") Integer playerId,ModelMap modelMap) {
+	@GetMapping("/players2/{player2Id}/delete")
+	public String deletePlayer(@PathVariable("player2Id") Integer playerId,ModelMap modelMap) {
 		String view = "players/listPlayers";
 		Player player = playerService.findPlayerById(playerId);
 		playerService.delete(player);
 		modelMap.addAttribute("message", "Player deleted!");
 		return view;
-
 	}
 	
 	

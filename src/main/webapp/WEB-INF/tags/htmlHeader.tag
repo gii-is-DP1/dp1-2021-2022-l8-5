@@ -17,8 +17,8 @@ Dwarf: a Spring Framework's based proyect
     <title>Dwarf: a Spring Framework's based proyect</title>
 
     <%-- CSS generated from LESS --%>
-    <spring:url value="/resources/css/petclinic.css" var="petclinicCss"/>
-    <link href="${petclinicCss}" rel="stylesheet"/>
+    <spring:url value="/resources/css/dwarf.css" var="dwarfCss"/>
+    <link href="${dwarfCss}" rel="stylesheet"/>
 
 
     <%-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries --%>

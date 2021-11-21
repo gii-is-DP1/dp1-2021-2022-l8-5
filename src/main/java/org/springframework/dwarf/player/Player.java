@@ -78,8 +78,6 @@ public class Player extends Person {
 		user.setEmail(email);
 	}
 	
-	
-
 	@Override
 	public String toString() {
 		return new ToStringCreator(this)

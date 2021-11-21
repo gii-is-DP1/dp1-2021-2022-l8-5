@@ -59,8 +59,10 @@ public class PlayerService {
 	}
 	
 	@Transactional(readOnly = true)
-	public Integer findPlayerByUserName(String username) throws DataAccessException {
-		return playerRepository.findByUsername(username);
+	public Player findPlayerByUserName(String username) throws DataAccessException {
+		int id = playerRepository.findByUsername(username);
+		Player player = findPlayerById(id);
+		return player;
 	}
 
 	@Transactional
