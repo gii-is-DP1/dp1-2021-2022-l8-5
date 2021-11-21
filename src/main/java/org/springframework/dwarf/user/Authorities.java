@@ -19,7 +19,7 @@ import lombok.Setter;
 public class Authorities extends BaseEntity{
 	
 	@ManyToOne
-	@JoinColumn(name = "username",updatable = true)
+	@JoinColumn(name = "username")
 	User user;
 	
 	@Size(min = 3, max = 50)
