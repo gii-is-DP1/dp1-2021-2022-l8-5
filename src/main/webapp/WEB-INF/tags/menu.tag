@@ -48,6 +48,18 @@
 					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
 					<span>Error</span>
 				</petclinic:menuItem>
+				
+				<petclinic:menuItem active="${name eq 'error404'}" url="/notExists"
+					title="trigger a 404 to see how it is handled">
+					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+					<span>404 Error</span>
+				</petclinic:menuItem>
+				
+				<petclinic:menuItem active="${name eq 'error403'}" url="/notPermit"
+					title="trigger a 403 to see how it is handled">
+					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+					<span>403 Error</span>
+				</petclinic:menuItem>
 
 			</ul>
 
