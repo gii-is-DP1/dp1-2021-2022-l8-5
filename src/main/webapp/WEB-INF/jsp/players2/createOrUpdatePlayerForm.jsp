@@ -18,6 +18,9 @@
                     <c:when test="${player['new']}">
                        <petclinic:inputField label="Username" name="user.username" />
                     </c:when>
+                     <c:otherwise>
+                     
+                    </c:otherwise>
                </c:choose>
               <petclinic:inputField label="E-Mail" name="user.email"/> 
                <petclinic:inputField label="AvatarUrl" name="avatarUrl"/>

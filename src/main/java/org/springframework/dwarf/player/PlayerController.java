@@ -24,6 +24,7 @@ import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dwarf.user.AuthoritiesService;
+import org.springframework.dwarf.user.User;
 import org.springframework.dwarf.user.UserService;
 import org.springframework.dwarf.web.CorrentUserController;
 import org.springframework.stereotype.Controller;
@@ -116,6 +117,7 @@ public class PlayerController {
 	@GetMapping(value = "/players2/{player2id}/edit")
 	public String initUpdateOwnerForm(@PathVariable("player2id") int player2id, Model model) {
 		Player player2 = this.playerService.findPlayerById(player2id);
+		System.out.println("BEFORE: "+ player2.getUser());
 		model.addAttribute(player2);
 		return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
 	}
@@ -128,9 +130,11 @@ public class PlayerController {
 		}
 		else {
 			Player playerFound = playerService.findPlayerById(player2id);
-			BeanUtils.copyProperties(player2, playerFound,"id");
-			BeanUtils.copyProperties(player2.getUser(), playerFound.getUser(),"email","username");
-			//Hay que copiar las propiedades para evitar problemas
+			User userFound = playerFound.getUser();
+			BeanUtils.copyProperties(player2,playerFound,"id");
+			User user2 = player2.getUser();
+			BeanUtils.copyProperties(user2,userFound,"username","authorities");
+			playerFound.setUser(userFound);
 			this.playerService.savePlayer(playerFound);
 			//this.playerService.savePlayer(player2);
 			return "redirect:/players2";
@@ -155,9 +159,15 @@ public class PlayerController {
 			return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
 		}
 		else {
-			player2.setId(player2id);
-			this.playerService.savePlayer(player2);
-			return "redirect:/players2";
+			Player playerFound = playerService.findPlayerById(player2id);
+			User userFound = playerFound.getUser();
+			BeanUtils.copyProperties(player2,playerFound,"id");
+			User user2 = player2.getUser();
+			BeanUtils.copyProperties(user2,userFound,"username","authorities");
+			playerFound.setUser(userFound);
+			this.playerService.savePlayer(playerFound);
+			//this.playerService.savePlayer(player2);
+			return "redirect:/";
 		}
 	}
 	
