@@ -46,7 +46,12 @@ public class PlayerService {
 	@Autowired
 	public PlayerService(PlayerRepository playerRepository) {
 		this.playerRepository = playerRepository;
-	}	
+	}
+	
+	@Transactional(readOnly = true)
+	public Iterable<Player> findAll() throws DataAccessException {
+		return playerRepository.findAll();
+	}
 
 	@Transactional(readOnly = true)
 	public Player findPlayerById(int id) throws DataAccessException {

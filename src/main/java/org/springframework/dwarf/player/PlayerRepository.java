@@ -40,6 +40,13 @@ public interface PlayerRepository extends Repository<Player, Integer> {
 	 * @see BaseEntity#isNew
 	 */
 	void save(Player owner) throws DataAccessException;
+	
+	/**
+	 * Retrieve all <code>Player</code>s from db.
+	 * @return a <code>Iterable</code> of <code>Player</code>s
+	 */
+	@Query("SELECT player2 FROM Player player2")
+	public Iterable<Player> findAll();
 
 	/**
 	 * Retrieve <code>Player</code>s from the data store by last name, returning all owners
