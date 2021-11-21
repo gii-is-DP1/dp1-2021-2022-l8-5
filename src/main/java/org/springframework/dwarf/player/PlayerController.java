@@ -167,14 +167,13 @@ public class PlayerController {
 		return mav;
 	}
 	
-	@GetMapping("/players2/{player2id}/delete")
-	public String deletePlayer(@PathVariable("playerId") Integer playerId,ModelMap modelMap) {
+	@GetMapping("/players2/{player2Id}/delete")
+	public String deletePlayer(@PathVariable("player2Id") Integer playerId,ModelMap modelMap) {
 		String view = "players/listPlayers";
 		Player player = playerService.findPlayerById(playerId);
 		playerService.delete(player);
 		modelMap.addAttribute("message", "Player deleted!");
 		return view;
-
 	}
 	
 	

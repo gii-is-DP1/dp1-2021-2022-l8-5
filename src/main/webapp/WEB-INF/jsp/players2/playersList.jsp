@@ -44,8 +44,8 @@
                </td> 
              
     			<td> 
-                    <spring:url value="/players/delete/{playerId}" var="playerUrl">
-                        <spring:param name="playerId" value="${player.id}"/>
+                    <spring:url value="/players2/{playerId2}/delete" var="playerUrl">
+                        <spring:param name="playerId2" value="${player.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(playerUrl)}"><span class=" glyphicon glyphicon-trash" aria-hidden="true"></span>
                     <span>Delete</span></a>
