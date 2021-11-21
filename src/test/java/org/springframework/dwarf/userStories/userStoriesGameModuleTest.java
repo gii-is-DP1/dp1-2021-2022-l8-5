@@ -1,4 +1,4 @@
-package org.springframework.dwarf.userStoriesGameModule;
+package org.springframework.dwarf.userStories;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
