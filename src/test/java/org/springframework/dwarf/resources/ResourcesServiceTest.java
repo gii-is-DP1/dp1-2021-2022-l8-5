@@ -35,22 +35,22 @@ public class ResourcesServiceTest {
 		
 		Optional<Resources> Resources = resourcesService.findByResourcesId(id);
 		System.out.println("------------TEST FIND BY Resources ID------------");
-		Resources p = Resources.orElse(null);
-		//assertEquals(p, null);
+		Resources p = Resources.orElse(null);	//Si no lo encuentra, devuelve null
+		assertEquals(p.getGold(), 3);
 		
+		/*
 		if(p != null) {
 			System.out.println("Resources with id: " + id + ", : " + p.getIron() + "iron" 
             + p.getSteel() + "steel" + p.getGold() + "gold" + p.getItems() + "items" + p.getBadges() + "badges");
 		}else {
 			System.out.println("Resources not found");
 		}
-		System.out.println("------------------------");
+		System.out.println("------------------------");*/
 	}
 	
 	@Test
 	public void testSaveResources() {
 		Resources ResourcesTest = new Resources();
-		//ResourcesTest.setEnabled(true);
 		ResourcesTest.setIron(3);
         ResourcesTest.setSteel(3);
         ResourcesTest.setGold(3);
@@ -63,22 +63,18 @@ public class ResourcesServiceTest {
 		Optional<Resources> Resources = resourcesService.findByResourcesId(id);
 		System.out.println("------------TEST SAVE Resources------------");
 		Resources p = Resources.orElse(null);
-		if(p != null) {
-			System.out.println("Resources with id: " + id + ", : " + p.getIron() + "iron" 
-            + p.getSteel() + "steel" + p.getGold() + "gold" + p.getItems() + "items" + p.getBadges() + "badges");
-		}else {
-			System.out.println("Resources not found");
-		}
-		System.out.println("------------------------");
+		assertEquals(p.getGold(), 3);
+
 	}
 	
 	@Test
 	public void testDeleteResources() {
-		int id = 2;
+		int id = 1;
 		
 		Optional<Resources> Resources = resourcesService.findByResourcesId(id);
 		System.out.println("------------TEST DELETE Resources------------");
-		Resources p = Resources.orElse(null);
+		Resources p = Resources.orElse(null);	
+
 		if(p != null) {
 			resourcesService.delete(p);
 			Resources deletedResources = resourcesService.findByResourcesId(id).orElse(null);

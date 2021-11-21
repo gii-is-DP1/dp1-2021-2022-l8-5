@@ -26,6 +26,7 @@ public class User{
 	@Id
 	String username;
 	
+
 	String password;
 	
 	@NotNull

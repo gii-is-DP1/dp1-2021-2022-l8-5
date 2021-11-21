@@ -1,0 +1,20 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\main",
+    "\\src\\main\\java",
+    "\\src\\main\\java\\org",
+    "\\src\\main\\java\\org\\springframework",
+    "\\src\\main\\java\\org\\springframework\\dwarf",
+    "\\src\\main\\java\\org\\springframework\\dwarf\\player",
+    "\\src\\test",
+    "\\src\\test\\java",
+    "\\src\\test\\java\\org",
+    "\\src\\test\\java\\org\\springframework",
+    "\\src\\test\\java\\org\\springframework\\dwarf",
+    "\\src\\test\\java\\org\\springframework\\dwarf\\player"
+  ],
+  "SelectedNode": "\\src\\main\\java\\org\\springframework\\dwarf\\player\\PlayerService.java",
+  "PreviewInSolutionExplorer": false
+}
