@@ -12,11 +12,13 @@ public class CorrentUserController {
 
 	@GetMapping("/currentsession")
 	public String showCurrentUser() {
-		Authentication auth =SecurityContextHolder.getContext().getAuthentication();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth!=null) {
 			if (auth.isAuthenticated() && auth.getPrincipal() instanceof User) {
 				User user = (User) auth.getPrincipal();
-				System.out.println(auth.getPrincipal().toString());
+				System.out.println("------------------------------------------------");
+				System.out.println("USER LOGGED: " + user.toString());
+				System.out.println("------------------------------------------------");
 				
 			} else {
 				System.out.println("User not auth");
@@ -34,7 +36,7 @@ public class CorrentUserController {
 			}
 			
 		}
-		return "";
+		return null;
 	}
 }
 
