@@ -7,9 +7,9 @@ INSERT INTO users(username,password,enabled,email) VALUES ('pabmargom3','1',TRUE
 INSERT INTO users(username,password,enabled,email) VALUES ('davzamfer','1',TRUE,'test3@test.com');
 INSERT INTO users(username,password,enabled,email) VALUES ('dieruigil','1',TRUE,'test4@test.com');
 INSERT INTO authorities(id,username,authority) VALUES (2,'owner1','owner');
-INSERT INTO authorities(id,username,authority) VALUES (3,'pabmargom3','owner');
-INSERT INTO authorities(id,username,authority) VALUES (4,'davzamfer','owner');
-INSERT INTO authorities(id,username,authority) VALUES (5,'dieruigil','owner');
+INSERT INTO authorities(id,username,authority) VALUES (3,'pabmargom3','admin');
+INSERT INTO authorities(id,username,authority) VALUES (4,'davzamfer','admin');
+INSERT INTO authorities(id,username,authority) VALUES (5,'dieruigil','admin');
 
 -- Players
 INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES  (1, 'Pablo', 'Marin' ,'pabmargom3','https://www.w3schools.com/w3images/avatar1.png');
