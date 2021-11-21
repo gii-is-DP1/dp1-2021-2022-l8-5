@@ -3,19 +3,24 @@ INSERT INTO users(username,password,enabled,email) VALUES ('admin1','4dm1n',TRUE
 INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
 -- One owner user, named owner1 with passwor 0wn3r
 INSERT INTO users(username,password,enabled,email) VALUES ('owner1','0wn3r',TRUE,'test@test.com');
-INSERT INTO users(username,password,enabled,email) VALUES ('pabmargom3','0wn3r',TRUE,'test2@test.com');
-INSERT INTO users(username,password,enabled,email) VALUES ('davzamfer','0wn3r',TRUE,'test3@test.com');
-INSERT INTO users(username,password,enabled,email) VALUES ('dieruigil','0wn3r',TRUE,'test4@test.com');
+INSERT INTO users(username,password,enabled,email) VALUES ('pabmargom3','1',TRUE,'test2@test.com');
+INSERT INTO users(username,password,enabled,email) VALUES ('davzamfer','1',TRUE,'test3@test.com');
+INSERT INTO users(username,password,enabled,email) VALUES ('dieruigil','1',TRUE,'test4@test.com');
 INSERT INTO authorities(id,username,authority) VALUES (2,'owner1','owner');
 INSERT INTO authorities(id,username,authority) VALUES (3,'pabmargom3','owner');
 INSERT INTO authorities(id,username,authority) VALUES (4,'davzamfer','owner');
+INSERT INTO authorities(id,username,authority) VALUES (5,'dieruigil','owner');
 
 -- Players
 INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES  (1, 'Pablo', 'Marin' ,'pabmargom3','https://www.w3schools.com/w3images/avatar1.png');
 INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES (2, 'David', 'Zamora', 'davzamfer','https://www.w3schools.com/w3images/avatar2.png');
 INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES  (3, 'Diego', 'Ruiz' ,'dieruigil','https://www.w3schools.com/w3images/avatar1.png');
 
+ -- Looking for players games
+INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,startDate) VALUES (2,'MINERAL_EXTRACTION',1,2,'2021-11-12 16:42:00');
+INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,secondPlayer,startDate) VALUES (2,'MINERAL_EXTRACTION',1,2,3,'2021-11-12 16:42:00');
 
+ -- Finished games
 INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,secondPlayer,thirdPlayer,startDate,finishDate) VALUES (2,'ACTION_SELECTION',2,3,1,2,'2021-11-12 16:42:00', '2021-11-12 17:42:00');
 
 

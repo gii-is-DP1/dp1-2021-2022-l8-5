@@ -31,11 +31,10 @@ public class CorrentUserController {
 			if (auth.isAuthenticated() && auth.getPrincipal() instanceof User) {
 				User user = (User) auth.getPrincipal();
 				return user.getUsername();
-		}
+			}
 			
-	}
+		}
 		return "";
-	
 	}
 }
 
