@@ -125,8 +125,7 @@ public class GameController {
 	
 	private Player currentPlayer() {
 		String playerUsername = CorrentUserController.returnCurrentUserName();
-		int playerId = playerService.findPlayerByUserName(playerUsername);
-		Player player = playerService.findPlayerById(playerId);
+		Player player = playerService.findPlayerByUserName(playerUsername);
 		
 		return player;
 	}
