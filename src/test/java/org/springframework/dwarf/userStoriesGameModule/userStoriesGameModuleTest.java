@@ -24,7 +24,7 @@ class userStoriesGameModuleTest {
         this.gameService = gameService;
         this.gameController = gameController;
     }
-
+    /*
     // H1 - Búsqueda de partida
 
     // H1+E1
@@ -39,7 +39,7 @@ class userStoriesGameModuleTest {
         
         System.out.println("----------------------------------------------------");
     }
-    /*
+    
     // H1-E1
     @Test
     void searchAndJoinGameUnsuccesful(){
