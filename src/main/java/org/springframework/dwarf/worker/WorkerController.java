@@ -48,7 +48,7 @@ public class WorkerController {
 
 	@GetMapping()
 	public String listWorkers(ModelMap modelMap) {
-		String view = "Workers/listWorkers";
+		String view = "workers/listWorkers";
 		Iterable<Worker> Workers = workersService.findAll();
 		modelMap.addAttribute("workers", Workers);
 		return view;
