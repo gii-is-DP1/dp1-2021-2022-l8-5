@@ -77,5 +77,15 @@ public class Game extends BaseEntity{
 	
 	@Column(name = "FINISHDATE")
 	LocalDateTime finishDate;
+
+    public Boolean allPlayersSet(){
+        Boolean allSet = true;
+
+        allSet = allSet && this.firstPlayer != null;
+        allSet = allSet && this.secondPlayer != null;
+        allSet = allSet && this.thirdPlayer != null;
+
+        return allSet;
+    }
     
 }
