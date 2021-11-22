@@ -119,7 +119,7 @@ class PlayerControllerTests {
 				.andExpect(view().name("welcome"));
 	}
 */
-	
+	/*
 	
 	@WithMockUser(value = "spring")
 	@Test
@@ -128,7 +128,7 @@ class PlayerControllerTests {
 				)
 		.andExpect(view().name("/welcome"));
 	}
-	
+	*/
 	
 	
 	/*
