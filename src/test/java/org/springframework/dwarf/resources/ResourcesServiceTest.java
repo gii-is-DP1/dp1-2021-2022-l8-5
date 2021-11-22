@@ -37,15 +37,6 @@ public class ResourcesServiceTest {
 		System.out.println("------------TEST FIND BY Resources ID------------");
 		Resources p = Resources.orElse(null);	//Si no lo encuentra, devuelve null
 		assertEquals(p.getGold(), 3);
-		
-		/*
-		if(p != null) {
-			System.out.println("Resources with id: " + id + ", : " + p.getIron() + "iron" 
-            + p.getSteel() + "steel" + p.getGold() + "gold" + p.getItems() + "items" + p.getBadges() + "badges");
-		}else {
-			System.out.println("Resources not found");
-		}
-		System.out.println("------------------------");*/
 	}
 	
 	@Test
