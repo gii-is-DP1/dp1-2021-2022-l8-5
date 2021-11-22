@@ -3,6 +3,7 @@ package org.springframework.dwarf.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
 import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.dwarf.error.MyErrorController;
 //import org.springframework.dwarf.error.MyErrorController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
@@ -19,9 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 @ControllerAdvice
 public class ExceptionHandlerConfiguration 
 {
-	@Autowired
-	//private MyErrorController myError;
-	private BasicErrorController errorController;
+	//@Autowired
+	private MyErrorController myError;
+	//private BasicErrorController errorController;
     // add any exceptions/validations/binding problems
 
    @ExceptionHandler(Exception.class)

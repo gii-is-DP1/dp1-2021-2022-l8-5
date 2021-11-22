@@ -69,7 +69,7 @@ class PlayerControllerTests {
 		given(this.playerService.findPlayerById(TEST_PLAYER_ID)).willReturn(george);
 
 	}
-	@WithMockUser(username = "fernandoAlonso", password = "worldChampion") //Engañamos al programa (Jodete JA Parejo)
+	@WithMockUser(username = "fernandoAlonso", password = "worldChampion")
     @Test
     void loginSuccesful() throws Exception {
         String userLogged = CorrentUserController.returnCurrentUserName();
@@ -81,6 +81,14 @@ class PlayerControllerTests {
         String userLogged = CorrentUserController.returnCurrentUserName();
         assertNotEquals(userLogged, "michaeljordan");       
     }
+	
+    @WithMockUser(username = "admin1")
+	@Test
+	void testInitFindForm() throws Exception {
+		mockMvc.perform(get("/players2/find")).andExpect(status().isOk()).andExpect(model().attributeExists("players2"))
+				.andExpect(view().name("players2/findPlayers"));
+	}
+	
 	
 	/*
 	@WithMockUser(value = "spring")
@@ -112,7 +120,7 @@ class PlayerControllerTests {
 	}
 */
 	
-	/*
+	
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
@@ -120,7 +128,7 @@ class PlayerControllerTests {
 				)
 		.andExpect(view().name("/welcome"));
 	}
-	*/
+	
 	
 	
 	/*
