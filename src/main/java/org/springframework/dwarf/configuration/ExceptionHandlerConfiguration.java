@@ -3,8 +3,10 @@ package org.springframework.dwarf.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
 import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.dwarf.error.MyErrorController;
 //import org.springframework.dwarf.error.MyErrorController;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -19,16 +21,17 @@ import javax.servlet.http.HttpServletRequest;
 @ControllerAdvice
 public class ExceptionHandlerConfiguration 
 {
-	@Autowired
-	//private MyErrorController myError;
-	private BasicErrorController errorController;
+	//@Autowired
+	private MyErrorController myError;
+	//private BasicErrorController errorController;
     // add any exceptions/validations/binding problems
 
    @ExceptionHandler(Exception.class)
    public String defaultErrorHandler(HttpServletRequest request,  Exception ex)  {
         request.setAttribute("javax.servlet.error.request_uri", request.getPathInfo());
         request.setAttribute("javax.servlet.error.status_code", 400);
-        request.setAttribute("exeption", ex);
+        request.setAttribute("exception", ex);
+
         return "exception";
     }
 }
