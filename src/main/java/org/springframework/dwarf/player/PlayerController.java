@@ -117,8 +117,7 @@ public class PlayerController {
 	@GetMapping(value = "/players2/{player2id}/edit")
 	public String initUpdateOwnerForm(@PathVariable("player2id") int player2id, Model model) {
 		Player player2 = this.playerService.findPlayerById(player2id);
-		System.out.println("BEFORE: "+ player2.getUser());
-		model.addAttribute(player2);
+		model.addAttribute("player",player2);
 		return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
 	}
 
@@ -145,9 +144,11 @@ public class PlayerController {
 	@GetMapping(value = "/editProfile")
 	public String initUpdateMeForm(Model model) {
 		String username = CorrentUserController.returnCurrentUserName();
-		Integer player2id = playerService.findPlayerByUserName(username).getId();
-		Player player2 = this.playerService.findPlayerById(player2id);
-		model.addAttribute(player2);
+
+		Player player2 = playerService.findPlayerByUserName(username);
+
+		model.addAttribute("player",player2);
+
 		return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
 	}
 	

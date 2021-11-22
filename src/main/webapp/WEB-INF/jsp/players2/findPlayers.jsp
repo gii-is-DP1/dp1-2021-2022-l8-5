@@ -14,7 +14,7 @@
 
     
     <form:form modelAttribute="players2" action="/players2" method="get" class="form-horizontal"
-               id="search-owner-form">
+               id="search-player-form">
         <div class="form-group">
             <div class="control-group" id="lastName">
                 <label class="col-sm-2 control-label">Last name </label>

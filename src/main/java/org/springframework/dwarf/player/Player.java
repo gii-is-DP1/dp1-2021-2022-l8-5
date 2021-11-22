@@ -78,6 +78,14 @@ public class Player extends Person {
 		user.setEmail(email);
 	}
 	
+	public String getPassword() {
+		return user.getPassword();
+	}
+
+	public void setPassword(String password) {
+		user.setPassword(password);
+	}
+	
 	@Override
 	public String toString() {
 		return new ToStringCreator(this)
