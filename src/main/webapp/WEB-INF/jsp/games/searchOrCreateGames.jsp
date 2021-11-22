@@ -55,7 +55,7 @@
 						<spring:url value="/games/{gameId}/waitingPlayers" var="joinGameUrl">
 							<spring:param name="gameId" value="${game.id}"/>
 						</spring:url>
-						<a href="${fn:escapeXml(joinGameUrl)}"><span class=" glyphicon glyphicon-trash" aria-hidden="true"></span>
+						<a href="${fn:escapeXml(joinGameUrl)}"><span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span>
 						<span>Join game</span></a>
 					</td>
 						   
