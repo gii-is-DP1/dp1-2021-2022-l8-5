@@ -42,10 +42,10 @@ public class MountainCardService {
 		this.mountainCardRepo = mountainCardRepository;
 	}		
 	
-	@Transactional
+	/*@Transactional
 	public int cardCount() {
 		return (int) mountainCardRepo.count();
-	}
+	}*/
 
 	public Iterable<MountainCard> findAll() {
 		return mountainCardRepo.findAll();
