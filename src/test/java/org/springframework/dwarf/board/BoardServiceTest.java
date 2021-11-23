@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Optional;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -24,18 +25,21 @@ public class BoardServiceTest {
 	private MountainDeckService mountaindesckservice;
 	
 	@Test
+	@DisplayName("")
 	void testBoardCount() {
 		int count = boardservice.boardCount();
 		assertThat(count).isEqualTo(2);
 	}
 	
 	@Test
+	@DisplayName("Returns all boards")
 	void testFindAllBoard() {
 		Iterable<Board> iterator = boardservice.findAll();
 		assertThat(iterator.spliterator().getExactSizeIfKnown()).isEqualTo(2); 
 	}
 	
 	@Test 
+	@DisplayName("Returns a board by its Id correctly")
 	void testFinByBoardId() {
 		int boardid=1;
 		Optional<Board> board= boardservice.findByBoardId(boardid);
@@ -43,6 +47,7 @@ public class BoardServiceTest {
 		assertThat(b.getBackground()).isEqualTo("resources/images/oro_erebor.jpg");
 	}
 	@Test
+	@DisplayName("Delete a board")
 	void testDeleteBoard() {
 		int boardid=2;
 		Optional<Board> board= boardservice.findByBoardId(boardid);
@@ -56,6 +61,7 @@ public class BoardServiceTest {
 	}
 	
 	@Test
+	@DisplayName("Save a board")
 	void testSaveBoard() {
 		Board board= new Board();
 		board.setMountainDeck(mountaindesckservice.findByMountainDeckId(1).get());
