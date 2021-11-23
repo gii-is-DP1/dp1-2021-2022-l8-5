@@ -7,13 +7,11 @@
     "\\src\\main\\java\\org",
     "\\src\\main\\java\\org\\springframework",
     "\\src\\main\\java\\org\\springframework\\dwarf",
-    "\\src\\main\\java\\org\\springframework\\dwarf\\board",
-    "\\src\\main\\webapp",
-    "\\src\\main\\webapp\\WEB-INF",
-    "\\src\\main\\webapp\\WEB-INF\\jsp",
-    "\\src\\main\\webapp\\WEB-INF\\jsp\\board",
-    "\\src\\main\\webapp\\WEB-INF\\jsp\\games"
+    "\\src\\main\\java\\org\\springframework\\dwarf\\game",
+    "\\src\\main\\resources",
+    "\\src\\main\\resources\\db",
+    "\\src\\main\\resources\\db\\hsqldb"
   ],
-  "SelectedNode": "\\src\\main\\java\\org\\springframework\\dwarf\\board\\BoardService.java",
+  "SelectedNode": "\\src\\main\\java\\org\\springframework\\dwarf\\game\\GameService.java",
   "PreviewInSolutionExplorer": false
 }

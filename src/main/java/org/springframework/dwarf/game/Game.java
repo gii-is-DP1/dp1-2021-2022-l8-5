@@ -77,6 +77,8 @@ public class Game extends BaseEntity{
 	
 	@Column(name = "FINISHDATE")
 	LocalDateTime finishDate;
+	
+	
 
     public Boolean allPlayersSet(){
         Boolean allSet = true;
