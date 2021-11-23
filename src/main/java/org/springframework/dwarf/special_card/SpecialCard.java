@@ -1,8 +1,5 @@
 package org.springframework.dwarf.special_card;
 
-
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
