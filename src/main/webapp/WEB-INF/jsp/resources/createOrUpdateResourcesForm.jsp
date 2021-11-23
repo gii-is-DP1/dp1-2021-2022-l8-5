@@ -4,21 +4,21 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="dwarf" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="resources">
+<dwarf:layout pageName="resources">
     <h2>
         Update Resources
     </h2>
     <form:form modelAttribute="resources" class="form-horizontal" id="add-resources-form">
         <div class="form-group has-feedback">
-            <petclinic:inputField label="Iron" name="iron"/>
-            <petclinic:inputField label="Steel" name="steel"/>
-            <petclinic:inputField label="Gold" name="gold"/>
-            <petclinic:inputField label="Items" name="items"/> 
-            <petclinic:inputField label="Badges" name="badges"/>
-            <petclinic:inputField label="GameId" name="game"/>
-            <petclinic:inputField label="PlayerId" name="player"/>
+            <dwarf:inputField label="Iron" name="iron"/>
+            <dwarf:inputField label="Steel" name="steel"/>
+            <dwarf:inputField label="Gold" name="gold"/>
+            <dwarf:inputField label="Items" name="items"/> 
+            <dwarf:inputField label="Badges" name="badges"/>
+            <dwarf:inputField label="GameId" name="game"/>
+            <dwarf:inputField label="PlayerId" name="player"/>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">   
@@ -27,10 +27,10 @@
         </div>
     </form:form>
     
-</petclinic:layout>
+</dwarf:layout>
 
 
 
-            <!--petclinic:inputField label="Id" name="resourcesId"/-->
-            <!--petclinic:inputField label="GameId" name="gameId"/-->
-            <!--petclinic:inputField label="PlayerId" name="playerId"/-->
+            <!--dwarf:inputField label="Id" name="resourcesId"/-->
+            <!--dwarf:inputField label="GameId" name="gameId"/-->
+            <!--dwarf:inputField label="PlayerId" name="playerId"/-->

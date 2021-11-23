@@ -1,4 +1,4 @@
-# Proyecto Grupo L8-5
+# Proyecto Grupo L8-5 - Dwarf
 
 Enlace a gameplay explicativo: https://www.youtube.com/watch?v=kt3YIV1h20w
 
@@ -10,20 +10,20 @@ This is a fork of https://github.com/spring-projects/spring-petclinic to be used
 ## Understanding the Spring Petclinic application with a few diagrams
 <a href="https://speakerdeck.com/michaelisvy/spring-petclinic-sample-application">See the presentation here</a>
 
-## Running petclinic locally
-Petclinic is a [Spring Boot](https://spring.io/guides/gs/spring-boot) application built using [Maven](https://spring.io/guides/gs/maven/). You can build a jar file and run it from the command line:
+## Running Dwarf locally
+Dwarf is a [Spring Boot](https://spring.io/guides/gs/spring-boot) application built using [Maven](https://spring.io/guides/gs/maven/). You can build a jar file and run it from the command line:
 
 
 ```
-git clone https://github.com/gii-is-DP1/spring-petclinic.git
-cd spring-petclinic
+git clone https://github.com/gii-is-DP1/dp1-2021-2022-l8-5.git
+cd dp1-2021-2022-l8-5-master
 ./mvnw package
 java -jar target/*.jar
 ```
 
 You can then access petclinic here: http://localhost:8080/
 
-<img width="1042" alt="petclinic-screenshot" src="https://cloud.githubusercontent.com/assets/838318/19727082/2aee6d6c-9b8e-11e6-81fe-e889a5ddfded.png">
+<img width="1042" alt="dwarf-screenshot" src="src/assets/HEADER.png">
 
 Or you can run it from Maven directly using the Spring Boot Maven plugin. If you do this it will pick up changes that you make in the project immediately (changes to Java source files require a compile as well - most people use an IDE for this):
 
@@ -40,7 +40,7 @@ Our issue tracker is available here: https://github.com/gii-is-DP1/spring-petcli
 In its default configuration, Petclinic uses an in-memory database (H2) which
 gets populated at startup with data. 
 
-## Working with Petclinic in your IDE
+## Working with Dwarf in your IDE
 
 ### Prerequisites
 The following items should be installed in your system:
@@ -57,7 +57,7 @@ The following items should be installed in your system:
 
 1) On the command line
 ```
-git clone https://github.com/gii-is-DP1/spring-petclinic.git
+git clone https://github.com/gii-is-DP1/dp1-2021-2022-l8-5.git
 ```
 2) Inside Eclipse or STS
 ```
@@ -73,11 +73,11 @@ In the main menu, choose `File -> Open` and select the Petclinic [pom.xml](pom
 CSS files are generated from the Maven build. You can either build them on the command line `./mvnw generate-resources`
 or right click on the `spring-petclinic` project then `Maven -> Generates sources and Update Folders`.
 
-A run configuration named `PetClinicApplication` should have been created for you if you're using a recent Ultimate
-version. Otherwise, run the application by right clicking on the `PetClinicApplication` main class and choosing
-`Run 'PetClinicApplication'`.
+A run configuration named `DwarfApplication` should have been created for you if you're using a recent Ultimate
+version. Otherwise, run the application by right clicking on the `DwarfApplication` main class and choosing
+`Run 'DwarfApplication'`.
 
-4) Navigate to Petclinic
+4) Navigate to Dwarf
 
 Visit [http://localhost:8080](http://localhost:8080) in your browser.
 

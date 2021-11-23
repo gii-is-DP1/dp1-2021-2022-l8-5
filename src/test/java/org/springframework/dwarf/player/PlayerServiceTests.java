@@ -72,11 +72,23 @@ class PlayerServiceTests {
 		players = this.playerService.findPlayerByLastName("Daviss");
 		assertThat(players.isEmpty()).isTrue();
 	}
+	
+	@Test
+	void shouldFindAll() {
+		 Iterable<Player>players = this.playerService.findAll();
+		assertThat(players.spliterator().getExactSizeIfKnown()).isEqualTo(4);
+	}
 
 	@Test
-	void shouldFindSinglePlayer() {
+	void shouldFindPlayerById() {
 		Player player = this.playerService.findPlayerById(1);
 		assertThat(player.getLastName()).startsWith("Marin");
+	}
+	
+	@Test
+	void shouldFindPlayerByUserName() {
+		Player player = this.playerService.findPlayerByUserName("test");
+		assertThat(player.getLastName()).startsWith("Test");
 	}
 
 	@Test

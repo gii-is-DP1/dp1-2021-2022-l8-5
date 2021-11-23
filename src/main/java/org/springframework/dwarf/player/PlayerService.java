@@ -81,6 +81,9 @@ public class PlayerService {
 		//When changing here "admin" to "player" in role, for some reason the role becames invalid and gives forbidden in everything
 	}
 	
+	
+	
+	/*
 	@Transactional
 	public void saveAdmin(Player player) throws DataAccessException {
 		//creating owner
@@ -89,7 +92,7 @@ public class PlayerService {
 		userService.saveUser(player.getUser());
 		//creating authorities
 		authoritiesService.saveAuthorities(player.getUser().getUsername(), "admin");
-	}
+	}*/
 	
 	public void delete(Player player) {
 		userService.delete(player.getUser());
