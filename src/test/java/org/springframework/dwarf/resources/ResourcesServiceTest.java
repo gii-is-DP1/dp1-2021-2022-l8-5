@@ -74,6 +74,6 @@ public class ResourcesServiceTest {
 			System.out.println("Resources not found");
 		}
 		System.out.println("------------------------");
-	}
+	} 
 }
 
