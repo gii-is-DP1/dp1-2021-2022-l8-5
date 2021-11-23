@@ -3,9 +3,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="dwarf" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="searchGames">
+<dwarf:layout pageName="searchGames">
     <h2>Games</h2>
 
     <table id="gamesTable" class="table table-striped">
@@ -72,4 +72,4 @@
 		<a class="btn btn-default" href='<spring:url value="/players2/find" htmlEscape="true"/>'>Find Player</a>
 	</sec:authorize>
 	
-</petclinic:layout>
+</dwarf:layout>

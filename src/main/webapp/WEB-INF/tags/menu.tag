@@ -1,6 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="dwarf" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <!--  >%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%-->
@@ -22,44 +22,47 @@
 		<div class="navbar-collapse collapse" id="main-navbar">
 			<ul class="nav navbar-nav">
 
-				<petclinic:menuItem active="${name eq 'home'}" url="/"
+				<dwarf:menuItem active="${name eq 'home'}" url="/"
 					title="home page">
 					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 					<span>Home</span>
-				</petclinic:menuItem>
+				</dwarf:menuItem>
 				
 				<sec:authorize access="hasAuthority('admin')">
-				<petclinic:menuItem active="${name eq 'players2'}" url="/players2"
+				<dwarf:menuItem active="${name eq 'players2'}" url="/players2"
 					title="players">
 					<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 					<span>Players</span>
-				</petclinic:menuItem>
+				</dwarf:menuItem>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
-					<petclinic:menuItem active="${name eq 'searchGames'}" url="/games/searchGames"
+					<dwarf:menuItem active="${name eq 'searchGames'}" url="/games/searchGames"
 						title="Play">
 						<span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span>
 						<span>Play</span>
-					</petclinic:menuItem>
+					</dwarf:menuItem>
 				</sec:authorize>
-
-				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
+	
+				<sec:authorize access="hasAuthority('admin')">
+				<dwarf:menuItem active="${name eq 'error'}" url="/oups"
 					title="trigger a RuntimeException to see how it is handled">
 					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
 					<span>Error</span>
-				</petclinic:menuItem>
+				</dwarf:menuItem>
 				
-				<petclinic:menuItem active="${name eq 'error404'}" url="/notExists"
+				<dwarf:menuItem active="${name eq 'error404'}" url="/notExists"
 					title="trigger a 404 to see how it is handled">
 					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
 					<span>404 Error</span>
-				</petclinic:menuItem>
+				</dwarf:menuItem>
 				
-				<petclinic:menuItem active="${name eq 'error403'}" url="/notPermit"
+				<dwarf:menuItem active="${name eq 'error403'}" url="/notPermit"
 					title="trigger a 403 to see how it is handled">
 					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
 					<span>403 Error</span>
-				</petclinic:menuItem>
+				</dwarf:menuItem>
+				
+				</sec:authorize>
 
 			</ul>
 
