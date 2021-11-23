@@ -20,10 +20,10 @@ public class MountainDeckService {
 		this.mountainDeckRepo = mountainDeckRepo;
 	}		
 	
-	@Transactional
+	/*@Transactional
 	public int mountainDeckCount() {
 		return (int) mountainDeckRepo.count();
-	}
+	}*/
 
 	public Iterable<MountainDeck> findAll() {
 		return mountainDeckRepo.findAll();

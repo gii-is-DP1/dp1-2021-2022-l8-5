@@ -24,7 +24,7 @@ public class GameServiceTest {
 	protected PlayerService playerService;
 	
 	@Test
-	@DisplayName("")
+	@DisplayName("Returns the number of games created")
 	void testGamesCount() {
 		int totalGames = gameService.gamesCount();
 		assertThat(totalGames).isEqualTo(3);
@@ -34,9 +34,12 @@ public class GameServiceTest {
 	@DisplayName("Returns a game by its Id correctly")
 	void testFindGameWithCorrectId() {
 		Optional<Game> game = this.gameService.findByGameId(3);
-		assertThat(game.isPresent()).isTrue();
-		assertThat(game.get().getFinishDate()).isEqualTo(LocalDateTime.of(2021, 11, 12, 17, 42, 0, 0));
-		assertThat(game.get().getFirstPlayer().getUsername()).isEqualTo("dieruigil");
+		if(game.isPresent()) {
+			assertThat(game.get().getFinishDate()).isEqualTo(LocalDateTime.of(2021, 11, 12, 17, 42, 0, 0));
+			assertThat(game.get().getFirstPlayer().getUsername()).isEqualTo("dieruigil");
+		}else {
+			System.out.println("Game not found");
+		}
 	}
 	
 	@Test
