@@ -23,7 +23,7 @@ public class SpecialDeckService {
 	public int specialDeckCount() {
 		return (int) specialDeckRepo.count();
 	}
-
+ 
 	public Iterable<SpecialDeck> findAll() {
 		return specialDeckRepo.findAll();
 	}
