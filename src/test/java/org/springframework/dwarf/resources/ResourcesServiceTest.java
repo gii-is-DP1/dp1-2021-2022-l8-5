@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author David Zamora
+ * @author Jose Ignacio Garcia
  */
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
@@ -26,6 +27,12 @@ public class ResourcesServiceTest {
 	public void testCountWithInitialData() {
 		int count = resourcesService.ResourcesCount();
 		assertEquals(count,1);
+	}
+
+	@Test
+	public void testFindAll() {
+		Iterable<Resources> resources = this.resourcesService.findAll();
+		assertEquals(resources.spliterator().getExactSizeIfKnown(), 1);
 	}
 	
 	
