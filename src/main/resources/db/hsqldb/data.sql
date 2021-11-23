@@ -19,11 +19,11 @@ INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES (2, 'Davi
 INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES  (3, 'Diego', 'Ruiz' ,'dieruigil','https://www.w3schools.com/w3images/avatar1.png');
 INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES  (4, 'Player', 'Test' ,'test','https://www.w3schools.com/w3images/avatar1.png');
  -- Looking for players games
-INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,startDate) VALUES (2,'MINERAL_EXTRACTION',1,2,'2021-11-12 16:42:00');
+INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,startDate) VALUES (2,'MINERAL_EXTRACTION',1,1,'2021-11-12 16:42:00');
 INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,secondPlayer,startDate) VALUES (2,'MINERAL_EXTRACTION',1,2,3,'2021-11-12 16:42:00');
 
  -- Finished games
-INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,secondPlayer,thirdPlayer,startDate,finishDate) VALUES (2,'ACTION_SELECTION',2,3,1,2,'2021-11-12 16:42:00', '2021-11-12 17:42:00');
+INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,secondPlayer,thirdPlayer,startDate,finishDate) VALUES (2,'ACTION_SELECTION',6,3,1,2,'2021-11-12 16:42:00', '2021-11-12 17:42:00');
 
 
  -- Card sheet 1
@@ -64,7 +64,8 @@ INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,secondPlay
 
 INSERT INTO mountain_decks(xposition, yposition) VALUES (0,0);
  
-INSERT INTO boards(background,width,height,mountaindeck) VALUES ('resources/images/oro_erebor.jpg',750,600,1);
+INSERT INTO boards(background,width,height,mountaindeck,game) VALUES ('resources/images/oro_erebor.jpg',750,600,1,1);
+INSERT INTO boards(background,width,height,mountaindeck,game) VALUES ('resources/images/oro_erebor.jpg',750,600,1,3);
 
 INSERT INTO MOUNTAIN_DECKS_MOUNTAIN_CARDS(MOUNTAIN_DECK_ID, MOUNTAIN_CARDS_ID) VALUES (1,1);
 INSERT INTO MOUNTAIN_DECKS_MOUNTAIN_CARDS(MOUNTAIN_DECK_ID, MOUNTAIN_CARDS_ID) VALUES (1,2);

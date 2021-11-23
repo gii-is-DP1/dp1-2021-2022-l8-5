@@ -45,8 +45,12 @@ public class GameController {
 		String redirect = "redirect:/games/searchGames";
 		Optional<Game> game = gameService.findByGameId(gameId);
 		if (game.isPresent()) {
-			gameService.delete(game.get());
-			modelMap.addAttribute("message", "game deleted!");
+			if(game.get().getFirstPlayer().equals(this.currentPlayer())) {
+				gameService.delete(game.get());
+				modelMap.addAttribute("message", "game deleted!");
+			}else {
+				return "redirect:/games/"+game.get().getId()+"/exit";
+			}
 		} else {
 			modelMap.addAttribute("message", "game not found!");
 		}
@@ -61,8 +65,8 @@ public class GameController {
 
         if(game.isPresent()){
             // the first player must delete the game when exit (deleteGame function)
-            if(game.get().firstPlayer.getId() != player.getId()){
-                if(game.get().secondPlayer.getId() == player.getId()){
+            if(!this.amIFirstPlayer(game.get())){
+                if(this.amISecondPlayer(game.get())){
                     game.get().setSecondPlayer(null);
                 }else{
                     game.get().setThirdPlayer(null);

@@ -30,6 +30,7 @@ public class GameService {
 	public Iterable<Game> findAll() {
 		return gameRepo.findAll();
 	}
+	
 	@Transactional(readOnly = true)
 	public Optional<Game> findByGameId(int id){
 		return gameRepo.findById(id);

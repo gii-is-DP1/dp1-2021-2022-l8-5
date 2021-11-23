@@ -22,12 +22,12 @@ public class BoardService {
 	}		
 	
 	@Transactional
-	public int mountainDeckCount() {
+	public int boardCount() {
 		return (int) boardRepo.count();
 	}
 
 	public Iterable<Board> findAll() {
-		return boardRepo.findAll();
+		return boardRepo.findAll(); 
 	}
 
 	@Transactional(readOnly = true)

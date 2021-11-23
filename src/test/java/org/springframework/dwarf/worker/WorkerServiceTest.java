@@ -10,6 +10,11 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
+/**
+ * @author David Zamora
+ * @author Jose Ignacio Garcia
+ */
+
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 public class WorkerServiceTest {
     
@@ -22,6 +27,12 @@ public class WorkerServiceTest {
 	public void testCountWithInitialData() {
 		int count = workerService.WorkerCount();
 		assertEquals(count,1);
+	}
+
+		@Test
+	public void testFindAll() {
+		Iterable<Worker> workers = this.workerService.findAll();
+		assertEquals(workers.spliterator().getExactSizeIfKnown(), 1);
 	}
 	
 	
