@@ -20,7 +20,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
+import org.junit.After;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +36,7 @@ import org.springframework.dwarf.mountain_card.MountainDeck;
 import org.springframework.dwarf.mountain_card.MountainDeckService;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
+import org.springframework.dwarf.special_card.SpecialDeck;
 import org.springframework.dwarf.user.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -85,7 +89,6 @@ class MountainDeckServiceTests {
 	}
 	
 	@Test
-	@BeforeEach
 	@Transactional
 	public void shouldInsertMountainDeck() {
 		
@@ -107,27 +110,27 @@ class MountainDeckServiceTests {
 		List<MountainCard> mountainCardList = new ArrayList<MountainCard>();
 		mountainCardList.add(mountainCard);
 		
+
 		mountainDeck.setMountainCards(mountainCardList);
-		
+
 		this.mountainDeckService.saveMountainDeck(mountainDeck);
+		System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAA " + mountainDeck.getId()); //Por alguna razon el ID es 6
+
 		Iterable<MountainDeck> mountainDecksUpdated = this.mountainDeckService.findAll();
 		assertThat(mountainDecksUpdated.spliterator().getExactSizeIfKnown()).isEqualTo(found+1);
 		
 	}
 
-	/* el delete peta
 	@Test
 	@Transactional
 	void shouldDeleteMountainDeck() {
-		Iterable<MountainDeck> mountainDecks = this.mountainDeckService.findAll();
-		Long found = mountainDecks.spliterator().getExactSizeIfKnown();
 		
-		MountainDeck mountainDeck = this.mountainDeckService.findByMountainDeckId(1).get();
+		MountainDeck mountainDeck = this.mountainDeckService.findByMountainDeckId(2).get();
 		this.mountainDeckService.delete(mountainDeck);
 		
-		Iterable<MountainDeck> mountainDecksUpdated = this.mountainDeckService.findAll();
-		assertThat(mountainDecksUpdated.spliterator().getExactSizeIfKnown()).isEqualTo(found-1);
+		Optional<MountainDeck> spdeleted = mountainDeckService.findByMountainDeckId(2);
+		assertThat(spdeleted.isPresent()).isFalse();
 	}
-*/
+
 
 }
