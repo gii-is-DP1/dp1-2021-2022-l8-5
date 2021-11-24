@@ -20,9 +20,11 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dwarf.user.AuthoritiesService;
+import org.springframework.dwarf.user.DuplicatedUsernameException;
 import org.springframework.dwarf.user.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 /**
  * Mostly used as a facade for all Petclinic controllers Also a placeholder
@@ -69,8 +71,11 @@ public class PlayerService {
 		return player;
 	}
 
-	@Transactional
-	public void savePlayer(Player player) throws DataAccessException {
+	@Transactional(rollbackFor = DuplicatedUsernameException.class)
+	public void savePlayer(Player player) throws DataAccessException, DuplicatedUsernameException {
+		if (getusernameDuplicated(player)){
+			throw new DuplicatedUsernameException();
+		}
 		//creating owner
 		playerRepository.save(player);		
 		//creating user
@@ -80,6 +85,14 @@ public class PlayerService {
 		//When changing here "admin" to "player" in role, for some reason the role becames invalid and gives forbidden in everything
 	}
 	
+	public Boolean getusernameDuplicated(Player player){
+		Boolean res=true;
+		Player otherPlayer=playerRepository.findByUsername(player.getUsername());
+		res= res && otherPlayer!= null;
+		res= res && otherPlayer.getId()!= player.getId();
+		res = res && otherPlayer.getUsername()==player.getUsername();
+		return res;	
+	}
 	
 	
 	/*

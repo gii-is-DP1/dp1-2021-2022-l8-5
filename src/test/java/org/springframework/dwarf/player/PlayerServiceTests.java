@@ -23,8 +23,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
+import org.springframework.dwarf.user.DuplicatedUsernameException;
 import org.springframework.dwarf.user.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -93,7 +95,7 @@ class PlayerServiceTests {
 
 	@Test
 	@Transactional
-	public void shouldInsertPlayer() {
+	public void shouldInsertPlayer() throws DataAccessException, DuplicatedUsernameException {
 		Collection<Player> players = this.playerService.findPlayerByLastName("Schultz");
 		int found = players.size();
 
@@ -117,7 +119,7 @@ class PlayerServiceTests {
 
 	@Test
 	@Transactional
-	void shouldUpdatePlayer() {
+	void shouldUpdatePlayer() throws DataAccessException, DuplicatedUsernameException {
 		Player player = this.playerService.findPlayerById(1);
 		String oldLastName = player.getLastName();
 		String newLastName = oldLastName + "X";

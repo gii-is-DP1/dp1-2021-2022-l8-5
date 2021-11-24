@@ -63,14 +63,21 @@ public class UserController {
 	}
 
 	@PostMapping(value = "/users/new")
-	public String processCreationForm(@Valid Player player2, BindingResult result) {
+	public String processCreationForm(@Valid Player player, BindingResult result) {
 		if (result.hasErrors()) {
 			return VIEWS_PLAYER_CREATE_FORM;
 		}
 		else {
 			//creating owner, user, and authority
-			this.playerService.savePlayer(player2);
-			return "redirect:/";
+			try {
+				//creating owner, user and authorities
+				this.playerService.savePlayer(player);
+				
+				return "redirect:/";
+			} catch (DuplicatedUsernameException dp) {
+				result.rejectValue (" name", " duplicate", "already exists");
+				return VIEWS_PLAYER_CREATE_FORM;
+				}
 		}
 	}
 
