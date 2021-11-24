@@ -188,7 +188,7 @@ public class PlayerController {
 			playerFound.setUser(userFound);
 			try {
 				//creating owner, user and authorities
-				this.playerService.savePlayer(player);
+				this.playerService.savePlayer(playerFound);
 				
 				return "redirect:/";
 			} catch (DuplicatedUsernameException dp) {
