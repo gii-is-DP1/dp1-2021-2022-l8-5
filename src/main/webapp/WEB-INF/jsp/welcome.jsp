@@ -45,7 +45,7 @@
     </p>
 
     <spring:url value="/resources/images/epic_dwarf_gifito.gif" var="dwarfGif"/>
-    <spring:url value="/resources/images/portal.gif" var="portal"/>
+    <spring:url value="/resources/images/portal2.gif" var="portal"/>
 
     <div class="row">
         <div class="column">
