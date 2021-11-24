@@ -1,6 +1,8 @@
 package org.springframework.dwarf.game;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -79,15 +81,25 @@ public class Game extends BaseEntity{
 	LocalDateTime finishDate;
 	
 	
-
+	public List<Player> getPlayerList(){
+		List<Player> pList = new ArrayList<Player>();
+		
+		if(this.firstPlayer != null)
+			pList.add(this.firstPlayer);
+		if(this.secondPlayer != null)
+			pList.add(this.secondPlayer);
+		if(this.thirdPlayer != null)
+			pList.add(this.thirdPlayer);
+		
+		return pList;
+	}
+	
     public Boolean allPlayersSet(){
-        Boolean allSet = true;
-
-        allSet = allSet && this.firstPlayer != null;
-        allSet = allSet && this.secondPlayer != null;
-        allSet = allSet && this.thirdPlayer != null;
-
-        return allSet;
+        return this.getPlayerList().size() == 3;
     }
+    
+    public Boolean isPlayerInGame(Player player) {
+		return this.getPlayerList().contains(player);
+	}
     
 }
