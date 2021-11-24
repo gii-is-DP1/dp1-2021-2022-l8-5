@@ -69,7 +69,7 @@
 	</sec:authorize>
 
 	<sec:authorize access="hasAuthority('admin')">
-		<a class="btn btn-default" href='<spring:url value="/players2/find" htmlEscape="true"/>'>Find Player</a>
+		<a class="btn btn-default" href='<spring:url value="/players/find" htmlEscape="true"/>'>Find Player</a>
 	</sec:authorize>
 	
 </dwarf:layout>

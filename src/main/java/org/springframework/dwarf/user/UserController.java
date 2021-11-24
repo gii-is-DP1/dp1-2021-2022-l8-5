@@ -20,6 +20,7 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
 import org.springframework.stereotype.Controller;
@@ -63,14 +64,24 @@ public class UserController {
 	}
 
 	@PostMapping(value = "/users/new")
-	public String processCreationForm(@Valid Player player2, BindingResult result) {
+	public String processCreationForm(@Valid Player player, BindingResult result) throws DataAccessException, DuplicatedEmailException, DuplicatedEmailException {
 		if (result.hasErrors()) {
 			return VIEWS_PLAYER_CREATE_FORM;
 		}
 		else {
 			//creating owner, user, and authority
-			this.playerService.savePlayer(player2);
-			return "redirect:/";
+			try {
+				//creating owner, user and authorities
+				this.playerService.savePlayer(player);
+				
+				return "redirect:/";
+			} catch (DuplicatedUsernameException dp) {
+				result.rejectValue (" name", " duplicate", "already exists");
+				return VIEWS_PLAYER_CREATE_FORM;
+				}catch (DuplicatedEmailException dp) {
+					result.rejectValue (" name", " duplicate", "already exists");
+					return VIEWS_PLAYER_CREATE_FORM;
+					}
 		}
 	}
 

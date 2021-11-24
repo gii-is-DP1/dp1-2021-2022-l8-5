@@ -77,5 +77,8 @@ public interface PlayerRepository extends Repository<Player, Integer> {
 	
 	@Query("SELECT player FROM Player player WHERE player.user.username =:username")
 	public Player findByUsername(@Param("username") String username);
+	
+	@Query("SELECT player FROM Player player WHERE player.user.email =:email")
+	public Player findByEmail(@Param("email") String email);
 
 }
