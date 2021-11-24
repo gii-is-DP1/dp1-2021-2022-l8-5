@@ -5,6 +5,32 @@
 <%@ taglib prefix="dwarf" tagdir="/WEB-INF/tags" %>
 <!-- %@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %-->  
 
+
+<style>
+    * {
+      box-sizing: border-box;
+    }
+    
+    .column {
+      float: left;
+      width: 6.33%;
+      padding: 5px;
+    }
+    .column2 {
+      border-top: 1000px;
+      float: left;
+      width: 81.33%;
+      padding: 5px;
+    }
+    
+    /* Clearfix (clear floats) */
+    .row::after {
+      content: "";
+      clear: both;
+      display: table;
+    }
+    </style>
+
 <dwarf:layout pageName="home">
     <h2><fmt:message key="welcome"/></h2>
     <div class="row">
@@ -18,10 +44,24 @@
     </ul>
     </p>
 
-    <marquee  behavior="scroll" direction="right">
-        <spring:url value="/resources/images/epic_dwarf_gifito.gif" var="dwarfGif"/>
-        <img src="${dwarfGif}"/>
-  </marquee>
+    <spring:url value="/resources/images/epic_dwarf_gifito.gif" var="dwarfGif"/>
+    <spring:url value="/resources/images/portal.gif" var="portal"/>
+
+    <div class="row">
+        <div class="column">
+            <img src="${portal}" width="100" height="350" style="float:left"/>
+        </div>
+        <div class="column2">
+            <marquee  behavior="scroll" direction="right"style="padding-top:50">
+
+                <img src="${dwarfGif}"/>
+            </marquee>
+        </div>
+        <div class="column">
+            <img src="${portal}" width="100" height="350" style="float:right"/>
+        </div>
+      </div>
+  
 
     </div>
 </dwarf:layout>
