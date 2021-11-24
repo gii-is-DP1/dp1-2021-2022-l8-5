@@ -25,6 +25,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dwarf.user.AuthoritiesService;
+import org.springframework.dwarf.user.DuplicatedEmailException;
 import org.springframework.dwarf.user.DuplicatedUsernameException;
 import org.springframework.dwarf.user.User;
 import org.springframework.dwarf.user.UserService;
@@ -75,7 +76,7 @@ public class PlayerController {
 	}
 
 	@PostMapping(value = "/players/new")
-	public String processCreationForm(@Valid Player player, BindingResult result) throws DataAccessException, DuplicatedUsernameException {
+	public String processCreationForm(@Valid Player player, BindingResult result) throws DataAccessException, DuplicatedUsernameException, DuplicatedEmailException {
 		if (result.hasErrors()) {
 			return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
 		}
@@ -88,7 +89,10 @@ public class PlayerController {
 			} catch (DuplicatedUsernameException dp) {
 				result.rejectValue (" name", " duplicate", "already exists");
 				return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
-				}
+				}catch (DuplicatedEmailException dp) {
+					result.rejectValue (" email", " duplicate", "already exists");
+					return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
+					}
 			}
 			
 
@@ -136,7 +140,7 @@ public class PlayerController {
 
 	@PostMapping(value = "/players/{playerid}/edit")
 	public String processUpdatePlayerForm(@Valid Player player, BindingResult result,
-			@PathVariable("playerid") int playerid) throws DataAccessException, DuplicatedUsernameException {
+			@PathVariable("playerid") int playerid) throws DataAccessException, DuplicatedUsernameException, DuplicatedEmailException {
 		if (result.hasErrors()) {
 			return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
 		}
@@ -155,7 +159,10 @@ public class PlayerController {
 				} catch (DuplicatedUsernameException dp) {
 					result.rejectValue (" name", " duplicate", "already exists");
 					return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
-					}
+					} catch (DuplicatedEmailException dp) {
+						result.rejectValue (" email", " duplicate", "already exists");
+						return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
+						}
 				
 		}
 	}
@@ -173,7 +180,7 @@ public class PlayerController {
 	}
 	
 	@PostMapping(value = "/editProfile")
-	public String processUpdateMeForm(@Valid Player player, BindingResult result) throws DataAccessException, DuplicatedUsernameException {
+	public String processUpdateMeForm(@Valid Player player, BindingResult result) throws DataAccessException, DuplicatedUsernameException, DuplicatedEmailException {
 		String username = CorrentUserController.returnCurrentUserName();
 		Integer playerid = playerService.findPlayerByUserName(username).getId();
 		if (result.hasErrors()) {
@@ -194,7 +201,10 @@ public class PlayerController {
 			} catch (DuplicatedUsernameException dp) {
 				result.rejectValue (" name", " duplicate", "already exists");
 				return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
-				}
+				} catch (DuplicatedEmailException dp) {
+					result.rejectValue (" email", " duplicate", "already exists");
+					return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
+					}
 			//this.playerService.savePlayer(player);
 		}
 	}

@@ -20,6 +20,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dwarf.user.AuthoritiesService;
+import org.springframework.dwarf.user.DuplicatedEmailException;
 import org.springframework.dwarf.user.DuplicatedUsernameException;
 import org.springframework.dwarf.user.UserService;
 import org.springframework.stereotype.Service;
@@ -72,9 +73,12 @@ public class PlayerService {
 	}
 
 	@Transactional(rollbackFor = DuplicatedUsernameException.class)
-	public void savePlayer(Player player) throws DataAccessException, DuplicatedUsernameException {
+	public void savePlayer(Player player) throws DataAccessException, DuplicatedUsernameException, DuplicatedEmailException {
 		if (getusernameDuplicated(player)){
 			throw new DuplicatedUsernameException();
+		}
+		if (getEmailDuplicated(player)){
+			throw new DuplicatedEmailException();
 		}
 		//creating owner
 		playerRepository.save(player);		
@@ -91,6 +95,16 @@ public class PlayerService {
 		res= res && otherPlayer!= null;
 		res= res && otherPlayer.getId()!= player.getId();
 		res = res && otherPlayer.getUsername()==player.getUsername();
+		return res;	
+	}
+	
+		
+	public Boolean getEmailDuplicated(Player player){
+		Boolean res=true;
+		Player otherPlayer=playerRepository.findByEmail(player.getEmail());
+		res= res && otherPlayer!= null;
+		res= res && otherPlayer.getId()!= player.getId();
+		res = res && otherPlayer.getEmail()==player.getEmail();
 		return res;	
 	}
 	
