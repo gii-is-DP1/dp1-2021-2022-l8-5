@@ -13,7 +13,7 @@
     <h2>Find Players</h2>
 
     
-    <form:form modelAttribute="players2" class="form-horizontal"
+    <form:form modelAttribute="players" class="form-horizontal"
                id="search-player-form">
         <div class="form-group">
             <div class="control-group" id="lastName">
@@ -34,7 +34,7 @@
 
     <br/> 
     <sec:authorize access="hasAuthority('admin')">
-		<a class="btn btn-default" href='<spring:url value="/players2/new" htmlEscape="true"/>'>Add Player</a>
+		<a class="btn btn-default" href='<spring:url value="/players/new" htmlEscape="true"/>'>Add Player</a>
 	</sec:authorize>
 	
 </dwarf:layout>
