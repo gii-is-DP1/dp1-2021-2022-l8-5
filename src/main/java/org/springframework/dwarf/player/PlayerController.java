@@ -90,6 +90,10 @@ public class PlayerController {
 		model.put("players", new Player());
 		return "players/findPlayers";
 	}
+	
+	
+	
+	
 
 	@GetMapping(value = "/players")
 	public String processFindForm(Player player, BindingResult result, Map<String, Object> model) {
