@@ -17,12 +17,11 @@
     	</c:forEach>
     </ul>
     </p>
+
+    <marquee  behavior="scroll" direction="right">
+        <spring:url value="/resources/images/epic_dwarf_gifito.gif" var="dwarfGif"/>
+        <img src="${dwarfGif}"/>
+  </marquee>
+
     </div>
-    <!--  <div class="row">
-        <div class="col-md-12">
-            <spring:url value="/resources/images/pets.png" htmlEscape="true" var="petsImage"/>
-            <img class="img-responsive" src="${petsImage}"/>
-        </div>
-    </div>
-     -->
 </dwarf:layout>
