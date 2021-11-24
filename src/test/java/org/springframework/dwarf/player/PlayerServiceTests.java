@@ -78,7 +78,7 @@ class PlayerServiceTests {
 	@Test
 	void shouldFindAll() {
 		 Iterable<Player>players = this.playerService.findAll();
-		assertThat(players.spliterator().getExactSizeIfKnown()).isEqualTo(4);
+		assertThat(players.spliterator().getExactSizeIfKnown()).isEqualTo(6);
 	}
 
 	@Test

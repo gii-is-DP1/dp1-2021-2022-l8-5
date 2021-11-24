@@ -80,21 +80,5 @@ class MountainCardServiceTests {
 		assertThat(mountainCards.spliterator().getExactSizeIfKnown()).isEqualTo(18);
 	}
 	
-	
-	/* el delete peta
-	@Test
-	@Transactional
-	void shouldDeleteMountainCard() {
-		Iterable<MountainCard> mountainCards = this.mountainCardService.findAll();
-		Long found = mountainCards.spliterator().getExactSizeIfKnown();
-		
-		MountainCard mountainCard = this.mountainCardService.findByMountainCardId(1).get();
-		this.mountainCardService.delete(mountainCard);
-		
-		Iterable<MountainCard> mountainCardsUpdated = this.mountainCardService.findAll();
-		assertThat(mountainCardsUpdated.spliterator().getExactSizeIfKnown()).isEqualTo(found-1);
-	}
-	*/
-
 
 }

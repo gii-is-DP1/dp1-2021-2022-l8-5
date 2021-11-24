@@ -7,20 +7,27 @@ INSERT INTO users(username,password,enabled,email) VALUES ('pabmargom3','1',TRUE
 INSERT INTO users(username,password,enabled,email) VALUES ('davzamfer','1',TRUE,'test3@test.com');
 INSERT INTO users(username,password,enabled,email) VALUES ('dieruigil','1',TRUE,'test4@test.com');
 INSERT INTO users(username,password,enabled,email) VALUES ('test','1',TRUE,'test5@test.com');
+INSERT INTO users(username,password,enabled,email) VALUES ('framigdom','1',TRUE,'test6@test.com');
+INSERT INTO users(username,password,enabled,email) VALUES ('pabalvcar','1',TRUE,'test7@test.com');
 INSERT INTO authorities(id,username,authority) VALUES (2,'owner1','owner');
 INSERT INTO authorities(id,username,authority) VALUES (3,'pabmargom3','admin');
 INSERT INTO authorities(id,username,authority) VALUES (4,'davzamfer','admin');
 INSERT INTO authorities(id,username,authority) VALUES (5,'dieruigil','admin');
 INSERT INTO authorities(id,username,authority) VALUES (6,'test','player');
+INSERT INTO authorities(id,username,authority) VALUES (7,'framigdom','player');
+INSERT INTO authorities(id,username,authority) VALUES (8,'pabalvcar','player');
 
 -- Players
-INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES  (1, 'Pablo', 'Marin' ,'pabmargom3','https://www.w3schools.com/w3images/avatar1.png');
+INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES (1, 'Pablo', 'Marin' ,'pabmargom3','https://www.w3schools.com/w3images/avatar1.png');
 INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES (2, 'David', 'Zamora', 'davzamfer','https://www.w3schools.com/w3images/avatar2.png');
-INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES  (3, 'Diego', 'Ruiz' ,'dieruigil','https://www.w3schools.com/w3images/avatar1.png');
-INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES  (4, 'Player', 'Test' ,'test','https://www.w3schools.com/w3images/avatar1.png');
- -- Looking for players games
-INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,startDate) VALUES (2,'MINERAL_EXTRACTION',1,1,'2021-11-12 16:42:00');
-INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,secondPlayer,startDate) VALUES (2,'MINERAL_EXTRACTION',1,2,3,'2021-11-12 16:42:00');
+INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES (3, 'Diego', 'Ruiz' ,'dieruigil','https://www.w3schools.com/w3images/avatar1.png');
+INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES (4, 'Player', 'Test' ,'test','https://www.w3schools.com/w3images/avatar1.png');
+INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES (5, 'Francisco Javier', 'Migueles' ,'framigdom','https://www.w3schools.com/w3images/avatar1.png');
+INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES (6, 'Pablo', 'Alvarez' ,'pabalvcar','https://www.w3schools.com/w3images/avatar1.png');
+
+-- Looking for players games
+INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,startDate) VALUES (2,'MINERAL_EXTRACTION',1,6,'2021-11-12 16:42:00');
+INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,secondPlayer,startDate) VALUES (2,'MINERAL_EXTRACTION',1,4,5,'2021-11-12 16:42:00');
 
  -- Finished games
 INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,secondPlayer,thirdPlayer,startDate,finishDate) VALUES (2,'ACTION_SELECTION',6,3,1,2,'2021-11-12 16:42:00', '2021-11-12 17:42:00');
@@ -58,13 +65,21 @@ INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,secondPlay
  
 -- Special cards (card sheet 7 front & back)
  INSERT INTO special_cards(name, description, back_card) VALUES ('Muster an Army', 'When resolving actions this turn, treat all defend cards as if they are ocuppied', 1);
+ 
  INSERT INTO special_decks(xposition, yposition) VALUES (0,0);
  INSERT INTO special_decks(xposition, yposition) VALUES (0,1);
+ 
  INSERT INTO SPECIAL_DECKS_SPECIAL_CARD(SPECIAL_DECK_ID, SPECIAL_CARD_ID) VALUES (1,1);
+ 
 -- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Iron Seam', 'Take 3 iron from the supply', 0, 'MINE', 0);
 
 INSERT INTO mountain_decks(xposition, yposition) VALUES (0,0);
- 
+
+ -- Test para borrar
+INSERT INTO mountain_decks(xposition, yposition) VALUES (1,1);
+
+
+ --Boards 
 INSERT INTO boards(background,width,height,mountaindeck,game) VALUES ('resources/images/oro_erebor.jpg',750,600,1,1);
 INSERT INTO boards(background,width,height,mountaindeck,game) VALUES ('resources/images/oro_erebor.jpg',750,600,1,3);
 
