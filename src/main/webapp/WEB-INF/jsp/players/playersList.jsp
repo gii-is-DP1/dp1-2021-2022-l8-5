@@ -5,10 +5,10 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="dwarf" tagdir="/WEB-INF/tags" %>
 
-<dwarf:layout pageName="players2">
+<dwarf:layout pageName="players">
     <h2>Players</h2>
 
-    <table id="players2Table" class="table table-striped">
+    <table id="playersTable" class="table table-striped">
         <thead>
         <tr>
        		 <th style="width: 150px;">Profile Picture</th>
@@ -29,10 +29,10 @@
             	</td>
             
                 <td>
-                    <spring:url value="/players2/{player2id}" var="player2Url">
-                        <spring:param name="player2id" value="${player.id}"/>
+                    <spring:url value="/players/{playerid}" var="playerUrl">
+                        <spring:param name="playerid" value="${player.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(player2Url)}"><c:out value="${player.firstName} ${player.lastName}"/></a>
+                    <a href="${fn:escapeXml(playerUrl)}"><c:out value="${player.firstName} ${player.lastName}"/></a>
                 </td>   
                 
              <td>
@@ -44,13 +44,13 @@
                </td> 
              
     			<td> 
-                    <spring:url value="/players2/{playerId2}/delete" var="playerUrl">
+                    <spring:url value="/players/{playerId2}/delete" var="playerUrl">
                         <spring:param name="playerId2" value="${player.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(playerUrl)}"><span class=" glyphicon glyphicon-trash" aria-hidden="true"></span>
                     <span>Delete</span></a>
                     
-                    <spring:url value="/players2/{playerId}/edit" var="editUrl">
+                    <spring:url value="/players/{playerId}/edit" var="editUrl">
        					 <spring:param name="playerId" value="${player.id}"/>
     				</spring:url>
     				 <a href="${fn:escapeXml(editUrl)}"><span class=" glyphicon glyphicon-edit" aria-hidden="true"></span>
@@ -62,10 +62,10 @@
         </tbody>
     </table>
        <sec:authorize access="hasAuthority('admin')">
-		<a class="btn btn-default" href='<spring:url value="/players2/new" htmlEscape="true"/>'>Add Player</a>
+		<a class="btn btn-default" href='<spring:url value="/players/new" htmlEscape="true"/>'>Add Player</a>
 	</sec:authorize>
 	
 	       <sec:authorize access="hasAuthority('admin')">
-		<a class="btn btn-default" href='<spring:url value="/players2/find" htmlEscape="true"/>'>Find Player</a>
+		<a class="btn btn-default" href='<spring:url value="/players/find" htmlEscape="true"/>'>Find Player</a>
 	</sec:authorize>
 </dwarf:layout>

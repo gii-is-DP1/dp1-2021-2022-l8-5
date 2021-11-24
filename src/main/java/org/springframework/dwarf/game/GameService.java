@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dwarf.player.Player;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,14 +42,27 @@ public class GameService {
 		return gameRepo.searchGamesToJoin();
 	}
 	
+	@Transactional(readOnly = true)
+	public List<Game> findUnfinishedGames(){
+		return gameRepo.searchUnfinishedGames();
+	}
+	
 	public void delete(Game game) {
 		gameRepo.delete(game);
 	}
 	
-	@Transactional
-	public void saveGame(Game game) throws DataAccessException {
-		//creating game
-		gameRepo.save(game);		
-
+	@Transactional(rollbackFor = CreateGameWhilePlayingException.class)
+	public void saveGame(Game game) throws DataAccessException, CreateGameWhilePlayingException {
+		List<Player> playerList = game.getPlayerList();
+		List<Game> unfinishedGames = gameRepo.searchUnfinishedGames();
+		
+		for(Game g: unfinishedGames) {
+			for(Player player: playerList) {
+				if(g.isPlayerInGame(player))
+					throw new CreateGameWhilePlayingException();
+			}
+		}
+		
+		gameRepo.save(game);
 	}
 }

@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +61,7 @@ public class GameServiceTest {
 	
 	@Test
 	@DisplayName("Save a game")
-	void testSaveGame() {
+	void testSaveGame() throws Exception {
 		Game game = new Game();
 		Player player = playerService.findPlayerById(1);
 		
@@ -68,10 +69,26 @@ public class GameServiceTest {
 		game.setCurrentPlayer(player);
 		
 		gameService.saveGame(game);
+		
 		Integer gameId = game.getId();
 		
 		Optional<Game> gameSaved = gameService.findByGameId(gameId);
 		assertThat(gameSaved.isPresent()).isTrue();
+	}
+	
+	@Test
+	@DisplayName("The player is already in another unfinished game exception")
+	void testCreateGameWhilePlayingException() {
+		Game game = new Game();
+		// player with id 6 is already in an unfinished game
+		Player player = playerService.findPlayerById(6);
+		
+		game.setFirstPlayer(player);
+		game.setCurrentPlayer(player);
+		
+		Assertions.assertThrows(CreateGameWhilePlayingException.class, () ->{
+			gameService.saveGame(game);
+		});
 	}
 	
 	@Test

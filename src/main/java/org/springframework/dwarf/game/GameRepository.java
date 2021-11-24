@@ -17,7 +17,13 @@ public interface GameRepository extends  CrudRepository<Game, Integer>{
 	 * Retrive all <code>Game</code>s which are looking for player from the data store
 	 * @return a <code>Collection</code> of <code>Game</code>s
 	 */
-	// @Query("SELECT games FROM GAMES games WHERE FINISHDATE IS NULL AND (games.SECONDPLAYER IS NULL OR games.THIRDPLAYER IS NULL)")
 	@Query("SELECT game FROM Game game WHERE game.finishDate IS NULL AND (game.secondPlayer IS NULL OR game.thirdPlayer IS NULL)")
 	List<Game> searchGamesToJoin() throws DataAccessException;
+	
+	/**
+	 * Retrive all unfinished <code>Game</code>s
+	 * @return a <code>Collection</code> of <code>Game</code>s
+	 */
+	@Query("SELECT game FROM Game game WHERE game.finishDate IS NULL")
+	List<Game> searchUnfinishedGames() throws DataAccessException;
 }

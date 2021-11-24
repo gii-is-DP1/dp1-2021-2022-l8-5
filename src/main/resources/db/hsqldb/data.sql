@@ -7,20 +7,27 @@ INSERT INTO users(username,password,enabled,email) VALUES ('pabmargom3','1',TRUE
 INSERT INTO users(username,password,enabled,email) VALUES ('davzamfer','1',TRUE,'test3@test.com');
 INSERT INTO users(username,password,enabled,email) VALUES ('dieruigil','1',TRUE,'test4@test.com');
 INSERT INTO users(username,password,enabled,email) VALUES ('test','1',TRUE,'test5@test.com');
+INSERT INTO users(username,password,enabled,email) VALUES ('framigdom','1',TRUE,'test6@test.com');
+INSERT INTO users(username,password,enabled,email) VALUES ('pabalvcar','1',TRUE,'test7@test.com');
 INSERT INTO authorities(id,username,authority) VALUES (2,'owner1','owner');
 INSERT INTO authorities(id,username,authority) VALUES (3,'pabmargom3','admin');
 INSERT INTO authorities(id,username,authority) VALUES (4,'davzamfer','admin');
 INSERT INTO authorities(id,username,authority) VALUES (5,'dieruigil','admin');
 INSERT INTO authorities(id,username,authority) VALUES (6,'test','player');
+INSERT INTO authorities(id,username,authority) VALUES (7,'framigdom','player');
+INSERT INTO authorities(id,username,authority) VALUES (8,'pabalvcar','player');
 
 -- Players
-INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES  (1, 'Pablo', 'Marin' ,'pabmargom3','https://www.w3schools.com/w3images/avatar1.png');
+INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES (1, 'Pablo', 'Marin' ,'pabmargom3','https://www.w3schools.com/w3images/avatar1.png');
 INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES (2, 'David', 'Zamora', 'davzamfer','https://www.w3schools.com/w3images/avatar2.png');
-INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES  (3, 'Diego', 'Ruiz' ,'dieruigil','https://www.w3schools.com/w3images/avatar1.png');
-INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES  (4, 'Player', 'Test' ,'test','https://www.w3schools.com/w3images/avatar1.png');
- -- Looking for players games
-INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,startDate) VALUES (2,'MINERAL_EXTRACTION',1,1,'2021-11-12 16:42:00');
-INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,secondPlayer,startDate) VALUES (2,'MINERAL_EXTRACTION',1,2,3,'2021-11-12 16:42:00');
+INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES (3, 'Diego', 'Ruiz' ,'dieruigil','https://www.w3schools.com/w3images/avatar1.png');
+INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES (4, 'Player', 'Test' ,'test','https://www.w3schools.com/w3images/avatar1.png');
+INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES (5, 'Francisco Javier', 'Migueles' ,'framigdom','https://www.w3schools.com/w3images/avatar1.png');
+INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES (6, 'Pablo', 'Alvarez' ,'pabalvcar','https://www.w3schools.com/w3images/avatar1.png');
+
+-- Looking for players games
+INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,startDate) VALUES (2,'MINERAL_EXTRACTION',1,6,'2021-11-12 16:42:00');
+INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,secondPlayer,startDate) VALUES (2,'MINERAL_EXTRACTION',1,4,5,'2021-11-12 16:42:00');
 
  -- Finished games
 INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,secondPlayer,thirdPlayer,startDate,finishDate) VALUES (2,'ACTION_SELECTION',6,3,1,2,'2021-11-12 16:42:00', '2021-11-12 17:42:00');
