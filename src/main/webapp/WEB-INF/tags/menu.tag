@@ -29,7 +29,7 @@
 				</dwarf:menuItem>
 				
 				<sec:authorize access="hasAuthority('admin')">
-				<dwarf:menuItem active="${name eq 'players2'}" url="/players2"
+				<dwarf:menuItem active="${name eq 'players'}" url="/players"
 					title="players">
 					<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 					<span>Players</span>

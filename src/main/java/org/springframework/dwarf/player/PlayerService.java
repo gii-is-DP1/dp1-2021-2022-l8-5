@@ -20,9 +20,12 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dwarf.user.AuthoritiesService;
+import org.springframework.dwarf.user.DuplicatedEmailException;
+import org.springframework.dwarf.user.DuplicatedUsernameException;
 import org.springframework.dwarf.user.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 /**
  * Mostly used as a facade for all Petclinic controllers Also a placeholder
@@ -65,13 +68,18 @@ public class PlayerService {
 	
 	@Transactional(readOnly = true)
 	public Player findPlayerByUserName(String username) throws DataAccessException {
-		int id = playerRepository.findByUsername(username);
-		Player player = findPlayerById(id);
+		Player player = playerRepository.findByUsername(username);
 		return player;
 	}
 
-	@Transactional
-	public void savePlayer(Player player) throws DataAccessException {
+	@Transactional(rollbackFor = DuplicatedUsernameException.class)
+	public void savePlayer(Player player) throws DataAccessException, DuplicatedUsernameException, DuplicatedEmailException {
+		if (getusernameDuplicated(player)){
+			throw new DuplicatedUsernameException();
+		}
+		if (getEmailDuplicated(player)){
+			throw new DuplicatedEmailException();
+		}
 		//creating owner
 		playerRepository.save(player);		
 		//creating user
@@ -81,6 +89,24 @@ public class PlayerService {
 		//When changing here "admin" to "player" in role, for some reason the role becames invalid and gives forbidden in everything
 	}
 	
+	public Boolean getusernameDuplicated(Player player){
+		Boolean res=true;
+		Player otherPlayer=playerRepository.findByUsername(player.getUsername());
+		res= res && otherPlayer!= null;
+		res= res && otherPlayer.getId()!= player.getId();
+		res = res && otherPlayer.getUsername()==player.getUsername();
+		return res;	
+	}
+	
+		
+	public Boolean getEmailDuplicated(Player player){
+		Boolean res=true;
+		Player otherPlayer=playerRepository.findByEmail(player.getEmail());
+		res= res && otherPlayer!= null;
+		res= res && otherPlayer.getId()!= player.getId();
+		res = res && otherPlayer.getEmail()==player.getEmail();
+		return res;	
+	}
 	
 	
 	/*
