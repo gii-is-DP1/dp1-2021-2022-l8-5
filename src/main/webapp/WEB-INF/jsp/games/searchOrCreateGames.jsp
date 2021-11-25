@@ -73,7 +73,7 @@
 		</tbody>
 	</table>
 
-	<sec:authorize access="hasAuthority('admin')">
+	<sec:authorize access="hasAuthority('player','admin')">
 		<a class="btn btn-default" href='<spring:url value="/games/waitingPlayers" htmlEscape="true"/>'>New game</a>
 	</sec:authorize>
 	

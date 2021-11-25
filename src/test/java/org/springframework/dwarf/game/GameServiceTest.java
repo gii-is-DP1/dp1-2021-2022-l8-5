@@ -81,7 +81,7 @@ public class GameServiceTest {
 	void testCreateGameWhilePlayingException() {
 		Game game = new Game();
 		// player with id 6 is already in an unfinished game
-		Player player = playerService.findPlayerById(3);
+		Player player = playerService.findPlayerById(6);
 		
 		game.setFirstPlayer(player);
 		game.setCurrentPlayer(player);
