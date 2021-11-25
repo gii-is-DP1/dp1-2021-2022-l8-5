@@ -18,5 +18,11 @@ class PlayerRepositoryTests {
         	Player player = playerRepository.findById(1);
             assertEquals(player.getUsername(), "pabmargom3");       
         }
+        
+        @Test
+        void findUserByEmail() throws Exception {
+        	Player player = playerRepository.findByEmail("test2@test.com");
+            assertEquals(player.getUsername(), "pabmargom3");       
+        }
 
 }
