@@ -79,21 +79,21 @@ class userStoriesManagementTest {
 	}
     
 
-    @WithMockUser(username = "alonsoPodio", password = "ElNano2022")
+    @WithMockUser(username = "alonsoPodio", password = "ElNano0")
     @Test
     void loginSuccesful() throws Exception {
         String userLogged = CorrentUserController.returnCurrentUserName();
         assertEquals(userLogged, "alonsoPodio");
     }
 
-    @WithMockUser(username = "alonsoPodio", password = "ElNano2022")
+    @WithMockUser(username = "alonsoPodio", password = "ElNano0")
     @Test
     void loginUnsuccesful() throws Exception {
         String userLogged = CorrentUserController.returnCurrentUserName();
         assertNotEquals(userLogged, "betrayal>theneostorm");
     }
     /*
-    @WithMockUser(username = "alonsoPodio", password = "ElNano2022")
+    @WithMockUser(username = "alonsoPodio", password = "ElNano0")
     @Test
     void logOutSuccesful() throws Exception {
         String userLogged = CorrentUserController.returnCurrentUserName();
@@ -107,9 +107,9 @@ class userStoriesManagementTest {
     @WithMockUser(username = "admin1")
 	@Test
 	void testInitFindForm() throws Exception {
-		mockMvc.perform(get("/players2/find")).andExpect(status().isOk())
-		.andExpect(model().attributeExists("players2"))
-		.andExpect(view().name("players2/findPlayers"));
+		mockMvc.perform(get("/players/find")).andExpect(status().isOk())
+		.andExpect(model().attributeExists("players"))
+		.andExpect(view().name("players/findPlayers"));
 	}
     
     /*
@@ -124,15 +124,15 @@ class userStoriesManagementTest {
 	@WithMockUser(username = "admin1")
 	@Test
 	void testInitUpdatePlayerForm() throws Exception {
-		mockMvc.perform(get("/players2/1/edit")).andExpect(status().isOk())
-		.andExpect(view().name("players2/createOrUpdatePlayerForm"))
+		mockMvc.perform(get("/players/1/edit")).andExpect(status().isOk())
+		.andExpect(view().name("players/createOrUpdatePlayerForm"))
 		.andExpect(model().attributeExists("player"))
 		.andExpect(model().attribute("player", hasProperty("firstName", is("Paco"))))
 		.andExpect(model().attribute("player", hasProperty("lastName", is("Fiestas"))))
 		.andExpect(model().attribute("player", hasProperty("password", is("1"))))
 		.andExpect(model().attribute("player", hasProperty("email", is("hacker@hack.com"))))
 		.andExpect(model().attribute("player", hasProperty("avatarUrl", is("https://www.w3schools.com/w3images/avatar1.png"))))
-		.andExpect(view().name("players2/createOrUpdatePlayerForm"));
+		.andExpect(view().name("players/createOrUpdatePlayerForm"));
 	}
 	
 	/*
@@ -140,14 +140,14 @@ class userStoriesManagementTest {
 	@Test
 	void testInitUpdateMyselfForm() throws Exception {
 		mockMvc.perform(get("/editProfile")).andExpect(status().isOk())
-		.andExpect(view().name("players2/createOrUpdatePlayerForm"))
+		.andExpect(view().name("players/createOrUpdatePlayerForm"))
 		.andExpect(model().attributeExists("player"))
 		.andExpect(model().attribute("player", hasProperty("firstName", is("Paco"))))
 		.andExpect(model().attribute("player", hasProperty("lastName", is("Fiestas"))))
 		.andExpect(model().attribute("player", hasProperty("password", is("1"))))
 		.andExpect(model().attribute("player", hasProperty("email", is("hacker@hack.com"))))
 		.andExpect(model().attribute("player", hasProperty("avatarUrl", is("https://www.w3schools.com/w3images/avatar1.png"))))
-		.andExpect(view().name("players2/createOrUpdatePlayerForm"));
+		.andExpect(view().name("players/createOrUpdatePlayerForm"));
 	}
 	*/
 }

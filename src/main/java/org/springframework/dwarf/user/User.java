@@ -12,6 +12,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Email;
 import org.springframework.dwarf.model.BaseEntity;
 import org.springframework.dwarf.player.Player;
 
@@ -30,6 +31,7 @@ public class User{
 	String password;
 	
 	@NotNull
+	@Email
 	@Column(unique=true)
 	String email;
 	

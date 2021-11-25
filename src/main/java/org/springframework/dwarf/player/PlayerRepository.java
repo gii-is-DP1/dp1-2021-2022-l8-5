@@ -75,7 +75,10 @@ public interface PlayerRepository extends Repository<Player, Integer> {
 	 * @throws org.springframework.dao.DataRetrievalFailureException if not found
 	 */	
 	
-	@Query(value="SELECT player2.id FROM Player player2 WHERE player2.username =:username",nativeQuery = true)
-	public Integer findByUsername(@Param("username") String username);
+	@Query("SELECT player FROM Player player WHERE player.user.username =:username")
+	public Player findByUsername(@Param("username") String username);
+	
+	@Query("SELECT player FROM Player player WHERE player.user.email =:email")
+	public Player findByEmail(@Param("email") String email);
 
 }
