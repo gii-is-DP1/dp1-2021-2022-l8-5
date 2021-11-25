@@ -6,6 +6,15 @@
 <%@ taglib prefix="dwarf" tagdir="/WEB-INF/tags" %>
 
 <dwarf:layout pageName="searchGames">
+
+	<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  		<strong></strong>
+  		<c:out value="${message}"></c:out>
+  		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    		<span aria-hidden="true">&times;</span>
+  		</button>
+	</div>
+
     <h2>Games</h2>
 
     <table id="gamesTable" class="table table-striped">
@@ -64,12 +73,8 @@
 		</tbody>
 	</table>
 
-	<sec:authorize access="hasAuthority('admin')">
+	<sec:authorize access="hasAuthority('player','admin')">
 		<a class="btn btn-default" href='<spring:url value="/games/waitingPlayers" htmlEscape="true"/>'>New game</a>
-	</sec:authorize>
-
-	<sec:authorize access="hasAuthority('admin')">
-		<a class="btn btn-default" href='<spring:url value="/players/find" htmlEscape="true"/>'>Find Player</a>
 	</sec:authorize>
 	
 </dwarf:layout>

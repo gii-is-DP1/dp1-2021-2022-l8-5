@@ -3,6 +3,9 @@ package org.springframework.dwarf.game;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
@@ -59,7 +62,7 @@ public class GameController {
 	}
 
     @GetMapping(path="/{gameId}/exit")
-    public String exitGame(@PathVariable("gameId") Integer gameId, BindingResult result, ModelMap modelMap){
+    public String exitGame(@PathVariable("gameId") Integer gameId, ModelMap modelMap){
         String redirect = "redirect:/games/searchGames";
         Optional<Game> game = gameService.findByGameId(gameId);
         Player player = this.currentPlayer();
@@ -73,10 +76,10 @@ public class GameController {
                     game.get().setThirdPlayer(null);
                 }
                 
+                // HAY QUE TESTEARLO
                 try {
         			gameService.saveGame(game.get());
         		} catch(CreateGameWhilePlayingException ex) {
-        			result.rejectValue("player", "playing_another_game", "The player is already in another unfinished game");
         			return "redirect:/games/searchGames";
         		}
             }
@@ -96,46 +99,48 @@ public class GameController {
 	}
 	
 	@GetMapping(path="/waitingPlayers")
-	public String initCreateGame(BindingResult result, ModelMap modelMap) {
-		String view = "games/waitingPlayers";
+	public String initCreateGame(ModelMap modelMap) {
 		Game game = new Game();
 		
 		Player player = this.currentPlayer();
 		
 		game.setFirstPlayer(player);
 		game.setCurrentPlayer(player);
-		
+			
 		try {
 			gameService.saveGame(game);
 		} catch(CreateGameWhilePlayingException ex) {
-			result.rejectValue("player", "playing_another_game", "The player is already in another unfinished game");
+			modelMap.addAttribute("message", "You are already in another game");
 			return "redirect:/games/searchGames";
 		}
 		
 		modelMap.addAttribute("game", game);
         modelMap.addAttribute("currentPlayer", player);
-        String redirect = "redirect:/games/"+game.getId().toString()+"/waitingPlayers";
+        
+		String redirect = "redirect:/games/"+game.getId().toString()+"/waitingPlayers";
 		return redirect;
 	}
 	
 	@GetMapping(path="{gameId}/waitingPlayers")
-	public String joinGame(@PathVariable("gameId") Integer gameId, BindingResult result, ModelMap modelMap) {
+	public String joinGame(@PathVariable("gameId") Integer gameId, ModelMap modelMap, HttpServletResponse response) {
+		response.addHeader("Refresh", "2");
 		String view = "games/waitingPlayers";
 		
 		Game game = gameService.findByGameId(gameId).get();
         Player player = this.currentPlayer();
-		
-		if(game.secondPlayer == null) {
-            if(!this.amIFirstPlayer(game) && !this.amIThirdPlayer(game))
-			    game.setSecondPlayer(player);
-		}else if (!this.amISecondPlayer(game) && !this.amIFirstPlayer(game)){
-			game.setThirdPlayer(player);
-		}
+        
+        // HAY QUE TESTEARLO
+        // if the player is in the game, he/she will just rejoin
+        if(!game.isPlayerInGame(player)) {
+        	if(game.secondPlayer == null)
+        		game.setSecondPlayer(player);
+        	else if(game.thirdPlayer == null)
+        		game.setThirdPlayer(player);
+        }
 		
 		try {
 			gameService.saveGame(game);
 		} catch(CreateGameWhilePlayingException ex) {
-			result.rejectValue("player", "playing_another_game", "The player is already in another unfinished game");
 			modelMap.addAttribute("message", "You are already in another game");
 			return "redirect:/games/searchGames";
 		}
