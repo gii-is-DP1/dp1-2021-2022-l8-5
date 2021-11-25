@@ -58,7 +58,7 @@ public class GameService {
 		
 		for(Game g: unfinishedGames) {
 			for(Player player: playerList) {
-				if(g.isPlayerInGame(player))
+				if(g.isPlayerInGame(player) && !(g.getId().equals(game.getId())))
 					throw new CreateGameWhilePlayingException();
 			}
 		}
