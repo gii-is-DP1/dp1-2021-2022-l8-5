@@ -47,7 +47,7 @@
 	        <a class="btn btn-default" href="${fn:escapeXml(gameUrl)}">Exit game</a>
         </c:otherwise>
     </c:choose>
-    
+     
     <c:if test="${game.allPlayersSet()}">
     	<c:if test="${currentPlayer.getId() == game.firstPlayer.getId()}">
     		<spring:url value="/boards/game/{gameId}" var="boardGameUrl">
