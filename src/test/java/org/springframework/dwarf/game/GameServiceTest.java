@@ -77,6 +77,19 @@ public class GameServiceTest {
 	}
 	
 	@Test
+	@DisplayName("Join a game")
+	void testJoinGame() throws Exception {
+		// game with id 1 has just one player
+		Game game = gameService.findByGameId(1).get();
+		// player with id 3 is not in an unfinished game
+		Player player = playerService.findPlayerById(3);
+		
+		gameService.joinGame(game, player);
+		
+		assertThat(game.getSecondPlayer().getId()).isEqualTo(player.getId());
+	}
+	
+	@Test
 	@DisplayName("The player is already in another unfinished game exception")
 	void testCreateGameWhilePlayingException() {
 		Game game = new Game();
@@ -105,5 +118,17 @@ public class GameServiceTest {
 		}else {
 			System.out.println("Game not found");
 		}
+	}
+	
+	@Test
+	@DisplayName("Exit game")
+	void testExitGame() {
+		Game game = gameService.findByGameId(2).get();
+		// player with id 5 is in game 2
+		Player player = playerService.findPlayerById(5);
+		
+		gameService.exit(game, player);
+		
+		assertThat(game.getSecondPlayer()).isNull();
 	}
 }

@@ -17,7 +17,6 @@ package org.springframework.dwarf.player;
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
