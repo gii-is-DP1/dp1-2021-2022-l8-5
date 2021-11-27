@@ -27,15 +27,6 @@ public class BoardController {
         this.gameService = gameService;
         this.mountainDeckSer = mountainDeckSer;
 	}
-/*
-	@GetMapping()
-	public String listBoard(ModelMap modelMap) {
-		String view = "/board/board";
-		Iterable<Board> board = boardService.findAll();
-		modelMap.addAttribute("boards", board);
-		return view;
-
-	}*/
 	
 	@GetMapping()
 	public String getBoard(ModelMap modelMap) {
@@ -61,10 +52,6 @@ public class BoardController {
 		String redirect = "redirect:/boards/"+board.getId()+"/game/"+game.getId();
 	    return redirect;	
 	}
-
-    private void setCards(MountainDeck mountainDeck){
-        
-    }
     
     @GetMapping("{boardId}/game/{gameId}")
     public String boardGame(@PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, ModelMap modelMap) {

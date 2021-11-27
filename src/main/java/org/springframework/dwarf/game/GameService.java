@@ -51,9 +51,22 @@ public class GameService {
 		gameRepo.delete(game);
 	}
 	
+	public void exit(Game game, Player currentPlayer) throws DataAccessException {
+		// the first player must delete the game when exit
+		if(!this.amIFirstPlayer(game, currentPlayer)) {
+			if(this.amISecondPlayer(game, currentPlayer)) {
+				game.setSecondPlayer(null);
+			}else {
+				game.setThirdPlayer(null);
+			}
+		}
+		
+		gameRepo.save(game);
+	}
+	
 	@Transactional(rollbackFor = CreateGameWhilePlayingException.class)
 	public void saveGame(Game game) throws DataAccessException, CreateGameWhilePlayingException {
-		List<Player> playerList = game.getPlayerList();
+		List<Player> playerList = game.getPlayersList();
 		List<Game> unfinishedGames = gameRepo.searchUnfinishedGames();
 		
 		for(Game g: unfinishedGames) {
@@ -65,4 +78,24 @@ public class GameService {
 		
 		gameRepo.save(game);
 	}
+	
+	@Transactional(rollbackFor = CreateGameWhilePlayingException.class)
+	public void joinGame(Game game, Player currentPlayer) throws DataAccessException, CreateGameWhilePlayingException {
+		if(!game.isPlayerInGame(currentPlayer)) {
+			if(game.getSecondPlayer() == null)
+				game.setSecondPlayer(currentPlayer);
+			else if(game.getThirdPlayer() == null)
+				game.setThirdPlayer(currentPlayer);
+		}
+		
+		this.saveGame(game);
+	}
+	
+	private Boolean amIFirstPlayer(Game game, Player player){
+        return game.getPlayerPosition(player) == 0;
+    }
+
+    private Boolean amISecondPlayer(Game game, Player player){
+        return game.getPlayerPosition(player) == 1;
+    }
 }

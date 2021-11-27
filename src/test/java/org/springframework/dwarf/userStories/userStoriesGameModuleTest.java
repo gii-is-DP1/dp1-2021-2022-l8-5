@@ -1,33 +1,14 @@
 package org.springframework.dwarf.userStories;
 
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
-import java.util.Optional;
-
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-
-import org.springframework.dwarf.game.Game;
-
 import org.springframework.dwarf.game.GameController;
 import org.springframework.dwarf.game.GameService;
-import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Service;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import org.springframework.ui.ModelMap;
 
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
