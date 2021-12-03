@@ -144,25 +144,7 @@ public class PlayerController {
 			return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
 		}
 		else {
-			Player playerFound = playerService.findPlayerById(playerid);
-			User userFound = playerFound.getUser();
-			BeanUtils.copyProperties(player,playerFound,"id");
-			User user2 = player.getUser();
-			BeanUtils.copyProperties(user2,userFound,"username","authorities");
-			playerFound.setUser(userFound);
-				try {
-					//creating owner, user and authorities
-					this.playerService.savePlayer(playerFound);
-					
-					return "redirect:/players";
-				} catch (DuplicatedUsernameException dp) {
-					result.rejectValue (" name", " duplicate", "already exists");
-					return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
-					} catch (DuplicatedEmailException dp) {
-						result.rejectValue (" email", " duplicate", "already exists");
-						return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
-						}
-				
+			return updatingPlayer(playerid, player, result);
 		}
 	}
 
@@ -186,26 +168,28 @@ public class PlayerController {
 			return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
 		}
 		else {
-			Player playerFound = playerService.findPlayerById(playerid);
-			User userFound = playerFound.getUser();
-			BeanUtils.copyProperties(player,playerFound,"id");
-			User user2 = player.getUser();
-			BeanUtils.copyProperties(user2,userFound,"username","authorities");
-			playerFound.setUser(userFound);
-			try {
-				//creating owner, user and authorities
-				this.playerService.savePlayer(playerFound);
-				
-				return "redirect:/";
-			} catch (DuplicatedUsernameException dp) {
-				result.rejectValue (" name", " duplicate", "already exists");
+			return updatingPlayer(playerid, player, result);
+	}
+	}
+	private String updatingPlayer(Integer playerid,Player player,BindingResult result) {
+		Player playerFound = playerService.findPlayerById(playerid);
+		User userFound = playerFound.getUser();
+		BeanUtils.copyProperties(player,playerFound,"id");
+		User user2 = player.getUser();
+		BeanUtils.copyProperties(user2,userFound,"username","authorities");
+		playerFound.setUser(userFound);
+		try {
+			this.playerService.savePlayer(playerFound);
+			
+			return "redirect:/";
+		} catch (DuplicatedUsernameException dp) {
+			result.rejectValue (" name", " duplicate", "already exists");
+			return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
+			} catch (DuplicatedEmailException dp) {
+				result.rejectValue (" email", " duplicate", "already exists");
 				return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
-				} catch (DuplicatedEmailException dp) {
-					result.rejectValue (" email", " duplicate", "already exists");
-					return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
-					}
-			//this.playerService.savePlayer(player);
-		}
+				}
+		//this.playerService.savePlayer(player);
 	}
 	
 	/**
