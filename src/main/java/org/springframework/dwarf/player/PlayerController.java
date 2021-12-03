@@ -193,8 +193,8 @@ public class PlayerController {
 	}
 	
 	/**
-	 * Custom handler for displaying an owner.
-	 * @param playerId the ID of the owner to display
+	 * Custom handler for displaying an player.
+	 * @param playerId the ID of the player to display
 	 * @return a ModelMap with the model attributes for the view
 	 */
 	@GetMapping("/players/{playerid}")
