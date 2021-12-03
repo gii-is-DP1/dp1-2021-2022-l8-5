@@ -69,17 +69,17 @@ class PlayerControllerTests {
 		given(this.playerService.findPlayerById(TEST_PLAYER_ID)).willReturn(george);
 
 	}
-	@WithMockUser(username = "fernandoAlonso", password = "worldChampion")
+	@WithMockUser(username = "pabmargom3")
     @Test
     void loginSuccesful() throws Exception {
         String userLogged = CorrentUserController.returnCurrentUserName();
-        assertEquals(userLogged, "fernandoAlonso");       
+        assertEquals(userLogged, "pabmargom3");       
     }
 	@Test
-	@WithMockUser(username = "fernandoAlonso", password = "worldChampion") 
+	@WithMockUser(username = "pabmargom3") 
     void loginUnSuccesful() throws Exception {
         String userLogged = CorrentUserController.returnCurrentUserName();
-        assertNotEquals(userLogged, "michaeljordan");       
+        assertNotEquals(userLogged, "nopabmargom3");       
     }
 	
     @WithMockUser(username = "admin1")
