@@ -55,7 +55,7 @@ public interface PlayerRepository extends Repository<Player, Integer> {
 	 * @return a <code>Collection</code> of matching <code>Player</code>s (or an empty
 	 * <code>Collection</code> if none found)
 	 */	
-	@Query("SELECT DISTINCT player2 FROM Player player2 WHERE player2.lastName LIKE :lastName%")
+	@Query("SELECT DISTINCT player2 FROM Player player2 WHERE player2.lastName LIKE :lastName% AND player2.id>0")
 	public Collection<Player> findByLastName(@Param("lastName") String lastName);
 
 
