@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -39,6 +39,11 @@ public class MountainDeck extends BaseEntity{
     }
     
     @NotNull
-	@OneToMany
+	@ManyToMany
     List<MountainCard> mountainCards;
+    
+    public MountainDeck() {
+    	this.xPosition = 4;
+    	this.yPosition = 2;
+    }
 }

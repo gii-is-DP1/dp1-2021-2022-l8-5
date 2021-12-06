@@ -111,6 +111,21 @@ class MountainDeckServiceTests {
 		assertThat(mountainDecksUpdated.spliterator().getExactSizeIfKnown()).isEqualTo(found+1);
 		
 	}
+	
+	@Test
+	void createMountainDeck() {
+		Iterable<MountainDeck> mountainDecks = this.mountainDeckService.findAll();
+		Long founds = mountainDecks.spliterator().getExactSizeIfKnown();
+		
+		MountainDeck deck = this.mountainDeckService.createMountainDeck();
+		
+		Iterable<MountainDeck> mountainDecksAfterCreate = this.mountainDeckService.findAll();
+		Long foundsAfterCreate = mountainDecksAfterCreate.spliterator().getExactSizeIfKnown();
+		
+		assertThat(foundsAfterCreate).isEqualTo(founds+1);
+		// el id del nuevo deck debe ser 4 (2 en data.sql, 1 por test save (arriba))
+		assertThat(deck.getId()).isEqualTo(4);
+	}
 
 	@Test
 	@Transactional
