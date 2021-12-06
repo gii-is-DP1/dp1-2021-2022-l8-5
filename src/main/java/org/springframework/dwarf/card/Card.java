@@ -31,6 +31,7 @@ public class Card extends BaseEntity{
 	@Column(name = "description")
 	@NotEmpty
 	String description;
-
-
+	
+	@Column(name = "image")
+	String image;
 }
