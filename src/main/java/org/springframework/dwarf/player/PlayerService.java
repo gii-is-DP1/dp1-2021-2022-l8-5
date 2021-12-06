@@ -16,13 +16,22 @@
 package org.springframework.dwarf.player;
 
 import java.util.Collection;
+import java.util.List;
+
+import javax.annotation.Resources;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dwarf.game.CreateGameWhilePlayingException;
+import org.springframework.dwarf.game.Game;
+import org.springframework.dwarf.game.GameRepository;
+import org.springframework.dwarf.game.GameService;
+import org.springframework.dwarf.resources.ResourcesService;
 import org.springframework.dwarf.user.AuthoritiesService;
 import org.springframework.dwarf.user.DuplicatedEmailException;
 import org.springframework.dwarf.user.DuplicatedUsernameException;
 import org.springframework.dwarf.user.UserService;
+import org.springframework.dwarf.worker.WorkerService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,13 +46,22 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class PlayerService {
 
-	private PlayerRepository playerRepository;	
+	private PlayerRepository playerRepository;		
 	
 	@Autowired
 	private UserService userService;
 	
 	@Autowired
 	private AuthoritiesService authoritiesService;
+
+	@Autowired
+	private GameService gameService;
+	
+	@Autowired
+	private ResourcesService resourcesService;
+	
+	@Autowired
+	private WorkerService workerService;
 
 	@Autowired
 	public PlayerService(PlayerRepository playerRepository) {
@@ -57,7 +75,7 @@ public class PlayerService {
 
 	@Transactional(readOnly = true)
 	public Player findPlayerById(int id) throws DataAccessException {
-		return playerRepository.findById(id);
+		return playerRepository.findById(id).get();
 	}
 
 	@Transactional(readOnly = true)
@@ -119,8 +137,28 @@ public class PlayerService {
 		authoritiesService.saveAuthorities(player.getUser().getUsername(), "admin");
 	}*/
 	
-	public void delete(Player player) {
-		userService.delete(player.getUser());
+	public void delete(Player player){
+		List<Game> games = gameService.findPlayerGames(player);
+		Player placeholder = findPlayerById(0);
+		games.stream().forEach(game -> {
+			game.deletePlayer(player, placeholder);
+			try {
+				gameService.saveGame(game);
+			} catch (DataAccessException | CreateGameWhilePlayingException e) {
+				e.printStackTrace();
+			}
+			});
+		resourcesService.findByPlayerId(player.getId()).stream().forEach(res -> {
+			res.deletePlayer(placeholder);
+			try {
+				resourcesService.saveResources(res);
+			} catch (DataAccessException e) {
+				e.printStackTrace();
+			}
+			});
+		workerService.deletePlayerWorker(player);
+		playerRepository.delete(player);
+		//userService.delete(player.getUser());
 	}
 
 

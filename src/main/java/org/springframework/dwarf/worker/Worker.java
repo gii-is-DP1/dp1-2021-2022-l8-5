@@ -1,5 +1,6 @@
 package org.springframework.dwarf.worker;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -34,7 +35,7 @@ public class Worker extends BaseEntity{
 	@Column(name = "status")
 	Boolean status;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name= "playerID")
 	private Player player;
 	

@@ -58,6 +58,15 @@ public class GameServiceTest {
 			assertThat(game.getFinishDate()).isNull();
 		}
 	}
+
+	@Test
+	@DisplayName("Returns the player games")
+	void testFindPlayerGames() {
+		Player player = playerService.findPlayerById(1);
+		List<Game> playerGames = gameService.findPlayerGames(player);
+
+		assertThat(playerGames.size()).isEqualTo(1);
+	}
 	
 	@Test
 	@DisplayName("Save a game")

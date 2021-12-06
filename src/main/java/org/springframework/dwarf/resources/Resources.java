@@ -49,5 +49,9 @@ public class Resources extends BaseEntity{
 	@JoinColumn(name= "gameID")
 	private Game game;
 	
+	
+	public void deletePlayer(Player sustitute) {
+		this.setPlayer(sustitute);
+	}
 
 }
