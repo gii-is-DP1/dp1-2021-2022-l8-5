@@ -35,7 +35,7 @@ public class Worker extends BaseEntity{
 	@Column(name = "status")
 	Boolean status;
 
-	@OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
+	@OneToOne
 	@JoinColumn(name= "playerID")
 	private Player player;
 	
