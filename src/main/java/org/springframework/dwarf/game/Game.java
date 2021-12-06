@@ -109,11 +109,17 @@ public class Game extends BaseEntity{
     // must be called when a player is deleted
 	public void deletePlayer(Player player, Player sustitute) {
 		Integer position = this.getPlayerPosition(player)+1;
-		if(position==1)
+		if(currentPlayer.equals(player)) {
+			this.setCurrentPlayer(sustitute);
+		}
+		if(position==1) {
 			this.setFirstPlayer(sustitute);
-		if(position==2)
+		}
+		else if(position==2) {
 			this.setSecondPlayer(sustitute);
-		if(position==3)
+		}
+		else if(position==3) {
 			this.setThirdPlayer(sustitute);
+		}
 	}
 }

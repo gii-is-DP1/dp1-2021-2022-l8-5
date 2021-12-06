@@ -136,15 +136,16 @@ public class PlayerService {
 		//creating authorities
 		authoritiesService.saveAuthorities(player.getUser().getUsername(), "admin");
 	}*/
-	
-	public void delete(Player player){
+	@Transactional(rollbackFor = DeletePlayerInGameException.class)
+	public void delete(Player player) throws DeletePlayerInGameException{
 		List<Game> games = gameService.findPlayerGames(player);
 		Player placeholder = findPlayerById(0);
 		games.stream().forEach(game -> {
 			game.deletePlayer(player, placeholder);
 			try {
+				isExceptionalCase(game);
 				gameService.saveGame(game);
-			} catch (DataAccessException | CreateGameWhilePlayingException e) {
+			} catch (DataAccessException | CreateGameWhilePlayingException | DeletePlayerInGameException e) {
 				e.printStackTrace();
 			}
 			});
@@ -159,6 +160,12 @@ public class PlayerService {
 		workerService.deletePlayerWorker(player);
 		playerRepository.delete(player);
 		//userService.delete(player.getUser());
+	}
+
+	private void isExceptionalCase(Game game) throws DeletePlayerInGameException {
+		if(game.getFinishDate().equals(null)){
+			throw new DeletePlayerInGameException();
+		}
 	}
 
 

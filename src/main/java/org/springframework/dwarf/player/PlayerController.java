@@ -206,7 +206,7 @@ public class PlayerController {
 	}
 	
 	@GetMapping("/players/{playerId}/delete")
-	public String deletePlayer(@PathVariable("playerId") Integer playerId,ModelMap modelMap) {
+	public String deletePlayer(@PathVariable("playerId") Integer playerId,ModelMap modelMap) throws DeletePlayerInGameException {
 		String view = "redirect:/players";
 		Player player = playerService.findPlayerById(playerId);
 		playerService.delete(player);
