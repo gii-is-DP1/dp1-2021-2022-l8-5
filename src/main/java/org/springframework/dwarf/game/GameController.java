@@ -49,7 +49,7 @@ public class GameController {
 		
 		if (game.isPresent()) {
 			// only first player can delete a game
-			if(!this.amIFirstPlayer(game.get())) {
+			if(this.amIFirstPlayer(game.get())) {
 				gameService.delete(game.get());
 				modelMap.addAttribute("message", "game deleted!");
 			}
@@ -77,6 +77,11 @@ public class GameController {
 	@GetMapping("/searchGames")
 	public String searchGames(ModelMap modelMap) {
 		String view  = "games/searchOrCreateGames";
+		String currentPlayer = CorrentUserController.returnCurrentUserName();
+		if (gameService.alreadyInGame(currentPlayer)){
+			Integer currentGameId = gameService.getCurrentGameId(currentPlayer);
+			return "redirect:/games/"+ currentGameId +"/waitingPlayers";
+		}
 		List<Game> gamesToJoin = gameService.findGamesToJoin();
 		modelMap.addAttribute("gamesToJoin", gamesToJoin);
 		return view;
