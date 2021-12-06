@@ -17,6 +17,7 @@
 package org.springframework.dwarf.resources;
 
 
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,12 @@ public class ResourcesService {
 	public Optional<Resources> findByResourcesId(int id){
 		return ResourcesRepo.findById(id);
 	}
+	
+	@Transactional(readOnly = true)
+	public Collection<Resources> findByGameId(int id){
+		return ResourcesRepo.findByGameId(id);
+	}
+	
 	
 	public void delete(Resources Resources) {
 		ResourcesRepo.delete(Resources);
