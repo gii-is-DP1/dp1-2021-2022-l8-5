@@ -83,5 +83,11 @@ class MountainCardServiceTests {
 		assertThat(mountainCards.size()).isEqualTo(6);
 	}
 	
-	
+	@Test
+	void shouldFindInitialCardByPosition() {
+		// Initial card with position (1,0)
+		MountainCard card = mountainCardService.findByMountainCardId(1).get();
+		MountainCard cardSearch = mountainCardService.findInitialCardByPosition(1, 0);
+		assertThat(cardSearch).isEqualTo(card);
+	}
 }

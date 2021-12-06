@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.mountain_card.MountainDeckService;
 import org.springframework.stereotype.Service;
@@ -18,23 +19,23 @@ public class BoardServiceTest {
 		
 	
 	@Autowired
-	private BoardService boardservice;
+	private BoardService boardService;
 	@Autowired
-	private GameService gameservice;
+	private GameService gameService;
 	@Autowired
-	private MountainDeckService mountaindesckservice;
+	private MountainDeckService mountainDesckService;
 	
 	@Test
-	@DisplayName("")
+	@DisplayName("Board count")
 	void testBoardCount() {
-		int count = boardservice.boardCount();
+		int count = boardService.boardCount();
 		assertThat(count).isEqualTo(2);
 	}
 	
 	@Test
 	@DisplayName("Returns all boards")
 	void testFindAllBoard() {
-		Iterable<Board> iterator = boardservice.findAll();
+		Iterable<Board> iterator = boardService.findAll();
 		assertThat(iterator.spliterator().getExactSizeIfKnown()).isEqualTo(2); 
 	}
 	
@@ -42,7 +43,7 @@ public class BoardServiceTest {
 	@DisplayName("Returns a board by its Id correctly")
 	void testFinByBoardId() {
 		int boardid=1;
-		Optional<Board> board= boardservice.findByBoardId(boardid);
+		Optional<Board> board= boardService.findByBoardId(boardid);
 		Board b = board.orElse(null);
 		assertThat(b.getBackground()).isEqualTo("resources/images/oro_erebor.jpg");
 	}
@@ -50,10 +51,10 @@ public class BoardServiceTest {
 	@DisplayName("Delete a board")
 	void testDeleteBoard() {
 		int boardid=2;
-		Optional<Board> board= boardservice.findByBoardId(boardid);
+		Optional<Board> board= boardService.findByBoardId(boardid);
 		if(board.isPresent()) {
-			boardservice.delete(board.get());
-			Optional<Board> boarddeleted =boardservice.findByBoardId(boardid);
+			boardService.delete(board.get());
+			Optional<Board> boarddeleted =boardService.findByBoardId(boardid);
 			assertThat(boarddeleted.isPresent()).isFalse();
 		}else {
 			System.out.println("Board not found");
@@ -64,14 +65,26 @@ public class BoardServiceTest {
 	@DisplayName("Save a board")
 	void testSaveBoard() {
 		Board board= new Board();
-		board.setMountainDeck(mountaindesckservice.findByMountainDeckId(1).get());
-		board.setGame(gameservice.findByGameId(2).get());
+		board.setMountainDeck(mountainDesckService.findByMountainDeckId(1).get());
+		board.setGame(gameService.findByGameId(2).get());
 		
-		boardservice.saveBoard(board);
+		boardService.saveBoard(board);
 		int boardid= board.getId();
-		Optional<Board> boardtest =boardservice.findByBoardId(boardid);
+		Optional<Board> boardtest =boardService.findByBoardId(boardid);
 		
 		assertThat(boardtest.isPresent()).isTrue();
+	}
+	
+	@Test
+	@DisplayName("Create a board")
+	void testCreateBoard() {
+		Long boardsFound = this.boardService.findAll().spliterator().getExactSizeIfKnown();
+		Game game = this.gameService.findByGameId(2).get();
 		
+		this.boardService.createBoard(game);
+		
+		Long boardsFoundAfterCreate = this.boardService.findAll().spliterator().getExactSizeIfKnown();
+		
+		assertThat(boardsFound+1).isEqualTo(boardsFoundAfterCreate);
 	}
 }

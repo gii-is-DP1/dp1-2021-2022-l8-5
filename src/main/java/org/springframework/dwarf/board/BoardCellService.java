@@ -23,6 +23,10 @@ public class BoardCellService {
 		this.mountainCardSer = mountainCardSer;
 	}
 	
+	public long count() {
+		return boardCellRep.count();
+	}
+	
 	public Iterable<BoardCell> findAll() {
 		return boardCellRep.findAll();
 	}
