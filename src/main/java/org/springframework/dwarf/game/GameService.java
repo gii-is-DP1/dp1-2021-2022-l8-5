@@ -1,5 +1,6 @@
 package org.springframework.dwarf.game;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -97,5 +98,20 @@ public class GameService {
 
     private Boolean amISecondPlayer(Game game, Player player){
         return game.getPlayerPosition(player) == 1;
+    }
+
+	public Boolean alreadyInGame(String currentUsername) {
+    	Boolean already= false;
+    	List<Game> listgames=new ArrayList<Game>();
+    	this.findAll().forEach(listgames::add);
+    	for(Game g:listgames) {
+    		if(g.firstPlayer.getUser().getUsername()==currentUsername|| 
+			g.firstPlayer.getUser().getUsername()==currentUsername ||
+			g.firstPlayer.getUser().getUsername()==currentUsername) {
+    			already=true;
+    		}
+    	}
+    	return already;
+    	
     }
 }
