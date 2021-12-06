@@ -123,8 +123,6 @@ class MountainDeckServiceTests {
 		Long foundsAfterCreate = mountainDecksAfterCreate.spliterator().getExactSizeIfKnown();
 		
 		assertThat(foundsAfterCreate).isEqualTo(founds+1);
-		// el id del nuevo deck debe ser 4 (2 en data.sql, 1 por test save (arriba))
-		assertThat(deck.getId()).isEqualTo(4);
 	}
 
 	@Test
