@@ -104,18 +104,51 @@ public class GameService {
     private Boolean amISecondPlayer(Game game, Player player){
         return game.getPlayerPosition(player) == 1;
     }
+    
+    public Integer getCurrentGameId(String currentUsername) {
+    	if (alreadyInGame(currentUsername)) {
+        	for(Game g : this.findUnfinishedGames()) {
+        		if(g.firstPlayer != null) {
+        			if(g.firstPlayer.getUser().getUsername().equals(currentUsername)) {
+        				return g.getId();
+        			}
+        		}
+        		if(g.secondPlayer != null) {
+        			if(g.secondPlayer.getUser().getUsername().equals(currentUsername)) {
+        				return g.getId();
+        			}
+        		}
+        		if(g.thirdPlayer != null) {
+        			if(g.thirdPlayer.getUser().getUsername().equals(currentUsername)) {
+        				return g.getId();
+        			}
+        		}
+        	}
+    	}
+    	
+		return -1;
+    }
 
 	public Boolean alreadyInGame(String currentUsername) {
-    	Boolean already= false;
-    	List<Game> listgames=new ArrayList<Game>();
-    	this.findAll().forEach(listgames::add);
-    	for(Game g:listgames) {
-    		if(g.firstPlayer.getUser().getUsername()==currentUsername|| 
-			g.firstPlayer.getUser().getUsername()==currentUsername ||
-			g.firstPlayer.getUser().getUsername()==currentUsername) {
-    			already=true;
+    	Boolean already = false;
+    	for(Game g : this.findUnfinishedGames()) {
+    		if(g.firstPlayer != null) {
+    			if(g.firstPlayer.getUser().getUsername().equals(currentUsername)) {
+    				return true;
+    			}
+    		}
+    		if(g.secondPlayer != null) {
+    			if(g.secondPlayer.getUser().getUsername().equals(currentUsername)) {
+    				return true;
+    			}
+    		}
+    		if(g.thirdPlayer != null) {
+    			if(g.thirdPlayer.getUser().getUsername().equals(currentUsername)) {
+    				return true;
+    			}
     		}
     	}
+    	
     	return already;
     	
     }
