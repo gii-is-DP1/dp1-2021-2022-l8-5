@@ -21,5 +21,11 @@ public class ResourcesRepositoryTest {
             Collection<Resources> resources = resourcesRepository.findByGameId(1);
             assertEquals(resources.spliterator().getExactSizeIfKnown(), 1);
         }
+        
+        @Test
+        void findByPlayerId() throws Exception {
+            Collection<Resources> resources = resourcesRepository.findByPlayerId(1);
+            assertEquals(resources.spliterator().getExactSizeIfKnown(), 1);
+        }
 
 }
