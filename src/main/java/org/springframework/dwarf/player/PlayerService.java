@@ -18,13 +18,10 @@ package org.springframework.dwarf.player;
 import java.util.Collection;
 import java.util.List;
 
-import javax.annotation.Resources;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dwarf.game.CreateGameWhilePlayingException;
 import org.springframework.dwarf.game.Game;
-import org.springframework.dwarf.game.GameRepository;
 import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.resources.ResourcesService;
 import org.springframework.dwarf.user.AuthoritiesService;
@@ -163,7 +160,7 @@ public class PlayerService {
 	}
 
 	private void isExceptionalCase(Game game) throws DeletePlayerInGameException {
-		if(game.getFinishDate().equals(null)){
+		if(game.getFinishDate()==null){
 			throw new DeletePlayerInGameException();
 		}
 	}
