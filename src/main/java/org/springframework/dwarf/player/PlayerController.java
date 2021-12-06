@@ -17,7 +17,6 @@ package org.springframework.dwarf.player;
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -29,7 +28,7 @@ import org.springframework.dwarf.user.DuplicatedEmailException;
 import org.springframework.dwarf.user.DuplicatedUsernameException;
 import org.springframework.dwarf.user.User;
 import org.springframework.dwarf.user.UserService;
-import org.springframework.dwarf.web.CorrentUserController;
+import org.springframework.dwarf.util.CorrentUserController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -145,25 +144,7 @@ public class PlayerController {
 			return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
 		}
 		else {
-			Player playerFound = playerService.findPlayerById(playerid);
-			User userFound = playerFound.getUser();
-			BeanUtils.copyProperties(player,playerFound,"id");
-			User user2 = player.getUser();
-			BeanUtils.copyProperties(user2,userFound,"username","authorities");
-			playerFound.setUser(userFound);
-				try {
-					//creating owner, user and authorities
-					this.playerService.savePlayer(playerFound);
-					
-					return "redirect:/players";
-				} catch (DuplicatedUsernameException dp) {
-					result.rejectValue (" name", " duplicate", "already exists");
-					return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
-					} catch (DuplicatedEmailException dp) {
-						result.rejectValue (" email", " duplicate", "already exists");
-						return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
-						}
-				
+			return updatingPlayer(playerid, player, result);
 		}
 	}
 
@@ -187,31 +168,33 @@ public class PlayerController {
 			return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
 		}
 		else {
-			Player playerFound = playerService.findPlayerById(playerid);
-			User userFound = playerFound.getUser();
-			BeanUtils.copyProperties(player,playerFound,"id");
-			User user2 = player.getUser();
-			BeanUtils.copyProperties(user2,userFound,"username","authorities");
-			playerFound.setUser(userFound);
-			try {
-				//creating owner, user and authorities
-				this.playerService.savePlayer(playerFound);
-				
-				return "redirect:/";
-			} catch (DuplicatedUsernameException dp) {
-				result.rejectValue (" name", " duplicate", "already exists");
+			return updatingPlayer(playerid, player, result);
+	}
+	}
+	private String updatingPlayer(Integer playerid,Player player,BindingResult result) {
+		Player playerFound = playerService.findPlayerById(playerid);
+		User userFound = playerFound.getUser();
+		BeanUtils.copyProperties(player,playerFound,"id");
+		User user2 = player.getUser();
+		BeanUtils.copyProperties(user2,userFound,"username","authorities");
+		playerFound.setUser(userFound);
+		try {
+			this.playerService.savePlayer(playerFound);
+			
+			return "redirect:/";
+		} catch (DuplicatedUsernameException dp) {
+			result.rejectValue (" name", " duplicate", "already exists");
+			return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
+			} catch (DuplicatedEmailException dp) {
+				result.rejectValue (" email", " duplicate", "already exists");
 				return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
-				} catch (DuplicatedEmailException dp) {
-					result.rejectValue (" email", " duplicate", "already exists");
-					return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
-					}
-			//this.playerService.savePlayer(player);
-		}
+				}
+		//this.playerService.savePlayer(player);
 	}
 	
 	/**
-	 * Custom handler for displaying an owner.
-	 * @param playerId the ID of the owner to display
+	 * Custom handler for displaying an player.
+	 * @param playerId the ID of the player to display
 	 * @return a ModelMap with the model attributes for the view
 	 */
 	@GetMapping("/players/{playerid}")
@@ -223,8 +206,8 @@ public class PlayerController {
 	}
 	
 	@GetMapping("/players/{playerId}/delete")
-	public String deletePlayer(@PathVariable("playerId") Integer playerId,ModelMap modelMap) {
-		String view = "players/playersList";
+	public String deletePlayer(@PathVariable("playerId") Integer playerId,ModelMap modelMap) throws DeletePlayerInGameException {
+		String view = "redirect:/players";
 		Player player = playerService.findPlayerById(playerId);
 		playerService.delete(player);
 		modelMap.addAttribute("message", "Player deleted!");

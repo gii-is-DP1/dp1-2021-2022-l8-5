@@ -2,13 +2,17 @@ package org.springframework.dwarf.worker;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dwarf.player.Player;
+import org.springframework.dwarf.player.PlayerService;
 import org.springframework.stereotype.Service;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author David Zamora
@@ -21,6 +25,8 @@ public class WorkerServiceTest {
 
 	@Autowired
 	private WorkerService workerService;
+	@Autowired
+	protected PlayerService playerService;
 	
 	
 	@Test
@@ -44,6 +50,25 @@ public class WorkerServiceTest {
 		System.out.println("------------TEST FIND BY Worker ID------------");
 		Worker p = Worker.orElse(null);
 		assertEquals(p.getPosition(), 1);
+	}
+	
+	@Test
+	public void testFindByPlayerId() {
+		int id = 1;
+		
+		Collection<Worker> Worker = workerService.findByPlayerId(id);
+		System.out.println("------------TEST FIND BY Player ID------------");
+		assertThat(Worker.size()).isEqualTo(1);
+		
+	}
+	
+	@Test
+	public void testDeletePlayerWorker() {
+		Player player = playerService.findPlayerById(1);
+		
+		workerService.deletePlayerWorker(player);
+		Collection<Worker> Worker = workerService.findByPlayerId(1);
+		assertThat(Worker.size()).isEqualTo(0);
 	}
 	
 	@Test

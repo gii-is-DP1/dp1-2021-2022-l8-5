@@ -18,26 +18,17 @@ package org.springframework.dwarf.mountainCard;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.After;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dwarf.mountain_card.CardType;
 import org.springframework.dwarf.mountain_card.MountainCard;
-import org.springframework.dwarf.mountain_card.MountainCardService;
 import org.springframework.dwarf.mountain_card.MountainDeck;
 import org.springframework.dwarf.mountain_card.MountainDeckService;
-import org.springframework.dwarf.player.Player;
-import org.springframework.dwarf.player.PlayerService;
-import org.springframework.dwarf.special_card.SpecialDeck;
-import org.springframework.dwarf.user.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -119,6 +110,19 @@ class MountainDeckServiceTests {
 		Iterable<MountainDeck> mountainDecksUpdated = this.mountainDeckService.findAll();
 		assertThat(mountainDecksUpdated.spliterator().getExactSizeIfKnown()).isEqualTo(found+1);
 		
+	}
+	
+	@Test
+	void shouldCreateMountainDeck() {
+		Iterable<MountainDeck> mountainDecks = this.mountainDeckService.findAll();
+		Long founds = mountainDecks.spliterator().getExactSizeIfKnown();
+		
+		MountainDeck deck = this.mountainDeckService.createMountainDeck();
+		
+		Iterable<MountainDeck> mountainDecksAfterCreate = this.mountainDeckService.findAll();
+		Long foundsAfterCreate = mountainDecksAfterCreate.spliterator().getExactSizeIfKnown();
+		
+		assertThat(foundsAfterCreate).isEqualTo(founds+1);
 	}
 
 	@Test

@@ -81,7 +81,7 @@ public class Game extends BaseEntity{
 	LocalDateTime finishDate;
 	
 	
-	public List<Player> getPlayerList(){
+	public List<Player> getPlayersList(){
 		List<Player> pList = new ArrayList<Player>();
 		
 		if(this.firstPlayer != null)
@@ -95,11 +95,31 @@ public class Game extends BaseEntity{
 	}
 	
     public Boolean allPlayersSet(){
-        return this.getPlayerList().size() == 3;
+        return this.getPlayersList().size() == 3;
     }
     
     public Boolean isPlayerInGame(Player player) {
-		return this.getPlayerList().contains(player);
+		return this.getPlayersList().contains(player);
 	}
     
+    public Integer getPlayerPosition(Player player) {
+    	return this.getPlayersList().indexOf(player);
+    }
+
+    // must be called when a player is deleted
+	public void deletePlayer(Player player, Player sustitute) {
+		Integer position = this.getPlayerPosition(player)+1;
+		if(currentPlayer.equals(player)) {
+			this.setCurrentPlayer(sustitute);
+		}
+		if(position==1) {
+			this.setFirstPlayer(sustitute);
+		}
+		else if(position==2) {
+			this.setSecondPlayer(sustitute);
+		}
+		else if(position==3) {
+			this.setThirdPlayer(sustitute);
+		}
+	}
 }

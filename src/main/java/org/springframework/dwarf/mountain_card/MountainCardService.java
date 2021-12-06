@@ -16,10 +16,10 @@
 package org.springframework.dwarf.mountain_card;
 
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,16 +40,22 @@ public class MountainCardService {
 	@Autowired
 	public MountainCardService(MountainCardRepository mountainCardRepository) {
 		this.mountainCardRepo = mountainCardRepository;
-	}		
-	
-	/*@Transactional
-	public int cardCount() {
-		return (int) mountainCardRepo.count();
-	}*/
+	}
 
 	public Iterable<MountainCard> findAll() {
 		return mountainCardRepo.findAll();
 	}
+	
+	@Transactional(readOnly = true)
+	public List<MountainCard> findByGroupCard(Integer cardGroup){
+		return mountainCardRepo.findByGroupCards(cardGroup);
+	}
+	
+	@Transactional(readOnly = true)
+	public MountainCard findInitialCardByPosition(Integer xposition, Integer yposition) {
+		return mountainCardRepo.findInitialCardByPosition(xposition, yposition);
+	}
+	
 	@Transactional(readOnly = true)
 	public Optional<MountainCard> findByMountainCardId(int id){
 		return mountainCardRepo.findById(id);

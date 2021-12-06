@@ -17,7 +17,7 @@ package org.springframework.dwarf.mountainCard;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +25,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dwarf.mountain_card.MountainCard;
 import org.springframework.dwarf.mountain_card.MountainCardService;
-import org.springframework.dwarf.player.Player;
-import org.springframework.dwarf.player.PlayerService;
-import org.springframework.dwarf.user.User;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Integration test of the Service and the Repository layer.
@@ -80,5 +76,18 @@ class MountainCardServiceTests {
 		assertThat(mountainCards.spliterator().getExactSizeIfKnown()).isEqualTo(18);
 	}
 	
-
+	@Test
+	void shouldFindByGroupCard() {
+		// mirar el numero de cartas que hay del tipo 2 cuando se actualice data.sql (actualmente 6)
+		List<MountainCard> mountainCards = mountainCardService.findByGroupCard(2);
+		assertThat(mountainCards.size()).isEqualTo(6);
+	}
+	
+	@Test
+	void shouldFindInitialCardByPosition() {
+		// Initial card with position (1,0)
+		MountainCard card = mountainCardService.findByMountainCardId(1).get();
+		MountainCard cardSearch = mountainCardService.findInitialCardByPosition(1, 0);
+		assertThat(cardSearch).isEqualTo(card);
+	}
 }

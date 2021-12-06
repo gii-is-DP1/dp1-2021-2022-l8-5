@@ -16,16 +16,21 @@
 package org.springframework.dwarf.player;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dwarf.game.CreateGameWhilePlayingException;
+import org.springframework.dwarf.game.Game;
+import org.springframework.dwarf.game.GameService;
+import org.springframework.dwarf.resources.ResourcesService;
 import org.springframework.dwarf.user.AuthoritiesService;
 import org.springframework.dwarf.user.DuplicatedEmailException;
 import org.springframework.dwarf.user.DuplicatedUsernameException;
 import org.springframework.dwarf.user.UserService;
+import org.springframework.dwarf.worker.WorkerService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 /**
  * Mostly used as a facade for all Petclinic controllers Also a placeholder
@@ -38,13 +43,22 @@ import org.springframework.util.StringUtils;
 @Service
 public class PlayerService {
 
-	private PlayerRepository playerRepository;	
+	private PlayerRepository playerRepository;		
 	
 	@Autowired
 	private UserService userService;
 	
 	@Autowired
 	private AuthoritiesService authoritiesService;
+
+	@Autowired
+	private GameService gameService;
+	
+	@Autowired
+	private ResourcesService resourcesService;
+	
+	@Autowired
+	private WorkerService workerService;
 
 	@Autowired
 	public PlayerService(PlayerRepository playerRepository) {
@@ -58,7 +72,7 @@ public class PlayerService {
 
 	@Transactional(readOnly = true)
 	public Player findPlayerById(int id) throws DataAccessException {
-		return playerRepository.findById(id);
+		return playerRepository.findById(id).get();
 	}
 
 	@Transactional(readOnly = true)
@@ -119,9 +133,40 @@ public class PlayerService {
 		//creating authorities
 		authoritiesService.saveAuthorities(player.getUser().getUsername(), "admin");
 	}*/
-	
-	public void delete(Player player) {
-		userService.delete(player.getUser());
+	@Transactional(rollbackFor = DeletePlayerInGameException.class)
+	public void delete(Player player) throws DeletePlayerInGameException{
+		List<Game> games = gameService.findPlayerGames(player);
+		Player placeholder = findPlayerById(0);
+		games.stream().forEach(game -> {
+			game.deletePlayer(player, placeholder);
+			try {
+				isExceptionalCase(game);
+				gameService.saveGame(game);
+			} catch (DataAccessException | CreateGameWhilePlayingException | DeletePlayerInGameException e) {
+				e.printStackTrace();
+			}
+			});
+		resourcesService.findByPlayerId(player.getId()).stream().forEach(res -> {
+			res.deletePlayer(placeholder);
+			try {
+				resourcesService.saveResources(res);
+			} catch (DataAccessException e) {
+				e.printStackTrace();
+			}
+			});
+		workerService.deletePlayerWorker(player);
+		playerRepository.delete(player);
+		//userService.delete(player.getUser());
 	}
+
+	private void isExceptionalCase(Game game) throws DeletePlayerInGameException {
+		if(game.getFinishDate()==null){
+			throw new DeletePlayerInGameException();
+		}
+	}
+
+
+
+
 
 }

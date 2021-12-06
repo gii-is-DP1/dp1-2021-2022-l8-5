@@ -17,11 +17,9 @@ package org.springframework.dwarf.player;
 
 import java.util.Collection;
 
-import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-import org.springframework.dwarf.model.BaseEntity;
 import org.springframework.dwarf.player.PlayerRepository;
 
 /**
@@ -32,21 +30,7 @@ import org.springframework.dwarf.player.PlayerRepository;
  * @autor Pablo Alvarez
  * @since 15.1.2013
  */
-public interface PlayerRepository extends Repository<Player, Integer> {
-
-	/**
-	 * Save an <code>Player</code> to the data store, either inserting or updating it.
-	 * @param owner the <code>Player</code> to save
-	 * @see BaseEntity#isNew
-	 */
-	void save(Player owner) throws DataAccessException;
-	
-	/**
-	 * Retrieve all <code>Player</code>s from db.
-	 * @return a <code>Iterable</code> of <code>Player</code>s
-	 */
-	@Query("SELECT player2 FROM Player player2")
-	public Iterable<Player> findAll();
+public interface PlayerRepository extends CrudRepository<Player, Integer> {
 
 	/**
 	 * Retrieve <code>Player</code>s from the data store by last name, returning all owners
@@ -55,19 +39,10 @@ public interface PlayerRepository extends Repository<Player, Integer> {
 	 * @return a <code>Collection</code> of matching <code>Player</code>s (or an empty
 	 * <code>Collection</code> if none found)
 	 */	
-	@Query("SELECT DISTINCT player2 FROM Player player2 WHERE player2.lastName LIKE :lastName%")
+	@Query("SELECT DISTINCT player2 FROM Player player2 WHERE player2.lastName LIKE :lastName% AND player2.id>0")
 	public Collection<Player> findByLastName(@Param("lastName") String lastName);
 
 
-	/**
-	 * Retrieve an <code>Player</code> from the data store by id.
-	 * @param id the id to search for
-	 * @return the <code>Player</code> if found
-	 * @throws org.springframework.dao.DataRetrievalFailureException if not found
-	 */	
-	@Query("SELECT player2 FROM Player player2 WHERE player2.id =:id")
-	public Player findById(@Param("id") int id);
-	
 	/**
 	 * Retrieve an <code>Player</code> from the data store by username.
 	 * @param username the username to search for

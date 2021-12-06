@@ -12,7 +12,6 @@ import javax.validation.constraints.Positive;
 
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.model.BaseEntity;
-import org.springframework.dwarf.mountain_card.MountainCard;
 import org.springframework.dwarf.mountain_card.MountainDeck;
 
 /**
@@ -34,11 +33,9 @@ public class Board extends BaseEntity{
     @Positive
     int height;
     
-    public Board(){
-    	this.background ="resources/images/oro_erebor.jpg";
-        this.width=750;
-        this.height=600;
-    }
+    @OneToMany
+    @JoinColumn(name = "BOARD_ID")
+    List<BoardCell> boardCells;
     
     @NotNull
     @OneToOne
@@ -49,5 +46,20 @@ public class Board extends BaseEntity{
     @OneToOne(optional=false)
     @JoinColumn(name = "GAME")
     Game game;
-
+    
+    public Board(){
+    	this.background ="resources/images/oro_erebor.jpg";
+        this.width=750;
+        this.height=600;
+    }
+    
+    public Board(List<BoardCell> boardCells, MountainDeck mountainDeck, Game game){
+    	this.background ="resources/images/oro_erebor.jpg";
+        this.width=750;
+        this.height=600;
+        
+        this.boardCells = boardCells;
+        this.mountainDeck = mountainDeck;
+        this.game = game;
+    }
 }

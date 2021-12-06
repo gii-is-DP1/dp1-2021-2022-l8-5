@@ -2,9 +2,6 @@ package org.springframework.dwarf.card;
 
 
 import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
@@ -34,6 +31,7 @@ public class Card extends BaseEntity{
 	@Column(name = "description")
 	@NotEmpty
 	String description;
-
-
+	
+	@Column(name = "image")
+	String image;
 }
