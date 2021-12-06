@@ -15,7 +15,7 @@ class PlayerRepositoryTests {
         
         @Test
         void findUserById() throws Exception {
-        	Player player = playerRepository.findById(1);
+        	Player player = playerRepository.findById(1).get();
             assertEquals(player.getUsername(), "pabmargom3");       
         }
         

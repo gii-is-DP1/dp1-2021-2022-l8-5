@@ -24,6 +24,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dwarf.game.Game;
+import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.user.DuplicatedEmailException;
 import org.springframework.dwarf.user.DuplicatedUsernameException;
 import org.springframework.dwarf.user.User;
@@ -131,5 +133,14 @@ class PlayerServiceTests {
 		assertThat(player.getLastName()).isEqualTo(newLastName);
 	}
 
+	@Test
+	@Transactional
+	void shouldDeletePlayer(){
+		long numPlayers = playerService.findAll().spliterator().getExactSizeIfKnown();
+		Player player = this.playerService.findPlayerById(1);
+		playerService.delete(player);
+		long numPlayersAfterDelete = playerService.findAll().spliterator().getExactSizeIfKnown();
+		assertThat(numPlayers).isEqualTo(numPlayersAfterDelete+1);
+	}
 
 }

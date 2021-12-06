@@ -46,6 +46,11 @@ public class GameService {
 	public List<Game> findUnfinishedGames(){
 		return gameRepo.searchUnfinishedGames();
 	}
+
+	@Transactional(readOnly = true)
+	public List<Game> findPlayerGames(Player player){
+		return gameRepo.searchPlayerGames(player);
+	}
 	
 	public void delete(Game game) {
 		gameRepo.delete(game);

@@ -1,8 +1,14 @@
 package org.springframework.dwarf.worker;
 
+import java.util.Collection;
+
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 
 public interface WorkerRepository extends  CrudRepository<Worker, Integer>{
 	
+    @Query("SELECT workers FROM Worker workers WHERE workers.player.id =:playerId")
+    public Collection<Worker> findByPlayerId(@Param("playerId") int playerId);
 }

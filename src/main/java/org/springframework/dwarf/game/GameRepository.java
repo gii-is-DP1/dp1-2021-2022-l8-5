@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.dwarf.player.Player;
 
 
 /**
@@ -26,4 +28,7 @@ public interface GameRepository extends  CrudRepository<Game, Integer>{
 	 */
 	@Query("SELECT game FROM Game game WHERE game.finishDate IS NULL")
 	List<Game> searchUnfinishedGames() throws DataAccessException;
+
+	@Query("SELECT game FROM Game game WHERE game.firstPlayer=:player OR game.secondPlayer=:player OR game.thirdPlayer=:player")
+	List<Game> searchPlayerGames(@Param("player") Player player) throws DataAccessException;
 }

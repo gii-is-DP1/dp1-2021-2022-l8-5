@@ -17,10 +17,12 @@
 package org.springframework.dwarf.worker;
 
 
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dwarf.player.Player;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,8 +56,18 @@ public class WorkerService {
 		return workerRepo.findById(id);
 	}
 	
+	@Transactional(readOnly = true)
+	public Collection<Worker> findByPlayerId(int id){
+		return workerRepo.findByPlayerId(id);
+	}
+	
 	public void delete(Worker worker) {
 		workerRepo.delete(worker);
+	}
+	
+	public void deletePlayerWorker(Player player) {
+		Collection<Worker> Workers = findByPlayerId(player.getId());
+		Workers.stream().forEach(worker -> delete(worker));
 	}
 	
 	@Transactional
