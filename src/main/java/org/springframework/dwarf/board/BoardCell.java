@@ -31,7 +31,6 @@ public class BoardCell extends BaseEntity{
 	@ManyToMany
 	List<MountainCard> mountaincards;
 	
-	
 	public BoardCell(Integer xposition, Integer yposition, List<MountainCard> mountaincards) {
 		this.xposition = xposition;
 		this.yposition = yposition;

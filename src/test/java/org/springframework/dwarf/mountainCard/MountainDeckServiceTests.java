@@ -113,7 +113,7 @@ class MountainDeckServiceTests {
 	}
 	
 	@Test
-	void createMountainDeck() {
+	void shouldCreateMountainDeck() {
 		Iterable<MountainDeck> mountainDecks = this.mountainDeckService.findAll();
 		Long founds = mountainDecks.spliterator().getExactSizeIfKnown();
 		

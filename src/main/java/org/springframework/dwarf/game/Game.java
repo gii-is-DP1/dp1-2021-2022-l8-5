@@ -106,6 +106,7 @@ public class Game extends BaseEntity{
     	return this.getPlayersList().indexOf(player);
     }
 
+    // must be called when a player is deleted
 	public void deletePlayer(Player player, Player sustitute) {
 		Integer position = this.getPlayerPosition(player)+1;
 		if(position==1)
