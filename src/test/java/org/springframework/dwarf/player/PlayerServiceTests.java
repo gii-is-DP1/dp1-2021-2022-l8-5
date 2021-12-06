@@ -135,7 +135,7 @@ class PlayerServiceTests {
 
 	@Test
 	@Transactional
-	void shouldDeletePlayer(){
+	void shouldDeletePlayer() throws DeletePlayerInGameException{
 		long numPlayers = playerService.findAll().spliterator().getExactSizeIfKnown();
 		Player player = this.playerService.findPlayerById(1);
 		playerService.delete(player);
