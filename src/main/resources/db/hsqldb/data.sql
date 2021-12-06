@@ -47,26 +47,26 @@ INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,secondPlay
 
 
  -- Card sheet 1
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Iron Seam', 'Take 3 iron from the supply', 1, 0, 'MINE', 1);
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Iron Seam', 'Take 3 iron from the supply', 2, 0, 'MINE', 1);
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Iron Seam', 'Take 3 iron from the supply', 3, 0, 'MINE', 1);
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Iron Seam', 'Take 3 iron from the supply', 1, 1, 'MINE', 1);
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Iron Seam', 'Take 3 iron from the supply', 2, 1, 'MINE', 1);
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Iron Seam', 'Take 3 iron from the supply', 3, 1, 'MINE', 1);
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Gold Seam', 'Take 1 gold from the supply', 1, 2, 'MINE', 1);
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Iron Seam', 'Take 3 iron from the supply', 2, 2, 'MINE', 1);
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Gold Seam', 'Take 1 gold from the supply', 3, 2, 'MINE', 1);
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Iron Seam', 'Take 3 iron from the supply', 1, 0, 'MINE', 1, 'resources/images/dwarf_card.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Iron Seam', 'Take 3 iron from the supply', 2, 0, 'MINE', 1, 'resources/images/dwarf_card.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Iron Seam', 'Take 3 iron from the supply', 3, 0, 'MINE', 1, 'resources/images/dwarf_card.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Iron Seam', 'Take 3 iron from the supply', 1, 1, 'MINE', 1, 'resources/images/dwarf_card.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Iron Seam', 'Take 3 iron from the supply', 2, 1, 'MINE', 1, 'resources/images/dwarf_card.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Iron Seam', 'Take 3 iron from the supply', 3, 1, 'MINE', 1, 'resources/images/dwarf_card.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Gold Seam', 'Take 1 gold from the supply', 1, 2, 'MINE', 1, 'resources/images/dwarf_card.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Iron Seam', 'Take 3 iron from the supply', 2, 2, 'MINE', 1, 'resources/images/dwarf_card.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Gold Seam', 'Take 1 gold from the supply', 3, 2, 'MINE', 1, 'resources/images/dwarf_card.png');
  
  -- Card sheet 2
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Alloy Steel', 'Return 3 iron to the supply then take 2 steel', 1, 0, 'MINE', 2);
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Orc Raiders', 'If undefended at the end of the round, players cannot take any MINE actions', 2, 0, 'DEFEND', 2);
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Forge Sword', 'Return 3 steel to the supply then take 1 item', 3, 0, 'CRAFT', 3);
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Great Dragon', 'If undefended at the end of the round, each player must return all gold they possess to the supply', 1, 1, 'DEFEND', 2);
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Knockers', 'If undefended at the end of the round, each player must return 1 iron to the supply', 2, 1, 'DEFEND', 3);
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Alloy Steel', 'Return 3 iron to the supply then take 2 steel', 3, 1, 'MINE', 3);
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Forge Mace', 'Return 2 steel and 1 gold to the supply then take 1 item', 1, 2, 'CRAFT', 2);
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Gold Seam', 'Take 1 gold from the supply', 2, 2, 'MINE', 2);
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Iron Seam', 'Take 3 iron from the supply', 3, 2, 'MINE', 2);
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Alloy Steel', 'Return 3 iron to the supply then take 2 steel', 1, 0, 'MINE', 2, 'resources/images/dwarf_card.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Orc Raiders', 'If undefended at the end of the round, players cannot take any MINE actions', 2, 0, 'DEFEND', 2, 'resources/images/dwarf_card.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Forge Sword', 'Return 3 steel to the supply then take 1 item', 3, 0, 'CRAFT', 3, 'resources/images/dwarf_card.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Great Dragon', 'If undefended at the end of the round, each player must return all gold they possess to the supply', 1, 1, 'DEFEND', 2, 'resources/images/dwarf_card.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Knockers', 'If undefended at the end of the round, each player must return 1 iron to the supply', 2, 1, 'DEFEND', 3, 'resources/images/dwarf_card.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Alloy Steel', 'Return 3 iron to the supply then take 2 steel', 3, 1, 'MINE', 3, 'resources/images/dwarf_card.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Forge Mace', 'Return 2 steel and 1 gold to the supply then take 1 item', 1, 2, 'CRAFT', 2, 'resources/images/dwarf_card.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Gold Seam', 'Take 1 gold from the supply', 2, 2, 'MINE', 2, 'resources/images/dwarf_card.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Iron Seam', 'Take 3 iron from the supply', 3, 2, 'MINE', 2, 'resources/images/dwarf_card.png');
  
  -- Card sheet 3
 
