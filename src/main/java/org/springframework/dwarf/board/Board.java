@@ -1,7 +1,10 @@
 package org.springframework.dwarf.board;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -30,11 +33,9 @@ public class Board extends BaseEntity{
     @Positive
     int height;
     
-    public Board(){
-    	this.background ="resources/images/oro_erebor.jpg";
-        this.width=750;
-        this.height=600;
-    }
+    @OneToMany
+    @JoinColumn(name = "BOARD_ID")
+    List<BoardCell> boardCells;
     
     @NotNull
     @OneToOne
@@ -45,5 +46,20 @@ public class Board extends BaseEntity{
     @OneToOne(optional=false)
     @JoinColumn(name = "GAME")
     Game game;
-
+    
+    public Board(){
+    	this.background ="resources/images/oro_erebor.jpg";
+        this.width=750;
+        this.height=600;
+    }
+    
+    public Board(List<BoardCell> boardCells, MountainDeck mountainDeck, Game game){
+    	this.background ="resources/images/oro_erebor.jpg";
+        this.width=750;
+        this.height=600;
+        
+        this.boardCells = boardCells;
+        this.mountainDeck = mountainDeck;
+        this.game = game;
+    }
 }

@@ -7,7 +7,8 @@
 <!-- %@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %-->  
 
 <dwarf:layout pageName="board">
-
+	<h1>Has entrado en partida</h1>
+	<!--
     <div class="row">
         <div class="col-md-12">
             <dwarf:board board="${board}"/>
@@ -17,4 +18,5 @@
             </c:forEach> 
         </div>
     </div>
+     -->
 </dwarf:layout>

@@ -10,6 +10,8 @@ INSERT INTO users(username,password,enabled,email) VALUES ('test','1',TRUE,'test
 INSERT INTO users(username,password,enabled,email) VALUES ('framigdom','1',TRUE,'test6@test.com');
 INSERT INTO users(username,password,enabled,email) VALUES ('pabalvcar','1',TRUE,'test7@test.com');
 INSERT INTO users(username,password,enabled,email) VALUES ('josgarboh','1',TRUE,'test8@test.com');
+INSERT INTO users(username,password,enabled,email) VALUES ('test2','1',TRUE,'test10@test.com');
+INSERT INTO users(username,password,enabled,email) VALUES ('test3','1',TRUE,'test11@test.com');
 INSERT INTO users(username,password,enabled,email) VALUES ('P5xEr6oez!AH6vHBhVE8ZAeBo9&FIHdEfdB9X19fA4yPrhrKG%','1',TRUE,'Yh&as2FHef1O84Tfycp7ZcG@Yh&as2FHef1O84Tfycp7ZcG.n&GdiH');
 INSERT INTO authorities(id,username,authority) VALUES (2,'owner1','owner');
 INSERT INTO authorities(id,username,authority) VALUES (3,'pabmargom3','admin');
@@ -18,6 +20,10 @@ INSERT INTO authorities(id,username,authority) VALUES (5,'dieruigil','admin');
 INSERT INTO authorities(id,username,authority) VALUES (6,'test','player');
 INSERT INTO authorities(id,username,authority) VALUES (7,'framigdom','player');
 INSERT INTO authorities(id,username,authority) VALUES (8,'pabalvcar','player');
+INSERT INTO authorities(id,username,authority) VALUES (9,'josgarboh','player');
+INSERT INTO authorities(id,username,authority) VALUES (10,'test2','player');
+INSERT INTO authorities(id,username,authority) VALUES (11,'test3','player');
+
 
 
 -- Players
@@ -29,6 +35,8 @@ INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES (4, 'Play
 INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES (5, 'Francisco Javier', 'Migueles' ,'framigdom','https://www.w3schools.com/w3images/avatar1.png');
 INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES (6, 'Pablo', 'Alvarez' ,'pabalvcar','https://www.w3schools.com/w3images/avatar1.png');
 INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES (7, 'Jose', 'Ignacio' ,'josgarboh','https://www.w3schools.com/w3images/avatar1.png');
+INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES (8, 'Player2', 'Test2' ,'test2','https://www.w3schools.com/w3images/avatar1.png');
+INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES (9, 'Player3', 'Test3' ,'test3','https://www.w3schools.com/w3images/avatar1.png');
 
 -- Looking for players games
 INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,startDate) VALUES (2,'MINERAL_EXTRACTION',1,6,'2021-11-12 16:42:00');
@@ -39,26 +47,26 @@ INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,secondPlay
 
 
  -- Card sheet 1
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Iron Seam', 'Take 3 iron from the supply', 1, 0, 'MINE', 1);
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Iron Seam', 'Take 3 iron from the supply', 2, 0, 'MINE', 1);
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Iron Seam', 'Take 3 iron from the supply', 3, 0, 'MINE', 1);
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Iron Seam', 'Take 3 iron from the supply', 1, 1, 'MINE', 1);
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Iron Seam', 'Take 3 iron from the supply', 2, 1, 'MINE', 1);
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Iron Seam', 'Take 3 iron from the supply', 3, 1, 'MINE', 1);
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Gold Seam', 'Take 1 gold from the supply', 1, 2, 'MINE', 1);
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Iron Seam', 'Take 3 iron from the supply', 2, 2, 'MINE', 1);
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Gold Seam', 'Take 1 gold from the supply', 3, 2, 'MINE', 1);
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Iron Seam', 'Take 3 iron from the supply', 1, 0, 'MINE', 1, 'resources/images/dwarf_card.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Iron Seam', 'Take 3 iron from the supply', 2, 0, 'MINE', 1, 'resources/images/dwarf_card.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Iron Seam', 'Take 3 iron from the supply', 3, 0, 'MINE', 1, 'resources/images/dwarf_card.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Iron Seam', 'Take 3 iron from the supply', 1, 1, 'MINE', 1, 'resources/images/dwarf_card.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Iron Seam', 'Take 3 iron from the supply', 2, 1, 'MINE', 1, 'resources/images/dwarf_card.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Iron Seam', 'Take 3 iron from the supply', 3, 1, 'MINE', 1, 'resources/images/dwarf_card.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Gold Seam', 'Take 1 gold from the supply', 1, 2, 'MINE', 1, 'resources/images/dwarf_card.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Iron Seam', 'Take 3 iron from the supply', 2, 2, 'MINE', 1, 'resources/images/dwarf_card.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Gold Seam', 'Take 1 gold from the supply', 3, 2, 'MINE', 1, 'resources/images/dwarf_card.png');
  
  -- Card sheet 2
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Alloy Steel', 'Return 3 iron to the supply then take 2 steel', 1, 0, 'MINE', 2);
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Orc Raiders', 'If undefended at the end of the round, players cannot take any MINE actions', 2, 0, 'DEFEND', 2);
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Forge Sword', 'Return 3 steel to the supply then take 1 item', 3, 0, 'CRAFT', 3);
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Great Dragon', 'If undefended at the end of the round, each player must return all gold they possess to the supply', 1, 1, 'DEFEND', 2);
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Knockers', 'If undefended at the end of the round, each player must return 1 iron to the supply', 2, 1, 'DEFEND', 3);
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Alloy Steel', 'Return 3 iron to the supply then take 2 steel', 3, 1, 'MINE', 3);
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Forge Mace', 'Return 2 steel and 1 gold to the supply then take 1 item', 1, 2, 'CRAFT', 2);
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Gold Seam', 'Take 1 gold from the supply', 2, 2, 'MINE', 2);
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup) VALUES ('Iron Seam', 'Take 3 iron from the supply', 3, 2, 'MINE', 2);
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Alloy Steel', 'Return 3 iron to the supply then take 2 steel', 1, 0, 'MINE', 2, 'resources/images/dwarf_card.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Orc Raiders', 'If undefended at the end of the round, players cannot take any MINE actions', 2, 0, 'DEFEND', 2, 'resources/images/dwarf_card.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Forge Sword', 'Return 3 steel to the supply then take 1 item', 3, 0, 'CRAFT', 3, 'resources/images/dwarf_card.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Great Dragon', 'If undefended at the end of the round, each player must return all gold they possess to the supply', 1, 1, 'DEFEND', 2, 'resources/images/dwarf_card.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Knockers', 'If undefended at the end of the round, each player must return 1 iron to the supply', 2, 1, 'DEFEND', 3, 'resources/images/dwarf_card.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Alloy Steel', 'Return 3 iron to the supply then take 2 steel', 3, 1, 'MINE', 3, 'resources/images/dwarf_card.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Forge Mace', 'Return 2 steel and 1 gold to the supply then take 1 item', 1, 2, 'CRAFT', 2, 'resources/images/dwarf_card.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Gold Seam', 'Take 1 gold from the supply', 2, 2, 'MINE', 2, 'resources/images/dwarf_card.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Iron Seam', 'Take 3 iron from the supply', 3, 2, 'MINE', 2, 'resources/images/dwarf_card.png');
  
  -- Card sheet 3
 
