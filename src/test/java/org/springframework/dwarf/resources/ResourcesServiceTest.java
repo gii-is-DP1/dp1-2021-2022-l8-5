@@ -2,6 +2,7 @@ package org.springframework.dwarf.resources;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -45,6 +46,18 @@ public class ResourcesServiceTest {
 		Resources p = Resources.orElse(null);	//Si no lo encuentra, devuelve null
 		assertEquals(p.getGold(), 3);
 	}
+	
+    @Test
+    void findByGameId() throws Exception {
+        Collection<Resources> resources = resourcesService.findByGameId(1);
+        assertEquals(resources.spliterator().getExactSizeIfKnown(), 1);
+    }
+    
+    @Test
+    void findByPlayerId() throws Exception {
+        Collection<Resources> resources = resourcesService.findByPlayerId(1);
+        assertEquals(resources.spliterator().getExactSizeIfKnown(), 1);
+    }
 	
 	@Test
 	public void testSaveResources() {

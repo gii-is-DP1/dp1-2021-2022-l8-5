@@ -28,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  *
  * @author David Zamora
+ * @author Jose Ignacio Garcia
  *
  */
 @Service
@@ -57,6 +58,11 @@ public class ResourcesService {
 	@Transactional(readOnly = true)
 	public Collection<Resources> findByGameId(int id){
 		return ResourcesRepo.findByGameId(id);
+	}
+	
+	@Transactional(readOnly = true)
+	public Collection<Resources> findByPlayerId(int id){
+		return ResourcesRepo.findByPlayerId(id);
 	}
 	
 	
