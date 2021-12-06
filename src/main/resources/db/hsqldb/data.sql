@@ -10,6 +10,8 @@ INSERT INTO users(username,password,enabled,email) VALUES ('test','1',TRUE,'test
 INSERT INTO users(username,password,enabled,email) VALUES ('framigdom','1',TRUE,'test6@test.com');
 INSERT INTO users(username,password,enabled,email) VALUES ('pabalvcar','1',TRUE,'test7@test.com');
 INSERT INTO users(username,password,enabled,email) VALUES ('josgarboh','1',TRUE,'test8@test.com');
+INSERT INTO users(username,password,enabled,email) VALUES ('test2','1',TRUE,'test10@test.com');
+INSERT INTO users(username,password,enabled,email) VALUES ('test3','1',TRUE,'test11@test.com');
 INSERT INTO authorities(id,username,authority) VALUES (2,'owner1','owner');
 INSERT INTO authorities(id,username,authority) VALUES (3,'pabmargom3','admin');
 INSERT INTO authorities(id,username,authority) VALUES (4,'davzamfer','admin');
@@ -17,6 +19,10 @@ INSERT INTO authorities(id,username,authority) VALUES (5,'dieruigil','admin');
 INSERT INTO authorities(id,username,authority) VALUES (6,'test','player');
 INSERT INTO authorities(id,username,authority) VALUES (7,'framigdom','player');
 INSERT INTO authorities(id,username,authority) VALUES (8,'pabalvcar','player');
+INSERT INTO authorities(id,username,authority) VALUES (9,'josgarboh','player');
+INSERT INTO authorities(id,username,authority) VALUES (10,'test2','player');
+INSERT INTO authorities(id,username,authority) VALUES (11,'test3','player');
+
 
 -- Players
 INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES (1, 'Pablo', 'Marin' ,'pabmargom3','https://www.w3schools.com/w3images/avatar1.png');
@@ -26,6 +32,8 @@ INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES (4, 'Play
 INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES (5, 'Francisco Javier', 'Migueles' ,'framigdom','https://www.w3schools.com/w3images/avatar1.png');
 INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES (6, 'Pablo', 'Alvarez' ,'pabalvcar','https://www.w3schools.com/w3images/avatar1.png');
 INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES (7, 'Jose', 'Ignacio' ,'josgarboh','https://www.w3schools.com/w3images/avatar1.png');
+INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES (8, 'Player2', 'Test2' ,'test2','https://www.w3schools.com/w3images/avatar1.png');
+INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES (9, 'Player3', 'Test3' ,'test3','https://www.w3schools.com/w3images/avatar1.png');
 
 -- Looking for players games
 INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,startDate) VALUES (2,'MINERAL_EXTRACTION',1,6,'2021-11-12 16:42:00');

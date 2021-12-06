@@ -17,6 +17,8 @@ package org.springframework.dwarf.mountainCard;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -74,5 +76,12 @@ class MountainCardServiceTests {
 		assertThat(mountainCards.spliterator().getExactSizeIfKnown()).isEqualTo(18);
 	}
 	
-
+	@Test
+	void shouldFindByGroupCard() {
+		// mirar el numero de cartas que hay del tipo 2 cuando se actualice data.sql (actualmente 6)
+		List<MountainCard> mountainCards = mountainCardService.findByGroupCard(2);
+		assertThat(mountainCards.size()).isEqualTo(6);
+	}
+	
+	
 }
