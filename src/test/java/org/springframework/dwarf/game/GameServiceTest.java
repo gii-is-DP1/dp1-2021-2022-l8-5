@@ -72,9 +72,9 @@ public class GameServiceTest {
 	@DisplayName("Returns the player games which are not finished")
 	void testFindPlayerUnfinishedGames() {
 		Player player = playerService.findPlayerById(6);
-		List<Game> playerGames = gameService.findPlayerUnfinishedGames(player);
+		Game playerGame = gameService.findPlayerUnfinishedGames(player).get();
 
-		assertThat(playerGames.size()).isEqualTo(1);
+		assertThat(playerGame.getId().equals(1));
 	}
 	
 	@Test

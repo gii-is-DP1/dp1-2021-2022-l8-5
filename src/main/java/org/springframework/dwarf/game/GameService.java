@@ -54,7 +54,7 @@ public class GameService {
 	}
 	
 	@Transactional(readOnly = true)
-	public List<Game> findPlayerUnfinishedGames(Player player){
+	public Optional<Game> findPlayerUnfinishedGames(Player player){
 		return gameRepo.searchPlayerUnfinishedGames(player);
 	}
 	

@@ -39,85 +39,87 @@
 	   </spring:url>
 	   <a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Edit Profile</a>
    </sec:authorize>
-    <table class="table table-striped">
+ 	<br/>
     <br/>
-    <br/>
-   	<h3>Finished Playing</h3>
-    <thead>
-        <tr>
-        	<th style="width: 150px;">ID</th>
-             <th style="width: 150px;">Player 1</th>
-             <th style="width: 150px;">Player 2</th>
-             <th style="width: 150px;">Player 3</th>
-             <th style="width: 150px;">Start Date</th>
-             <th style="width: 150px;">End Date</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${finishedGames}" var="game">
-            <tr>
-            	<td>
-                    <c:out value="${game.id}"/>
-            	</td>
-                 <td>
-                    <c:out value="${game.firstPlayer.username}"/>
-            	</td>
-                
-                 <td>
-                    <c:out value="${game.secondPlayer.username}"/>
-            	</td>
-                 <td>
-                    <c:out value="${game.thirdPlayer.username}"/>
-            	</td>
-     	         <td>
-                    <c:out value="${game.startDate}"/>
-            	</td>
-              <td>
-                    <c:out value="${game.finishDate}"/>
-            	</td>
-            	  
-				</tr>       
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
-    <table class="table table-striped">
-   	<h3>Currently Playing</h3>
-    <thead>
-        <tr>
-        	<th style="width: 150px;">ID</th>
-             <th style="width: 150px;">Player 1</th>
-             <th style="width: 150px;">Player 2</th>
-             <th style="width: 150px;">Player 3</th>
-             <th style="width: 150px;">Start Date</th>
-        </tr>
-        </thead>
-        
-        <tbody>
-        <c:forEach items="${currentGames}" var="game">
-            <tr>
-            	<td>
-                    <c:out value="${game.id}"/>
-            	</td>
-                 <td>
-                    <c:out value="${game.firstPlayer.username}"/>
-            	</td>
-                
-                 <td>
-                    <c:out value="${game.secondPlayer.username}"/>
-            	</td>
-                 <td>
-                    <c:out value="${game.thirdPlayer.username}"/>
-            	</td>
-     	         <td>
-                    <c:out value="${game.startDate}"/>
-            	</td>
-            	  
-				</tr>       
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
+    <c:if test="${!finishedGames.isEmpty()}">
+	    <table class="table table-striped">
+	   	<h3>Finished Playing</h3>
+	    <thead>
+	        <tr>
+	        	<th style="width: 150px;">ID</th>
+	             <th style="width: 150px;">Player 1</th>
+	             <th style="width: 150px;">Player 2</th>
+	             <th style="width: 150px;">Player 3</th>
+	             <th style="width: 150px;">Start Date</th>
+	             <th style="width: 150px;">End Date</th>
+	        </tr>
+	        </thead>
+	        <tbody>
+	        <c:forEach items="${finishedGames}" var="game">
+	            <tr>
+	            	<td>
+	                    <c:out value="${game.id}"/>
+	            	</td>
+	                 <td>
+	                    <c:out value="${game.firstPlayer.username}"/>
+	            	</td>
+	                
+	                 <td>
+	                    <c:out value="${game.secondPlayer.username}"/>
+	            	</td>
+	                 <td>
+	                    <c:out value="${game.thirdPlayer.username}"/>
+	            	</td>
+	     	         <td>
+	                    <c:out value="${game.startDate}"/>
+	            	</td>
+	              <td>
+	                    <c:out value="${game.finishDate}"/>
+	            	</td>
+	            	  
+					</tr>       
+	            </tr>
+	        </c:forEach>
+	        </tbody>
+	    </table>
+    </c:if>
+    <c:if test="${currentGame != null}">
+	    <table class="table table-striped">
+	   	<h3>Currently Playing</h3>
+	    <thead>
+	        <tr>
+	        	<th style="width: 150px;">ID</th>
+	             <th style="width: 150px;">Player 1</th>
+	             <th style="width: 150px;">Player 2</th>
+	             <th style="width: 150px;">Player 3</th>
+	             <th style="width: 150px;">Start Date</th>
+	        </tr>
+	        </thead>
+	        
+	        <tbody>
+	            <tr>
+	            	<td>
+	                    <c:out value="${currentGame.id}"/>
+	            	</td>
+	                 <td>
+	                    <c:out value="${currentGame.firstPlayer.username}"/>
+	            	</td>
+	                
+	                 <td>
+	                    <c:out value="${currentGame.secondPlayer.username}"/>
+	            	</td>
+	                 <td>
+	                    <c:out value="${currentGame.thirdPlayer.username}"/>
+	            	</td>
+	     	         <td>
+	                    <c:out value="${currentGame.startDate}"/>
+	            	</td>
+	            	  
+					</tr>       
+	            </tr>
+	        </tbody>
+	    </table>
+    </c:if>
     </div>
 </div>
 
