@@ -34,7 +34,7 @@
 	</lu>
 	
     <c:choose>
-        <c:when test="${currentPlayer.getId() == game.firstPlayer.getId()}">
+        <c:when test="${loggedPlayer.getId() == game.firstPlayer.getId()}">
 			<spring:url value="/games/{gameId}/delete" var="gameUrl">
 		        <spring:param name="gameId" value="${game.id}"/>
 	        </spring:url>
@@ -49,7 +49,7 @@
     </c:choose>
      
     <c:if test="${game.allPlayersSet()}">
-    	<c:if test="${currentPlayer.getId() == game.firstPlayer.getId()}">
+    	<c:if test="${loggedPlayer.getId() == game.firstPlayer.getId()}">
     		<spring:url value="/boards/game/{gameId}" var="boardGameUrl">
 		        <spring:param name="gameId" value="${game.id}"/>
 	        </spring:url>

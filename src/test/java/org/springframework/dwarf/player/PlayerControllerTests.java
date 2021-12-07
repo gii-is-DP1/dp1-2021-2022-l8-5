@@ -16,7 +16,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.dwarf.configuration.SecurityConfiguration;
-import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.user.AuthoritiesService;
 import org.springframework.dwarf.user.UserService;
 import org.springframework.dwarf.util.CorrentUserController;
@@ -43,10 +42,6 @@ class PlayerControllerTests {
 
 	@MockBean
 	private UserService userService;
-	
-
-	@MockBean
-	private GameService gameService;
 
 	@MockBean
 	private AuthoritiesService authoritiesService;
