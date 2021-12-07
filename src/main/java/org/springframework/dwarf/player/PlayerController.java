@@ -25,6 +25,7 @@ import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.user.Authorities;
 import org.springframework.dwarf.user.AuthoritiesService;
 import org.springframework.dwarf.user.DuplicatedEmailException;
@@ -58,10 +59,12 @@ public class PlayerController {
 	private static final String VIEWS_PLAYER_CREATE_OR_UPDATE_FORM = "players/createOrUpdatePlayerForm";
 
 	private final PlayerService playerService;
+	private final GameService gameService;
 
 	@Autowired
-	public PlayerController(PlayerService playerService, UserService userService, AuthoritiesService authoritiesService) {
+	public PlayerController(PlayerService playerService, UserService userService, AuthoritiesService authoritiesService, GameService gameService) {
 		this.playerService = playerService;
+		this.gameService = gameService;
 	}
 
 	@InitBinder
@@ -204,7 +207,10 @@ public class PlayerController {
 	public ModelAndView showOwner(@PathVariable("playerid") int playerId) {
 
 		ModelAndView mav = new ModelAndView("players/playerDetails");
-		mav.addObject(this.playerService.findPlayerById(playerId));
+		Player player = this.playerService.findPlayerById(playerId);
+		mav.addObject("player",player);
+		mav.addObject("finishedGames", this.gameService.findPlayerFinishedGames(player));
+		mav.addObject("currentGames", this.gameService.findPlayerUnfinishedGames(player));
 		return mav;
 	}
 	
