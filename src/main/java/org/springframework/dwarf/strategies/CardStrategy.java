@@ -7,7 +7,7 @@ import org.springframework.dwarf.player.Player;
 @StrategyPattern
 public interface CardStrategy {
 	
-	void actions(Player player, Game game);
+	void actions(Player player);
 	
 	StrategyName getName();
 

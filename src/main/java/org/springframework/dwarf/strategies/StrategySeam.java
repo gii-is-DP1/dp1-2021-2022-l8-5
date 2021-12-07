@@ -34,7 +34,7 @@ public class StrategySeam  implements CardStrategy{
 
     @Override
     public void actions(Player player) {
-        Collection<Resources> playerResource = resourcesService.findByPlayerIdAndGameId(player.getId());
+        Collection<Resources> playerResource = resourcesService.findByPlayerIdAndGameId(player.getId(),1);
         
     }
 

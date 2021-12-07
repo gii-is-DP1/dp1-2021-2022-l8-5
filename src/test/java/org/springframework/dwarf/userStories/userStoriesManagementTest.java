@@ -18,6 +18,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.dwarf.configuration.SecurityConfiguration;
+import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerController;
 import org.springframework.dwarf.player.PlayerService;
@@ -47,6 +48,10 @@ class userStoriesManagementTest {
 
 	@MockBean
 	private AuthoritiesService authoritiesService;
+	
+
+	@MockBean
+	private GameService gameService;
 	
 	@Autowired
 	private MockMvc mockMvc;
