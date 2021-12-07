@@ -210,7 +210,7 @@ public class PlayerController {
 		Player player = this.playerService.findPlayerById(playerId);
 		mav.addObject("player",player);
 		mav.addObject("finishedGames", this.gameService.findPlayerFinishedGames(player));
-		mav.addObject("currentGames", this.gameService.findPlayerUnfinishedGames(player));
+		mav.addObject("currentGame", this.gameService.findPlayerUnfinishedGames(player).orElse(null));
 		return mav;
 	}
 	
