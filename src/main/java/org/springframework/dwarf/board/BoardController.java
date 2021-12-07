@@ -1,5 +1,7 @@
 package org.springframework.dwarf.board;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
@@ -37,7 +39,7 @@ public class BoardController {
     	Game game = gameService.findByGameId(gameId).get();
 		Board board = boardService.createBoard(game);
 		
-		modelMap.addAttribute("board", board);
+		//modelMap.addAttribute("board", board);
         
 		String redirect = "redirect:/boards/"+board.getId()+"/game/"+gameId;
 	    return redirect;
@@ -45,8 +47,15 @@ public class BoardController {
 	}
     
     @GetMapping("{boardId}/game/{gameId}")
-    public String boardGame(@PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, ModelMap modelMap) {
+    public String boardGame(@PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, ModelMap modelMap, HttpServletResponse response) {
+    	response.addHeader("Refresh", "2");
     	String view = "/board/board";
+    	
+    	Game game = gameService.findByGameId(gameId).get();
+    	Board board = boardService.findByBoardId(boardId).get();
+    	
+    	modelMap.addAttribute("board", board);
+    	modelMap.addAttribute("game", game);
     	
     	return view;
     }

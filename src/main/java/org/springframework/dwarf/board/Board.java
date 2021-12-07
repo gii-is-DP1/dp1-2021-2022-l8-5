@@ -48,13 +48,13 @@ public class Board extends BaseEntity{
     Game game;
     
     public Board(){
-    	this.background ="resources/images/oro_erebor.jpg";
+    	this.background ="/resources/images/oro_erebor.jpg";
         this.width=750;
         this.height=600;
     }
     
     public Board(List<BoardCell> boardCells, MountainDeck mountainDeck, Game game){
-    	this.background ="resources/images/oro_erebor.jpg";
+    	this.background ="/resources/images/oro_erebor.jpg";
         this.width=750;
         this.height=600;
         
