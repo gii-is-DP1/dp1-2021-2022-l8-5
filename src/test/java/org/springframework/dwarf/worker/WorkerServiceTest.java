@@ -49,7 +49,7 @@ public class WorkerServiceTest {
 		Optional<Worker> Worker = workerService.findByWorkerId(id);
 		System.out.println("------------TEST FIND BY Worker ID------------");
 		Worker p = Worker.orElse(null);
-		assertEquals(p.getXposition(), 1);
+		assertEquals(p.getPosition(), 1);
 	}
 	
 	@Test
@@ -75,7 +75,7 @@ public class WorkerServiceTest {
 	public void testSaveWorker() {
 		Worker WorkerTest = new Worker();
 		WorkerTest.setStatus(true);
-		WorkerTest.setXposition(3);
+		WorkerTest.setPosition(3);
 		
 		workerService.saveWorker(WorkerTest);
 		int id = WorkerTest.getId();
@@ -83,7 +83,7 @@ public class WorkerServiceTest {
 		Optional<Worker> Worker = workerService.findByWorkerId(id);
 		System.out.println("------------TEST SAVE Worker------------");
 		Worker p = Worker.orElse(null);
-		assertEquals(p.getXposition(), 3);
+		assertEquals(p.getPosition(), 3);
 	}
 	
 	@Test

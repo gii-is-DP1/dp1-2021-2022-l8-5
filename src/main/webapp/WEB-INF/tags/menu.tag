@@ -94,6 +94,10 @@
 												<strong><sec:authentication property="name" /></strong>
 											</p>
 											<p class="text-left">
+												<a href="<c:url value="/myProfile" />"
+													class="btn btn-primary btn-block btn-sm">View Profile</a>
+											</p>
+											<p class="text-left">
 												<a href="<c:url value="/editProfile" />"
 													class="btn btn-primary btn-block btn-sm">Edit Profile</a>
 											</p>
