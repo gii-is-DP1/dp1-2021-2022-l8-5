@@ -109,7 +109,7 @@ INSERT INTO MOUNTAIN_DECKS_MOUNTAIN_CARDS(MOUNTAIN_DECK_ID, MOUNTAIN_CARDS_ID) V
 
 -- WORKERS
 
-INSERT INTO Workers(id, xposition, yposition, status, gameId, playerId) VALUES (1, 1, 1, FALSE, 1, 1);
+INSERT INTO Workers(id, position, status, gameId, playerId) VALUES (1, 1, FALSE, 1, 1);
 
 -- RESOURCES
 
