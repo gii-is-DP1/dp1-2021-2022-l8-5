@@ -45,13 +45,13 @@ class userStoriesManagementTest {
 
 	@MockBean
 	private UserService userService;
-	
-	@MockBean
-	private GameService gameService;
-
 
 	@MockBean
 	private AuthoritiesService authoritiesService;
+	
+
+	@MockBean
+	private GameService gameService;
 	
 	@Autowired
 	private MockMvc mockMvc;

@@ -64,6 +64,11 @@ public class ResourcesService {
 	public Collection<Resources> findByPlayerId(int id){
 		return ResourcesRepo.findByPlayerId(id);
 	}
+
+	@Transactional(readOnly = true)
+	public Collection<Resources> findByPlayerIdAndGameId(int pid,int gid){
+		return ResourcesRepo.findByPlayerIdAndGameId(pid,gid);
+	}
 	
 	
 	public void delete(Resources Resources) {

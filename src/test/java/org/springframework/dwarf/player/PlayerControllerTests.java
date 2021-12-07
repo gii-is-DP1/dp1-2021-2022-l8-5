@@ -43,13 +43,13 @@ class PlayerControllerTests {
 
 	@MockBean
 	private UserService userService;
+
+	@MockBean
+	private AuthoritiesService authoritiesService;
 	
 
 	@MockBean
 	private GameService gameService;
-
-	@MockBean
-	private AuthoritiesService authoritiesService;
 
 	@Autowired
 	private MockMvc mockMvc;
