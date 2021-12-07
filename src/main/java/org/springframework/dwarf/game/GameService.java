@@ -105,48 +105,14 @@ public class GameService {
         return game.getPlayerPosition(player) == 1;
     }
     
-    public Integer getCurrentGameId(String currentUsername) {
-    	if (alreadyInGame(currentUsername)) {
-        	for(Game g : this.findUnfinishedGames()) {
-        		if(g.firstPlayer != null) {
-        			if(g.firstPlayer.getUser().getUsername().equals(currentUsername)) {
-        				return g.getId();
-        			}
-        		}
-        		if(g.secondPlayer != null) {
-        			if(g.secondPlayer.getUser().getUsername().equals(currentUsername)) {
-        				return g.getId();
-        			}
-        		}
-        		if(g.thirdPlayer != null) {
-        			if(g.thirdPlayer.getUser().getUsername().equals(currentUsername)) {
-        				return g.getId();
-        			}
-        		}
-        	}
-    	}
-    	
-		return -1;
+    public Integer getCurrentGameId(Player player) {
+    	return gameRepo.searchPlayerIsInGame(player);
     }
 
-	public Boolean alreadyInGame(String currentUsername) {
+	public Boolean alreadyInGame(Player player) {
     	Boolean already = false;
     	for(Game g : this.findUnfinishedGames()) {
-    		if(g.firstPlayer != null) {
-    			if(g.firstPlayer.getUser().getUsername().equals(currentUsername)) {
-    				return true;
-    			}
-    		}
-    		if(g.secondPlayer != null) {
-    			if(g.secondPlayer.getUser().getUsername().equals(currentUsername)) {
-    				return true;
-    			}
-    		}
-    		if(g.thirdPlayer != null) {
-    			if(g.thirdPlayer.getUser().getUsername().equals(currentUsername)) {
-    				return true;
-    			}
-    		}
+    		already = already || g.isPlayerInGame(player);
     	}
     	
     	return already;
