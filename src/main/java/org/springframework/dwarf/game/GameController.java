@@ -78,7 +78,7 @@ public class GameController {
 	@GetMapping("/searchGames")
 	public String searchGames(ModelMap modelMap) {
 		String view  = "games/searchOrCreateGames";
-		String currentPlayer = CorrentUserController.returnCurrentUserName();
+		Player currentPlayer = this.currentPlayer();
 		if (gameService.alreadyInGame(currentPlayer)){
 			Integer currentGameId = gameService.getCurrentGameId(currentPlayer);
 			return "redirect:/games/"+ currentGameId +"/waitingPlayers";

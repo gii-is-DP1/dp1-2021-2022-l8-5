@@ -36,4 +36,7 @@ public interface GameRepository extends  CrudRepository<Game, Integer>{
 	
 	@Query("SELECT board FROM Board board WHERE board.game.id=:gameId")
 	Optional<Board> searchBoardByGameId(@Param("gameId") Integer gameId) throws DataAccessException;
+
+	@Query("SELECT game.id FROM Game game WHERE (game.firstPlayer=:player OR game.secondPlayer=:player OR game.thirdPlayer=:player) AND game.finishDate IS NULL")
+	Integer searchPlayerIsInGame(@Param("player") Player player) throws DataAccessException;
 }
