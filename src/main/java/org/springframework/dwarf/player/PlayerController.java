@@ -204,7 +204,7 @@ public class PlayerController {
 	 * @return a ModelMap with the model attributes for the view
 	 */
 	@GetMapping("/players/{playerid}")
-	public ModelAndView showOwner(@PathVariable("playerid") int playerId) {
+	public ModelAndView showPlayer(@PathVariable("playerid") int playerId) {
 
 		ModelAndView mav = new ModelAndView("players/playerDetails");
 		Player player = this.playerService.findPlayerById(playerId);
@@ -213,6 +213,18 @@ public class PlayerController {
 		mav.addObject("currentGames", this.gameService.findPlayerUnfinishedGames(player));
 		return mav;
 	}
+	
+	@GetMapping("/myProfile")
+	public ModelAndView showMyProfile() {
+		String username = CorrentUserController.returnCurrentUserName();
+		Integer playerid = playerService.findPlayerByUserName(username).getId();
+		
+		ModelAndView mav = showPlayer(playerid);
+		return mav;
+
+	}
+	
+	
 	
 	@GetMapping("/players/{playerId}/delete")
 	public String deletePlayer(@PathVariable("playerId") Integer playerId,ModelMap modelMap) throws DeletePlayerInGameException {
