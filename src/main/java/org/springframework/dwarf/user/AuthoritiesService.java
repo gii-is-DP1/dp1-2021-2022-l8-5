@@ -53,12 +53,11 @@ public class AuthoritiesService {
 		Optional<User> user = userService.findUser(username);
 		Set<Authorities> authorities = user.get().getAuthorities();
 		if(user.isPresent()) {
-			if (authorities.size()==0) {
 				authority.setUser(user.get());
 				authority.setAuthority(role);
 				//user.get().getAuthorities().add(authority);
-				authoritiesRepository.save(authority);
-			}
+				if (authorities==null || authorities.stream().anyMatch(auth -> auth.authority!=role || authorities.size()==0))
+					authoritiesRepository.save(authority);
 		}else
 			throw new DataAccessException("User '"+username+"' not found!") {};
 	}
