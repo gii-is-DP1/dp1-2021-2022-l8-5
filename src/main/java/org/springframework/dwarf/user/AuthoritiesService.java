@@ -17,6 +17,7 @@ package org.springframework.dwarf.user;
 
 
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -50,11 +51,14 @@ public class AuthoritiesService {
 	public void saveAuthorities(String username, String role) throws DataAccessException {
 		Authorities authority = new Authorities();
 		Optional<User> user = userService.findUser(username);
+		Set<Authorities> authorities = user.get().getAuthorities();
 		if(user.isPresent()) {
-			authority.setUser(user.get());
-			authority.setAuthority(role);
-			//user.get().getAuthorities().add(authority);
-			authoritiesRepository.save(authority);
+			if (authorities.size()==0) {
+				authority.setUser(user.get());
+				authority.setAuthority(role);
+				//user.get().getAuthorities().add(authority);
+				authoritiesRepository.save(authority);
+			}
 		}else
 			throw new DataAccessException("User '"+username+"' not found!") {};
 	}
