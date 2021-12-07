@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dwarf.board.Board;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
 import org.springframework.dwarf.util.CorrentUserController;
@@ -111,10 +112,18 @@ public class GameController {
 	@GetMapping(path="{gameId}/waitingPlayers")
 	public String joinGame(@PathVariable("gameId") Integer gameId, ModelMap modelMap, ModelAndView modelAndView, HttpServletResponse response) {
 		response.addHeader("Refresh", "2");
+		
+		
 		String view = "games/waitingPlayers";
 		
 		Game game = gameService.findByGameId(gameId).get();
         Player currentPlayer = this.currentPlayer();
+        
+        // if first player started the game, go to board
+        Optional<Board> board = gameService.findBoardByGameId(gameId);
+        if(board.isPresent()) {
+        	return "redirect:/boards/" + board.get().getId() + "/game/" + game.getId();
+        }
 		
 		try {
 			gameService.joinGame(game, currentPlayer);
@@ -127,6 +136,7 @@ public class GameController {
 		
 		modelMap.addAttribute("game", game);
 		modelMap.addAttribute("currentPlayer", currentPlayer);
+		
 
 		return view;
 	}
