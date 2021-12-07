@@ -100,7 +100,6 @@ public class PlayerService {
 		userService.saveUser(player.getUser());
 		//creating authorities
 		authoritiesService.saveAuthorities(player.getUser().getUsername(), "player");
-		//When changing here "admin" to "player" in role, for some reason the role becames invalid and gives forbidden in everything
 	}
 	
 	public Boolean getusernameDuplicated(Player player){
@@ -133,6 +132,8 @@ public class PlayerService {
 		//creating authorities
 		authoritiesService.saveAuthorities(player.getUser().getUsername(), "admin");
 	}*/
+
+
 	@Transactional(rollbackFor = DeletePlayerInGameException.class)
 	public void delete(Player player) throws DeletePlayerInGameException{
 		List<Game> games = gameService.findPlayerGames(player);

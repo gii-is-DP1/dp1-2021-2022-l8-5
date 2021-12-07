@@ -14,5 +14,8 @@ public interface ResourcesRepository extends  CrudRepository<Resources, Integer>
     
     @Query("SELECT resources FROM Resources resources WHERE resources.player.id =:playerId")
     public Collection<Resources> findByPlayerId(@Param("playerId") int playerId);
+
+    @Query("SELECT resources FROM Resources resources WHERE resources.player.id =:playerId AND resources.game.id=:gameId")
+    public Collection<Resources> findByPlayerIdAndGameId(@Param("playerId") int playerId,@Param("gameId") int gameId);
     
 }
