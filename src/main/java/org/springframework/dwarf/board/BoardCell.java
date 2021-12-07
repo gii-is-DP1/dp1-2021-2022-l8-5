@@ -21,7 +21,7 @@ import lombok.Setter;
 @Table(name = "boardcells")
 public class BoardCell extends BaseEntity{
 	
-	@Range(min= 1, max= 3)
+
 	Integer xposition;
 	
 	@Range(min= 0, max= 2)
