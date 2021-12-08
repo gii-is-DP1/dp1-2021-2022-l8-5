@@ -8,15 +8,15 @@
 
 <dwarf:layout pageName="board">
 	<h1>Has entrado en partida</h1>
-	<!--
+	
     <div class="row">
         <div class="col-md-12">
             <dwarf:board board="${board}"/>
-            <c:forEach items="${board.mountainDeck.mountainCards}" var="mountainCard">
-            	<dwarf:mountainCard padding="20" xsize="130" ysize="180" mountainCard="${mountainCard}"/>
-            	
-            </c:forEach> 
+            <c:forEach items="${board.boardCells}" var="boardCell">
+            	<dwarf:mountainCard padding="20" xsize="130" ysize="180" mountainCard="${boardCell.mountaincards.get(0)}"/>
+            </c:forEach>
+            
         </div>
     </div>
-     -->
+    
 </dwarf:layout>

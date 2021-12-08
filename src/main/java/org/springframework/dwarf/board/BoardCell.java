@@ -1,12 +1,12 @@
 package org.springframework.dwarf.board;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Range;
 import org.springframework.dwarf.model.BaseEntity;
@@ -27,9 +27,15 @@ public class BoardCell extends BaseEntity{
 	@Range(min= 0, max= 2)
 	Integer yposition;
 	
-	@NotNull
 	@ManyToMany
 	List<MountainCard> mountaincards;
+	
+	// para empezar una partida se pide un constructor por defecto
+	public BoardCell() {
+		//this.xposition = 1;
+		//this.yposition = 0;
+		//this.mountaincards = new ArrayList<MountainCard>();
+	}
 	
 	public BoardCell(Integer xposition, Integer yposition, List<MountainCard> mountaincards) {
 		this.xposition = xposition;

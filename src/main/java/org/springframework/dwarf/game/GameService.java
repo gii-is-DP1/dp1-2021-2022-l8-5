@@ -53,6 +53,18 @@ public class GameService {
 		return gameRepo.searchPlayerGames(player);
 	}
 	
+	@Transactional(readOnly = true)
+	public List<Game> findPlayerUnfinishedGames(Player player){
+		return gameRepo.searchPlayerUnfinishedGames(player);
+	}
+	
+	@Transactional(readOnly = true)
+	public List<Game> findPlayerFinishedGames(Player player){
+		return gameRepo.searchPlayerFinishedGames(player);
+	}
+	
+	
+	
 	public void delete(Game game) {
 		gameRepo.delete(game);
 	}

@@ -69,6 +69,24 @@ public class GameServiceTest {
 	}
 	
 	@Test
+	@DisplayName("Returns the player games which are not finished")
+	void testFindPlayerUnfinishedGames() {
+		Player player = playerService.findPlayerById(6);
+		List<Game> playerGames = gameService.findPlayerUnfinishedGames(player);
+
+		assertThat(playerGames.size()).isEqualTo(1);
+	}
+	
+	@Test
+	@DisplayName("Returns the player games which are finished")
+	void testFindPlayerFinishedGames() {
+		Player player = playerService.findPlayerById(1);
+		List<Game> playerGames = gameService.findPlayerFinishedGames(player);
+
+		assertThat(playerGames.size()).isEqualTo(1);
+	}
+	
+	@Test
 	@DisplayName("Save a game")
 	void testSaveGame() throws Exception {
 		Game game = new Game();
