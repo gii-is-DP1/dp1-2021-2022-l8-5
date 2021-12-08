@@ -9,6 +9,7 @@ import javax.persistence.OneToOne;
 
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.validator.constraints.Range;
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.model.BaseEntity;
 import org.springframework.dwarf.player.Player;
@@ -29,8 +30,13 @@ import lombok.Setter;
 @Table(name = "workers", uniqueConstraints = @UniqueConstraint(columnNames = {"playerID", "gameID"}))
 public class Worker extends BaseEntity{
 	
-	@Column(name = "position")
-    Integer position;
+	@Column(name = "xposition")
+	@Range(min= 1, max= 3)
+    Integer xposition;
+	
+	@Column(name = "yposition")
+	@Range(min= 0, max= 2)
+    Integer yposition;
     
 	@Column(name = "status")
 	Boolean status;

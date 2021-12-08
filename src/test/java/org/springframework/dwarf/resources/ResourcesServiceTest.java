@@ -46,6 +46,7 @@ public class ResourcesServiceTest {
 		Resources p = Resources.orElse(null);	//Si no lo encuentra, devuelve null
 		assertEquals(p.getGold(), 3);
 	}
+
 	
     @Test
     void findByGameId() throws Exception {
@@ -56,6 +57,12 @@ public class ResourcesServiceTest {
     @Test
     void findByPlayerId() throws Exception {
         Collection<Resources> resources = resourcesService.findByPlayerId(1);
+        assertEquals(resources.spliterator().getExactSizeIfKnown(), 1);
+    }
+
+	@Test
+    void findByPlayerIdAndGameId() throws Exception {
+        Collection<Resources> resources = resourcesService.findByPlayerIdAndGameId(1,1);
         assertEquals(resources.spliterator().getExactSizeIfKnown(), 1);
     }
 	

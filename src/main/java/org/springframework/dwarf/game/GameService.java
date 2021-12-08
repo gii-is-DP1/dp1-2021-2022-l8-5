@@ -1,11 +1,11 @@
 package org.springframework.dwarf.game;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dwarf.board.Board;
 import org.springframework.dwarf.player.Player;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,7 +54,7 @@ public class GameService {
 	}
 	
 	@Transactional(readOnly = true)
-	public List<Game> findPlayerUnfinishedGames(Player player){
+	public Optional<Game> findPlayerUnfinishedGames(Player player){
 		return gameRepo.searchPlayerUnfinishedGames(player);
 	}
 	
@@ -63,8 +63,10 @@ public class GameService {
 		return gameRepo.searchPlayerFinishedGames(player);
 	}
 	
-	
-	
+	public Optional<Board> findBoardByGameId(Integer gameId){
+		return gameRepo.searchBoardByGameId(gameId);
+	}
+  
 	public void delete(Game game) {
 		gameRepo.delete(game);
 	}
@@ -117,48 +119,14 @@ public class GameService {
         return game.getPlayerPosition(player) == 1;
     }
     
-    public Integer getCurrentGameId(String currentUsername) {
-    	if (alreadyInGame(currentUsername)) {
-        	for(Game g : this.findUnfinishedGames()) {
-        		if(g.firstPlayer != null) {
-        			if(g.firstPlayer.getUser().getUsername().equals(currentUsername)) {
-        				return g.getId();
-        			}
-        		}
-        		if(g.secondPlayer != null) {
-        			if(g.secondPlayer.getUser().getUsername().equals(currentUsername)) {
-        				return g.getId();
-        			}
-        		}
-        		if(g.thirdPlayer != null) {
-        			if(g.thirdPlayer.getUser().getUsername().equals(currentUsername)) {
-        				return g.getId();
-        			}
-        		}
-        	}
-    	}
-    	
-		return -1;
+    public Integer getCurrentGameId(Player player) {
+    	return gameRepo.searchPlayerIsInGame(player);
     }
 
-	public Boolean alreadyInGame(String currentUsername) {
+	public Boolean alreadyInGame(Player player) {
     	Boolean already = false;
     	for(Game g : this.findUnfinishedGames()) {
-    		if(g.firstPlayer != null) {
-    			if(g.firstPlayer.getUser().getUsername().equals(currentUsername)) {
-    				return true;
-    			}
-    		}
-    		if(g.secondPlayer != null) {
-    			if(g.secondPlayer.getUser().getUsername().equals(currentUsername)) {
-    				return true;
-    			}
-    		}
-    		if(g.thirdPlayer != null) {
-    			if(g.thirdPlayer.getUser().getUsername().equals(currentUsername)) {
-    				return true;
-    			}
-    		}
+    		already = already || g.isPlayerInGame(player);
     	}
     	
     	return already;
