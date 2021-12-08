@@ -14,9 +14,14 @@
             <dwarf:board board="${board}"/>
             <c:forEach items="${board.boardCells}" var="boardCell">
             	<dwarf:mountainCard padding="20" xsize="130" ysize="180" mountainCard="${boardCell.mountaincards.get(0)}"/>
+            	
             </c:forEach>
             
         </div>
+         <div class="col-md">
+        	<dwarf:mountainDeck padding="30" xsize="130" ysize="180" mountainDeck="${board.mountainDeck}"/> 
+         </div>
     </div>
+   			
     
 </dwarf:layout>

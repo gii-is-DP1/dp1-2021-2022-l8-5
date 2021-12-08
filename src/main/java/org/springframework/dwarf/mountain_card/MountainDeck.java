@@ -42,8 +42,12 @@ public class MountainDeck extends BaseEntity{
 	@ManyToMany
     List<MountainCard> mountainCards;
     
+    
+    String image;
+    
     public MountainDeck() {
     	this.xPosition = 4;
     	this.yPosition = 2;
+    	this.image= "/resources/images/mountainDekc_img.png";
     }
 }
