@@ -19,7 +19,7 @@
             
         </div>
          <div class="col-md">
-        	<dwarf:mountainDeck padding="30" xsize="130" ysize="180" mountainDeck="${board.mountainDeck}"/> 
+        	<dwarf:mountainDeck padding="25" xsize="128" ysize="170" mountainDeck="${board.mountainDeck}"/> 
          </div>
     </div>
    			
