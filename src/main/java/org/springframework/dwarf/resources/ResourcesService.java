@@ -66,7 +66,7 @@ public class ResourcesService {
 	}
 
 	@Transactional(readOnly = true)
-	public Collection<Resources> findByPlayerIdAndGameId(int pid,int gid){
+	public Optional<Resources> findByPlayerIdAndGameId(int pid,int gid){
 		return ResourcesRepo.findByPlayerIdAndGameId(pid,gid);
 	}
 	
