@@ -17,6 +17,7 @@ import org.springframework.dwarf.model.BaseEntity;
  */
 import org.springframework.dwarf.player.Player;
 
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -52,6 +53,29 @@ public class Resources extends BaseEntity{
 	
 	public void deletePlayer(Player sustitute) {
 		this.setPlayer(sustitute);
+	}
+	
+	public void setResource(ResourceType resource, Integer amountToAdd) {
+		switch(resource) {
+			case IRON:
+				this.setIron(amountToAdd+this.getIron());
+				break;
+			case GOLD:
+				this.setGold(amountToAdd + this.getGold());
+				break;
+			case STEEL:
+				this.setSteel(amountToAdd + this.getSteel());
+				break;
+			case BADGE:
+				this.setBadges(amountToAdd + this.getBadges());
+				break;
+			case ITEM:
+				this.setItems(amountToAdd + this.getItems());
+				break;
+			default:
+				break;
+		}
+			
 	}
 
 }

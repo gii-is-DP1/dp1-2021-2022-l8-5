@@ -60,6 +60,11 @@ public class WorkerService {
 	public Collection<Worker> findByPlayerId(int id){
 		return workerRepo.findByPlayerId(id);
 	}
+
+	@Transactional(readOnly = true)
+	public Collection<Worker> findByPlayerIdAndGameId(int pid, int gid){
+		return workerRepo.findByPlayerIdAndGameId(pid,gid);
+	}
 	
 	public void delete(Worker worker) {
 		workerRepo.delete(worker);

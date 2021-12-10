@@ -63,6 +63,16 @@ public class WorkerServiceTest {
 	}
 	
 	@Test
+	public void testFindByPlayerIdAndGameId() {
+		int pid = 1;
+		int gid = 1;
+		
+		Collection<Worker> Worker = workerService.findByPlayerIdAndGameId(pid,gid);
+		assertThat(Worker.size()).isEqualTo(1);
+		
+	}
+	
+	@Test
 	public void testDeletePlayerWorker() {
 		Player player = playerService.findPlayerById(1);
 		

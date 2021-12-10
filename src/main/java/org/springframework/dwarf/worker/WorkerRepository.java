@@ -11,4 +11,7 @@ public interface WorkerRepository extends  CrudRepository<Worker, Integer>{
 	
     @Query("SELECT workers FROM Worker workers WHERE workers.player.id =:playerId")
     public Collection<Worker> findByPlayerId(@Param("playerId") int playerId);
+
+    @Query("SELECT workers FROM Worker workers WHERE workers.player.id =:playerId AND workers.game.id =:gameId")
+    public Collection<Worker> findByPlayerIdAndGameId(@Param("playerId") int playerId, @Param("gameId") int gameId);
 }

@@ -29,6 +29,23 @@ import lombok.Setter;
 @Table(name = "workers", uniqueConstraints = @UniqueConstraint(columnNames = {"playerID", "gameID"}))
 public class Worker extends BaseEntity{
 	
+	
+	
+	public Worker(Player player, Game game) {
+		super();
+		this.player = player;
+		this.game = game;
+		this.status=false;
+	}
+	
+	
+
+	public Worker() {
+		super();
+	}
+
+
+
 	@Column(name = "xposition")
 	@Range(min= 1, max= 3)
     Integer xposition;

@@ -62,8 +62,8 @@ public class ResourcesServiceTest {
 
 	@Test
     void findByPlayerIdAndGameId() throws Exception {
-        Collection<Resources> resources = resourcesService.findByPlayerIdAndGameId(1,1);
-        assertEquals(resources.spliterator().getExactSizeIfKnown(), 1);
+        Optional<Resources> resources = resourcesService.findByPlayerIdAndGameId(1,1);
+        assertEquals(resources.get().getBadges(), 2);
     }
 	
 	@Test

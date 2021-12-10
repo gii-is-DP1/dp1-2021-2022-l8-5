@@ -3,6 +3,7 @@ package org.springframework.dwarf.resources;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +31,8 @@ public class ResourcesRepositoryTest {
 
         @Test
         void findByPlayerIdAndGameId() throws Exception {
-            Collection<Resources> resources = resourcesRepository.findByPlayerIdAndGameId(1,1);
-            assertEquals(resources.spliterator().getExactSizeIfKnown(), 1);
+            Optional<Resources> resources = resourcesRepository.findByPlayerIdAndGameId(1,1);
+            assertEquals(resources.get().getBadges(), 2);
         }
 
 }
