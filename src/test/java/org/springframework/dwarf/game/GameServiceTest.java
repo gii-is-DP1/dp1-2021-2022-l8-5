@@ -1,8 +1,10 @@
 package org.springframework.dwarf.game;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dwarf.mountain_card.MountainDeck;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
 import org.springframework.stereotype.Service;
@@ -158,4 +161,10 @@ public class GameServiceTest {
 		
 		assertThat(game.getSecondPlayer()).isNull();
 	}
+	
+    @Test
+    void searchDeckByGameId() throws Exception {
+        Collection<MountainDeck> mountainDeck = gameService.searchDeckByGameId(1);
+        assertEquals(mountainDeck.spliterator().getExactSizeIfKnown(), 1);
+    }
 }
