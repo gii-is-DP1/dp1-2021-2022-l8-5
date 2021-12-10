@@ -77,7 +77,7 @@ INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,secondPlay
  -- Card sheet 6
  
 -- Special cards (card sheet 7 front & back)
- INSERT INTO special_cards(name, description, back_card) VALUES ('Muster an Army', 'When resolving actions this turn, treat all defend cards as if they are ocuppied', 1);
+ INSERT INTO special_cards(name, description, back_card, image) VALUES ('Muster an Army', 'When resolving actions this turn, treat all defend cards as if they are ocuppied', 1,'resources/images/xijingpin.jpg');
  
  INSERT INTO special_decks(xposition, yposition) VALUES (0,0);
  INSERT INTO special_decks(xposition, yposition) VALUES (0,1);

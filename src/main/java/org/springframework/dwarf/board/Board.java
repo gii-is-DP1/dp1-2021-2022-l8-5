@@ -13,6 +13,7 @@ import javax.validation.constraints.Positive;
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.model.BaseEntity;
 import org.springframework.dwarf.mountain_card.MountainDeck;
+import org.springframework.dwarf.special_card.SpecialDeck;
 
 /**
  * @author Diego Ruiz Gil
@@ -41,6 +42,8 @@ public class Board extends BaseEntity{
     @OneToOne
     @JoinColumn(name = "MOUNTAINDECK")
     MountainDeck mountainDeck;
+    
+  
     
     @NotNull
     @OneToOne(optional=false)
