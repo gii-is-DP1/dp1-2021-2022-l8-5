@@ -1,5 +1,6 @@
 package org.springframework.dwarf.game;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.dwarf.board.Board;
+import org.springframework.dwarf.mountain_card.MountainCard;
+import org.springframework.dwarf.mountain_card.MountainDeck;
 import org.springframework.dwarf.player.Player;
 
 
@@ -45,4 +48,7 @@ public interface GameRepository extends  CrudRepository<Game, Integer>{
 
 	@Query("SELECT game.id FROM Game game WHERE (game.firstPlayer=:player OR game.secondPlayer=:player OR game.thirdPlayer=:player) AND game.finishDate IS NULL")
 	Integer searchPlayerIsInGame(@Param("player") Player player) throws DataAccessException;
+
+	@Query("SELECT board.mountainDeck FROM Board board WHERE board.id=:boardId")
+	Collection<MountainDeck> searchDeckByGameId(@Param("boardId") Integer boardId) throws DataAccessException;
 }
