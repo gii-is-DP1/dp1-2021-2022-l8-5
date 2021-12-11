@@ -1,6 +1,5 @@
 package org.springframework.dwarf.game;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,6 +75,7 @@ public class GameService {
 	public Optional<MountainDeck> searchDeckByGameId(Integer gameId) {
 		return gameRepo.searchDeckByGameId(gameId);
 	}
+	
 	
 	public void exit(Game game, Player currentPlayer) throws DataAccessException {
 		// the first player must delete the game when exit

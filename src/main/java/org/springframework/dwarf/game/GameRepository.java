@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.dwarf.board.Board;
-import org.springframework.dwarf.mountain_card.MountainCard;
 import org.springframework.dwarf.mountain_card.MountainDeck;
 import org.springframework.dwarf.player.Player;
 
@@ -51,4 +50,6 @@ public interface GameRepository extends  CrudRepository<Game, Integer>{
 
 	@Query("SELECT board.mountainDeck FROM Board board WHERE board.game.id=:gameId")
 	Optional<MountainDeck> searchDeckByGameId(@Param("gameId") Integer gameId) throws DataAccessException;
+	
+	
 }

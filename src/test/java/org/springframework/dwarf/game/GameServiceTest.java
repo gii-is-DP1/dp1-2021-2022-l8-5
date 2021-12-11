@@ -164,7 +164,7 @@ public class GameServiceTest {
 	
     @Test
     @DisplayName("Search the mountain deck of the game")
-    void searchDeckByGameId() throws Exception {
+    void testSearchDeckByGameId() throws Exception {
         Optional<MountainDeck> mountainDeck = gameService.searchDeckByGameId(1);
         assertThat(mountainDeck.isPresent()).isTrue();
     }
