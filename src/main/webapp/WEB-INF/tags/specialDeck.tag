@@ -12,6 +12,6 @@ description="Card to be rendered" %>
 <script>
 	var canvas = document.getElementById("canvas");
 	var ctx = canvas.getContext("2d");
-	var image1 = document.getElementById("specialImg");
+	var image = document.getElementById("specialImg");
 	ctx.drawImage(image,${specialDeck.getPositionXInPixels(xsize+padding)},${specialDeck.getPositionYInPixels(ysize+padding)},${xsize},${ysize});
 </script>

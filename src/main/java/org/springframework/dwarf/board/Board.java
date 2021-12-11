@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -43,7 +44,9 @@ public class Board extends BaseEntity{
     @JoinColumn(name = "MOUNTAINDECK")
     MountainDeck mountainDeck;
     
-  
+    @OneToMany
+    @JoinColumn(name = "BOARD_ID")
+    List<SpecialDeck> specialDecks;
     
     @NotNull
     @OneToOne(optional=false)
@@ -56,7 +59,7 @@ public class Board extends BaseEntity{
         this.height=600;
     }
     
-    public Board(List<BoardCell> boardCells, MountainDeck mountainDeck, Game game){
+    public Board(List<BoardCell> boardCells, MountainDeck mountainDeck, Game game, List<SpecialDeck> specialDecks){
     	this.background ="/resources/images/oro_erebor.jpg";
         this.width=750;
         this.height=600;
@@ -64,5 +67,6 @@ public class Board extends BaseEntity{
         this.boardCells = boardCells;
         this.mountainDeck = mountainDeck;
         this.game = game;
+        this.specialDecks = specialDecks;
     }
 }
