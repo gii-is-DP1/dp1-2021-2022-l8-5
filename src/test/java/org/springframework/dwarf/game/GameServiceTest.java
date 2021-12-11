@@ -163,8 +163,9 @@ public class GameServiceTest {
 	}
 	
     @Test
+    @DisplayName("Search the mountain deck of the game")
     void searchDeckByGameId() throws Exception {
-        Collection<MountainDeck> mountainDeck = gameService.searchDeckByGameId(1);
-        assertEquals(mountainDeck.spliterator().getExactSizeIfKnown(), 1);
+        Optional<MountainDeck> mountainDeck = gameService.searchDeckByGameId(1);
+        assertThat(mountainDeck.isPresent()).isTrue();
     }
 }

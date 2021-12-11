@@ -1,8 +1,10 @@
 package org.springframework.dwarf.game;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +21,8 @@ public class GameRepositoryTest {
 
         @Test
         void searchDeckByGameId() throws Exception {
-            Collection<MountainDeck> mountainDeck = gameRepository.searchDeckByGameId(1);
-            assertEquals(mountainDeck.spliterator().getExactSizeIfKnown(), 1);
+            Optional<MountainDeck> mountainDeck = gameRepository.searchDeckByGameId(1);
+            assertThat(mountainDeck.isPresent()).isTrue();
         }
 
 }

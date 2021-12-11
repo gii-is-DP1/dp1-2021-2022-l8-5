@@ -73,8 +73,8 @@ public class GameService {
 		gameRepo.delete(game);
 	}
 	
-	public Collection<MountainDeck> searchDeckByGameId(Integer boardId) {
-		return gameRepo.searchDeckByGameId(boardId);
+	public Optional<MountainDeck> searchDeckByGameId(Integer gameId) {
+		return gameRepo.searchDeckByGameId(gameId);
 	}
 	
 	public void exit(Game game, Player currentPlayer) throws DataAccessException {
