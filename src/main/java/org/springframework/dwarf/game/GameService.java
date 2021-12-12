@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dwarf.board.Board;
+import org.springframework.dwarf.mountain_card.MountainDeck;
 import org.springframework.dwarf.player.Player;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,6 +71,11 @@ public class GameService {
 	public void delete(Game game) {
 		gameRepo.delete(game);
 	}
+	
+	public Optional<MountainDeck> searchDeckByGameId(Integer gameId) {
+		return gameRepo.searchDeckByGameId(gameId);
+	}
+	
 	
 	public void exit(Game game, Player currentPlayer) throws DataAccessException {
 		// the first player must delete the game when exit
