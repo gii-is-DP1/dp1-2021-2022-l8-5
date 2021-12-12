@@ -12,8 +12,8 @@
     <div class="row">
         <div class="col-md-12">
             <dwarf:board board="${board}"/>
-            <c:forEach items="${board.specialDecks}" var="specialDeck">
-            	<dwarf:specialDeck padding="20" xsize="130" ysize="180" SpecialDeck="${specialDeck}"/>
+            <c:forEach items="${board.specialDecks}" var="SpecialDeck">
+            	<dwarf:specialDeck padding="20" xsize="130" ysize="180" specialDeck="${SpecialDeck}"/>
             </c:forEach>
 
             <c:forEach items="${board.boardCells}" var="boardCell">
