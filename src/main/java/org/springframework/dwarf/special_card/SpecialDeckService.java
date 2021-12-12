@@ -1,9 +1,13 @@
 package org.springframework.dwarf.special_card;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dwarf.board.BoardCell;
+import org.springframework.dwarf.mountain_card.MountainCard;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 /**
@@ -13,10 +17,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class SpecialDeckService {
 	
 	private SpecialDeckRepository specialDeckRepo;
+	private SpecialCardService specialCardSer;
 	
 	@Autowired
-	public 	SpecialDeckService(SpecialDeckRepository specialDeckRepo) {
+	public 	SpecialDeckService(SpecialDeckRepository specialDeckRepo, SpecialCardService specialCardSer) {
 		this.specialDeckRepo = specialDeckRepo;
+		this.specialCardSer=specialCardSer;
 	}		
 	
 	@Transactional
@@ -40,7 +46,19 @@ public class SpecialDeckService {
 	public void saveSpecialDeck(SpecialDeck specialDeck) throws DataAccessException {
 		//creating specialDeck
 		specialDeckRepo.save(specialDeck);		
-
 	}
-
+	
+	@Transactional
+	public SpecialDeck createSpecialDeck(Integer xposition, Integer yposition,List<Integer> specialCardsId) throws DataAccessException {
+		SpecialDeck deck = new SpecialDeck(xposition,yposition);
+		List<SpecialCard> spcards= new ArrayList<SpecialCard>();
+		for(Integer cardId:specialCardsId) {
+			spcards.add(specialCardSer.findBySpecialCardId(cardId).get());
+		}
+		deck.setSpecialCard(spcards);
+		specialDeckRepo.save(deck);
+		
+		
+		return deck;
+	}
 }

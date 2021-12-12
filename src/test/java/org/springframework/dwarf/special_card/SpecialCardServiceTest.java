@@ -21,7 +21,7 @@ public class SpecialCardServiceTest {
 	@DisplayName("Returns the number of special cards created")
 	void testSpecialCardCount() {
 		int totalCards = specialCardService.cardCount();
-		assertThat(totalCards).isEqualTo(1);
+		assertThat(totalCards).isEqualTo(9);
 	}
 	
 	@Test
@@ -39,7 +39,7 @@ public class SpecialCardServiceTest {
 	@DisplayName("Returns all special cards")
 	void testFindAll() {
 		Iterable<SpecialCard> specialCards = specialCardService.findAll();
-		assertThat(specialCards.spliterator().getExactSizeIfKnown()).isEqualTo(1);
+		assertThat(specialCards.spliterator().getExactSizeIfKnown()).isEqualTo(9);
 	}
 	
 }

@@ -4,11 +4,15 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Range;
+import org.springframework.dwarf.board.Board;
 import org.springframework.dwarf.model.BaseEntity;
 
 import lombok.Getter;
@@ -21,7 +25,7 @@ import lombok.Setter;
 public class SpecialDeck extends BaseEntity {
 	
 	@Column(name ="xposition")
-	@Range(min=0,max=4)
+	@Range(min=0,max=0)
 	int xPosition;
 	
 	@Column(name ="yposition")
@@ -36,7 +40,19 @@ public class SpecialDeck extends BaseEntity {
         return (yPosition)*size;
     }
 	@NotNull
-	@OneToMany
+	@ManyToMany
 	private List<SpecialCard> specialCard;
+
+	public SpecialDeck() {
+		super();
+	}
+
+	public SpecialDeck(@Range(min = 0, max = 0) int xPosition, @Range(min = 0, max = 2) int yPosition) {
+		super();
+		this.xPosition = xPosition;
+		this.yPosition = yPosition;
+	}
+	
+	
 
 }
