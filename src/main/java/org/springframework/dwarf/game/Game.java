@@ -35,15 +35,9 @@ public class Game extends BaseEntity{
 	private GameState gameState;
 
 	public Game () {
-		this.currentPhase = GamePhase.MINERAL_EXTRACTION;
+		this.currentPhase = GamePhaseEnum.MINERAL_EXTRACTION;
 		this.currentRound = 1;
 		this.startDate = LocalDateTime.now();
-		setPhase(new MineralExtraction());
-	}
-
-	private void setPhase(GameState gameState){
-		this.gameState = gameState;
-		this.gameState.setGame(this);
 	}
 	
 	@NotNull
@@ -54,7 +48,7 @@ public class Game extends BaseEntity{
 	@NotNull
 	@Enumerated(value = EnumType.STRING)
 	@Column(name = "CURRENTPHASE")
-	GamePhase currentPhase;
+	GamePhaseEnum currentPhase;
 	
 	@NotNull
 	@Column(name = "CURRENTROUND")
