@@ -11,6 +11,9 @@
         <c:if test="${player['new']}">New </c:if> Player
     </h2>
     <form:form modelAttribute="player" class="form-horizontal" id="add-player-form">
+    <div class="alert alert-warning" role="alert">
+  	 <span class="help-inline"><form:errors path="*"/></span>
+  	 </div>
         <div class="form-group has-feedback">
             <dwarf:inputField label="First Name" name="firstName"/>
             <dwarf:inputField label="Last Name" name="lastName"/>
