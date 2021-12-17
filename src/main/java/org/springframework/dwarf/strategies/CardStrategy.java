@@ -37,7 +37,7 @@ public class CardStrategy {
 		private ResourceType resource;
 		
 		@Autowired
-		public StrategySeam (ResourcesService resourcesService, GameService gameService) {
+		public StrategySeam(ResourcesService resourcesService, GameService gameService) {
 			this.resourcesService= resourcesService;
 			this.gameService = gameService;
 		}
@@ -68,7 +68,7 @@ public class CardStrategy {
 	}
 
 	@StrategyPattern.ConcreteStrategy
-	public class GetHelp implements InnerCardStrategy {
+	static class GetHelp implements InnerCardStrategy {
 
 		WorkerService workerService;
 		GameService gameService;
