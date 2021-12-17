@@ -20,7 +20,9 @@
                 <label class="col-sm-2 control-label">Last name </label>
                 <div class="col-sm-10">
                     <form:input class="form-control" path="lastName" size="30" maxlength="80"/>
-                    <span class="help-inline"><form:errors path="*"/></span>
+                    <div class="alert alert-warning" role="alert">
+                  	<form:errors path="*"/>
+                    </div>
                 </div>
             </div>
         </div>

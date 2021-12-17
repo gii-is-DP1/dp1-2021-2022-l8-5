@@ -160,9 +160,7 @@ public class PlayerController {
 	@GetMapping(value = "/editProfile")
 	public String initUpdateMeForm(Model model) {
 		String username = CorrentUserController.returnCurrentUserName();
-
 		Player player = playerService.findPlayerByUserName(username);
-
 		model.addAttribute("player",player);
 
 		return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
