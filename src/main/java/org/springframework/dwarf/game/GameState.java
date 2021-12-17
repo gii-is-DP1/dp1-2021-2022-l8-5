@@ -24,7 +24,7 @@ public class GameState {
         
     }
     
-    @StatePattern.Context
+    /*@StatePattern.Context
     static class GamePhaseControl {
         private GamePhase currentPhase;
 
@@ -40,7 +40,7 @@ public class GameState {
         public String toString() {
             return String.format("Game Phase Control [current phase = %s]", currentPhase);
         }
-    }
+    }*/
     
     @StatePattern.ConcreteState
     static class MineralExtraction implements GamePhase{
@@ -95,7 +95,7 @@ public class GameState {
         @Override
         public void setGame(Game game) {
             this.game = game;
-            this.game.setCurrentPhase(GamePhaseEnum.MINERAL_EXTRACTION);
+            this.game.setCurrentPhaseName(GamePhaseEnum.MINERAL_EXTRACTION);
         }
         
         
@@ -128,7 +128,7 @@ public class GameState {
         @Override
         public void setGame(Game game) {
             this.game = game;
-            this.game.setCurrentPhase(GamePhaseEnum.ACTION_SELECTION);
+            this.game.setCurrentPhaseName(GamePhaseEnum.ACTION_SELECTION);
         }
     
     }
@@ -147,7 +147,7 @@ public class GameState {
         @Override
         public void setGame(Game game) {
             this.game = game;
-            this.game.setCurrentPhase(GamePhaseEnum.ACTION_RESOLUTION);
+            this.game.setCurrentPhaseName(GamePhaseEnum.ACTION_RESOLUTION);
         }
     	
     }
