@@ -1,8 +1,10 @@
 package org.springframework.dwarf.game;
 
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import org.jpatterns.gof.StatePattern;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,11 @@ import org.springframework.dwarf.board.BoardService;
 import org.springframework.dwarf.mountain_card.MountainCard;
 import org.springframework.dwarf.mountain_card.MountainDeck;
 import org.springframework.dwarf.mountain_card.MountainDeckService;
+import org.springframework.dwarf.player.Player;
+import org.springframework.dwarf.worker.Worker;
+import org.springframework.dwarf.worker.WorkerService;
+
+
 @StatePattern
 public class GameState {
 	
@@ -116,10 +123,12 @@ public class GameState {
     static class ActionSelection implements GamePhase{
     	
         private Game game;
+        
+
 
 		@Override
 		public void phaseResolution() {
-			
+			//TODO Los jugadores tienen que colocar sus trabajadores
 			
 		}
 		
@@ -137,10 +146,50 @@ public class GameState {
     static class ActionResolution implements GamePhase{
     	
         private Game game;
+        
+        @Autowired
+        private GameService gameService;
+        
+        @Autowired
+        private WorkerService workerService;
 
 		@Override
 		public void phaseResolution() {
-			// TODO Auto-generated method stub
+			Player p1 = gameService.searchPlayerOneByGame(game.getId());	//Player1
+
+			List<Worker> workersP1 = workerService.findByPlayerId(p1.getId()).stream().collect(Collectors.toList()); //Workers de P1
+			
+			for(int i=0; i<workersP1.size(); i++) {
+				Worker w = workersP1.get(i);			//Cada worker
+				Integer posXw = w.getXposition();
+				Integer posYw = w.getYposition();
+				
+				//Falta comprobación de las acciones de cada carta (Strategy)
+			}
+			
+			Player p2 = gameService.searchPlayerTwoByGame(game.getId());	//Player2
+
+			List<Worker> workersP2 = workerService.findByPlayerId(p2.getId()).stream().collect(Collectors.toList()); //Workers de P1
+			
+			for(int i=0; i<workersP2.size(); i++) {
+				Worker w = workersP2.get(i);			//Cada worker
+				Integer posXw = w.getXposition();
+				Integer posYw = w.getYposition();
+				
+				//Falta comprobación de las acciones de cada carta (Strategy)
+			}
+			
+			Player p3 = gameService.searchPlayerThreeByGame(game.getId());	//Player3
+
+			List<Worker> workersP3 = workerService.findByPlayerId(p3.getId()).stream().collect(Collectors.toList()); //Workers de P1
+			
+			for(int i=0; i<workersP3.size(); i++) {
+				Worker w = workersP3.get(i);			//Cada worker
+				Integer posXw = w.getXposition();
+				Integer posYw = w.getYposition();
+				
+				//Falta comprobación de las acciones de cada carta (Strategy)
+			}
 			
 		}
 
