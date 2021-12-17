@@ -124,12 +124,26 @@ public class GameState {
     	
         private Game game;
         
+        private GameService gameService;
+        
+        private WorkerService workerService;
 
 
 		@Override
 		public void phaseResolution() {
 			//TODO Los jugadores tienen que colocar sus trabajadores
 			
+			Integer gameId = game.getId();
+			List<Player> players = gameService.searchPlayersByGame(gameId);	//Todos los jugadores del game
+			
+			for(int i=0; i<players.size(); i++) {
+				List<Worker> workers = workerService.findByPlayerIdAndGameId(gameId, players.get(i).getId())
+													.stream().collect(Collectors.toList());
+				for(int j=0; j<workers.size(); j++) {
+					Worker w = workers.get(j);		//Worker j del player i;
+					
+				}
+			}
 		}
 		
 		
@@ -155,40 +169,20 @@ public class GameState {
 
 		@Override
 		public void phaseResolution() {
-			Player p1 = gameService.searchPlayerOneByGame(game.getId());	//Player1
-
-			List<Worker> workersP1 = workerService.findByPlayerId(p1.getId()).stream().collect(Collectors.toList()); //Workers de P1
+			Integer gameId = game.getId();
+			List<Player> players = gameService.searchPlayersByGame(gameId);	//Todos los jugadores del game
 			
-			for(int i=0; i<workersP1.size(); i++) {
-				Worker w = workersP1.get(i);			//Cada worker
-				Integer posXw = w.getXposition();
-				Integer posYw = w.getYposition();
-				
-				//Falta comprobación de las acciones de cada carta (Strategy)
-			}
-			
-			Player p2 = gameService.searchPlayerTwoByGame(game.getId());	//Player2
-
-			List<Worker> workersP2 = workerService.findByPlayerId(p2.getId()).stream().collect(Collectors.toList()); //Workers de P1
-			
-			for(int i=0; i<workersP2.size(); i++) {
-				Worker w = workersP2.get(i);			//Cada worker
-				Integer posXw = w.getXposition();
-				Integer posYw = w.getYposition();
-				
-				//Falta comprobación de las acciones de cada carta (Strategy)
-			}
-			
-			Player p3 = gameService.searchPlayerThreeByGame(game.getId());	//Player3
-
-			List<Worker> workersP3 = workerService.findByPlayerId(p3.getId()).stream().collect(Collectors.toList()); //Workers de P1
-			
-			for(int i=0; i<workersP3.size(); i++) {
-				Worker w = workersP3.get(i);			//Cada worker
-				Integer posXw = w.getXposition();
-				Integer posYw = w.getYposition();
-				
-				//Falta comprobación de las acciones de cada carta (Strategy)
+			for(int i=0; i<players.size(); i++) {
+				List<Worker> workers = workerService.findByPlayerIdAndGameId(gameId, players.get(i).getId())
+													.stream().collect(Collectors.toList());
+				for(int j=0; j<workers.size(); j++) {
+					Worker w = workers.get(j);		//Worker j del player i;
+					Integer wXPos = w.getXposition();
+					Integer wYPos = w.getYposition();
+					
+					//Comprobaciones de posiciones y resolucion de acciones de las cartas pendiente (Strategy)
+					
+				}
 			}
 			
 		}

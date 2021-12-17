@@ -70,6 +70,13 @@ public class GameServiceTest {
 		assertThat(playerGames.size()).isEqualTo(1);
 	}
 	
+	@Test
+	@DisplayName("Returns all the players from the game")
+	void searchPlayersByGame() {
+		Integer gameId = 3;
+		List<Player> players = gameService.searchPlayersByGame(gameId);
+		assertEquals(players.get(1).getId(), 1); //En el game 3, el segundo jugador tiene el id 1
+	}
 	
     @Test
     @DisplayName("Returns the player one (p1) from a game")
