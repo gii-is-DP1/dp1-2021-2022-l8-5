@@ -1,6 +1,4 @@
 package org.springframework.dwarf.worker;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -44,8 +42,6 @@ public class Worker extends BaseEntity{
 	public Worker() {
 		super();
 	}
-
-
 
 	@Column(name = "xposition")
 	@Range(min= 1, max= 3)
