@@ -76,6 +76,19 @@ public class GameService {
 		return gameRepo.searchDeckByGameId(gameId);
 	}
 	
+	//Jugadores concretos por cada game
+	public Player searchPlayerOneByGame(Integer gameId) {
+		return gameRepo.searchPlayerOneByGame(gameId);
+	}
+
+	public Player searchPlayerTwoByGame(Integer gameId) {
+		return gameRepo.searchPlayerTwoByGame(gameId);
+	}
+
+	public Player searchPlayerThreeByGame(Integer gameId) {
+		return gameRepo.searchPlayerThreeByGame(gameId);
+	}
+	//
 	
 	public void exit(Game game, Player currentPlayer) throws DataAccessException {
 		// the first player must delete the game when exit
