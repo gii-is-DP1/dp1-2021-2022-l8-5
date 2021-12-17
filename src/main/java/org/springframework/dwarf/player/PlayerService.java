@@ -110,7 +110,7 @@ public class PlayerService {
 		Player otherPlayer=playerRepository.findByUsername(player.getUsername());
 		res= res && otherPlayer!= null;
 		res= res && otherPlayer.getId()!= player.getId();
-		res = res && otherPlayer.getUsername()==player.getUsername();
+		res = res && otherPlayer.getUsername().equals(player.getUsername());
 		return res;	
 	}
 	
@@ -120,7 +120,7 @@ public class PlayerService {
 		Player otherPlayer=playerRepository.findByEmail(player.getEmail());
 		res= res && otherPlayer!= null;
 		res= res && otherPlayer.getId()!= player.getId();
-		res = res && otherPlayer.getEmail()==player.getEmail();
+		res = res && otherPlayer.getEmail().equals(player.getEmail());
 		return res;	
 	}
 	

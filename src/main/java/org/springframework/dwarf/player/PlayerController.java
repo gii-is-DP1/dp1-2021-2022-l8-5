@@ -92,10 +92,12 @@ public class PlayerController {
 				
 				return "redirect:/players";
 			} catch (DuplicatedUsernameException dp) {
-				result.rejectValue (" name", " duplicate", "already exists");
+				result.rejectValue ("username", "duplicate", "already exists");
 				return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
-				}catch (DuplicatedEmailException dp) {
-					result.rejectValue (" email", " duplicate", "already exists");
+				
+				}
+			catch (DuplicatedEmailException dp) {
+					result.rejectValue ("email", "duplicate", "already exists");
 					return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
 					}
 			}
@@ -189,10 +191,10 @@ public class PlayerController {
 			
 			return "redirect:/";
 		} catch (DuplicatedUsernameException dp) {
-			result.rejectValue (" name", " duplicate", "already exists");
+			result.rejectValue ("username", " duplicate", "already exists");
 			return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
 			} catch (DuplicatedEmailException dp) {
-				result.rejectValue (" email", " duplicate", "already exists");
+				result.rejectValue ("email", " duplicate", "already exists");
 				return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
 				}
 		//this.playerService.savePlayer(player);

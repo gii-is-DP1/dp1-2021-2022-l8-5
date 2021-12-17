@@ -76,10 +76,10 @@ public class UserController {
 				
 				return "redirect:/";
 			} catch (DuplicatedUsernameException dp) {
-				result.rejectValue (" name", " duplicate", "already exists");
+				result.rejectValue ("username", " duplicate", "already exists");
 				return VIEWS_PLAYER_CREATE_FORM;
 				}catch (DuplicatedEmailException dp) {
-					result.rejectValue (" name", " duplicate", "already exists");
+					result.rejectValue ("email", " duplicate", "already exists");
 					return VIEWS_PLAYER_CREATE_FORM;
 					}
 		}
