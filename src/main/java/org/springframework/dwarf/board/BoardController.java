@@ -1,5 +1,7 @@
 package org.springframework.dwarf.board;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +50,7 @@ public class BoardController {
     
     @GetMapping("{boardId}/game/{gameId}")
     public String boardGame(@PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, ModelMap modelMap, HttpServletResponse response) {
-    	response.addHeader("Refresh", "2");
+    	response.addHeader("REFRESH", "2");
     	String view = "/board/board";
     	
     	Game game = gameService.findByGameId(gameId).get();

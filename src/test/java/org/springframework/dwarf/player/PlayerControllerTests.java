@@ -116,6 +116,15 @@ class PlayerControllerTests {
 		.andExpect(model().attribute("player", hasProperty("avatarUrl", is("https://www.w3schools.com/w3images/avatar1.png"))))
 		.andExpect(view().name("players/createOrUpdatePlayerForm"));
 	}
+	/*
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessUpdatePlayerFormSuccess() throws Exception {
+		mockMvc.perform(post("/players/{playerId}/edit", TEST_PLAYER_ID).with(csrf()).param("firstName", "Paco")
+				.param("lastName", "Fiestas").param("password", "1").param("email", "hacker@hack.com")
+				.param("avatarUrl", "https://www.w3schools.com/w3images/avatar1.png")).andExpect(status().isOk())
+				.andExpect(view().name("redirect:/players"));
+	}*/
 	
 	@WithMockUser(value = "spring")
 	@Test
@@ -154,7 +163,22 @@ class PlayerControllerTests {
 
 		mockMvc.perform(get("/players")).andExpect(status().isOk()).andExpect(view().name("players/playersList"));
 	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testShowPlayer() throws Exception {
+		mockMvc.perform(get("/players/{playerId}", TEST_PLAYER_ID)).andExpect(status().isOk())
+				.andExpect(model().attribute("player", hasProperty("lastName", is("Fiestas"))))
+				.andExpect(model().attribute("player", hasProperty("firstName", is("Paco"))))
+				.andExpect(model().attribute("player", hasProperty("password", is("1"))))
+				.andExpect(model().attribute("player", hasProperty("email", is("hacker@hack.com"))))
+				.andExpect(model().attribute("player", hasProperty("avatarUrl", is("https://www.w3schools.com/w3images/avatar1.png"))))
+				.andExpect(view().name("players/playerDetails"));
+	}
+	
 
+	
+	
 	/*
 	@WithMockUser(username = "paco")
 	@Test
@@ -279,16 +303,6 @@ class PlayerControllerTests {
 				.andExpect(view().name("players/createOrUpdateOwnerForm"));
 	}
 
-	@WithMockUser(value = "spring")
-	@Test
-	void testShowOwner() throws Exception {
-		mockMvc.perform(get("/players/{ownerId}", TEST_OWNER_ID)).andExpect(status().isOk())
-				.andExpect(model().attribute("owner", hasProperty("lastName", is("Franklin"))))
-				.andExpect(model().attribute("owner", hasProperty("firstName", is("George"))))
-				.andExpect(model().attribute("owner", hasProperty("address", is("110 W. Liberty St."))))
-				.andExpect(model().attribute("owner", hasProperty("city", is("Madison"))))
-				.andExpect(model().attribute("owner", hasProperty("telephone", is("608555103"))))
-				.andExpect(view().name("players/ownerDetails"));
-	}
+
 	*/
 }

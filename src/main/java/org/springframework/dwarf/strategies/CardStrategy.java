@@ -22,6 +22,9 @@ import org.springframework.dwarf.resources.ResourcesService;
 import org.springframework.dwarf.worker.Worker;
 import org.springframework.dwarf.worker.WorkerService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @StrategyPattern
 public class CardStrategy {
 	
@@ -71,6 +74,8 @@ public class CardStrategy {
 	
 		@Override
 		public void actions(Player player) {
+			log.info(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName());
+			/*
 			Game game = gameService.findPlayerUnfinishedGames(player).get();
 			Resources playerResources = resourcesService.findByPlayerIdAndGameId(player.getId(),game.getId()).get();			
 			try {
@@ -79,6 +84,7 @@ public class CardStrategy {
 				
 			}
 			resourcesService.saveResources(playerResources);
+			*/
 		}
 	
 		@Override
@@ -102,12 +108,15 @@ public class CardStrategy {
 
 		@Override
 		public void actions(Player player) {
+			log.info(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName());
+			/*
 			Game game = gameService.findPlayerUnfinishedGames(player).get();
 			Worker extraWorker1 = new Worker(player, game);
 			Worker extraWorker2 = new Worker(player, game);
 			
 			workerService.saveWorker(extraWorker1);
 			workerService.saveWorker(extraWorker2);
+			*/
 		}
 
 		@Override
@@ -123,8 +132,7 @@ public class CardStrategy {
 
 		@Override
 		public void actions(Player player) {
-			// TODO Auto-generated method stub
-			
+			log.info(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName());
 		}
 
 		@Override
@@ -139,8 +147,7 @@ public class CardStrategy {
 
 		@Override
 		public void actions(Player player) {
-			// TODO Auto-generated method stub
-			
+			log.info(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName());
 		}
 
 		@Override
@@ -155,8 +162,7 @@ public class CardStrategy {
 
 		@Override
 		public void actions(Player player) {
-			// TODO Auto-generated method stub
-			
+			log.info(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName());
 		}
 
 		@Override
@@ -178,8 +184,7 @@ public class CardStrategy {
 		
 		@Override
 		public void actions(Player player) {
-			// TODO Auto-generated method stub
-			
+			log.info(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName());
 		}
 
 		@Override
@@ -205,13 +210,15 @@ public class CardStrategy {
 
 		@Override
 		public void actions(Player player) {
+			log.info(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName());
+			/*
 			Game currentGame = gameService.findPlayerUnfinishedGames(player).get();
 			List<BoardCell> listHelpCards = this.getGetHelpCardsInBoard(currentGame);
 			
 			for(BoardCell boardCell: listHelpCards) {
 				boardCell.setCellOccupied(true);
 			}
-			
+			*/
 		}
 		
 		private List<BoardCell> getGetHelpCardsInBoard(Game currentGame){
@@ -243,6 +250,8 @@ public class CardStrategy {
 		
 		@Override
 		public void actions(Player player) {
+			log.info(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName());
+			/*
 			Game currentGame = gameService.findPlayerUnfinishedGames(player).get();
 			Board board = gameService.findBoardByGameId(currentGame.getId()).get();
 			// se podria hacer una query que te diese el mazo de montaña con el game id
@@ -251,6 +260,7 @@ public class CardStrategy {
 			
 			mountainDeck.getMountainCards().addAll(removedCards);
 			mountainDeckService.saveMountainDeck(mountainDeck);
+			*/
 		}
 		
 		private List<MountainCard> removeTopCards(Game currentGame){
@@ -283,8 +293,7 @@ public class CardStrategy {
 
 		@Override
 		public void actions(Player player) {
-			// TODO Auto-generated method stub
-			
+			log.info(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName());
 			// habria que hacer un form para que el player seleccione que recursos quiere a cambio del objeto
 		}
 
@@ -300,7 +309,7 @@ public class CardStrategy {
 
 		@Override
 		public void actions(Player player) {
-			// TODO Auto-generated method stub
+			log.info(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName());
 			
 		}
 
@@ -316,7 +325,7 @@ public class CardStrategy {
 
 		@Override
 		public void actions(Player player) {
-			// TODO Auto-generated method stub
+			log.info(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName());
 			
 		}
 
@@ -332,7 +341,7 @@ public class CardStrategy {
 
 		@Override
 		public void actions(Player player) {
-			// TODO Auto-generated method stub
+			log.info(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName());
 			
 		}
 
@@ -348,7 +357,7 @@ public class CardStrategy {
 
 		@Override
 		public void actions(Player player) {
-			// TODO Auto-generated method stub
+			log.info(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName());
 			
 		}
 
@@ -364,7 +373,7 @@ public class CardStrategy {
 
 		@Override
 		public void actions(Player player) {
-			// TODO Auto-generated method stub
+			log.info(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName());
 			
 		}
 
@@ -380,7 +389,7 @@ public class CardStrategy {
 
 		@Override
 		public void actions(Player player) {
-			// TODO Auto-generated method stub
+			log.info(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName());
 			
 		}
 
