@@ -17,12 +17,14 @@
              <c:choose>
                     <c:when test="${player['new']}">
                        <dwarf:inputField label="Username" name="user.username" />
+                        <span class="help-inline"><form:errors path="username"/></span>
                     </c:when>
                      <c:otherwise>
                      
                     </c:otherwise>
                </c:choose>
               <dwarf:inputField label="E-Mail" name="user.email"/> 
+               <span class="help-inline"><form:errors path="email"/></span>
                <dwarf:inputField label="AvatarUrl" name="avatarUrl"/>
             <dwarf:inputField label="Password" name="user.password"/>
             

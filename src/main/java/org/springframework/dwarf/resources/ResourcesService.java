@@ -22,6 +22,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dwarf.game.Game;
+import org.springframework.dwarf.player.Player;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -79,6 +81,12 @@ public class ResourcesService {
 	public void saveResources(Resources Resources) throws DataAccessException {
 		ResourcesRepo.save(Resources);		
 
-	}		
+	}
+	
+	@Transactional
+	public void createPlayerResource(Player player, Game game) {
+		Resources playerResource = new Resources(game, player);
+		this.saveResources(playerResource);
+	}
 	
 }

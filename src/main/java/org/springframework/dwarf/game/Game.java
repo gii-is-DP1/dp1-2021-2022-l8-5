@@ -14,12 +14,15 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import org.jpatterns.gof.StatePattern;
+import org.springframework.dwarf.game.GameState.GamePhase;
 import org.springframework.dwarf.model.BaseEntity;
 import org.springframework.dwarf.player.Player;
 
 /**
  * @author Diego Ruiz Gil
  * @author Francisco Javier Migueles Domínguez
+ * @author Pablo Álvarez Caro
  */
 
 import lombok.Getter;
@@ -29,21 +32,17 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "games")
+@StatePattern.Context
 public class Game extends BaseEntity{
 	
 	@Transient
-	private GameState gameState;
+	private GamePhase currentphase;
 
 	public Game () {
-		this.currentPhase = GamePhase.MINERAL_EXTRACTION;
+		this.currentPhaseName = GamePhaseEnum.MINERAL_EXTRACTION;
 		this.currentRound = 1;
 		this.startDate = LocalDateTime.now();
-		setPhase(new MineralExtraction());
-	}
-
-	private void setPhase(GameState gameState){
-		this.gameState = gameState;
-		this.gameState.setGame(this);
+		this.currentphase = new GameState.MineralExtraction();
 	}
 	
 	@NotNull
@@ -54,7 +53,7 @@ public class Game extends BaseEntity{
 	@NotNull
 	@Enumerated(value = EnumType.STRING)
 	@Column(name = "CURRENTPHASE")
-	GamePhase currentPhase;
+	GamePhaseEnum currentPhaseName;
 	
 	@NotNull
 	@Column(name = "CURRENTROUND")

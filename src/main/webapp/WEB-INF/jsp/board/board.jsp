@@ -10,20 +10,25 @@
 	<h1>Has entrado en partida</h1>
 	
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-9">
             <dwarf:board board="${board}"/>
-            <c:forEach items="${board.specialDecks}" var="SpecialDeck">
-            	<dwarf:specialDeck padding="20" xsize="130" ysize="180" specialDeck="${SpecialDeck}"/>
+            <c:forEach items="${board.specialDecks}" var="specialDeck">
+            	<dwarf:specialDeck padding="20" xsize="130" ysize="180" specialDeck="${specialDeck}"/>
             </c:forEach>
 
             <c:forEach items="${board.boardCells}" var="boardCell">
             	<dwarf:mountainCard padding="20" xsize="130" ysize="180" mountainCard="${boardCell.mountaincards.get(0)}"/>
             	
             </c:forEach>
+            <dwarf:mountainDeck padding="20" xsize="130" ysize="180" mountainDeck="${board.mountainDeck}"/> 
             
         </div>
-         <div class="col-md">
-        	<dwarf:mountainDeck padding="20" xsize="130" ysize="180" mountainDeck="${board.mountainDeck}"/> 
+         <div class="col-md-3">
+        	<ul>
+				<dwarf:playerInfo player="${player1}" playerNumber="${1}" resources="${resourcesPlayer1}"/>
+				<dwarf:playerInfo player="${player2}" playerNumber="${2}" resources="${resourcesPlayer2}"/>
+				<dwarf:playerInfo player="${player3}" playerNumber="${3}" resources="${resourcesPlayer3}"/>
+        	</ul>
          </div>
     </div>
    			

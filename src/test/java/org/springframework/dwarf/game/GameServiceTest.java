@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -70,6 +69,35 @@ public class GameServiceTest {
 
 		assertThat(playerGames.size()).isEqualTo(1);
 	}
+	
+	@Test
+	@DisplayName("Returns all the players from the game")
+	void searchPlayersByGame() {
+		Integer gameId = 3;
+		List<Player> players = gameService.searchPlayersByGame(gameId);
+		assertEquals(players.get(1).getId(), 1); //En el game 3, el segundo jugador tiene el id 1
+	}
+	
+    @Test
+    @DisplayName("Returns the player one (p1) from a game")
+    void testSearchPlayerOne() throws Exception {
+        Player p = gameService.searchPlayerOneByGame(1);	//Juego sin terminar
+        assertEquals(p.getId(), 6);
+    }
+    
+    @Test
+    @DisplayName("Returns the player two (p2) from a game")
+    void testSearchPlayerTwo() throws Exception {
+        Player p = gameService.searchPlayerTwoByGame(2);
+        assertEquals(p.getId(), 5);
+    }
+    
+    @Test
+    @DisplayName("Returns the player three (p3) from a game")
+    void testSearchPlayerThree() throws Exception {
+        Player p = gameService.searchPlayerThreeByGame(3);	//Juego terminado
+        assertEquals(p.getId(), 2);
+    }
 	
 	@Test
 	@DisplayName("Returns the player games which are not finished")

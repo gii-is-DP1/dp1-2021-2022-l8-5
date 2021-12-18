@@ -76,6 +76,22 @@ public class GameService {
 		return gameRepo.searchDeckByGameId(gameId);
 	}
 	
+	public Player searchPlayerOneByGame(Integer gameId) {
+		return gameRepo.searchPlayerOneByGame(gameId);
+	}
+
+	public Player searchPlayerTwoByGame(Integer gameId) {
+		return gameRepo.searchPlayerTwoByGame(gameId);
+	}
+
+	public Player searchPlayerThreeByGame(Integer gameId) {
+		return gameRepo.searchPlayerThreeByGame(gameId);
+	}
+	
+	//All players from the game
+	public List<Player> searchPlayersByGame(Integer gameId) {		
+		return List.of(searchPlayerOneByGame(gameId), searchPlayerTwoByGame(gameId), searchPlayerThreeByGame(gameId));
+	}
 	
 	public void exit(Game game, Player currentPlayer) throws DataAccessException {
 		// the first player must delete the game when exit
