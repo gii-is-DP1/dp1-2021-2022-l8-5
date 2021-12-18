@@ -25,7 +25,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "workers", uniqueConstraints = @UniqueConstraint(columnNames = {"playerID", "gameID"}))
+@Table(name = "workers")
 public class Worker extends BaseEntity{
 	
 	

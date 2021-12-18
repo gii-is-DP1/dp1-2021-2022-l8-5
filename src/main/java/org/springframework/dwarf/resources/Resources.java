@@ -52,6 +52,20 @@ public class Resources extends BaseEntity{
 	@JoinColumn(name= "gameID")
 	private Game game;
 	
+	public Resources (Game game, Player player) {
+		this.badges = 0;
+		this.gold = 0;
+		this.iron = 0;
+		this.steel = 0;
+		this.game = game;
+		this.player = player;
+		this.items = 0;
+	}
+	
+	public Resources () {
+
+	}
+	
 	
 	public void deletePlayer(Player sustitute) {
 		this.setPlayer(sustitute);
