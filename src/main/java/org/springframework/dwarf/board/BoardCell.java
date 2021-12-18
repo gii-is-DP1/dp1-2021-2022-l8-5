@@ -1,7 +1,5 @@
 package org.springframework.dwarf.board;
 
-
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -20,12 +18,13 @@ import lombok.Setter;
 @Entity
 @Table(name = "boardcells")
 public class BoardCell extends BaseEntity{
-	
-
+	@Range(min= 1, max= 3)
 	Integer xposition;
 	
 	@Range(min= 0, max= 2)
 	Integer yposition;
+	
+	Boolean cellOccupied;
 	
 	@ManyToMany
 	List<MountainCard> mountaincards;

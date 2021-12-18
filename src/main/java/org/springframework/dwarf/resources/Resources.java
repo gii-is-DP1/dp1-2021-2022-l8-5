@@ -1,5 +1,7 @@
 package org.springframework.dwarf.resources;
 
+import java.lang.reflect.Method;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -55,27 +57,22 @@ public class Resources extends BaseEntity{
 		this.setPlayer(sustitute);
 	}
 	
-	public void setResource(ResourceType resource, Integer amountToAdd) {
-		switch(resource) {
-			case IRON:
-				this.setIron(amountToAdd+this.getIron());
-				break;
-			case GOLD:
-				this.setGold(amountToAdd + this.getGold());
-				break;
-			case STEEL:
-				this.setSteel(amountToAdd + this.getSteel());
-				break;
-			case BADGE:
-				this.setBadges(amountToAdd + this.getBadges());
-				break;
-			case ITEM:
-				this.setItems(amountToAdd + this.getItems());
-				break;
-			default:
-				break;
-		}
+	public void setResource(ResourceType resource, Integer amountToAdd) throws Exception{
+		String resourceName = this.getResourceName(resource);
+
+		Method getter = this.getClass().getMethod("get" + resourceName);
+		amountToAdd += (Integer)getter.invoke(this);
+
+		Method setter = this.getClass().getMethod("set" + resourceName, Integer.class);
+		setter.invoke(this, amountToAdd);
 			
+	}
+	
+	// Ej: BADGES --> Badges
+	private String getResourceName(ResourceType resource){
+		String methodName = resource.toString().toLowerCase();
+		methodName = methodName.substring(0,1).toUpperCase() + methodName.substring(1, methodName.length());
+		return methodName;
 	}
 
 }
