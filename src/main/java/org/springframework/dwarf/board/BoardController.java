@@ -1,6 +1,8 @@
 package org.springframework.dwarf.board;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -8,8 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.player.Player;
+import org.springframework.dwarf.player.PlayerService;
 import org.springframework.dwarf.resources.Resources;
 import org.springframework.dwarf.resources.ResourcesService;
+import org.springframework.dwarf.web.CorrentUserController;
+import org.springframework.dwarf.worker.Worker;
 import org.springframework.dwarf.worker.WorkerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -27,13 +32,16 @@ public class BoardController {
     private GameService gameService;
     private ResourcesService resourcesService;
     private WorkerService workerService;
+    private PlayerService playerService;
 
 	@Autowired
-	public BoardController(BoardService boardService, GameService gameService, ResourcesService resourcesService, WorkerService workerService) {
+	public BoardController(BoardService boardService, GameService gameService,
+			ResourcesService resourcesService, WorkerService workerService, PlayerService playerService) {
 		this.boardService = boardService;
         this.gameService = gameService;
         this.resourcesService = resourcesService;
         this.workerService = workerService;
+        this.playerService = playerService;
 	}
 	
 	@GetMapping()
@@ -65,8 +73,17 @@ public class BoardController {
     	
     	Game game = gameService.findByGameId(gameId).get();
     	Board board = boardService.findByBoardId(boardId).get();
-
     	
+		String playerUsername = CorrentUserController.returnCurrentUserName();
+		Player myplayer = playerService.findPlayerByUserName(playerUsername);
+		
+		Collection<Worker> myworkers = workerService.findByPlayerId(myplayer.getId());	
+		for (int i = 0; i < myworkers.size(); i++) {
+			Worker myworker = myworkers.stream().collect(Collectors.toList()).get(i);
+			modelMap.addAttribute("myworker" + (i+1), myworker);
+		}
+
+    	modelMap.addAttribute("myplayer", myplayer);
     	modelMap.addAttribute("board", board);
     	modelMap.addAttribute("game", game);
     	

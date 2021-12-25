@@ -28,16 +28,12 @@ import lombok.Setter;
 @Table(name = "workers")
 public class Worker extends BaseEntity{
 	
-	
-	
 	public Worker(Player player, Game game) {
 		super();
 		this.player = player;
 		this.game = game;
 		this.status=false;
 	}
-	
-	
 
 	public Worker() {
 		super();
