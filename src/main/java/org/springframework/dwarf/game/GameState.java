@@ -19,40 +19,21 @@ import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.worker.Worker;
 import org.springframework.dwarf.worker.WorkerService;
 
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @StatePattern
 public class GameState {
 	
     @StatePattern.State
     interface GamePhase {
-
-        void phaseResolution();
-        void setGame(Game game);
-        
+        void phaseResolution(Game game);
+        GamePhaseEnum getPhaseName();
     }
-    
-    /*@StatePattern.Context
-    static class GamePhaseControl {
-        private GamePhase currentPhase;
-
-        public GamePhaseControl() {
-            currentPhase = new MineralExtraction();
-        }
-
-        public void setPhase(GamePhase phase) {
-            currentPhase = phase;
-        }
-
-        @Override
-        public String toString() {
-            return String.format("Game Phase Control [current phase = %s]", currentPhase);
-        }
-    }*/
     
     @StatePattern.ConcreteState
     static class MineralExtraction implements GamePhase{
     	
-        private Game game;
         
         @Autowired
         private GameService gameService;
@@ -64,8 +45,8 @@ public class GameState {
         private BoardCellService boardCellService;
 
         @Override
-        public void phaseResolution() {
-        	
+        public void phaseResolution(Game game) {
+        	/*
         	//Sacar el mazo de la partida
         	//Coger 2 cartas aleatorias del mazo y eliminarlas de este
         	
@@ -94,17 +75,12 @@ public class GameState {
         	for (BoardCell b : boardcells) {
         		setCard(mountaincard1, b);
         		setCard(mountaincard2, b);
-        	}
+        	}*/
         	
-           
+        	log.debug("Cambiamos a action selection");
+        	
+        	game.setPhase(new ActionSelection());
         }
-
-        @Override
-        public void setGame(Game game) {
-            this.game = game;
-            this.game.setCurrentPhaseName(GamePhaseEnum.MINERAL_EXTRACTION);
-        }
-        
         
         private void setCard(MountainCard mountaincard, BoardCell boardcell) {
     		List<MountainCard> cellcards = boardcell.getMountaincards();
@@ -115,14 +91,16 @@ public class GameState {
     			boardCellService.saveBoardCell(boardcell);
     		}
         }
-        
-    	
+
+		@Override
+		public GamePhaseEnum getPhaseName() {
+			return GamePhaseEnum.MINERAL_EXTRACTION;
+		}
     }
     
     @StatePattern.ConcreteState
     static class ActionSelection implements GamePhase{
     	
-        private Game game;
         
         private GameService gameService;
         
@@ -130,7 +108,8 @@ public class GameState {
 
 
 		@Override
-		public void phaseResolution() {
+		public void phaseResolution(Game game) {
+			/*
 			//TODO Los jugadores tienen que colocar sus trabajadores
 			
 			Integer gameId = game.getId();
@@ -143,23 +122,23 @@ public class GameState {
 					Worker w = workers.get(j);		//Worker j del player i;
 					
 				}
-			}
+			}*/
+			
+			log.debug("Cambiamos a action resolution");
+			
+			game.setPhase(new ActionResolution());
 		}
-		
-		
 
-        @Override
-        public void setGame(Game game) {
-            this.game = game;
-            this.game.setCurrentPhaseName(GamePhaseEnum.ACTION_SELECTION);
-        }
-    
+
+		@Override
+		public GamePhaseEnum getPhaseName() {
+			return GamePhaseEnum.ACTION_SELECTION;
+		}
     }
     
     @StatePattern.ConcreteState
     static class ActionResolution implements GamePhase{
     	
-        private Game game;
         
         @Autowired
         private GameService gameService;
@@ -168,7 +147,8 @@ public class GameState {
         private WorkerService workerService;
 
 		@Override
-		public void phaseResolution() {
+		public void phaseResolution(Game game) {
+			/*
 			Integer gameId = game.getId();
 			List<Player> players = gameService.searchPlayersByGame(gameId);	//Todos los jugadores del game
 			
@@ -183,16 +163,17 @@ public class GameState {
 					//Comprobaciones de posiciones y resolucion de acciones de las cartas pendiente (Strategy)
 					
 				}
-			}
+			}*/
 			
+			log.debug("Cambiamos a mineral extraction");
+			
+			game.setPhase(new MineralExtraction());
 		}
 
-        @Override
-        public void setGame(Game game) {
-            this.game = game;
-            this.game.setCurrentPhaseName(GamePhaseEnum.ACTION_RESOLUTION);
-        }
-    	
+		@Override
+		public GamePhaseEnum getPhaseName() {
+			return GamePhaseEnum.ACTION_RESOLUTION;
+		}
     }
 
 }

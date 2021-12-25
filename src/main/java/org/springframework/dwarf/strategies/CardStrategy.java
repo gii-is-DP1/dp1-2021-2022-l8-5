@@ -13,13 +13,10 @@ import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.mountain_card.CardType;
 import org.springframework.dwarf.mountain_card.MountainCard;
-import org.springframework.dwarf.mountain_card.MountainDeck;
 import org.springframework.dwarf.mountain_card.MountainDeckService;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.resources.ResourceType;
-import org.springframework.dwarf.resources.Resources;
 import org.springframework.dwarf.resources.ResourcesService;
-import org.springframework.dwarf.worker.Worker;
 import org.springframework.dwarf.worker.WorkerService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -74,7 +71,7 @@ public class CardStrategy {
 	
 		@Override
 		public void actions(Player player) {
-			log.info(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName());
+			log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
 			/*
 			Game game = gameService.findPlayerUnfinishedGames(player).get();
 			Resources playerResources = resourcesService.findByPlayerIdAndGameId(player.getId(),game.getId()).get();			
@@ -108,7 +105,7 @@ public class CardStrategy {
 
 		@Override
 		public void actions(Player player) {
-			log.info(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName());
+			log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
 			/*
 			Game game = gameService.findPlayerUnfinishedGames(player).get();
 			Worker extraWorker1 = new Worker(player, game);
@@ -132,7 +129,7 @@ public class CardStrategy {
 
 		@Override
 		public void actions(Player player) {
-			log.info(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName());
+			log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
 		}
 
 		@Override
@@ -147,7 +144,7 @@ public class CardStrategy {
 
 		@Override
 		public void actions(Player player) {
-			log.info(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName());
+			log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
 		}
 
 		@Override
@@ -162,7 +159,7 @@ public class CardStrategy {
 
 		@Override
 		public void actions(Player player) {
-			log.info(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName());
+			log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
 		}
 
 		@Override
@@ -184,7 +181,7 @@ public class CardStrategy {
 		
 		@Override
 		public void actions(Player player) {
-			log.info(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName());
+			log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
 		}
 
 		@Override
@@ -210,7 +207,7 @@ public class CardStrategy {
 
 		@Override
 		public void actions(Player player) {
-			log.info(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName());
+			log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
 			/*
 			Game currentGame = gameService.findPlayerUnfinishedGames(player).get();
 			List<BoardCell> listHelpCards = this.getGetHelpCardsInBoard(currentGame);
@@ -250,7 +247,7 @@ public class CardStrategy {
 		
 		@Override
 		public void actions(Player player) {
-			log.info(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName());
+			log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
 			/*
 			Game currentGame = gameService.findPlayerUnfinishedGames(player).get();
 			Board board = gameService.findBoardByGameId(currentGame.getId()).get();
@@ -293,7 +290,7 @@ public class CardStrategy {
 
 		@Override
 		public void actions(Player player) {
-			log.info(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName());
+			log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
 			// habria que hacer un form para que el player seleccione que recursos quiere a cambio del objeto
 		}
 
@@ -309,7 +306,7 @@ public class CardStrategy {
 
 		@Override
 		public void actions(Player player) {
-			log.info(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName());
+			log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
 			
 		}
 
@@ -325,7 +322,7 @@ public class CardStrategy {
 
 		@Override
 		public void actions(Player player) {
-			log.info(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName());
+			log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
 			
 		}
 
@@ -341,7 +338,7 @@ public class CardStrategy {
 
 		@Override
 		public void actions(Player player) {
-			log.info(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName());
+			log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
 			
 		}
 
@@ -357,7 +354,7 @@ public class CardStrategy {
 
 		@Override
 		public void actions(Player player) {
-			log.info(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName());
+			log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
 			
 		}
 
@@ -373,7 +370,7 @@ public class CardStrategy {
 
 		@Override
 		public void actions(Player player) {
-			log.info(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName());
+			log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
 			
 		}
 
@@ -389,7 +386,7 @@ public class CardStrategy {
 
 		@Override
 		public void actions(Player player) {
-			log.info(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName());
+			log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
 			
 		}
 

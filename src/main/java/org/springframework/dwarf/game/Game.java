@@ -15,18 +15,20 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.jpatterns.gof.StatePattern;
+import org.springframework.dwarf.game.GameState.ActionSelection;
 import org.springframework.dwarf.game.GameState.GamePhase;
+import org.springframework.dwarf.game.GameState.MineralExtraction;
 import org.springframework.dwarf.model.BaseEntity;
 import org.springframework.dwarf.player.Player;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author Diego Ruiz Gil
  * @author Francisco Javier Migueles Domínguez
  * @author Pablo Álvarez Caro
  */
-
-import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 @Setter
@@ -39,10 +41,20 @@ public class Game extends BaseEntity{
 	private GamePhase currentphase;
 
 	public Game () {
+		this.currentphase = new MineralExtraction();
 		this.currentPhaseName = GamePhaseEnum.MINERAL_EXTRACTION;
 		this.currentRound = 1;
 		this.startDate = LocalDateTime.now();
 		this.currentphase = new GameState.MineralExtraction();
+	}
+	
+	public void setPhase(GamePhase gamePhase) {
+		this.currentphase = gamePhase;
+		this.currentPhaseName = gamePhase.getPhaseName();
+	}
+	
+	public void phaseResolution() {
+		this.currentphase.phaseResolution(this);
 	}
 	
 	@NotNull
