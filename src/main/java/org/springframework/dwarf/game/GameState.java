@@ -126,7 +126,6 @@ public class GameState {
 			game.setPhase(new ActionResolution());
 		}
 
-
 		@Override
 		public GamePhaseEnum getPhaseName() {
 			return GamePhaseEnum.ACTION_SELECTION;
