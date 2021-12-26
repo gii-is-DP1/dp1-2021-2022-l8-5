@@ -3,6 +3,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="dwarf" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 
 <!-- %@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %-->  
 
@@ -33,6 +36,30 @@
         	</ul>
          </div>
     </div>
-   	
+    
+
+<!-- añadir al when que la fase sea la de seleccion de acciones -->
+    
+    <c:choose>
+	    <c:when test="${myplayer == game.currentPlayer}">
+			<form:form modelAttribute="myworker1" class="form-horizontal" id="add-player-form">
+			
+		        <div class="form-group has-feedback col-md-5">
+		            <dwarf:inputField label="Horizontal tile" name="xposition"/>
+		            <dwarf:inputField label="Vertical tile" name="yposition"/>  
+		        </div>
+		        
+		        <div class="form-group">
+		            <div class="col-sm-offset-2 col-sm-10">
+		            	<button class="btn btn-default" type="submit">Confirm action</button>
+		            </div>
+		        </div>
+		        
+		    </form:form>
+	    </c:when>
+	    <c:otherwise>
+	    
+	    </c:otherwise>
+    </c:choose>
     
 </dwarf:layout>
