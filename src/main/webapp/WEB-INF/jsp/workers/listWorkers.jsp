@@ -14,7 +14,8 @@
         <thead>
         <tr>
          	<th style="width: 150px;">ID</th>
-            <th style="width: 150px;">position</th>
+            <th style="width: 150px;">xposition</th>
+            <th style="width: 150px;">yposition</th>
             <th style="width: 150px;">status</th>
             <th style="width: 150px;">user</th>
         </tr>
@@ -26,8 +27,12 @@
                     <c:out value="${worker.id}"/>
                 </td>
                 <td>
-                    <c:out value="${worker.position}"/>
+                    <c:out value="${worker.xposition}"/>
                 </td>
+                 <td>
+                    <c:out value="${worker.yposition}"/>
+                </td>
+                
                 <td>
                     <c:out value="${worker.status}"/>
                 </td>
