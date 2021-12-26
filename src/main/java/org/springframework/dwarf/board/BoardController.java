@@ -1,5 +1,6 @@
 package org.springframework.dwarf.board;
 
+import java.util.List;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -7,6 +8,7 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dwarf.game.CreateGameWhilePlayingException;
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.player.Player;
@@ -68,7 +70,7 @@ public class BoardController {
     
     @GetMapping("{boardId}/game/{gameId}")
     public String boardGame(@PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, ModelMap modelMap, HttpServletResponse response) {
-    	response.addHeader("REFRESH", "2");
+    	response.addHeader("REFRESH", "5");
     	String view = "/board/board";
     	
     	Game game = gameService.findByGameId(gameId).get();
@@ -87,7 +89,6 @@ public class BoardController {
     	modelMap.addAttribute("board", board);
     	modelMap.addAttribute("game", game);
     	
-    	
     	for (int i = 0; i < game.getPlayersList().size(); i++) {
     		Player p = game.getPlayersList().get(i);
     		if (p != null) {
@@ -96,6 +97,13 @@ public class BoardController {
 	        	modelMap.addAttribute("resourcesPlayer" + (i+1), resourcesPlayer);
     		}
     	}
+    	
+    	game.phaseResolution();
+    	try {
+			gameService.saveGame(game);
+		} catch(CreateGameWhilePlayingException ex) {
+			
+		}
     	
     	return view;
     }
