@@ -34,6 +34,7 @@ public class GameState {
     @StatePattern.ConcreteState
     static class MineralExtraction implements GamePhase{
     	
+    	private String name = "MineralExtraction";
         
         @Autowired
         private GameService gameService;
@@ -46,7 +47,7 @@ public class GameState {
 
         @Override
         public void phaseResolution(Game game) {
-        	/*
+        	
         	//Sacar el mazo de la partida
         	//Coger 2 cartas aleatorias del mazo y eliminarlas de este
         	
@@ -75,9 +76,7 @@ public class GameState {
         	for (BoardCell b : boardcells) {
         		setCard(mountaincard1, b);
         		setCard(mountaincard2, b);
-        	}*/
-        	
-        	log.debug("Cambiamos a action selection");
+        	}
         	
         	game.setPhase(new ActionSelection());
         }
@@ -101,15 +100,15 @@ public class GameState {
     @StatePattern.ConcreteState
     static class ActionSelection implements GamePhase{
     	
-        
+        private String name = "ActionSelection";
+    	
         private GameService gameService;
         
         private WorkerService workerService;
 
-
 		@Override
 		public void phaseResolution(Game game) {
-			/*
+			
 			//TODO Los jugadores tienen que colocar sus trabajadores
 			
 			Integer gameId = game.getId();
@@ -122,9 +121,7 @@ public class GameState {
 					Worker w = workers.get(j);		//Worker j del player i;
 					
 				}
-			}*/
-			
-			log.debug("Cambiamos a action resolution");
+			}
 			
 			game.setPhase(new ActionResolution());
 		}
@@ -139,6 +136,7 @@ public class GameState {
     @StatePattern.ConcreteState
     static class ActionResolution implements GamePhase{
     	
+    	private String name = "ActionResolution";
         
         @Autowired
         private GameService gameService;
@@ -148,7 +146,7 @@ public class GameState {
 
 		@Override
 		public void phaseResolution(Game game) {
-			/*
+			
 			Integer gameId = game.getId();
 			List<Player> players = gameService.searchPlayersByGame(gameId);	//Todos los jugadores del game
 			
@@ -163,9 +161,7 @@ public class GameState {
 					//Comprobaciones de posiciones y resolucion de acciones de las cartas pendiente (Strategy)
 					
 				}
-			}*/
-			
-			log.debug("Cambiamos a mineral extraction");
+			}
 			
 			game.setPhase(new MineralExtraction());
 		}

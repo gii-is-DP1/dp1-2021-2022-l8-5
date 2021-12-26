@@ -9,12 +9,14 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.jpatterns.gof.StatePattern;
+import org.springframework.dwarf.game.GameState.ActionResolution;
 import org.springframework.dwarf.game.GameState.ActionSelection;
 import org.springframework.dwarf.game.GameState.GamePhase;
 import org.springframework.dwarf.game.GameState.MineralExtraction;
@@ -36,25 +38,38 @@ import lombok.Setter;
 @Table(name = "games")
 @StatePattern.Context
 public class Game extends BaseEntity{
-	
-	@Transient
-	private GamePhase currentphase;
 
 	public Game () {
-		this.currentphase = new MineralExtraction();
 		this.currentPhaseName = GamePhaseEnum.MINERAL_EXTRACTION;
 		this.currentRound = 1;
 		this.startDate = LocalDateTime.now();
-		this.currentphase = new GameState.MineralExtraction();
 	}
 	
 	public void setPhase(GamePhase gamePhase) {
-		this.currentphase = gamePhase;
 		this.currentPhaseName = gamePhase.getPhaseName();
 	}
 	
 	public void phaseResolution() {
-		this.currentphase.phaseResolution(this);
+		this.getPhase().phaseResolution(this);
+	}
+	
+	public GamePhase getPhase() {
+		GamePhase phase;
+		switch (this.currentPhaseName) {
+			case MINERAL_EXTRACTION:
+				phase = new MineralExtraction();
+				break;
+			case ACTION_SELECTION:
+				phase = new ActionSelection();
+				break;
+			case ACTION_RESOLUTION:
+				phase = new ActionResolution();
+				break;
+			default:
+				phase = new MineralExtraction();
+				break;
+		}
+		return phase;
 	}
 	
 	@NotNull
