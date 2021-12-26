@@ -1,6 +1,7 @@
 package org.springframework.dwarf.game;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
@@ -33,8 +34,6 @@ public class GameState {
     
     @StatePattern.ConcreteState
     static class MineralExtraction implements GamePhase{
-    	
-    	private String name = "MineralExtraction";
         
         @Autowired
         private GameService gameService;
@@ -48,9 +47,7 @@ public class GameState {
         @Override
         public void phaseResolution(Game game) {
         	
-        	//Sacar el mazo de la partida
-        	//Coger 2 cartas aleatorias del mazo y eliminarlas de este
-        	
+        	// picks two randoms cards
             MountainDeck mountaindeck = gameService.searchDeckByGameId(game.getId()).get();
             List<MountainCard> mountaincards = mountaindeck.getMountainCards();
             Random random = new Random();
@@ -63,12 +60,7 @@ public class GameState {
             
             mountainDeckService.saveMountainDeck(mountaindeck);
             
-            
-            //Sacar las boardcells relacionadas con el board de este game, mediante board_id
-            //Comprobar xposition e yposition de mountaincard1 y mountaincard2, y asignarselas a las boardcells
-            //cuyas xposition e yposition coincidan
-            
-            
+            // set cards
         	Board board = gameService.findBoardByGameId(game.getId()).get();
         	
         	List<BoardCell> boardcells = board.getBoardCells();
@@ -100,8 +92,6 @@ public class GameState {
     @StatePattern.ConcreteState
     static class ActionSelection implements GamePhase{
     	
-        private String name = "ActionSelection";
-    	
         private GameService gameService;
         
         private WorkerService workerService;
@@ -111,21 +101,35 @@ public class GameState {
 			
 			//TODO Los jugadores tienen que colocar sus trabajadores
 			
-			Integer gameId = game.getId();
-			List<Player> players = gameService.searchPlayersByGame(gameId);	//Todos los jugadores del game
+			List<Player> players = game.getTurnList();
 			
+			
+			
+			Player currentPlayer = game.getCurrentPlayer();
+			List<Worker> workersNotPlaced = workerService.findNotPlacedByPlayerIdAndGameId(currentPlayer.getId(), game.getId());
+			
+			while(!workersNotPlaced.get(0).getStatus()) {
+				// wait
+			}
+			
+			
+			
+			/*
 			for(int i=0; i<players.size(); i++) {
-				List<Worker> workers = workerService.findByPlayerIdAndGameId(gameId, players.get(i).getId())
-													.stream().collect(Collectors.toList());
+				List<Worker> workers = new ArrayList<Worker>(workerService.findByPlayerIdAndGameId(game.getId(), players.get(i).getId()));
+				
 				for(int j=0; j<workers.size(); j++) {
 					Worker w = workers.get(j);		//Worker j del player i;
 					
 				}
-			}
+			}*/
 			
 			game.setPhase(new ActionResolution());
 		}
-
+		
+		private void changeCurrentPlayer() {
+			
+		}
 
 		@Override
 		public GamePhaseEnum getPhaseName() {
@@ -135,8 +139,6 @@ public class GameState {
     
     @StatePattern.ConcreteState
     static class ActionResolution implements GamePhase{
-    	
-    	private String name = "ActionResolution";
         
         @Autowired
         private GameService gameService;

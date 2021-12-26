@@ -18,6 +18,7 @@ package org.springframework.dwarf.worker;
 
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +66,11 @@ public class WorkerService {
 	@Transactional(readOnly = true)
 	public Collection<Worker> findByPlayerIdAndGameId(int pid, int gid){
 		return workerRepo.findByPlayerIdAndGameId(pid,gid);
+	}
+	
+	// falta hacer test
+	public List<Worker> findNotPlacedByPlayerIdAndGameId(int pid, int gid){
+		return workerRepo.findNotPlacedByPlayerIdAndGameId(pid, gid);
 	}
 	
 	public void delete(Worker worker) {
