@@ -15,7 +15,7 @@ import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
 import org.springframework.dwarf.resources.Resources;
 import org.springframework.dwarf.resources.ResourcesService;
-import org.springframework.dwarf.web.CorrentUserController;
+import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.dwarf.worker.Worker;
 import org.springframework.dwarf.worker.WorkerService;
 import org.springframework.stereotype.Controller;
@@ -76,7 +76,7 @@ public class BoardController {
     	Game game = gameService.findByGameId(gameId).get();
     	Board board = boardService.findByBoardId(boardId).get();
     	
-		String playerUsername = CorrentUserController.returnCurrentUserName();
+		String playerUsername = LoggedUserController.returnLoggedUserName();
 		Player myplayer = playerService.findPlayerByUserName(playerUsername);
 		
 		Collection<Worker> myworkers = workerService.findByPlayerId(myplayer.getId());	
