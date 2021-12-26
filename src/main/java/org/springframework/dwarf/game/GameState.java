@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import org.jpatterns.gof.StatePattern;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dwarf.board.Board;
 import org.springframework.dwarf.board.BoardCell;
 import org.springframework.dwarf.board.BoardCellService;
@@ -17,6 +18,7 @@ import org.springframework.dwarf.mountain_card.MountainCard;
 import org.springframework.dwarf.mountain_card.MountainDeck;
 import org.springframework.dwarf.mountain_card.MountainDeckService;
 import org.springframework.dwarf.player.Player;
+import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.dwarf.worker.Worker;
 import org.springframework.dwarf.worker.WorkerService;
 
@@ -106,11 +108,16 @@ public class GameState {
 			
 			
 			Player currentPlayer = game.getCurrentPlayer();
+			Player loggedUser = LoggedUserController.loggedPlayer();
 			List<Worker> workersNotPlaced = workerService.findNotPlacedByPlayerIdAndGameId(currentPlayer.getId(), game.getId());
 			
-			while(!workersNotPlaced.get(0).getStatus()) {
-				// wait
+			if (currentPlayer.equals(loggedUser)) {
+				while(!workersNotPlaced.get(0).getStatus()) {
+					//wait
+				}
+				
 			}
+			
 			
 			
 			
@@ -123,12 +130,25 @@ public class GameState {
 					
 				}
 			}*/
+			Integer remainigWorkers = workerService.findNotPlacedAndGameId(game.getId()).size();
+			if (remainigWorkers.equals(0)) {
+				game.setPhase(new ActionResolution());	
+			}
 			
-			game.setPhase(new ActionResolution());
 		}
 		
-		private void changeCurrentPlayer() {
-			
+		private void changeCurrentPlayer(Game game) throws DataAccessException, CreateGameWhilePlayingException {
+			List<Player> turn = game.getTurnList();
+			Player currentPlayer = game.getCurrentPlayer();
+			Integer index = turn.indexOf(currentPlayer);
+			if (index.equals(2)) {
+				index = -1;
+			}
+		currentPlayer = turn.get(index+1);
+		game.setCurrentPlayer(currentPlayer);
+		gameService.saveGame(game);
+		phaseResolution(game);
+	
 		}
 
 		@Override

@@ -36,6 +36,7 @@ import org.springframework.test.web.servlet.MockMvc;
  * Test class for {@link PlayerController}
  *
  * @author Colin But
+ * @author Pablo Marín
  */
 
 @WebMvcTest(controllers = PlayerController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)

@@ -68,10 +68,13 @@ public class WorkerService {
 		return workerRepo.findByPlayerIdAndGameId(pid,gid);
 	}
 	
-	// falta hacer test
 	public List<Worker> findNotPlacedByPlayerIdAndGameId(int pid, int gid){
 		return workerRepo.findNotPlacedByPlayerIdAndGameId(pid, gid);
 	}
+	public List<Worker> findNotPlacedAndGameId(int gid){
+		return workerRepo.findNotPlacedByameId(gid);
+	}
+	
 	
 	public void delete(Worker worker) {
 		workerRepo.delete(worker);
