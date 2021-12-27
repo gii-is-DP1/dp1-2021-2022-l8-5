@@ -42,6 +42,7 @@
     
     <c:choose>
 	    <c:when test="${myplayer == game.currentPlayer}">
+	    
 			<form:form modelAttribute="myworker1" class="form-horizontal" id="add-player-form">
 			
 		        <div class="form-group has-feedback col-md-5">

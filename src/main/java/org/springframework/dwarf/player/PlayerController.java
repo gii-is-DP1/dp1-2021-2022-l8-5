@@ -109,9 +109,6 @@ public class PlayerController {
 	}
 	
 	
-	
-	
-
 	@GetMapping(value = "/players")
 	public String processFindForm(Player player, BindingResult result, Map<String, Object> model) {
 
@@ -172,8 +169,10 @@ public class PlayerController {
 		}
 		else {
 			return updatingPlayer(playerid, player, result);
+		}
+		
 	}
-	}
+	
 	private String updatingPlayer(Integer playerid,Player player,BindingResult result) {
 		Player playerFound = playerService.findPlayerById(playerid);
 		User userFound = playerFound.getUser();
