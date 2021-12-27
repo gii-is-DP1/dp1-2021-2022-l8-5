@@ -1,11 +1,14 @@
 package org.springframework.dwarf.board;
 
-
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dwarf.game.CreateGameWhilePlayingException;
 import org.springframework.dwarf.game.Game;
@@ -19,8 +22,11 @@ import org.springframework.dwarf.worker.Worker;
 import org.springframework.dwarf.worker.WorkerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -106,4 +112,28 @@ public class BoardController {
     	
     	return view;
     }
+    
+    
+    @PostMapping("{boardId}/game/{gameId}")
+    public String postWorker(@ModelAttribute("myworker1") Worker myworker1, @PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, BindingResult result) {
+		if (result.hasErrors()) {
+			return "/board/board";
+		}
+		else {
+			String username = LoggedUserController.returnLoggedUserName();
+			Player player = playerService.findPlayerByUserName(username);
+			List<Worker> workers = new ArrayList<Worker>(workerService.findByPlayerId(player.getId()));
+			return updatingWorker(workers.get(0).getId(), myworker1);
+		}
+    	
+    }
+    
+    
+	private String updatingWorker(Integer workerId, Worker worker) {
+		Worker workerFound = workerService.findByWorkerId(workerId).get();
+		BeanUtils.copyProperties(worker, workerFound, "id", "player", "game", "status");
+		this.workerService.saveWorker(workerFound);
+		return "/board/board";
+
+	}
 }
