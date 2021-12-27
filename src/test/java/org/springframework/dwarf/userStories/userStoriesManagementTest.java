@@ -37,8 +37,6 @@ class userStoriesManagementTest {
 
 	private static final int TEST_PLAYER_ID = 1;
 	
-	@Autowired
-	private PlayerController playerController;
 	
 	@MockBean
 	private PlayerService playerService;

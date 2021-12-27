@@ -5,8 +5,6 @@ import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
-import javax.persistence.UniqueConstraint;
-
 import org.hibernate.validator.constraints.Range;
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.model.BaseEntity;
