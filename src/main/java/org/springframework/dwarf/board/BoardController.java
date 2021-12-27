@@ -122,7 +122,7 @@ public class BoardController {
 			return "/board/board";
 		}
 		else {
-			String username = CorrentUserController.returnCurrentUserName();
+			String username = LoggedUserController.returnLoggedUserName();
 			Player player = playerService.findPlayerByUserName(username);
 			List<Worker> workers = new ArrayList<Worker>(workerService.findByPlayerId(player.getId()));
 			return updatingWorker(workers.get(0).getId(), myworker1);
