@@ -1,6 +1,7 @@
 package org.springframework.dwarf.game;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
@@ -8,6 +9,7 @@ import java.util.stream.Collectors;
 
 import org.jpatterns.gof.StatePattern;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dwarf.board.Board;
 import org.springframework.dwarf.board.BoardCell;
 import org.springframework.dwarf.board.BoardCellService;
@@ -16,43 +18,24 @@ import org.springframework.dwarf.mountain_card.MountainCard;
 import org.springframework.dwarf.mountain_card.MountainDeck;
 import org.springframework.dwarf.mountain_card.MountainDeckService;
 import org.springframework.dwarf.player.Player;
+import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.dwarf.worker.Worker;
 import org.springframework.dwarf.worker.WorkerService;
 
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @StatePattern
 public class GameState {
 	
     @StatePattern.State
     interface GamePhase {
-
-        void phaseResolution();
-        void setGame(Game game);
-        
+        void phaseResolution(Game game);
+        GamePhaseEnum getPhaseName();
     }
-    
-    /*@StatePattern.Context
-    static class GamePhaseControl {
-        private GamePhase currentPhase;
-
-        public GamePhaseControl() {
-            currentPhase = new MineralExtraction();
-        }
-
-        public void setPhase(GamePhase phase) {
-            currentPhase = phase;
-        }
-
-        @Override
-        public String toString() {
-            return String.format("Game Phase Control [current phase = %s]", currentPhase);
-        }
-    }*/
     
     @StatePattern.ConcreteState
     static class MineralExtraction implements GamePhase{
-    	
-        private Game game;
         
         @Autowired
         private GameService gameService;
@@ -64,11 +47,9 @@ public class GameState {
         private BoardCellService boardCellService;
 
         @Override
-        public void phaseResolution() {
+        public void phaseResolution(Game game) {
         	
-        	//Sacar el mazo de la partida
-        	//Coger 2 cartas aleatorias del mazo y eliminarlas de este
-        	
+        	// picks two randoms cards
             MountainDeck mountaindeck = gameService.searchDeckByGameId(game.getId()).get();
             List<MountainCard> mountaincards = mountaindeck.getMountainCards();
             Random random = new Random();
@@ -81,12 +62,7 @@ public class GameState {
             
             mountainDeckService.saveMountainDeck(mountaindeck);
             
-            
-            //Sacar las boardcells relacionadas con el board de este game, mediante board_id
-            //Comprobar xposition e yposition de mountaincard1 y mountaincard2, y asignarselas a las boardcells
-            //cuyas xposition e yposition coincidan
-            
-            
+            // set cards
         	Board board = gameService.findBoardByGameId(game.getId()).get();
         	
         	List<BoardCell> boardcells = board.getBoardCells();
@@ -96,15 +72,8 @@ public class GameState {
         		setCard(mountaincard2, b);
         	}
         	
-           
+        	game.setPhase(new ActionSelection());
         }
-
-        @Override
-        public void setGame(Game game) {
-            this.game = game;
-            this.game.setCurrentPhaseName(GamePhaseEnum.MINERAL_EXTRACTION);
-        }
-        
         
         private void setCard(MountainCard mountaincard, BoardCell boardcell) {
     		List<MountainCard> cellcards = boardcell.getMountaincards();
@@ -115,51 +84,81 @@ public class GameState {
     			boardCellService.saveBoardCell(boardcell);
     		}
         }
-        
-    	
+
+		@Override
+		public GamePhaseEnum getPhaseName() {
+			return GamePhaseEnum.MINERAL_EXTRACTION;
+		}
     }
     
     @StatePattern.ConcreteState
     static class ActionSelection implements GamePhase{
     	
-        private Game game;
-        
         private GameService gameService;
         
         private WorkerService workerService;
 
-
 		@Override
-		public void phaseResolution() {
+		public void phaseResolution(Game game) {
+			
 			//TODO Los jugadores tienen que colocar sus trabajadores
 			
-			Integer gameId = game.getId();
-			List<Player> players = gameService.searchPlayersByGame(gameId);	//Todos los jugadores del game
+			List<Player> players = game.getTurnList();
 			
+			
+			
+			Player currentPlayer = game.getCurrentPlayer();
+			Player loggedUser = LoggedUserController.loggedPlayer();
+			List<Worker> workersNotPlaced = workerService.findNotPlacedByPlayerIdAndGameId(currentPlayer.getId(), game.getId());
+			
+			if (currentPlayer.equals(loggedUser)) {
+				while(!workersNotPlaced.get(0).getStatus()) {
+					//wait
+				}
+				
+			}
+			
+			
+			
+			
+			/*
 			for(int i=0; i<players.size(); i++) {
-				List<Worker> workers = workerService.findByPlayerIdAndGameId(gameId, players.get(i).getId())
-													.stream().collect(Collectors.toList());
+				List<Worker> workers = new ArrayList<Worker>(workerService.findByPlayerIdAndGameId(game.getId(), players.get(i).getId()));
+				
 				for(int j=0; j<workers.size(); j++) {
 					Worker w = workers.get(j);		//Worker j del player i;
 					
 				}
+			}*/
+			Integer remainigWorkers = workerService.findNotPlacedAndGameId(game.getId()).size();
+			if (remainigWorkers.equals(0)) {
+				game.setPhase(new ActionResolution());	
 			}
+			
 		}
 		
-		
+		private void changeCurrentPlayer(Game game) throws DataAccessException, CreateGameWhilePlayingException {
+			List<Player> turn = game.getTurnList();
+			Player currentPlayer = game.getCurrentPlayer();
+			Integer index = turn.indexOf(currentPlayer);
+			if (index.equals(2)) {
+				index = -1;
+			}
+		currentPlayer = turn.get(index+1);
+		game.setCurrentPlayer(currentPlayer);
+		gameService.saveGame(game);
+		phaseResolution(game);
+	
+		}
 
-        @Override
-        public void setGame(Game game) {
-            this.game = game;
-            this.game.setCurrentPhaseName(GamePhaseEnum.ACTION_SELECTION);
-        }
-    
+		@Override
+		public GamePhaseEnum getPhaseName() {
+			return GamePhaseEnum.ACTION_SELECTION;
+		}
     }
     
     @StatePattern.ConcreteState
     static class ActionResolution implements GamePhase{
-    	
-        private Game game;
         
         @Autowired
         private GameService gameService;
@@ -168,7 +167,8 @@ public class GameState {
         private WorkerService workerService;
 
 		@Override
-		public void phaseResolution() {
+		public void phaseResolution(Game game) {
+			
 			Integer gameId = game.getId();
 			List<Player> players = gameService.searchPlayersByGame(gameId);	//Todos los jugadores del game
 			
@@ -185,14 +185,13 @@ public class GameState {
 				}
 			}
 			
+			game.setPhase(new MineralExtraction());
 		}
 
-        @Override
-        public void setGame(Game game) {
-            this.game = game;
-            this.game.setCurrentPhaseName(GamePhaseEnum.ACTION_RESOLUTION);
-        }
-    	
+		@Override
+		public GamePhaseEnum getPhaseName() {
+			return GamePhaseEnum.ACTION_RESOLUTION;
+		}
     }
 
 }

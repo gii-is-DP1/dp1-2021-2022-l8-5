@@ -27,7 +27,7 @@ import org.springframework.dwarf.user.AuthoritiesService;
 import org.springframework.dwarf.user.User;
 import org.springframework.dwarf.user.UserController;
 import org.springframework.dwarf.user.UserService;
-import org.springframework.dwarf.web.CorrentUserController;
+import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -36,6 +36,7 @@ import org.springframework.test.web.servlet.MockMvc;
  * Test class for {@link PlayerController}
  *
  * @author Colin But
+ * @author Pablo Marín
  */
 
 @WebMvcTest(controllers = PlayerController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
@@ -85,13 +86,13 @@ class PlayerControllerTests {
 	@WithMockUser(username = "pabmargom3")
     @Test
     void loginSuccesful() throws Exception {
-        String userLogged = CorrentUserController.returnCurrentUserName();
+        String userLogged = LoggedUserController.returnLoggedUserName();
         assertEquals(userLogged, "pabmargom3");       
     }
 	@Test
 	@WithMockUser(username = "pabmargom3") 
     void loginUnSuccesful() throws Exception {
-        String userLogged = CorrentUserController.returnCurrentUserName();
+        String userLogged = LoggedUserController.returnLoggedUserName();
         assertNotEquals(userLogged, "nopabmargom3");       
     }
 	
