@@ -8,7 +8,6 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -25,7 +24,6 @@ import org.springframework.dwarf.configuration.SecurityConfiguration;
 import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.user.AuthoritiesService;
 import org.springframework.dwarf.user.User;
-import org.springframework.dwarf.user.UserController;
 import org.springframework.dwarf.user.UserService;
 import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
@@ -43,10 +41,6 @@ import org.springframework.test.web.servlet.MockMvc;
 class PlayerControllerTests {
 
 	private static final int TEST_PLAYER_ID = 1;
-
-	@Autowired
-	private PlayerController playerController;
-	
 
 	@MockBean
 	private PlayerService playerService;
