@@ -5,9 +5,12 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import org.jpatterns.gof.CompositePattern.Component;
 import org.jpatterns.gof.StatePattern;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dwarf.DwarfApplication;
 import org.springframework.dwarf.board.Board;
 import org.springframework.dwarf.board.BoardCell;
 import org.springframework.dwarf.board.BoardCellService;
@@ -18,11 +21,13 @@ import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.dwarf.worker.Worker;
 import org.springframework.dwarf.worker.WorkerService;
+import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @StatePattern
+@Component
 public class GameState {
 	
     @StatePattern.State
@@ -32,6 +37,7 @@ public class GameState {
     }
     
     @StatePattern.ConcreteState
+    @Component
     static class MineralExtraction implements GamePhase{
         
         @Autowired
@@ -46,6 +52,9 @@ public class GameState {
         @Override
         public void phaseResolution(Game game) {
         	
+			// runs only once
+			if(game.getFirstPlayer()!=LoggedUserController.loggedPlayer())
+				return;
         	// picks two randoms cards
             MountainDeck mountaindeck = gameService.searchDeckByGameId(game.getId()).get();
             List<MountainCard> mountaincards = mountaindeck.getMountainCards();
@@ -69,7 +78,7 @@ public class GameState {
         		setCard(mountaincard2, b);
         	}
         	
-        	game.setPhase(new ActionSelection());
+        	//game.setPhase(new ActionSelection());
         }
         
         private void setCard(MountainCard mountaincard, BoardCell boardcell) {
@@ -89,6 +98,7 @@ public class GameState {
     }
     
     @StatePattern.ConcreteState
+    @Component
     static class ActionSelection implements GamePhase{
     	
         private GameService gameService;
@@ -97,24 +107,26 @@ public class GameState {
 
 		@Override
 		public void phaseResolution(Game game) {
-			
+			Player currentPlayer = game.getCurrentPlayer();
+			Player loggedUser = LoggedUserController.loggedPlayer();
+			// runs only once
+			if (!currentPlayer.equals(loggedUser))
+				return;
+
 			//TODO Los jugadores tienen que colocar sus trabajadores
 			
 			List<Player> players = game.getTurnList();
-			
-			
-			
-			Player currentPlayer = game.getCurrentPlayer();
-			Player loggedUser = LoggedUserController.loggedPlayer();
 			List<Worker> workersNotPlaced = workerService.findNotPlacedByPlayerIdAndGameId(currentPlayer.getId(), game.getId());
-			
-			if (currentPlayer.equals(loggedUser)) {
-				while(!workersNotPlaced.get(0).getStatus()) {
-					//wait
-				}
-				
+		
+			while(!workersNotPlaced.get(0).getStatus()) {
+				//wait
 			}
-			
+
+			try {
+				changeCurrentPlayer(game);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			
 			
 			
@@ -134,18 +146,16 @@ public class GameState {
 			
 		}
 		
-		private void changeCurrentPlayer(Game game) throws DataAccessException, CreateGameWhilePlayingException {
+		private void changeCurrentPlayer(Game game) throws CreateGameWhilePlayingException {
 			List<Player> turn = game.getTurnList();
 			Player currentPlayer = game.getCurrentPlayer();
+
 			Integer index = turn.indexOf(currentPlayer);
-			if (index.equals(2)) {
-				index = -1;
-			}
-		currentPlayer = turn.get(index+1);
-		game.setCurrentPlayer(currentPlayer);
-		gameService.saveGame(game);
-		phaseResolution(game);
-	
+			currentPlayer = turn.get((index+1)%3);
+			
+			game.setCurrentPlayer(currentPlayer);
+			gameService.saveGame(game);
+			phaseResolution(game);
 		}
 
 		@Override
