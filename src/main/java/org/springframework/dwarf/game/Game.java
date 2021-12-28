@@ -15,10 +15,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.jpatterns.gof.StatePattern;
-import org.springframework.dwarf.game.GameState.ActionResolution;
-import org.springframework.dwarf.game.GameState.ActionSelection;
 import org.springframework.dwarf.game.GameState.GamePhase;
-import org.springframework.dwarf.game.GameState.MineralExtraction;
 import org.springframework.dwarf.model.BaseEntity;
 import org.springframework.dwarf.player.ComparePlayerTurn;
 import org.springframework.dwarf.player.Player;
