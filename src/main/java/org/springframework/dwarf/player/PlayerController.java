@@ -16,9 +16,7 @@
 package org.springframework.dwarf.player;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -26,7 +24,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dwarf.game.GameService;
-import org.springframework.dwarf.user.Authorities;
 import org.springframework.dwarf.user.AuthoritiesService;
 import org.springframework.dwarf.user.DuplicatedEmailException;
 import org.springframework.dwarf.user.DuplicatedUsernameException;
@@ -112,9 +109,6 @@ public class PlayerController {
 	}
 	
 	
-	
-	
-
 	@GetMapping(value = "/players")
 	public String processFindForm(Player player, BindingResult result, Map<String, Object> model) {
 
@@ -175,8 +169,10 @@ public class PlayerController {
 		}
 		else {
 			return updatingPlayer(playerid, player, result);
+		}
+		
 	}
-	}
+	
 	private String updatingPlayer(Integer playerid,Player player,BindingResult result) {
 		Player playerFound = playerService.findPlayerById(playerid);
 		User userFound = playerFound.getUser();
