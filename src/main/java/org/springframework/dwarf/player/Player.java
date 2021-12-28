@@ -23,6 +23,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
+import org.hibernate.validator.constraints.Range;
 import org.springframework.core.style.ToStringCreator;
 import org.springframework.dwarf.model.Person;
 import org.springframework.dwarf.user.User;
@@ -44,6 +45,17 @@ public class Player extends Person {
 	@Column(name = "avatar_url")
 	@NotEmpty
 	String avatarUrl;
+	
+	@Range(min= 1, max= 3)
+	Integer gameTurn;
+	
+	public Integer getGameTurn() {
+		return this.gameTurn;
+	}
+	
+	public void setGameTurn(Integer turn) {
+		this.gameTurn = turn;
+	}
 	
 	public User getUser() {
 		return user;

@@ -8,7 +8,6 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -25,9 +24,8 @@ import org.springframework.dwarf.configuration.SecurityConfiguration;
 import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.user.AuthoritiesService;
 import org.springframework.dwarf.user.User;
-import org.springframework.dwarf.user.UserController;
 import org.springframework.dwarf.user.UserService;
-import org.springframework.dwarf.web.CorrentUserController;
+import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -36,16 +34,13 @@ import org.springframework.test.web.servlet.MockMvc;
  * Test class for {@link PlayerController}
  *
  * @author Colin But
+ * @author Pablo Marín
  */
 
 @WebMvcTest(controllers = PlayerController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 class PlayerControllerTests {
 
 	private static final int TEST_PLAYER_ID = 1;
-
-	@Autowired
-	private PlayerController playerController;
-	
 
 	@MockBean
 	private PlayerService playerService;
@@ -85,13 +80,13 @@ class PlayerControllerTests {
 	@WithMockUser(username = "pabmargom3")
     @Test
     void loginSuccesful() throws Exception {
-        String userLogged = CorrentUserController.returnCurrentUserName();
+        String userLogged = LoggedUserController.returnLoggedUserName();
         assertEquals(userLogged, "pabmargom3");       
     }
 	@Test
 	@WithMockUser(username = "pabmargom3") 
     void loginUnSuccesful() throws Exception {
-        String userLogged = CorrentUserController.returnCurrentUserName();
+        String userLogged = LoggedUserController.returnLoggedUserName();
         assertNotEquals(userLogged, "nopabmargom3");       
     }
 	

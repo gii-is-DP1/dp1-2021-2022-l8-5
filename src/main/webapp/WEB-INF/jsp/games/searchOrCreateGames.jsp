@@ -23,7 +23,7 @@
 			<th style="width: 150px;">Host</th>
 			<th style="width: 150px;">Second player</th>
 			<th style="width: 150px;">Third player</th>
-			<th style="width: 150px;">Star Date</th>
+			<th style="width: 150px;">Start Date</th>
 			<th style="width: 150px;">Join !</th>
         </tr>
         </thead>

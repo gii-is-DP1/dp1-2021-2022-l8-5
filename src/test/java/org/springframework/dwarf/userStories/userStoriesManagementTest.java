@@ -25,7 +25,7 @@ import org.springframework.dwarf.player.PlayerService;
 import org.springframework.dwarf.user.AuthoritiesService;
 import org.springframework.dwarf.user.User;
 import org.springframework.dwarf.user.UserService;
-import org.springframework.dwarf.web.CorrentUserController;
+import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -37,8 +37,6 @@ class userStoriesManagementTest {
 
 	private static final int TEST_PLAYER_ID = 1;
 	
-	@Autowired
-	private PlayerController playerController;
 	
 	@MockBean
 	private PlayerService playerService;
@@ -81,14 +79,14 @@ class userStoriesManagementTest {
     @WithMockUser(username = "alonsoPodio", password = "ElNano0")
     @Test
     void loginSuccesful() throws Exception {
-        String userLogged = CorrentUserController.returnCurrentUserName();
+        String userLogged = LoggedUserController.returnLoggedUserName();
         assertEquals(userLogged, "alonsoPodio");
     }
 
     @WithMockUser(username = "alonsoPodio", password = "ElNano0")
     @Test
     void loginUnsuccesful() throws Exception {
-        String userLogged = CorrentUserController.returnCurrentUserName();
+        String userLogged = LoggedUserController.returnLoggedUserName();
         assertNotEquals(userLogged, "betrayal>theneostorm");
     }
     /*

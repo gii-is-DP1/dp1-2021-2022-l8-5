@@ -63,6 +63,27 @@ public class WorkerServiceTest {
 	}
 	
 	@Test
+	public void testFindNotPlacedByPlayerIdAndGameId() {
+		int pid = 1;
+		int gid = 1;
+		
+		Collection<Worker> Worker = workerService.findNotPlacedByPlayerIdAndGameId(pid,gid);
+		assertThat(Worker.size()).isEqualTo(1);
+		
+	}
+	
+	@Test
+	public void tesFfindNotPlacedAndGameId() {
+		int gid = 1;
+		
+		Collection<Worker> Worker = workerService.findNotPlacedAndGameId(gid);
+		assertThat(Worker.size()).isEqualTo(1);
+		
+	}
+	
+	
+	
+	@Test
 	public void testFindByPlayerIdAndGameId() {
 		int pid = 1;
 		int gid = 1;
@@ -71,6 +92,7 @@ public class WorkerServiceTest {
 		assertThat(Worker.size()).isEqualTo(1);
 		
 	}
+	
 	
 	@Test
 	public void testDeletePlayerWorker() {
