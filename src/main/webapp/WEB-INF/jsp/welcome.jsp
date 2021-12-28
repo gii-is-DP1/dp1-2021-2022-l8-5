@@ -10,6 +10,9 @@
     * {
       box-sizing: border-box;
     }
+    .colorletter{
+    color:"white";
+    }
     
     .column {
       float: left;
@@ -22,6 +25,11 @@
       width: 81.33%;
       padding: 5px;
     }
+	.background{
+	background-image: url("/resources/images/oro_erebor.jpg");
+	background-repeat:no-repeat;
+	background-size: 100%;
+	}
     
     /* Clearfix (clear floats) */
     .row::after {
@@ -30,16 +38,17 @@
       display: table;
     }
     </style>
-
+<!--style="background: url(/resources/images/oro_erebor.jpg)"-->
 <dwarf:layout pageName="home">
-    <h2><fmt:message key="welcome"/></h2>
+<body class="background">
+    <h2 style="color: silver;"><fmt:message key="welcome"/></h2>
     <div class="row">
-     <h2><!-- <img class="img-responsive"  src="/resources/images/5d75429b60bb3.jpeg" width="30" height="30"/>-->Proyect ${title}</h2>
-    <p><h2> Group ${group}</h2></p>
+     <h2 style="color: silver;"><!-- <img class="img-responsive"  src="/resources/images/5d75429b60bb3.jpeg" width="30" height="30"/>-->Proyect ${title}</h2>
+    <p><h2 style="color: silver;"> Group ${group}</h2></p>
     <p>
     <ul>
     <c:forEach items="${persons}" var="person">
-    	<li> ${person.firstName} ${person.lastName} </li>
+    	<li style="color: silver;"> ${person.firstName} ${person.lastName} </li>
     	</c:forEach>
     </ul>
     </p>
@@ -64,4 +73,5 @@
   
 
     </div>
+    </body>
 </dwarf:layout>
