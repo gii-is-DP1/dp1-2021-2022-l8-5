@@ -59,9 +59,9 @@ public class ActionSelection implements GamePhase{
 		List<Player> players = game.getPlayersList();
 		List<Worker> workersNotPlaced = workerService.findNotPlacedByPlayerIdAndGameId(currentPlayer.getId(), game.getId());
 	
-		while(!workersNotPlaced.get(0).getStatus()) {
+		/*while(!workersNotPlaced.get(0).getStatus()) {
 			//wait
-		}
+		}*/
 
 		try {
 			changeCurrentPlayer(game);
@@ -80,8 +80,8 @@ public class ActionSelection implements GamePhase{
 				
 			}
 		}*/
-		Integer remainigWorkers = workerService.findNotPlacedAndGameId(game.getId()).size();
-		if (remainigWorkers.equals(0)) {
+		Integer remainingWorkers = workerService.findNotPlacedAndGameId(game.getId()).size();
+		if (remainingWorkers.equals(0)) {
 			game.setPhase(new ActionResolution(workerService, gameService, mountainDeckService, boardCellService));	
 		}
 		

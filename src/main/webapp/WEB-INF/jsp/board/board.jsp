@@ -23,6 +23,9 @@
 
             <c:forEach items="${board.boardCells}" var="boardCell">
             	<dwarf:mountainCard padding="20" xsize="130" ysize="180" mountainCard="${boardCell.mountaincards.get(0)}"/>
+            	<c:if test="${boardCell.cellOccupied}">
+            	<!-- Aquí se metería graficamente el worker -->
+            	</c:if>
             </c:forEach>
             
             <dwarf:mountainDeck padding="20" xsize="130" ysize="180" mountainDeck="${board.mountainDeck}"/> 

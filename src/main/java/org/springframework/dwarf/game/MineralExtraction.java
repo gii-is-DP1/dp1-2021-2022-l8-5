@@ -42,7 +42,7 @@ public class MineralExtraction implements GamePhase{
 	@Override
     public void phaseResolution(Game game) {
     	
-	/*	// runs only once
+		// runs only once
 		if(game.getFirstPlayer()!=LoggedUserController.loggedPlayer())
 			return;
     	// picks two randoms cards
@@ -67,7 +67,6 @@ public class MineralExtraction implements GamePhase{
     		setCard(mountaincard1, b);
     		setCard(mountaincard2, b);
     	}
-    	*/
     	
     	game.setPhase(new ActionSelection(workerService, gameService, mountainDeckService, boardCellService));
     }
