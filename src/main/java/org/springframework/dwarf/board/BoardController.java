@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dwarf.game.CreateGameWhilePlayingException;
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
+import org.springframework.dwarf.mountain_card.MountainDeckService;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
 import org.springframework.dwarf.resources.Resources;
@@ -40,15 +41,19 @@ public class BoardController {
     private ResourcesService resourcesService;
     private WorkerService workerService;
     private PlayerService playerService;
+    private MountainDeckService mountainDeckService;
+    private BoardCellService boardCellService;
 
 	@Autowired
 	public BoardController(BoardService boardService, GameService gameService,
-			ResourcesService resourcesService, WorkerService workerService, PlayerService playerService) {
+			ResourcesService resourcesService, WorkerService workerService, PlayerService playerService, MountainDeckService mountainDeckService, BoardCellService boardCellService) {
 		this.boardService = boardService;
         this.gameService = gameService;
         this.resourcesService = resourcesService;
         this.workerService = workerService;
         this.playerService = playerService;
+        this.mountainDeckService = mountainDeckService;
+        this.boardCellService = boardCellService;
 	}
 	
 	@GetMapping()
@@ -103,7 +108,7 @@ public class BoardController {
     		}
     	}
     	
-    	game.phaseResolution(); //la linea
+    	game.phaseResolution(workerService,gameService,mountainDeckService,boardCellService); //la linea
     	try {
 			gameService.saveGame(game);
 		} catch(CreateGameWhilePlayingException ex) {

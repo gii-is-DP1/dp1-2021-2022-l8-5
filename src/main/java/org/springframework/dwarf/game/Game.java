@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,15 +12,15 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.jpatterns.gof.StatePattern;
+import org.springframework.dwarf.board.BoardCellService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dwarf.game.GameState.GamePhase;
 import org.springframework.dwarf.model.BaseEntity;
-import org.springframework.dwarf.player.ComparePlayerTurn;
+import org.springframework.dwarf.mountain_card.MountainDeckService;
 import org.springframework.dwarf.player.Player;
+import org.springframework.dwarf.worker.WorkerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -51,24 +50,24 @@ public class Game extends BaseEntity{
 		this.currentPhaseName = gamePhase.getPhaseName();
 	}
 	
-	public void phaseResolution() {
-		this.getPhase().phaseResolution(this);
+	public void phaseResolution(WorkerService ws, GameService gs, MountainDeckService mds, BoardCellService bcs) {
+		this.getPhase(ws,gs,mds,bcs).phaseResolution(this);
 	}
 	
-	public GamePhase getPhase() {
+	public GamePhase getPhase(WorkerService ws, GameService gs, MountainDeckService mds, BoardCellService bcs) {
 		GamePhase phase;
 		switch (this.currentPhaseName) {
 			case MINERAL_EXTRACTION:
-				phase = new MineralExtraction();
+				phase = new MineralExtraction(ws, gs, mds, bcs);
 				break;
 			case ACTION_SELECTION:
-				phase = new ActionSelection();
+				phase = new ActionSelection(ws, gs, mds, bcs);
 				break;
 			case ACTION_RESOLUTION:
-				phase = new ActionResolution();
+				phase = new ActionResolution(ws, gs, mds, bcs);
 				break;
 			default:
-				phase = new MineralExtraction();
+				phase = new MineralExtraction(ws, gs, mds, bcs);
 				break;
 		}
 		return phase;
@@ -120,13 +119,6 @@ public class Game extends BaseEntity{
 			pList.add(this.thirdPlayer);
 		
 		return pList;
-	}
-	
-	public List<Player> getTurnList(){
-		List<Player> turnList = this.getPlayersList();
-		Collections.sort(turnList, new ComparePlayerTurn());
-		
-		return turnList;
 	}
 	
     public Boolean allPlayersSet(){

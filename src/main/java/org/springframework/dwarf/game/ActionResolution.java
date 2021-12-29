@@ -3,23 +3,42 @@ package org.springframework.dwarf.game;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
+
 import org.jpatterns.gof.StatePattern;
-import org.jpatterns.gof.CompositePattern.Component;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dwarf.game.GameState.GamePhase;
+import org.springframework.context.ApplicationContext;
+import org.springframework.dwarf.board.BoardCellService;
+import org.springframework.dwarf.mountain_card.MountainDeckService;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.worker.Worker;
 import org.springframework.dwarf.worker.WorkerService;
+import org.springframework.stereotype.Component;
 
 @StatePattern.ConcreteState
 @org.springframework.stereotype.Component
 public class ActionResolution implements GamePhase{
     
-    @Autowired
+ 
     private GameService gameService;
     
-    @Autowired
     private WorkerService workerService;
+    
+    private MountainDeckService mountainDeckService;
+    
+    
+    private BoardCellService boardCellService;
+    
+
+    @Autowired
+	public ActionResolution(WorkerService workerService, GameService gameService, MountainDeckService mountainDeckService, BoardCellService boardCellService) {
+		super();
+		this.gameService = gameService;
+		this.workerService = workerService;
+		this.mountainDeckService = mountainDeckService;
+		this.boardCellService = boardCellService;
+		
+	}
 
 	@Override
 	public void phaseResolution(Game game) {
@@ -40,7 +59,7 @@ public class ActionResolution implements GamePhase{
 			}
 		}
 		
-		game.setPhase(new MineralExtraction());
+		game.setPhase(new MineralExtraction(workerService, gameService, mountainDeckService, boardCellService));
 	}
 
 	@Override
