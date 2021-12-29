@@ -11,7 +11,7 @@ import org.springframework.dwarf.worker.Worker;
 import org.springframework.dwarf.worker.WorkerService;
 
 @StatePattern.ConcreteState
-@Component
+@org.springframework.stereotype.Component
 public class ActionSelection implements GamePhase{
 	
     private GameService gameService;

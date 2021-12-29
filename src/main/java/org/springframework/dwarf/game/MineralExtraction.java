@@ -17,6 +17,7 @@ import org.springframework.dwarf.web.LoggedUserController;
 
 @StatePattern.ConcreteState
 @Component
+@org.springframework.stereotype.Component
 public class MineralExtraction implements GamePhase{
 	
     @Autowired
