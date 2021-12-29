@@ -46,16 +46,7 @@ public class Player extends Person {
 	@NotEmpty
 	String avatarUrl;
 	
-	@Range(min= 1, max= 3)
-	Integer gameTurn;
-	
-	public Integer getGameTurn() {
-		return this.gameTurn;
-	}
-	
-	public void setGameTurn(Integer turn) {
-		this.gameTurn = turn;
-	}
+
 	
 	public User getUser() {
 		return user;

@@ -4,31 +4,42 @@ import java.util.List;
 import java.util.Random;
 
 import org.jpatterns.gof.StatePattern;
-import org.jpatterns.gof.CompositePattern.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dwarf.board.Board;
 import org.springframework.dwarf.board.BoardCell;
 import org.springframework.dwarf.board.BoardCellService;
-import org.springframework.dwarf.game.GameState.GamePhase;
 import org.springframework.dwarf.mountain_card.MountainCard;
 import org.springframework.dwarf.mountain_card.MountainDeck;
 import org.springframework.dwarf.mountain_card.MountainDeckService;
 import org.springframework.dwarf.web.LoggedUserController;
+import org.springframework.dwarf.worker.WorkerService;
+import org.springframework.stereotype.Component;
 
 @StatePattern.ConcreteState
 @Component
 public class MineralExtraction implements GamePhase{
 	
-    @Autowired
+	 
     private GameService gameService;
     
-    @Autowired
+    private WorkerService workerService;
+    
     private MountainDeckService mountainDeckService;
     
-    @Autowired
+    
     private BoardCellService boardCellService;
+    
+    @Autowired
+   	public MineralExtraction(WorkerService workerService, GameService gameService, MountainDeckService mountainDeckService, BoardCellService boardCellService) {
+   		super();
+   		this.gameService = gameService;
+   		this.workerService = workerService;
+   		this.mountainDeckService = mountainDeckService;
+   		this.boardCellService = boardCellService;
+   		
+   	}
 
-    @Override
+	@Override
     public void phaseResolution(Game game) {
     	
 	/*	// runs only once
@@ -58,7 +69,7 @@ public class MineralExtraction implements GamePhase{
     	}
     	*/
     	
-    	game.setPhase(new ActionSelection());
+    	game.setPhase(new ActionSelection(workerService, gameService, mountainDeckService, boardCellService));
     }
     
     private void setCard(MountainCard mountaincard, BoardCell boardcell) {

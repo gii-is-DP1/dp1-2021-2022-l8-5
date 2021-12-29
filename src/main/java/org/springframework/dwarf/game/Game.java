@@ -15,10 +15,11 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.jpatterns.gof.StatePattern;
-import org.springframework.dwarf.game.GameState.GamePhase;
+import org.springframework.dwarf.board.BoardCellService;
 import org.springframework.dwarf.model.BaseEntity;
-import org.springframework.dwarf.player.ComparePlayerTurn;
+import org.springframework.dwarf.mountain_card.MountainDeckService;
 import org.springframework.dwarf.player.Player;
+import org.springframework.dwarf.worker.WorkerService;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -46,24 +47,24 @@ public class Game extends BaseEntity{
 		this.currentPhaseName = gamePhase.getPhaseName();
 	}
 	
-	public void phaseResolution() {
-		this.getPhase().phaseResolution(this);
+	public void phaseResolution(WorkerService ws, GameService gs, MountainDeckService mds, BoardCellService bcs) {
+		this.getPhase(ws,gs,mds,bcs).phaseResolution(this);
 	}
 	
-	public GamePhase getPhase() {
+	public GamePhase getPhase(WorkerService ws, GameService gs, MountainDeckService mds, BoardCellService bcs) {
 		GamePhase phase;
 		switch (this.currentPhaseName) {
 			case MINERAL_EXTRACTION:
-				phase = new MineralExtraction();
+				phase = new MineralExtraction(ws, gs, mds, bcs);
 				break;
 			case ACTION_SELECTION:
-				phase = new ActionSelection();
+				phase = new ActionSelection(ws, gs, mds, bcs);
 				break;
 			case ACTION_RESOLUTION:
-				phase = new ActionResolution();
+				phase = new ActionResolution(ws, gs, mds, bcs);
 				break;
 			default:
-				phase = new MineralExtraction();
+				phase = new MineralExtraction(ws, gs, mds, bcs);
 				break;
 		}
 		return phase;
@@ -115,13 +116,6 @@ public class Game extends BaseEntity{
 			pList.add(this.thirdPlayer);
 		
 		return pList;
-	}
-	
-	public List<Player> getTurnList(){
-		List<Player> turnList = this.getPlayersList();
-		Collections.sort(turnList, new ComparePlayerTurn());
-		
-		return turnList;
 	}
 	
     public Boolean allPlayersSet(){
