@@ -16,10 +16,13 @@ import javax.validation.constraints.NotNull;
 
 import org.jpatterns.gof.StatePattern;
 import org.springframework.dwarf.board.BoardCellService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dwarf.model.BaseEntity;
 import org.springframework.dwarf.mountain_card.MountainDeckService;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.worker.WorkerService;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
 import lombok.Getter;
 import lombok.Setter;
