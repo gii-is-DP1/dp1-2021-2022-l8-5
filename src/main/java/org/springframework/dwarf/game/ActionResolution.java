@@ -16,7 +16,7 @@ import org.springframework.dwarf.worker.WorkerService;
 import org.springframework.stereotype.Component;
 
 @StatePattern.ConcreteState
-@Component
+@org.springframework.stereotype.Component
 public class ActionResolution implements GamePhase{
     
  

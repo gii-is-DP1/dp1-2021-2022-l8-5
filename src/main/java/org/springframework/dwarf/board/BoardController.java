@@ -108,7 +108,7 @@ public class BoardController {
     		}
     	}
     	
-    	game.phaseResolution(workerService,gameService,mountainDeckService,boardCellService);
+    	game.phaseResolution(workerService,gameService,mountainDeckService,boardCellService); //la linea
     	try {
 			gameService.saveGame(game);
 		} catch(CreateGameWhilePlayingException ex) {
