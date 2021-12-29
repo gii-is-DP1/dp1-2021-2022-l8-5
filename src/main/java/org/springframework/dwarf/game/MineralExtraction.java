@@ -17,7 +17,6 @@ import org.springframework.stereotype.Component;
 
 @StatePattern.ConcreteState
 @Component
-@org.springframework.stereotype.Component
 public class MineralExtraction implements GamePhase{
 	
 	 
