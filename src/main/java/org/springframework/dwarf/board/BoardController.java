@@ -103,7 +103,7 @@ public class BoardController {
     		}
     	}
     	
-    	game.phaseResolution();
+    	//game.phaseResolution();
     	try {
 			gameService.saveGame(game);
 		} catch(CreateGameWhilePlayingException ex) {
