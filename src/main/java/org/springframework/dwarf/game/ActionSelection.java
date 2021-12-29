@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 import ch.qos.logback.core.Context;
 
 @StatePattern.ConcreteState
-@Component
+@org.springframework.stereotype.Component
 public class ActionSelection implements GamePhase{
 	
 	

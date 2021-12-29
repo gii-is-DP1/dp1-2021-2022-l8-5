@@ -35,6 +35,8 @@
 				<dwarf:playerInfo player="${player3}" playerNumber="${3}" resources="${resourcesPlayer3}"/>
         	</ul>
          </div>
+         <img src="/resources/images/dwarfenenao_preview_rev_1.png"  width="250" height="250" style="float:right" id="miImagen">
+         
     </div>
     
 
