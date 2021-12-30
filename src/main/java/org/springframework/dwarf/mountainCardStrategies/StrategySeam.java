@@ -9,7 +9,7 @@ import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.resources.ResourceType;
 import org.springframework.dwarf.resources.Resources;
 import org.springframework.dwarf.resources.ResourcesService;
-import org.springframework.dwarf.card.StrategyName;
+import org.springframework.dwarf.strategies.CardStrategy.StrategyName;
 
 import lombok.extern.slf4j.Slf4j;
 
