@@ -11,7 +11,7 @@ import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.mountain_card.CardType;
 import org.springframework.dwarf.player.Player;
-import org.springframework.dwarf.strategies.CardStrategy.StrategyName;
+import org.springframework.dwarf.card.StrategyName;
 import org.springframework.dwarf.card.CardStrategy;
 import lombok.extern.slf4j.Slf4j;
 

@@ -4,7 +4,7 @@ package org.springframework.dwarf.specialCardStrategy;
 import org.jpatterns.gof.StrategyPattern;
 import org.springframework.dwarf.card.CardStrategy;
 import org.springframework.dwarf.player.Player;
-import org.springframework.dwarf.strategies.CardStrategy.StrategyName;
+import org.springframework.dwarf.card.StrategyName;
 
 import lombok.extern.slf4j.Slf4j;
 
