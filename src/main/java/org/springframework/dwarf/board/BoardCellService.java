@@ -56,4 +56,16 @@ public class BoardCellService {
 		
 		return boardCell;
 	}
+
+	@Transactional
+	public BoardCell returnBoardCell(Integer xposition, Integer yposition){
+		Iterable<BoardCell> blist= findAll();
+		BoardCell bresult = null;
+		for(BoardCell b:blist){
+			if(b.getXposition()==xposition && b.getYposition()==yposition){
+				bresult=b;
+			}
+		}		
+		return bresult;
+	}
 }
