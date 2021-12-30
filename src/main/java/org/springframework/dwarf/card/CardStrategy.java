@@ -6,9 +6,8 @@ import org.springframework.dwarf.strategies.CardStrategy.StrategyName;
 
 @StrategyPattern.Strategy
 public interface CardStrategy {
-
 	void actions(Player player);
-
-	StrategyName getName();
 	
+	StrategyName getName();
+
 }

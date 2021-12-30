@@ -1,0 +1,8 @@
+package org.springframework.dwarf.card;
+
+public enum StrategyName {
+	// Mountain cards
+	SEAM,FORGES_ALLOY,GET_HELP,ORC_RAIDERS,DRAGONS_KNOCKERS,SHIDE,
+	// Special cards
+	MUSERT_ARMY,HOLD_COUNCIL,SELL_ITEM,PAST_GLORIES,SPECIAL_ORDER,TURN_BACK,APPRENTICE,COLLAPSE_SHAFTS,RUN_AMOK
+}
