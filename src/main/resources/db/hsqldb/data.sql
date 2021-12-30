@@ -39,11 +39,11 @@ INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES (8, 'Play
 INSERT INTO player(id,first_name,last_name,username,avatar_url) VALUES (9, 'Player3', 'Test3' ,'test3','https://www.w3schools.com/w3images/avatar1.png');
 
 -- Looking for players games
-INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,startDate) VALUES (6,'MINERAL_EXTRACTION',1,6,'2021-11-12 16:42:00');
-INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,secondPlayer,thirdPlayer,startDate) VALUES (4,'MINERAL_EXTRACTION',1,4,5,2,'2021-11-12 16:42:00');
+INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,startDate,canResolveActions) VALUES (6,'MINERAL_EXTRACTION',1,6,'2021-11-12 16:42:00',true);
+INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,secondPlayer,thirdPlayer,startDate,canResolveActions) VALUES (4,'MINERAL_EXTRACTION',1,4,5,2,'2021-11-12 16:42:00',true);
 
  -- Finished games
-INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,secondPlayer,thirdPlayer,startDate,finishDate) VALUES (2,'ACTION_SELECTION',6,3,1,2,'2021-11-12 16:42:00', '2021-11-12 17:42:00');
+INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,secondPlayer,thirdPlayer,startDate,finishDate,canResolveActions) VALUES (2,'ACTION_SELECTION',6,3,1,2,'2021-11-12 16:42:00', '2021-11-12 17:42:00',true);
 
 
  -- Card sheet 1

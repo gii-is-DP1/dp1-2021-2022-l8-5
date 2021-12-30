@@ -109,6 +109,7 @@ public class Game extends BaseEntity{
 	@Column(name = "FINISHDATE")
 	LocalDateTime finishDate;
 	
+	@Column(name = "CANRESOLVEACTIONS")
 	boolean canResolveActions;
 	
 	
