@@ -9,6 +9,7 @@ import org.jpatterns.gof.StatePattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.dwarf.board.BoardCellService;
+import org.springframework.dwarf.board.BoardService;
 import org.springframework.dwarf.mountain_card.MountainDeckService;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.worker.Worker;
@@ -26,18 +27,19 @@ public class ActionResolution implements GamePhase{
     
     private MountainDeckService mountainDeckService;
     
-    
     private BoardCellService boardCellService;
+    
+    private BoardService boardService;
     
 
     @Autowired
-	public ActionResolution(WorkerService workerService, GameService gameService, MountainDeckService mountainDeckService, BoardCellService boardCellService) {
+	public ActionResolution(WorkerService workerService, GameService gameService, MountainDeckService mountainDeckService, BoardCellService boardCellService, BoardService boardService) {
 		super();
 		this.gameService = gameService;
 		this.workerService = workerService;
 		this.mountainDeckService = mountainDeckService;
 		this.boardCellService = boardCellService;
-		
+		this.boardService = boardService;
 	}
 
 	@Override
@@ -59,7 +61,7 @@ public class ActionResolution implements GamePhase{
 			}
 		}
 		
-		game.setPhase(new MineralExtraction(workerService, gameService, mountainDeckService, boardCellService));
+		game.setPhase(new MineralExtraction(workerService, gameService, mountainDeckService, boardCellService, boardService));
 	}
 
 	@Override
