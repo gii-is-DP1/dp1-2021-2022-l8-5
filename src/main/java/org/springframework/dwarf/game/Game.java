@@ -45,6 +45,7 @@ public class Game extends BaseEntity{
 		this.currentPhaseName = GamePhaseEnum.MINERAL_EXTRACTION;
 		this.currentRound = 1;
 		this.startDate = LocalDateTime.now();
+		this.canResolveActions = true;
 	}
 	
 	public void setPhase(GamePhase gamePhase) {
@@ -107,6 +108,8 @@ public class Game extends BaseEntity{
 	
 	@Column(name = "FINISHDATE")
 	LocalDateTime finishDate;
+	
+	boolean canResolveActions;
 	
 	
 	public List<Player> getPlayersList(){
