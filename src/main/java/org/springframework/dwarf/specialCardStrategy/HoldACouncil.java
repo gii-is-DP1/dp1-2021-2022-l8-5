@@ -2,7 +2,6 @@ package org.springframework.dwarf.specialCardStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.jpatterns.gof.StrategyPattern;
 import org.springframework.dwarf.board.Board;
 import org.springframework.dwarf.board.BoardCell;
@@ -12,6 +11,7 @@ import org.springframework.dwarf.card.CardStrategy;
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.mountain_card.MountainCard;
+import org.springframework.dwarf.mountain_card.MountainDeck;
 import org.springframework.dwarf.mountain_card.MountainDeckService;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.strategies.CardStrategy.StrategyName;
@@ -27,10 +27,12 @@ public class HoldACouncil implements CardStrategy {
 	BoardCellService boardCellService;
 	MountainDeckService mountainDeckService;
 	
+	//Quitar todas las cartas superiores del tablero (si solo hay una en una posición, se deja) y devolverlas al mazo de montaña.
+	
 	@Override
 	public void actions(Player player) {
 		log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
-		/*
+		
 		Game currentGame = gameService.findPlayerUnfinishedGames(player).get();
 		Board board = gameService.findBoardByGameId(currentGame.getId()).get();
 		// se podria hacer una query que te diese el mazo de montaña con el game id
@@ -39,7 +41,6 @@ public class HoldACouncil implements CardStrategy {
 		
 		mountainDeck.getMountainCards().addAll(removedCards);
 		mountainDeckService.saveMountainDeck(mountainDeck);
-		*/
 	}
 	
 	private List<MountainCard> removeTopCards(Game currentGame){
