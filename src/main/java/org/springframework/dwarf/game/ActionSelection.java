@@ -9,6 +9,7 @@ import org.jpatterns.gof.StatePattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.dwarf.board.BoardCellService;
+import org.springframework.dwarf.board.BoardService;
 import org.springframework.dwarf.mountain_card.MountainDeckService;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.web.LoggedUserController;
@@ -30,17 +31,19 @@ public class ActionSelection implements GamePhase{
     
     private MountainDeckService mountainDeckService;
     
-    
     private BoardCellService boardCellService;
+    
+    private BoardService boardService;
     
 
    @Autowired
-	public ActionSelection(WorkerService ws, GameService gs, MountainDeckService mountainDeckService, BoardCellService boardCellService) {
+	public ActionSelection(WorkerService ws, GameService gs, MountainDeckService mountainDeckService, BoardCellService boardCellService, BoardService boardService) {
 		super();
 		this.gameService = gs;
 		this.workerService = ws;
 		this.mountainDeckService = mountainDeckService;
 		this.boardCellService = boardCellService;
+		this.boardService = boardService;
 	}
     
 	
@@ -62,14 +65,6 @@ public class ActionSelection implements GamePhase{
 		/*while(!workersNotPlaced.get(0).getStatus()) {
 			//wait
 		}*/
-
-		try {
-			changeCurrentPlayer(game);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		
 		
 		/*
 		for(int i=0; i<players.size(); i++) {
@@ -80,10 +75,21 @@ public class ActionSelection implements GamePhase{
 				
 			}
 		}*/
+		
 		Integer remainingWorkers = workerService.findNotPlacedAndGameId(game.getId()).size();
 		if (remainingWorkers.equals(0)) {
-			game.setPhase(new ActionResolution(workerService, gameService, mountainDeckService, boardCellService));	
+			game.setPhase(new ActionResolution(workerService, gameService, mountainDeckService, boardCellService, boardService));	
 		}
+		
+		try {
+			changeCurrentPlayer(game);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+
 		
 	}
 	

@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
 
 import org.jpatterns.gof.StatePattern;
 import org.springframework.dwarf.board.BoardCellService;
+import org.springframework.dwarf.board.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dwarf.model.BaseEntity;
 import org.springframework.dwarf.mountain_card.MountainDeckService;
@@ -50,24 +51,24 @@ public class Game extends BaseEntity{
 		this.currentPhaseName = gamePhase.getPhaseName();
 	}
 	
-	public void phaseResolution(WorkerService ws, GameService gs, MountainDeckService mds, BoardCellService bcs) {
-		this.getPhase(ws,gs,mds,bcs).phaseResolution(this);
+	public void phaseResolution(WorkerService ws, GameService gs, MountainDeckService mds, BoardCellService bcs, BoardService bs) {
+		this.getPhase(ws,gs,mds,bcs, bs).phaseResolution(this);
 	}
 	
-	public GamePhase getPhase(WorkerService ws, GameService gs, MountainDeckService mds, BoardCellService bcs) {
+	public GamePhase getPhase(WorkerService ws, GameService gs, MountainDeckService mds, BoardCellService bcs, BoardService bs) {
 		GamePhase phase;
 		switch (this.currentPhaseName) {
 			case MINERAL_EXTRACTION:
-				phase = new MineralExtraction(ws, gs, mds, bcs);
+				phase = new MineralExtraction(ws, gs, mds, bcs, bs);
 				break;
 			case ACTION_SELECTION:
-				phase = new ActionSelection(ws, gs, mds, bcs);
+				phase = new ActionSelection(ws, gs, mds, bcs, bs);
 				break;
 			case ACTION_RESOLUTION:
-				phase = new ActionResolution(ws, gs, mds, bcs);
+				phase = new ActionResolution(ws, gs, mds, bcs, bs);
 				break;
 			default:
-				phase = new MineralExtraction(ws, gs, mds, bcs);
+				phase = new MineralExtraction(ws, gs, mds, bcs, bs);
 				break;
 		}
 		return phase;

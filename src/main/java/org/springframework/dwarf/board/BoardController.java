@@ -80,7 +80,7 @@ public class BoardController {
     
     @GetMapping("{boardId}/game/{gameId}")
     public String boardGame(@PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, ModelMap modelMap, HttpServletResponse response) {
-    	response.addHeader("REFRESH", "5");
+    	response.addHeader("REFRESH", "5000");
     	String view = "/board/board";
     	
     	Game game = gameService.findByGameId(gameId).get();
@@ -108,7 +108,8 @@ public class BoardController {
     		}
     	}
     	
-    	game.phaseResolution(workerService,gameService,mountainDeckService,boardCellService); //la linea
+    	game.phaseResolution(workerService,gameService,mountainDeckService,boardCellService,boardService); //la linea
+    	//ayuda se está haciendo más poderosa
     	try {
 			gameService.saveGame(game);
 		} catch(CreateGameWhilePlayingException ex) {

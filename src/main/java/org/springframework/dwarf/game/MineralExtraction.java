@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dwarf.board.Board;
 import org.springframework.dwarf.board.BoardCell;
 import org.springframework.dwarf.board.BoardCellService;
+import org.springframework.dwarf.board.BoardService;
 import org.springframework.dwarf.mountain_card.MountainCard;
 import org.springframework.dwarf.mountain_card.MountainDeck;
 import org.springframework.dwarf.mountain_card.MountainDeckService;
@@ -26,16 +27,18 @@ public class MineralExtraction implements GamePhase{
     
     private MountainDeckService mountainDeckService;
     
-    
     private BoardCellService boardCellService;
     
+    private BoardService boardService;
+    
     @Autowired
-   	public MineralExtraction(WorkerService workerService, GameService gameService, MountainDeckService mountainDeckService, BoardCellService boardCellService) {
+   	public MineralExtraction(WorkerService workerService, GameService gameService, MountainDeckService mountainDeckService, BoardCellService boardCellService, BoardService boardService) {
    		super();
    		this.gameService = gameService;
    		this.workerService = workerService;
    		this.mountainDeckService = mountainDeckService;
    		this.boardCellService = boardCellService;
+   		this.boardService = boardService;
    		
    	}
 
@@ -68,7 +71,8 @@ public class MineralExtraction implements GamePhase{
     		setCard(mountaincard2, b);
     	}
     	
-    	game.setPhase(new ActionSelection(workerService, gameService, mountainDeckService, boardCellService));
+    	boardService.saveBoard(board);
+    	game.setPhase(new ActionSelection(workerService, gameService, mountainDeckService, boardCellService, boardService));
     }
     
     private void setCard(MountainCard mountaincard, BoardCell boardcell) {
