@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.dwarf.game.CreateGameWhilePlayingException;
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GamePhaseEnum;
 import org.springframework.dwarf.game.GameService;
-import org.springframework.dwarf.mountain_card.MountainDeckService;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
 import org.springframework.dwarf.resources.Resources;
@@ -38,24 +36,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/boards")
 public class BoardController {
+	
+	@Autowired
 	private BoardService boardService;
-    private GameService gameService;
+	@Autowired
+	private GameService gameService;
+    @Autowired
     private ResourcesService resourcesService;
+    @Autowired
     private WorkerService workerService;
+    @Autowired
     private PlayerService playerService;
+    @Autowired
+    private BoardCellService boardCellService;
     
     @Autowired
     private ApplicationContext applicationContext;
-
-	@Autowired
-	public BoardController(BoardService boardService, GameService gameService,
-			ResourcesService resourcesService, WorkerService workerService, PlayerService playerService) {
-		this.boardService = boardService;
-        this.gameService = gameService;
-        this.resourcesService = resourcesService;
-        this.workerService = workerService;
-        this.playerService = playerService;
-	}
 	
 	@GetMapping()
 	public String getBoard(ModelMap modelMap) {
