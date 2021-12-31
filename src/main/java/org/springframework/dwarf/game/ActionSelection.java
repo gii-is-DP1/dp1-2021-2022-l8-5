@@ -30,13 +30,37 @@ public class ActionSelection implements GamePhase{
 
 		//TODO Los jugadores tienen que colocar sus trabajadores
 		
-		List<Player> players = game.getPlayersList();
+		//List<Player> players = game.getPlayersList();
 		List<Worker> workersNotPlaced = workerService.findNotPlacedByPlayerIdAndGameId(currentPlayer.getId(), game.getId());
-	
-		/*while(!workersNotPlaced.get(0).getStatus()) {
-			//wait
-		}*/
 		
+		while(!(workersNotPlaced.size()==1)) {
+			return;
+		
+		}
+		
+		
+		/*
+		switch(workersNotPlaced.size()){
+
+			case 2:
+			while(!(workersNotPlaced.size()==1)) {
+				workersNotPlaced = workerService.findNotPlacedByPlayerIdAndGameId(currentPlayer.getId(), game.getId());
+			
+			}
+			break;
+
+			case 1:
+			while(!(workersNotPlaced.size()==0)) {
+				workersNotPlaced = workerService.findNotPlacedByPlayerIdAndGameId(currentPlayer.getId(), game.getId());
+				
+			}
+			break;
+
+			default:
+			break;
+
+		}		
+		*/
 		/*
 		for(int i=0; i<players.size(); i++) {
 			List<Worker> workers = new ArrayList<Worker>(workerService.findByPlayerIdAndGameId(game.getId(), players.get(i).getId()));
@@ -46,18 +70,18 @@ public class ActionSelection implements GamePhase{
 				
 			}
 		}*/
-		
+				
 		Integer remainingWorkers = workerService.findNotPlacedAndGameId(game.getId()).size();
 		if (remainingWorkers.equals(0)) {
 			game.setPhase(GamePhaseEnum.ACTION_RESOLUTION);	
 		}
+		
 		
 		try {
 			changeCurrentPlayer(game);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		
 		
 

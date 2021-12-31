@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.dwarf.game.CreateGameWhilePlayingException;
 import org.springframework.dwarf.game.Game;
+import org.springframework.dwarf.game.GamePhaseEnum;
 import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.mountain_card.MountainDeckService;
 import org.springframework.dwarf.player.Player;
@@ -80,7 +81,7 @@ public class BoardController {
     
     @GetMapping("{boardId}/game/{gameId}")
     public String boardGame(@PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, ModelMap modelMap, HttpServletResponse response) {
-    	response.addHeader("REFRESH", "5000");
+    	response.addHeader("REFRESH", "5");
     	String view = "/board/board";
     	
     	Game game = gameService.findByGameId(gameId).get();
@@ -107,6 +108,13 @@ public class BoardController {
 	        	modelMap.addAttribute("resourcesPlayer" + (i+1), resourcesPlayer);
     		}
     	}
+
+	
+   		if (game.getCurrentPhaseName() != GamePhaseEnum.ACTION_SELECTION) {
+			game.phaseResolution(workerService,gameService,mountainDeckService,boardCellService,boardService); //la linea 
+			//ayuda se está haciendo más poderosa
+		}
+    	
     	
     	game.phaseResolution(this.applicationContext);
     	try {
@@ -121,6 +129,9 @@ public class BoardController {
     
     @PostMapping("{boardId}/game/{gameId}")
     public String postWorker(@ModelAttribute("myworker1") Worker myworker1, @PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, BindingResult result) {
+		Game game = gameService.findByGameId(gameId).get();
+		game.phaseResolution(workerService,gameService,mountainDeckService,boardCellService,boardService); //la linea 2
+		
 		if (result.hasErrors()) {
 			return "/board/board";
 		}
@@ -128,17 +139,30 @@ public class BoardController {
 			String username = LoggedUserController.returnLoggedUserName();
 			Player player = playerService.findPlayerByUserName(username);
 			List<Worker> workers = new ArrayList<Worker>(workerService.findByPlayerId(player.getId()));
-			return updatingWorker(workers.get(0).getId(), myworker1);
+			return updatingWorker(workers.get(0).getId(), myworker1, boardId, gameId);
 		}
     	
     }
     
     
-	private String updatingWorker(Integer workerId, Worker worker) {
+	private String updatingWorker(Integer workerId, Worker worker, Integer boardId,Integer gameId) {
+
+		String redirect = "redirect:/boards/"+ boardId +  "/game/"+gameId;
 		Worker workerFound = workerService.findByWorkerId(workerId).get();
-		BeanUtils.copyProperties(worker, workerFound, "id", "player", "game", "status");
+		BeanUtils.copyProperties(worker, workerFound, "id", "player", "game");
+		BoardCell b = boardCellService.returnBoardCell(workerFound.getXposition(), workerFound.getYposition());
+
+	/*	if(b.getCellOccupied()){
+			return errrors.re;
+		}
+		*/
+		workerFound.setStatus(true);
+	//	b.setCellOccupied(true);
 		this.workerService.saveWorker(workerFound);
-		return "/board/board";
+		
+	    
+		
+		return redirect;
 
 	}
 }
