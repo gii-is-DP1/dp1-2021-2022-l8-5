@@ -30,7 +30,9 @@ public class ActionSelection implements GamePhase{
 
 		//TODO Los jugadores tienen que colocar sus trabajadores
 		
+
 		//List<Player> players = game.getPlayersList();	
+
 		/*
 		for(int i=0; i<players.size(); i++) {
 			List<Worker> workers = new ArrayList<Worker>(workerService.findByPlayerIdAndGameId(game.getId(), players.get(i).getId()));
