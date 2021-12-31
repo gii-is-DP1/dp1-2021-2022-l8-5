@@ -40,5 +40,6 @@ public class BoardCell extends BaseEntity{
 		this.xposition = xposition;
 		this.yposition = yposition;
 		this.mountaincards = mountaincards;
+		this.cellOccupied = false;
 	}
 }
