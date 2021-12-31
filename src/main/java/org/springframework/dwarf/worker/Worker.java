@@ -2,6 +2,7 @@ package org.springframework.dwarf.worker;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
@@ -26,11 +27,12 @@ import lombok.Setter;
 @Table(name = "workers")
 public class Worker extends BaseEntity{
 	
-	public Worker(Player player, Game game) {
+	public Worker(Player player, Game game, Integer imageNumber) {
 		super();
 		this.player = player;
 		this.game = game;
-		this.status=false;
+		this.status = false;
+		this.image="/resources/images/epicworker" + imageNumber + ".png";
 	}
 
 	public Worker() {
@@ -47,6 +49,9 @@ public class Worker extends BaseEntity{
     
 	@Column(name = "status")
 	Boolean status;
+	
+	@Column(name = "image")
+	String image;
 
 	@OneToOne
 	@JoinColumn(name= "playerID")
@@ -55,5 +60,13 @@ public class Worker extends BaseEntity{
 	@OneToOne
 	@JoinColumn(name= "gameID")
 	private Game game;
+	
+	public Integer getPositionXInPixels(Integer size) {
+    	return (xposition)*size;
+    }
+    
+    public Integer getPositionYInPixels(Integer size) {
+    	return (yposition)*size;
+    }
 
 }

@@ -30,37 +30,9 @@ public class ActionSelection implements GamePhase{
 
 		//TODO Los jugadores tienen que colocar sus trabajadores
 		
-		//List<Player> players = game.getPlayersList();
-		List<Worker> workersNotPlaced = workerService.findNotPlacedByPlayerIdAndGameId(currentPlayer.getId(), game.getId());
-		
-		while(!(workersNotPlaced.size()==1)) {
-			return;
-			
-		}
-		
-		
-		/*
-		switch(workersNotPlaced.size()){
 
-			case 2:
-			while(!(workersNotPlaced.size()==1)) {
-				workersNotPlaced = workerService.findNotPlacedByPlayerIdAndGameId(currentPlayer.getId(), game.getId());
-			
-			}
-			break;
+		//List<Player> players = game.getPlayersList();	
 
-			case 1:
-			while(!(workersNotPlaced.size()==0)) {
-				workersNotPlaced = workerService.findNotPlacedByPlayerIdAndGameId(currentPlayer.getId(), game.getId());
-				
-			}
-			break;
-
-			default:
-			break;
-
-		}		
-		*/
 		/*
 		for(int i=0; i<players.size(); i++) {
 			List<Worker> workers = new ArrayList<Worker>(workerService.findByPlayerIdAndGameId(game.getId(), players.get(i).getId()));
@@ -82,9 +54,6 @@ public class ActionSelection implements GamePhase{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
-
 		
 	}
 	

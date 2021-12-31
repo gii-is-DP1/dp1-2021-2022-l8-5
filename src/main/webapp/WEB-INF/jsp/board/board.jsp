@@ -23,9 +23,12 @@
 
             <c:forEach items="${board.boardCells}" var="boardCell">
             	<dwarf:mountainCard padding="20" xsize="130" ysize="180" mountainCard="${boardCell.mountaincards.get(0)}"/>
-            	<c:if test="${boardCell.cellOccupied}">
-            	<!-- Aquí se metería graficamente el worker -->
-            	</c:if>
+            </c:forEach>
+            
+            <c:forEach items="${workers}" var="worker">
+	            <c:if test="${worker.xposition != null && worker.yposition != null}">
+	           		<dwarf:worker padding="20" xsize="130" ysize="180" worker="${worker}"/>
+	            </c:if>
             </c:forEach>
             
             <dwarf:mountainDeck padding="20" xsize="130" ysize="180" mountainDeck="${board.mountainDeck}"/> 
@@ -48,7 +51,7 @@
     <c:choose>
 	    <c:when test="${myplayer == game.currentPlayer}">
 	    
-			<form:form modelAttribute="myworker1" class="form-horizontal" id="add-player-form">
+			<form:form modelAttribute="myworker" class="form-horizontal" id="add-player-form">
 			
 		        <div class="form-group has-feedback col-md-5">
 		            <dwarf:inputField label="Horizontal tile" name="xposition"/>

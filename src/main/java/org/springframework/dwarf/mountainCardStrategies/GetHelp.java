@@ -29,8 +29,8 @@ public class GetHelp implements CardStrategy{
 		log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
 		
 		Game game = gameService.findPlayerUnfinishedGames(player).get();
-		Worker extraWorker1 = new Worker(player, game);
-		Worker extraWorker2 = new Worker(player, game);
+		Worker extraWorker1 = new Worker(player, game, 4);
+		Worker extraWorker2 = new Worker(player, game, 4);
 		
 		workerService.saveWorker(extraWorker1);
 		workerService.saveWorker(extraWorker2);
