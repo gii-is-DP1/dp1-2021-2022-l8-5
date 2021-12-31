@@ -124,7 +124,7 @@ public class BoardController {
     
     
     @PostMapping("{boardId}/game/{gameId}")
-    public String postWorker(@ModelAttribute("myworker1") Worker myworker1, @PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, BindingResult result) {
+    public String postWorker(@ModelAttribute("myworker1") Worker myworker1, @PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, BindingResult result,Error errors) {
 		Game game = gameService.findByGameId(gameId).get();
 		game.phaseResolution(this.applicationContext); //la linea 2
 		
@@ -134,27 +134,29 @@ public class BoardController {
 		else {
 			String username = LoggedUserController.returnLoggedUserName();
 			Player player = playerService.findPlayerByUserName(username);
-			List<Worker> workers = new ArrayList<Worker>(workerService.findByPlayerId(player.getId()));
-			return updatingWorker(workers.get(0).getId(), myworker1, boardId, gameId);
+			List<Worker> workersNotPlaced = workerService.findNotPlacedByPlayerIdAndGameId(player.getId(), game.getId());
+			
+			return updatingWorker(workersNotPlaced.get(0).getId(), myworker1, boardId, gameId, errors);
 		}
     	
     }
     
     
-	private String updatingWorker(Integer workerId, Worker worker, Integer boardId,Integer gameId) {
-
+	private String updatingWorker(Integer workerId, Worker worker, Integer boardId,Integer gameId, Error errors) {
+		
 		String redirect = "redirect:/boards/"+ boardId +  "/game/"+gameId;
 		Worker workerFound = workerService.findByWorkerId(workerId).get();
 		BeanUtils.copyProperties(worker, workerFound, "id", "player", "game");
-		BoardCell b = boardCellService.returnBoardCell(workerFound.getXposition(), workerFound.getYposition());
-
-	/*	if(b.getCellOccupied()){
-			return errrors.re;
+		BoardCell boardCell = boardCellService.returnBoardCell(workerFound.getXposition(), workerFound.getYposition());
+	
+		if(boardCell.getCellOccupied()){
+			return errors.getMessage();
 		}
-		*/
+		boardCell.setCellOccupied(true);
 		workerFound.setStatus(true);
 	//	b.setCellOccupied(true);
 		this.workerService.saveWorker(workerFound);
+		this.boardCellService.saveBoardCell(boardCell);
 		
 	    
 		
