@@ -10,6 +10,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.dwarf.game.CreateGameWhilePlayingException;
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GamePhaseEnum;
@@ -42,19 +43,18 @@ public class BoardController {
     private ResourcesService resourcesService;
     private WorkerService workerService;
     private PlayerService playerService;
-    private MountainDeckService mountainDeckService;
-    private BoardCellService boardCellService;
+    
+    @Autowired
+    private ApplicationContext applicationContext;
 
 	@Autowired
 	public BoardController(BoardService boardService, GameService gameService,
-			ResourcesService resourcesService, WorkerService workerService, PlayerService playerService, MountainDeckService mountainDeckService, BoardCellService boardCellService) {
+			ResourcesService resourcesService, WorkerService workerService, PlayerService playerService) {
 		this.boardService = boardService;
         this.gameService = gameService;
         this.resourcesService = resourcesService;
         this.workerService = workerService;
         this.playerService = playerService;
-        this.mountainDeckService = mountainDeckService;
-        this.boardCellService = boardCellService;
 	}
 	
 	@GetMapping()
@@ -111,9 +111,10 @@ public class BoardController {
 
 	
    		if (game.getCurrentPhaseName() != GamePhaseEnum.ACTION_SELECTION) {
-			game.phaseResolution(workerService,gameService,mountainDeckService,boardCellService,boardService); //la linea 
+			game.phaseResolution(this.applicationContext);//la linea 
 			//ayuda se está haciendo más poderosa
 		}
+    	
     	
     	
     	try {
@@ -129,7 +130,7 @@ public class BoardController {
     @PostMapping("{boardId}/game/{gameId}")
     public String postWorker(@ModelAttribute("myworker1") Worker myworker1, @PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, BindingResult result) {
 		Game game = gameService.findByGameId(gameId).get();
-		game.phaseResolution(workerService,gameService,mountainDeckService,boardCellService,boardService); //la linea 2
+		game.phaseResolution(this.applicationContext); //la linea 2
 		
 		if (result.hasErrors()) {
 			return "/board/board";
