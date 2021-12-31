@@ -34,7 +34,7 @@ public class ActionResolution implements GamePhase{
 				Integer wYPos = w.getYposition();
 				
 				//Comprobaciones de posiciones y resolucion de acciones de las cartas pendiente (Strategy)
-				
+				//ojito hay que quitar posiciones de workers y el atributo de boarcell ponerlo a false
 			}
 		}
 		

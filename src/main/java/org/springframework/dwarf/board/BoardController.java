@@ -65,9 +65,11 @@ public class BoardController {
     public String initBoardGame(@PathVariable("gameId") Integer gameId, ModelMap modelMap){
     	Game game = gameService.findByGameId(gameId).get();
 		Board board = boardService.createBoard(game);
+		int i = 1;
 		for (Player p : game.getPlayersList()) {
 			resourcesService.createPlayerResource(p, game);
-			workerService.createPlayerWorkers(p, game);
+			workerService.createPlayerWorkers(p, game, i);
+			i = i+1;
 		}
         
 		String redirect = "redirect:/boards/"+board.getId()+"/game/"+gameId;
@@ -79,22 +81,25 @@ public class BoardController {
     public String boardGame(@PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, ModelMap modelMap, HttpServletResponse response) {
     	response.addHeader("REFRESH", "5");
     	String view = "/board/board";
-    	
+    
     	Game game = gameService.findByGameId(gameId).get();
     	Board board = boardService.findByBoardId(boardId).get();
     	
 		String playerUsername = LoggedUserController.returnLoggedUserName();
 		Player myplayer = playerService.findPlayerByUserName(playerUsername);
 		
-		Collection<Worker> myworkers = workerService.findByPlayerId(myplayer.getId());	
-		for (int i = 0; i < myworkers.size(); i++) {
-			Worker myworker = myworkers.stream().collect(Collectors.toList()).get(i);
-			modelMap.addAttribute("myworker" + (i+1), myworker);
+		List<Worker> myworkers = workerService.findNotPlacedByPlayerIdAndGameId(myplayer.getId(), gameId);
+		
+		if (myworkers.size()>=1) {
+			Worker myworker = myworkers.get(0);
+			modelMap.addAttribute("myworker", myworker);
 		}
 
     	modelMap.addAttribute("myplayer", myplayer);
     	modelMap.addAttribute("board", board);
     	modelMap.addAttribute("game", game);
+    	
+    	List<Worker> workers = new ArrayList<Worker>();
     	
     	for (int i = 0; i < game.getPlayersList().size(); i++) {
     		Player p = game.getPlayersList().get(i);
@@ -102,8 +107,10 @@ public class BoardController {
 	        	modelMap.addAttribute("player" + (i+1), p);
 	        	Resources resourcesPlayer = resourcesService.findByPlayerIdAndGameId(p.getId(), game.getId()).get();
 	        	modelMap.addAttribute("resourcesPlayer" + (i+1), resourcesPlayer);
+	        	workers.addAll(workerService.findByPlayerId(p.getId()));
     		}
     	}
+    	modelMap.addAttribute("workers" , workers);
 
 	
    		if (game.getCurrentPhaseName() != GamePhaseEnum.ACTION_SELECTION) {
@@ -124,7 +131,7 @@ public class BoardController {
     
     
     @PostMapping("{boardId}/game/{gameId}")
-    public String postWorker(@ModelAttribute("myworker1") Worker myworker1, @PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, BindingResult result,Error errors) {
+    public String postWorker(@ModelAttribute("myworker") Worker myworker, @PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, BindingResult result,Error errors) {
 		Game game = gameService.findByGameId(gameId).get();
 		game.phaseResolution(this.applicationContext); //la linea 2
 		
@@ -136,7 +143,7 @@ public class BoardController {
 			Player player = playerService.findPlayerByUserName(username);
 			List<Worker> workersNotPlaced = workerService.findNotPlacedByPlayerIdAndGameId(player.getId(), game.getId());
 			
-			return updatingWorker(workersNotPlaced.get(0).getId(), myworker1, boardId, gameId, errors);
+			return updatingWorker(workersNotPlaced.get(0).getId(), myworker, boardId, gameId, errors);
 		}
     	
     }
@@ -146,7 +153,7 @@ public class BoardController {
 		
 		String redirect = "redirect:/boards/"+ boardId +  "/game/"+gameId;
 		Worker workerFound = workerService.findByWorkerId(workerId).get();
-		BeanUtils.copyProperties(worker, workerFound, "id", "player", "game");
+		BeanUtils.copyProperties(worker, workerFound, "id", "player", "game", "image");
 		BoardCell boardCell = boardCellService.returnBoardCell(workerFound.getXposition(), workerFound.getYposition());
 	
 		if(boardCell.getCellOccupied()){
@@ -157,6 +164,7 @@ public class BoardController {
 	//	b.setCellOccupied(true);
 		this.workerService.saveWorker(workerFound);
 		this.boardCellService.saveBoardCell(boardCell);
+		this.boardService.saveBoard(boardService.findByBoardId(boardId).get());
 		
 	    
 		

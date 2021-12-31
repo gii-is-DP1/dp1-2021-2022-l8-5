@@ -98,9 +98,9 @@ public class WorkerService {
 	}
 	
 	@Transactional
-	public void createPlayerWorkers(Player player, Game game) {
-		Worker playerWorker1 = new Worker(player, game);
-		Worker playerWorker2 = new Worker(player, game);
+	public void createPlayerWorkers(Player player, Game game, Integer imageNumber) {
+		Worker playerWorker1 = new Worker(player, game, imageNumber);
+		Worker playerWorker2 = new Worker(player, game, imageNumber);
 		this.saveWorker(playerWorker1);
 		this.saveWorker(playerWorker2);
 		
