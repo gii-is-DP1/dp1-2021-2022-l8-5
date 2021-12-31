@@ -35,7 +35,7 @@ public class ActionSelection implements GamePhase{
 		
 		while(!(workersNotPlaced.size()==1)) {
 			return;
-		
+			
 		}
 		
 		
