@@ -13,34 +13,20 @@ import org.springframework.dwarf.mountain_card.MountainCard;
 import org.springframework.dwarf.mountain_card.MountainDeck;
 import org.springframework.dwarf.mountain_card.MountainDeckService;
 import org.springframework.dwarf.web.LoggedUserController;
-import org.springframework.dwarf.worker.WorkerService;
 import org.springframework.stereotype.Component;
 
 @StatePattern.ConcreteState
 @Component
 public class MineralExtraction implements GamePhase{
 	
-	 
+	@Autowired
     private GameService gameService;
-    
-    private WorkerService workerService;
-    
+	@Autowired
     private MountainDeckService mountainDeckService;
-    
+	@Autowired
     private BoardCellService boardCellService;
-    
+	@Autowired
     private BoardService boardService;
-    
-    @Autowired
-   	public MineralExtraction(WorkerService workerService, GameService gameService, MountainDeckService mountainDeckService, BoardCellService boardCellService, BoardService boardService) {
-   		super();
-   		this.gameService = gameService;
-   		this.workerService = workerService;
-   		this.mountainDeckService = mountainDeckService;
-   		this.boardCellService = boardCellService;
-   		this.boardService = boardService;
-   		
-   	}
 
 	@Override
     public void phaseResolution(Game game) {
@@ -72,7 +58,7 @@ public class MineralExtraction implements GamePhase{
     	}
     	
     	boardService.saveBoard(board);
-    	game.setPhase(new ActionSelection(workerService, gameService, mountainDeckService, boardCellService, boardService));
+    	game.setPhase(GamePhaseEnum.ACTION_SELECTION);
     }
     
     private void setCard(MountainCard mountaincard, BoardCell boardcell) {

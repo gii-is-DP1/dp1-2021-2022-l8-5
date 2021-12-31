@@ -2,7 +2,6 @@ package org.springframework.dwarf.game;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -15,15 +14,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.jpatterns.gof.StatePattern;
-import org.springframework.dwarf.board.BoardCellService;
-import org.springframework.dwarf.board.BoardService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.dwarf.model.BaseEntity;
-import org.springframework.dwarf.mountain_card.MountainDeckService;
 import org.springframework.dwarf.player.Player;
-import org.springframework.dwarf.worker.WorkerService;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RestController;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -48,30 +41,31 @@ public class Game extends BaseEntity{
 		this.canResolveActions = true;
 	}
 	
-	public void setPhase(GamePhase gamePhase) {
-		this.currentPhaseName = gamePhase.getPhaseName();
+	public void setPhase(GamePhaseEnum gamePhaseName) {
+		this.currentPhaseName = gamePhaseName;
 	}
 	
-	public void phaseResolution(WorkerService ws, GameService gs, MountainDeckService mds, BoardCellService bcs, BoardService bs) {
-		this.getPhase(ws,gs,mds,bcs, bs).phaseResolution(this);
+	public void phaseResolution(ApplicationContext applicationContext) {
+		this.getPhase(applicationContext).phaseResolution(this);
 	}
 	
-	public GamePhase getPhase(WorkerService ws, GameService gs, MountainDeckService mds, BoardCellService bcs, BoardService bs) {
+	public GamePhase getPhase(ApplicationContext applicationContext) {
 		GamePhase phase;
 		switch (this.currentPhaseName) {
 			case MINERAL_EXTRACTION:
-				phase = new MineralExtraction(ws, gs, mds, bcs, bs);
+				phase = applicationContext.getBean(MineralExtraction.class);
 				break;
 			case ACTION_SELECTION:
-				phase = new ActionSelection(ws, gs, mds, bcs, bs);
+				phase = applicationContext.getBean(ActionSelection.class);
 				break;
 			case ACTION_RESOLUTION:
-				phase = new ActionResolution(ws, gs, mds, bcs, bs);
+				phase = applicationContext.getBean(ActionResolution.class);
 				break;
 			default:
-				phase = new MineralExtraction(ws, gs, mds, bcs, bs);
+				phase = applicationContext.getBean(MineralExtraction.class);
 				break;
 		}
+		
 		return phase;
 	}
 	

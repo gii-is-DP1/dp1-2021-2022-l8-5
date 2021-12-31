@@ -10,6 +10,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.dwarf.game.CreateGameWhilePlayingException;
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GamePhaseEnum;
@@ -42,19 +43,18 @@ public class BoardController {
     private ResourcesService resourcesService;
     private WorkerService workerService;
     private PlayerService playerService;
-    private MountainDeckService mountainDeckService;
-    private BoardCellService boardCellService;
+    
+    @Autowired
+    private ApplicationContext applicationContext;
 
 	@Autowired
 	public BoardController(BoardService boardService, GameService gameService,
-			ResourcesService resourcesService, WorkerService workerService, PlayerService playerService, MountainDeckService mountainDeckService, BoardCellService boardCellService) {
+			ResourcesService resourcesService, WorkerService workerService, PlayerService playerService) {
 		this.boardService = boardService;
         this.gameService = gameService;
         this.resourcesService = resourcesService;
         this.workerService = workerService;
         this.playerService = playerService;
-        this.mountainDeckService = mountainDeckService;
-        this.boardCellService = boardCellService;
 	}
 	
 	@GetMapping()
@@ -116,6 +116,7 @@ public class BoardController {
 		}
     	
     	
+    	game.phaseResolution(this.applicationContext);
     	try {
 			gameService.saveGame(game);
 		} catch(CreateGameWhilePlayingException ex) {
