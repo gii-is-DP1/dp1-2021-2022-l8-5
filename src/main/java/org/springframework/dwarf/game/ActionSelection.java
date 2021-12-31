@@ -2,53 +2,24 @@ package org.springframework.dwarf.game;
 
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-
 import org.jpatterns.gof.StatePattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.dwarf.board.BoardCellService;
-import org.springframework.dwarf.board.BoardService;
-import org.springframework.dwarf.mountain_card.MountainDeckService;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.dwarf.worker.Worker;
 import org.springframework.dwarf.worker.WorkerService;
 import org.springframework.stereotype.Component;
 
-import ch.qos.logback.core.Context;
-
 @StatePattern.ConcreteState
-@org.springframework.stereotype.Component
+@Component
 public class ActionSelection implements GamePhase{
 	
-	
-	 
+	@Autowired
     private GameService gameService;
-    
+	@Autowired
     private WorkerService workerService;
     
-    private MountainDeckService mountainDeckService;
-    
-    private BoardCellService boardCellService;
-    
-    private BoardService boardService;
-    
-
-   @Autowired
-	public ActionSelection(WorkerService ws, GameService gs, MountainDeckService mountainDeckService, BoardCellService boardCellService, BoardService boardService) {
-		super();
-		this.gameService = gs;
-		this.workerService = ws;
-		this.mountainDeckService = mountainDeckService;
-		this.boardCellService = boardCellService;
-		this.boardService = boardService;
-	}
-    
-	
-
-
 	@Override
 	public void phaseResolution(Game game) {
 		Player currentPlayer = game.getCurrentPlayer();
@@ -78,7 +49,7 @@ public class ActionSelection implements GamePhase{
 		
 		Integer remainingWorkers = workerService.findNotPlacedAndGameId(game.getId()).size();
 		if (remainingWorkers.equals(0)) {
-			game.setPhase(new ActionResolution(workerService, gameService, mountainDeckService, boardCellService, boardService));	
+			game.setPhase(GamePhaseEnum.ACTION_RESOLUTION);	
 		}
 		
 		try {
