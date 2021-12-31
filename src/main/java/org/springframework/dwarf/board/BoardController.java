@@ -111,12 +111,12 @@ public class BoardController {
 
 	
    		if (game.getCurrentPhaseName() != GamePhaseEnum.ACTION_SELECTION) {
-			game.phaseResolution(workerService,gameService,mountainDeckService,boardCellService,boardService); //la linea 
+			game.phaseResolution(this.applicationContext);//la linea 
 			//ayuda se está haciendo más poderosa
 		}
     	
     	
-    	game.phaseResolution(this.applicationContext);
+    	
     	try {
 			gameService.saveGame(game);
 		} catch(CreateGameWhilePlayingException ex) {
@@ -130,7 +130,7 @@ public class BoardController {
     @PostMapping("{boardId}/game/{gameId}")
     public String postWorker(@ModelAttribute("myworker1") Worker myworker1, @PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, BindingResult result) {
 		Game game = gameService.findByGameId(gameId).get();
-		game.phaseResolution(workerService,gameService,mountainDeckService,boardCellService,boardService); //la linea 2
+		game.phaseResolution(this.applicationContext); //la linea 2
 		
 		if (result.hasErrors()) {
 			return "/board/board";
