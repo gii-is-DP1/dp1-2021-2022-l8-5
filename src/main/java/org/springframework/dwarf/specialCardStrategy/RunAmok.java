@@ -1,9 +1,20 @@
 package org.springframework.dwarf.specialCardStrategy;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.jpatterns.gof.StrategyPattern;
+import org.springframework.dwarf.board.Board;
+import org.springframework.dwarf.board.BoardCell;
+import org.springframework.dwarf.board.BoardCellService;
+import org.springframework.dwarf.board.BoardService;
 import org.springframework.dwarf.card.CardStrategy;
-import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.card.StrategyName;
+import org.springframework.dwarf.game.GameService;
+import org.springframework.dwarf.mountain_card.MountainCard;
+import org.springframework.dwarf.player.Player;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -11,10 +22,33 @@ import lombok.extern.slf4j.Slf4j;
 @StrategyPattern.ConcreteStrategy
 public class RunAmok implements CardStrategy {
 	
+	
+	//Barajar todas las cartas de cada posición y volver a colocarlas.
+	private GameService gs;
+	private BoardCellService bcs;
+	private BoardService bs;
+	
 	@Override
 	public void actions(Player player) {
 		log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
 		
+		Board tablero = gs.findBoardByGameId(gs.getCurrentGameId(player)).get();
+	
+		List<BoardCell> cartasTablero = tablero.getBoardCells();
+		
+		for(int i=0; i<cartasTablero.size(); i++) {
+			BoardCell celdai = cartasTablero.get(i);
+			List<MountainCard> cartasCeldai = celdai.getMountaincards();
+			
+			ArrayList<MountainCard> cartasCeldaiAux = new ArrayList<>(cartasCeldai);	//Shuffle necesita usar ArrayList, por eso este auxiliar
+			Collections.shuffle(cartasCeldaiAux);	//"Baraja" la lista de cartas de la celda i
+			
+			celdai.setMountaincards(cartasCeldaiAux.stream().collect(Collectors.toList()));
+			
+			bcs.saveBoardCell(celdai);
+		}
+		
+		bs.saveBoard(tablero);	
 	}
 
 	@Override
