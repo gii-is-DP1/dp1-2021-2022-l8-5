@@ -41,7 +41,7 @@ public class CollapseTheShafts implements CardStrategy {
 			List<MountainCard> cartasCeldai = celdai.getMountaincards();
 			if(cartasCeldai.size() > 1) {	//Si solo hay una carta en la celda no hacemos nada
 				MountainCard cartaArriba = cartasCeldai.get(0);
-				cartasCeldai.remove(0);
+				cartasCeldai.remove(0);		//Se puede hacer solo esto
 				cartasCeldai.add(cartaArriba);
 			}
 			bcs.saveBoardCell(celdai);
