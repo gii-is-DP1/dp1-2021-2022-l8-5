@@ -11,16 +11,11 @@ import org.springframework.dwarf.player.Player;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import lombok.Getter;
-import lombok.Setter;
-
 /**
  * @author Diego Ruiz Gil
  * @author Francisco Javier Migueles Domínguez
  */
 
-@Getter
-@Setter
 @Service
 public class GameService {
 	
