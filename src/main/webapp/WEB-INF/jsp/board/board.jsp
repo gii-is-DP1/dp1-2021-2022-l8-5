@@ -15,7 +15,21 @@
 	<h2><c:out value="Fase de la ronda: ${game.currentPhaseName.toString()}"/></h2>
 	
     <div class="row">
-        <div class="col-md-9">
+    	<div class="col-md-1" style="height: 600px; margin-top: 30px">
+    		<h3 class="text-center" style="height: 200px; padding-top: 90px">0</h3>
+       		<h3 class="text-center" style="height: 200px; padding-top: 90px">1</h3>
+       		<h3 class="text-center" style="height: 200px; padding-top: 90px">2</h3>
+    	</div>
+    
+        <div class="col-md-8">
+        	<div class="row">
+        		<h3 class="text-center" style="width: 150px; float: left">0</h3>
+        		<h3 class="text-center" style="width: 150px; float: left">1</h3>
+        		<h3 class="text-center" style="width: 150px; float: left">2</h3>
+        		<h3 class="text-center" style="width: 150px; float: left">3</h3>
+        		<h3 class="text-center" style="width: 150px; float: left">4</h3>
+        	</div>
+        
             <dwarf:board board="${board}"/>
             <c:forEach items="${board.specialDecks}" var="specialDeck">
             	<dwarf:specialDeck padding="20" xsize="130" ysize="180" specialDeck="${specialDeck}"/>
