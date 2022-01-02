@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 
@@ -28,6 +29,7 @@ public class User{
 	String password;
 	
 	@NotNull
+	@NotEmpty(message = "No puede estar vacio")
 	@Email
 	@Column(unique=true)
 	String email;

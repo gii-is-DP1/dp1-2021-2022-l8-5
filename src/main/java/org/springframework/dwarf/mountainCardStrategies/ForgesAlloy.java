@@ -53,7 +53,6 @@ public class ForgesAlloy implements CardStrategy{
 			try {
 				playerResources.setResource(rAmount.getResource(), rAmount.getAmount()*-1);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -67,7 +66,6 @@ public class ForgesAlloy implements CardStrategy{
 		try {
 			playerResources.setResource(receive.getResource(), receive.getAmount());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

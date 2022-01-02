@@ -82,6 +82,10 @@ public class UserController {
 					result.rejectValue ("email", " duplicate", "Email already exists");
 					return VIEWS_PLAYER_CREATE_FORM;
 					}
+			 catch (InvalidEmailException dp) {
+					result.rejectValue ("email", " invalid", "can't be empty");
+					return VIEWS_PLAYER_CREATE_FORM;
+					}
 		}
 	}
 

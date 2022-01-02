@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
 import org.springframework.stereotype.Service;
@@ -104,7 +105,7 @@ public class WorkerServiceTest {
 	}
 	
 	@Test
-	public void testSaveWorker() {
+	public void testSaveWorker() throws IllegalPositionException {
 		Worker WorkerTest = new Worker();
 		WorkerTest.setStatus(true);
 		WorkerTest.setXposition(3);

@@ -55,7 +55,6 @@ public class DragonsKnockers implements CardStrategy{
 		try {
 			playerResources.setResource(resourceType, amount);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

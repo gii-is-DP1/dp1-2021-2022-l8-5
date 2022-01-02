@@ -42,14 +42,12 @@ public class Shide implements CardStrategy{
 		try {
 			playerResources.setResource(ResourceType.GOLD, -2);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		try {
 			playerResources.setResource(ResourceType.IRON, 2);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

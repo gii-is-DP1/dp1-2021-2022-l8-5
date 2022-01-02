@@ -27,6 +27,7 @@ import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.user.AuthoritiesService;
 import org.springframework.dwarf.user.DuplicatedEmailException;
 import org.springframework.dwarf.user.DuplicatedUsernameException;
+import org.springframework.dwarf.user.InvalidEmailException;
 import org.springframework.dwarf.user.User;
 import org.springframework.dwarf.user.UserService;
 import org.springframework.dwarf.web.LoggedUserController;
@@ -95,6 +96,11 @@ public class PlayerController {
 				}
 			catch (DuplicatedEmailException dp) {
 					result.rejectValue ("email", "duplicate", "already exists");
+					return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
+					}
+			
+			 catch (InvalidEmailException dp) {
+					result.rejectValue ("email", " invalid", "can't be empty");
 					return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
 					}
 			}
@@ -190,7 +196,10 @@ public class PlayerController {
 			} catch (DuplicatedEmailException dp) {
 				result.rejectValue ("email", " duplicate", "already exists");
 				return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
-				}
+				}  catch (InvalidEmailException dp) {
+					result.rejectValue ("email", " invalid", "can't be empty");
+					return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
+					}
 		//this.playerService.savePlayer(player);
 	}
 	
