@@ -73,13 +73,13 @@ function check(){
     
 
 <!-- añadir al when que la fase sea la de seleccion de acciones -->
-    
+
     <c:choose>
 	    <c:when test="${myplayer == game.currentPlayer}">
 	    
 			<form:form modelAttribute="myworker" class="form-horizontal" id="add-player-form">
 			
-		        <div class="form-group has-feedback col-md-5">
+		        <div class="form-group has-feedback col-md-5" style="margin-top: 50px;">
 		            <dwarf:inputField label="Horizontal tile" name="xposition"/>
 		            <dwarf:inputField label="Vertical tile" name="yposition" />  
 		        </div>
