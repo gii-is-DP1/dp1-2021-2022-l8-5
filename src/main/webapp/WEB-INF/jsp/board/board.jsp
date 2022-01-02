@@ -60,35 +60,39 @@ function check(){
             <dwarf:mountainDeck padding="20" xsize="130" ysize="180" mountainDeck="${board.mountainDeck}"/> 
             
         </div>
-         <div class="col-md-3">
-        	<ul>
-				<dwarf:playerInfo player="${player1}" playerNumber="${1}" resources="${resourcesPlayer1}"/>
-				<dwarf:playerInfo player="${player2}" playerNumber="${2}" resources="${resourcesPlayer2}"/>
-				<dwarf:playerInfo player="${player3}" playerNumber="${3}" resources="${resourcesPlayer3}"/>
-        	</ul>
+         <div class="col-md-3" style="font-size:16px">
+				<img src="/resources/images/epicworker1.png"  width="60" height="60" style="float:left" id="player1IMG"><br>
+				&nbsp; <dwarf:playerInfo player="${player1}" playerNumber="${1}" resources="${resourcesPlayer1}"/><br>
+				<img src="/resources/images/epicworker2.png"  width="60" height="60" style="float:left" id="player2IMG"><br>
+				&nbsp; 	<dwarf:playerInfo player="${player2}" playerNumber="${2}" resources="${resourcesPlayer2}"/><br>
+				<img src="/resources/images/epicworker3.png"  width="60" height="60" style="float:left" id="player3IMG"><br>
+				&nbsp; <dwarf:playerInfo player="${player3}" playerNumber="${3}" resources="${resourcesPlayer3}"/><br>
+        	
          </div>
-         <img src="/resources/images/dwarfenenao_preview_rev_1.png"  width="250" height="250" style="float:right" id="miImagen">
+         
          
     </div>
     
 
 <!-- añadir al when que la fase sea la de seleccion de acciones -->
-    
+<div class="row">	
+	<div class="col-md-9">
     <c:choose>
 	    <c:when test="${myplayer == game.currentPlayer}">
-	    
-			<form:form modelAttribute="myworker" class="form-horizontal" id="add-player-form">
 			
-		        <div class="form-group has-feedback col-md-5">
+			<form:form modelAttribute="myworker" class="form-horizontal" id="add-player-form" >
+				
+		        <div class="form-group has-feedback col-md-5" style="margin-top: 25px;">
 		            <dwarf:inputField label="Horizontal tile" name="xposition"/>
 		            <dwarf:inputField label="Vertical tile" name="yposition" />  
-		        </div>
-		        
+		        </div>		        
+
 		        <div class="form-group">
 		            <div class="col-sm-offset-2 col-sm-10">
 		            	<button class="btn btn-default" type="submit" onclick="check()">Confirm action</button>
 		            </div>
 		        </div>
+				
 		        
 		    </form:form>
 	    </c:when>
@@ -96,7 +100,9 @@ function check(){
 	    
 	    </c:otherwise>
     </c:choose>
-    
+</div>
+	<img src="/resources/images/dwarfenenao_preview_rev_1.png"  width="250" height="250" style="float:right" id="miImagen">
+</div>
 </dwarf:layout>
 
 
