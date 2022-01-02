@@ -1,13 +1,17 @@
 package org.springframework.dwarf.board;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dwarf.game.CreateGameWhilePlayingException;
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GamePhaseEnum;
@@ -17,6 +21,7 @@ import org.springframework.dwarf.player.PlayerService;
 import org.springframework.dwarf.resources.Resources;
 import org.springframework.dwarf.resources.ResourcesService;
 import org.springframework.dwarf.web.LoggedUserController;
+import org.springframework.dwarf.worker.IllegalPositionException;
 import org.springframework.dwarf.worker.Worker;
 import org.springframework.dwarf.worker.WorkerService;
 import org.springframework.stereotype.Controller;
@@ -60,7 +65,7 @@ public class BoardController {
 	}
 
     @GetMapping("/game/{gameId}")
-    public String initBoardGame(@PathVariable("gameId") Integer gameId, ModelMap modelMap){
+    public String initBoardGame(@PathVariable("gameId") Integer gameId, ModelMap modelMap) throws IllegalPositionException{
     	Game game = gameService.findByGameId(gameId).get();
 		Board board = boardService.createBoard(game);
 		int i = 1;
@@ -97,6 +102,13 @@ public class BoardController {
     	modelMap.addAttribute("board", board);
     	modelMap.addAttribute("game", game);
     	
+    	
+    	List<Integer> xpos = Arrays.asList(1,2,3);
+    	List<Integer> ypos = Arrays.asList(0,1,2);
+    	
+    	modelMap.addAttribute("xpos", xpos);
+    	modelMap.addAttribute("ypos", ypos);
+    	
     	List<Worker> workers = new ArrayList<Worker>();
     	
     	for (int i = 0; i < game.getPlayersList().size(); i++) {
@@ -114,6 +126,7 @@ public class BoardController {
    		if (game.getCurrentPhaseName() != GamePhaseEnum.ACTION_SELECTION) {
 			game.phaseResolution(this.applicationContext);//la linea 
 			//ayuda se está haciendo más poderosa
+			//Entrada de diario: DIA 02/01/2021: La linea ha perdido poder
 		}
     	
     	
@@ -129,7 +142,7 @@ public class BoardController {
     
     
     @PostMapping("{boardId}/game/{gameId}")
-    public String postWorker(@ModelAttribute("myworker") Worker myworker, @PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, BindingResult result,Error errors) {
+    public String postWorker(@Valid Worker myworker, @PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, BindingResult result,Error errors) {
 		Game game = gameService.findByGameId(gameId).get();
 		game.phaseResolution(this.applicationContext); //la linea 2
 		
@@ -141,13 +154,13 @@ public class BoardController {
 			Player player = playerService.findPlayerByUserName(username);
 			List<Worker> workersNotPlaced = workerService.findNotPlacedByPlayerIdAndGameId(player.getId(), game.getId());
 			
-			return updatingWorker(workersNotPlaced.get(0).getId(), myworker, boardId, gameId, errors);
+			return updatingWorker(workersNotPlaced.get(0).getId(), myworker, boardId, gameId, errors,result);
 		}
     	
     }
     
     
-	private String updatingWorker(Integer workerId, Worker worker, Integer boardId,Integer gameId, Error errors) {
+	private String updatingWorker(Integer workerId, Worker worker, Integer boardId,Integer gameId, Error errors, BindingResult result) {
 		
 		String redirect = "redirect:/boards/"+ boardId +  "/game/"+gameId;
 		Worker workerFound = workerService.findByWorkerId(workerId).get();
@@ -160,7 +173,12 @@ public class BoardController {
 		boardCell.setCellOccupied(true);
 		workerFound.setStatus(true);
 	//	b.setCellOccupied(true);
-		this.workerService.saveWorker(workerFound);
+		try {
+			this.workerService.saveWorker(workerFound);
+		} catch (IllegalPositionException e) {
+			result.rejectValue ("xposition", " invalid", "can't be empty");
+			return "/board/board";
+		}
 		this.boardCellService.saveBoardCell(boardCell);
 		this.boardService.saveBoard(boardService.findByBoardId(boardId).get());
 		

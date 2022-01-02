@@ -19,6 +19,7 @@ package org.springframework.dwarf.worker;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -79,7 +80,7 @@ public class WorkerController {
 
 	@PostMapping(value = "/update/{workerId}")
 	public String processUpdateOwnerForm(@Valid Worker Worker, BindingResult result,
-			@PathVariable("workerId") int WorkerId) {
+			@PathVariable("workerId") int WorkerId) throws IllegalPositionException {
 		if (result.hasErrors()) {
 			return VIEWS_Worker_CREATE_OR_UPDATE_FORM;
 		}

@@ -27,6 +27,7 @@ import org.springframework.dwarf.resources.ResourcesService;
 import org.springframework.dwarf.user.AuthoritiesService;
 import org.springframework.dwarf.user.DuplicatedEmailException;
 import org.springframework.dwarf.user.DuplicatedUsernameException;
+import org.springframework.dwarf.user.InvalidEmailException;
 import org.springframework.dwarf.user.UserService;
 import org.springframework.dwarf.worker.WorkerService;
 import org.springframework.stereotype.Service;
@@ -87,13 +88,17 @@ public class PlayerService {
 	}
 
 	@Transactional(rollbackFor = DuplicatedUsernameException.class)
-	public void savePlayer(Player player) throws DataAccessException, DuplicatedUsernameException, DuplicatedEmailException {
+	public void savePlayer(Player player) throws DataAccessException, DuplicatedUsernameException, DuplicatedEmailException, InvalidEmailException {
 		if (getusernameDuplicated(player)){
 			throw new DuplicatedUsernameException();
 		}
 		if (getEmailDuplicated(player)){
 			throw new DuplicatedEmailException();
 		}
+		if (getEmailInvalid(player)){
+			throw new InvalidEmailException();
+		}
+		
 		//creating owner
 		playerRepository.save(player);		
 		//creating user
@@ -120,6 +125,13 @@ public class PlayerService {
 		res = res && otherPlayer.getEmail().equals(player.getEmail());
 		return res;	
 	}
+	
+	public Boolean getEmailInvalid(Player player){
+		Boolean res=true;
+		res= res && player.getEmail().isBlank();
+		return res;	
+	}
+	
 	
 	
 	/*

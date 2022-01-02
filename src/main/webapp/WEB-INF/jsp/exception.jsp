@@ -10,5 +10,9 @@
     <h2>Something went wrong my man...</h2>
 
     <p>${exception.message}</p>
+    
+     <button onclick="history.back()">
+        Click here to go back
+    </button>
 
 </dwarf:layout>

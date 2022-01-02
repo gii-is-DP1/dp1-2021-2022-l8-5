@@ -9,18 +9,6 @@
 
 <!-- %@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %-->  
 
-<script type="text/javascript">
-function check(){
-	 var x = document.getElementById('xposition').value;
-	 var y = document.getElementById('yposition').value;
-	if (1<=x<=3) {
-		alert("Los valores de horizontal title deben ser de 1 a 3");
-	}
-	else if(0<=y<=2)
-		alert("Los valores de vertical title deben ser de 0 a 2");
-}
-</script>
-
 <dwarf:layout pageName="board">
 	
 	<h2><c:out value="Turno para: ${game.currentPlayer.username}"/></h2>
@@ -82,11 +70,23 @@ function check(){
 			
 			<form:form modelAttribute="myworker" class="form-horizontal" id="add-player-form" >
 				
-		        <div class="form-group has-feedback col-md-5" style="margin-top: 25px;">
-		            <dwarf:inputField label="Horizontal tile" name="xposition"/>
-		            <dwarf:inputField label="Vertical tile" name="yposition" />  
-		        </div>		        
-
+		        <div class="form-group has-feedback col-md-5">
+		          	<h2>Horizontal position</h2>
+		            <form:select  path="xposition" title="Horizontal position">
+					    <form:option value="NONE"> --SELECT--</form:option>
+					    <form:options items="${xpos}"></form:options>
+				    </form:select>
+				    <br/>
+			     <br/>
+			     <h2>Vertical position</h2>
+    	            <form:select  path="yposition" title="Vertical position">
+					    <form:option value="NONE"> --SELECT--</form:option>
+					    <form:options items="${ypos}"></form:options>
+				    </form:select>
+				    
+		             <span class="help-inline"><form:errors path="*"/></span>
+		        </div>
+		        
 		        <div class="form-group">
 		            <div class="col-sm-offset-2 col-sm-10">
 		            	<button class="btn btn-default" type="submit" onclick="check()">Confirm action</button>

@@ -27,10 +27,8 @@ public class OrcRaiders implements CardStrategy{
 		try {
 			gameService.saveGame(game);
 		} catch (DataAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (CreateGameWhilePlayingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -91,14 +91,30 @@ public class WorkerService {
 		Workers.stream().forEach(worker -> delete(worker));
 	}
 	
-	@Transactional
-	public void saveWorker(Worker worker) throws DataAccessException {
+	@Transactional(rollbackFor = IllegalPositionException.class)
+	public void saveWorker(Worker worker) throws DataAccessException, IllegalPositionException {
+		if(getWorkerInvalid(worker)) {
+			throw new IllegalPositionException();
+		}
+		
 		workerRepo.save(worker);		
 
 	}
 	
+	public Boolean getWorkerInvalid(Worker worker){
+		Boolean res=false;
+		if (worker.xposition==null || worker.yposition==null) {
+			return false;
+		} else {
+		res = res || !(worker.xposition>=1 && worker.xposition<=3);
+		res = res || !(worker.yposition>=0 && worker.yposition<=2);
+		return res;	
+		}
+	}
+	
+	
 	@Transactional
-	public void createPlayerWorkers(Player player, Game game, Integer imageNumber) {
+	public void createPlayerWorkers(Player player, Game game, Integer imageNumber) throws IllegalPositionException {
 		Worker playerWorker1 = new Worker(player, game, imageNumber);
 		Worker playerWorker2 = new Worker(player, game, imageNumber);
 		this.saveWorker(playerWorker1);
