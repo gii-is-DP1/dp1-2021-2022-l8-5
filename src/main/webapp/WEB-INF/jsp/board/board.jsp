@@ -9,6 +9,18 @@
 
 <!-- %@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %-->  
 
+<script type="text/javascript">
+function check(){
+	 var x = document.getElementById('xposition').value;
+	 var y = document.getElementById('yposition').value;
+	if (1<=x<=3) {
+		alert("Los valores de horizontal title deben ser de 1 a 3");
+	}
+	else if(0<=y<=2)
+		alert("Los valores de vertical title deben ser de 0 a 2");
+}
+</script>
+
 <dwarf:layout pageName="board">
 	
 	<h2><c:out value="Turno para: ${game.currentPlayer.username}"/></h2>
@@ -69,12 +81,12 @@
 			
 		        <div class="form-group has-feedback col-md-5">
 		            <dwarf:inputField label="Horizontal tile" name="xposition"/>
-		            <dwarf:inputField label="Vertical tile" name="yposition"/>  
+		            <dwarf:inputField label="Vertical tile" name="yposition" />  
 		        </div>
 		        
 		        <div class="form-group">
 		            <div class="col-sm-offset-2 col-sm-10">
-		            	<button class="btn btn-default" type="submit">Confirm action</button>
+		            	<button class="btn btn-default" type="submit" onclick="check()">Confirm action</button>
 		            </div>
 		        </div>
 		        
@@ -86,3 +98,5 @@
     </c:choose>
     
 </dwarf:layout>
+
+
