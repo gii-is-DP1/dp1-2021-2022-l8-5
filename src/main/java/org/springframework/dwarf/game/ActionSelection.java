@@ -27,11 +27,6 @@ public class ActionSelection implements GamePhase{
 		// runs only once
 		if (!currentPlayer.equals(loggedUser))
 			return;
-				
-		Integer remainingWorkers = workerService.findNotPlacedByGameId(game.getId()).size();
-		if (remainingWorkers.equals(0)) {
-			game.setPhase(GamePhaseEnum.ACTION_RESOLUTION);	
-		}
 		
 		try {
 			changeCurrentPlayer(game);
