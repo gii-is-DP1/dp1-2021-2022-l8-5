@@ -20,6 +20,9 @@ import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
 import org.springframework.dwarf.resources.Resources;
 import org.springframework.dwarf.resources.ResourcesService;
+import org.springframework.dwarf.user.DuplicatedEmailException;
+import org.springframework.dwarf.user.DuplicatedUsernameException;
+import org.springframework.dwarf.user.InvalidEmailException;
 import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.dwarf.worker.IllegalPositionException;
 import org.springframework.dwarf.worker.Worker;
@@ -74,11 +77,31 @@ public class BoardController {
 			workerService.createPlayerWorkers(p, game, i);
 			i = i+1;
 		}
-        
+		this.setTurns(game.getPlayersList());
+		
 		String redirect = "redirect:/boards/"+board.getId()+"/game/"+gameId;
 	    return redirect;
 	    
 	}
+    
+    private void setTurns(List<Player> players) {
+    	Integer turn = 1;
+    	for(Player player: players) {
+    		player.setTurn(turn);
+    		
+    		try {
+				playerService.savePlayer(player);
+			} catch (DuplicatedUsernameException e) {
+				e.printStackTrace();
+			} catch (DuplicatedEmailException e) {
+				e.printStackTrace();
+			} catch (InvalidEmailException e) {
+				e.printStackTrace();
+			}
+    		
+    		turn ++;
+    	}
+    }
     
     @GetMapping("{boardId}/game/{gameId}")
     public String boardGame(@PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, ModelMap modelMap, HttpServletResponse response) {
@@ -124,12 +147,8 @@ public class BoardController {
 
 	
    		if (game.getCurrentPhaseName() != GamePhaseEnum.ACTION_SELECTION) {
-			game.phaseResolution(this.applicationContext);//la linea 
-			//ayuda se está haciendo más poderosa
-			//Entrada de diario: DIA 02/01/2021: La linea ha perdido poder
+			game.phaseResolution(this.applicationContext);
 		}
-    	
-    	
     	
     	try {
 			gameService.saveGame(game);
@@ -144,7 +163,7 @@ public class BoardController {
     @PostMapping("{boardId}/game/{gameId}")
     public String postWorker(@Valid Worker myworker, @PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, BindingResult result,Error errors) {
 		Game game = gameService.findByGameId(gameId).get();
-		game.phaseResolution(this.applicationContext); //la linea 2
+		game.phaseResolution(this.applicationContext);
 		
 		if (result.hasErrors()) {
 			return "/board/board";

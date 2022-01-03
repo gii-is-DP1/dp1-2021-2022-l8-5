@@ -75,7 +75,6 @@ public class BoardService {
 			}
 		}
 		
-		
 		Board board = new Board(cells, mountainDeck, game, specialDecks);
 		
 		boardRepo.save(board);

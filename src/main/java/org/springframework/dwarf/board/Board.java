@@ -68,4 +68,11 @@ public class Board extends BaseEntity{
         this.game = game;
         this.specialDecks = specialDecks;
     }
+    
+    public BoardCell getBoardCell(Integer xposition, Integer yposition) {
+    	// xposition -> [1,3]
+    	// yposition -> [0,2]
+    	Integer index = (xposition-1)+(3*yposition);
+    	return this.getBoardCells().get(index);
+    }
 }

@@ -26,7 +26,7 @@ public class Seam implements CardStrategy {
 	private Integer amountToAdd;
 	private ResourceType resource;
 	
-	public Seam(String cardName) {
+	public void setResources(String cardName) {
 		if(cardName.equals("Iron Seam")){
 			this.amountToAdd = 3;
 			this.resource = ResourceType.IRON;

@@ -27,7 +27,7 @@ public class DragonsKnockers implements CardStrategy{
 	@Autowired
 	private ResourcesService resourcesService;
 	
-	public DragonsKnockers(String cardName) {
+	public void setResources(String cardName) {
 		if(cardName.equals("Great Dragon")) {
 			this.resourceType = ResourceType.GOLD;
 			this.amount = null; // null means all amount the player has

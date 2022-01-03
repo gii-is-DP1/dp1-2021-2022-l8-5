@@ -118,7 +118,6 @@ public class GameController {
 	public String joinGame(@PathVariable("gameId") Integer gameId, ModelMap modelMap, ModelAndView modelAndView, HttpServletResponse response) {
 		response.addHeader("Refresh", "2");
 		
-		
 		String view = "games/waitingPlayers";
 		
 		Game game = gameService.findByGameId(gameId).get();
