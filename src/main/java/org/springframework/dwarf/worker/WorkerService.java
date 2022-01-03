@@ -24,7 +24,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dwarf.game.Game;
-import org.springframework.dwarf.game.GameRepository;
 import org.springframework.dwarf.player.Player;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,10 +76,15 @@ public class WorkerService {
 	public List<Worker> findNotPlacedByPlayerIdAndGameId(int pid, int gid){
 		return workerRepo.findNotPlacedByPlayerIdAndGameId(pid, gid);
 	}
-	public List<Worker> findNotPlacedAndGameId(int gid){
-		return workerRepo.findNotPlacedByameId(gid);
+	
+	public List<Worker> findNotPlacedByGameId(int gid){
+		return workerRepo.findNotPlacedByGameId(gid);
 	}
 	
+	// needs test
+	public List<Worker> findPlacedByGameId(int gid){
+		return workerRepo.findPlacedByGameId(gid);
+	}
 	
 	public void delete(Worker worker) {
 		workerRepo.delete(worker);

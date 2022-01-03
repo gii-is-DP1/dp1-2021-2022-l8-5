@@ -77,7 +77,7 @@ public class WorkerServiceTest {
 	public void tesFfindNotPlacedAndGameId() {
 		int gid = 1;
 		
-		Collection<Worker> Worker = workerService.findNotPlacedAndGameId(gid);
+		Collection<Worker> Worker = workerService.findNotPlacedByGameId(gid);
 		assertThat(Worker.size()).isEqualTo(1);
 		
 	}

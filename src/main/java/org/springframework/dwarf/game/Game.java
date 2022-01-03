@@ -2,6 +2,7 @@ package org.springframework.dwarf.game;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -17,6 +18,7 @@ import org.jpatterns.gof.StatePattern;
 import org.springframework.context.ApplicationContext;
 import org.springframework.dwarf.model.BaseEntity;
 import org.springframework.dwarf.player.Player;
+import org.springframework.dwarf.player.PlayerComparator;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -116,6 +118,13 @@ public class Game extends BaseEntity{
 			pList.add(this.secondPlayer);
 		if(this.thirdPlayer != null)
 			pList.add(this.thirdPlayer);
+		
+		return pList;
+	}
+	
+	public List<Player> getTurnList(){
+		List<Player> pList = this.getPlayersList();
+		Collections.sort(pList, new PlayerComparator());
 		
 		return pList;
 	}

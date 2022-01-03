@@ -20,6 +20,9 @@ public interface WorkerRepository extends  CrudRepository<Worker, Integer>{
     public List<Worker> findNotPlacedByPlayerIdAndGameId(@Param("playerId") int playerId, @Param("gameId") int gameId);
     
     @Query("SELECT worker FROM Worker worker WHERE worker.game.id =:gameId AND worker.status = false")
-    public List<Worker> findNotPlacedByameId(@Param("gameId") int gameId);
+    public List<Worker> findNotPlacedByGameId(@Param("gameId") int gameId);
+    
+    @Query("SELECT worker FROM Worker worker WHERE worker.game.id =:gameId AND worker.status = true")
+    public List<Worker> findPlacedByGameId(@Param("gameId") int gameId);
     
 }
