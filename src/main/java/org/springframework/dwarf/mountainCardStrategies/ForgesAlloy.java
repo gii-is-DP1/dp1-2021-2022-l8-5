@@ -42,6 +42,8 @@ public class ForgesAlloy implements CardStrategy{
 		playerResources = this.receiveResources(playerResources);
 		
 		resourcesService.saveResources(playerResources);
+		
+		// change players turn if you are the first (not if the card is alloy steel)
 	}
 	
 	public void setResourcesGivenRecived(String cardName) {

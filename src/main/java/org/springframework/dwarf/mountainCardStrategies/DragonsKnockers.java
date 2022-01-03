@@ -1,11 +1,13 @@
 package org.springframework.dwarf.mountainCardStrategies;
 
 import org.jpatterns.gof.StrategyPattern;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dwarf.card.CardStrategy;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.resources.ResourceType;
 import org.springframework.dwarf.resources.Resources;
 import org.springframework.dwarf.resources.ResourcesService;
+import org.springframework.stereotype.Component;
 import org.springframework.dwarf.card.StrategyName;
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
@@ -14,12 +16,15 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @StrategyPattern.ConcreteStrategy
+@Component
 public class DragonsKnockers implements CardStrategy{
 	
 	private ResourceType resourceType;
 	private Integer amount;
 	
+	@Autowired
 	private GameService gameService;
+	@Autowired
 	private ResourcesService resourcesService;
 	
 	public DragonsKnockers(String cardName) {
@@ -45,6 +50,12 @@ public class DragonsKnockers implements CardStrategy{
 			this.removeResources(p, game);
 		}
 		
+		Resources playerDefenderResources = resourcesService.findByPlayerIdAndGameId(player.getId(),game.getId()).get();
+		try {
+			playerDefenderResources.setResource(ResourceType.BADGE, 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void removeResources(Player player, Game game) {

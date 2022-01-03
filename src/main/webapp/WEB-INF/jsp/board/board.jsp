@@ -66,7 +66,7 @@
 <div class="row">	
 	<div class="col-md-9">
     <c:choose>
-	    <c:when test="${myplayer == game.currentPlayer}">
+	    <c:when test="${myplayer == game.currentPlayer && myworker != null}">
 			
 			<form:form modelAttribute="myworker" class="form-horizontal" id="add-player-form" >
 				

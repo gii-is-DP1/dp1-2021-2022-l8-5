@@ -9,25 +9,23 @@ import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.resources.ResourceType;
 import org.springframework.dwarf.resources.Resources;
 import org.springframework.dwarf.resources.ResourcesService;
+import org.springframework.stereotype.Component;
 import org.springframework.dwarf.card.StrategyName;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @StrategyPattern.ConcreteStrategy
+@Component
 public class Seam implements CardStrategy {
-	ResourcesService resourcesService;
-	GameService gameService;
+	@Autowired
+	private ResourcesService resourcesService;
+	@Autowired
+	private GameService gameService;
 
 	private Integer amountToAdd;
 	private ResourceType resource;
 	
-	@Autowired
-	public Seam(ResourcesService resourcesService, GameService gameService) {
-		this.resourcesService= resourcesService;
-		this.gameService = gameService;
-	}
-
 	public Seam(String cardName) {
 		if(cardName.equals("Iron Seam")){
 			this.amountToAdd = 3;

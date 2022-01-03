@@ -2,7 +2,6 @@ package org.springframework.dwarf.mountainCardStrategies;
 
 import org.jpatterns.gof.StrategyPattern;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dwarf.card.CardStrategy;
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
@@ -11,20 +10,18 @@ import org.springframework.dwarf.card.StrategyName;
 import org.springframework.dwarf.worker.IllegalPositionException;
 import org.springframework.dwarf.worker.Worker;
 import org.springframework.dwarf.worker.WorkerService;
+import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @StrategyPattern.ConcreteStrategy
+@Component
 public class GetHelp implements CardStrategy{
-	WorkerService workerService;
-	GameService gameService;
-	
 	@Autowired
-	public GetHelp (WorkerService workerService, GameService gameService) {
-		this.workerService= workerService;
-		this.gameService = gameService;
-	}
+	private WorkerService workerService;
+	@Autowired
+	private GameService gameService;
 
 	@Override
 	public void actions(Player player) throws IllegalPositionException {
@@ -36,6 +33,8 @@ public class GetHelp implements CardStrategy{
 		
 		workerService.saveWorker(extraWorker1);
 		workerService.saveWorker(extraWorker2);
+		
+		// change players turn if you are the first
 	}
 
 	@Override
