@@ -46,7 +46,16 @@ public class Player extends Person {
 	@NotEmpty
 	String avatarUrl;
 	
-
+	@Range(min=1,max=3)
+	Integer turn;
+	
+	public Integer getTurn() {
+		return turn;
+	}
+	
+	public void setTurn(Integer turn) {
+		this.turn = turn;
+	}
 	
 	public User getUser() {
 		return user;

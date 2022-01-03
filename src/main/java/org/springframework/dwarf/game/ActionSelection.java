@@ -28,7 +28,7 @@ public class ActionSelection implements GamePhase{
 		if (!currentPlayer.equals(loggedUser))
 			return;
 				
-		Integer remainingWorkers = workerService.findNotPlacedAndGameId(game.getId()).size();
+		Integer remainingWorkers = workerService.findNotPlacedByGameId(game.getId()).size();
 		if (remainingWorkers.equals(0)) {
 			game.setPhase(GamePhaseEnum.ACTION_RESOLUTION);	
 		}
@@ -39,14 +39,14 @@ public class ActionSelection implements GamePhase{
 			e.printStackTrace();
 		}
 		
-		List<Worker> notPlacedWorkers = workerService.findNotPlacedAndGameId(game.getId());
+		List<Worker> notPlacedWorkers = workerService.findNotPlacedByGameId(game.getId());
 		// last worker to be placed
 		if(notPlacedWorkers.size()==1)
 			game.setPhase(GamePhaseEnum.ACTION_RESOLUTION);
 	}
 	
 	private void changeCurrentPlayer(Game game) throws CreateGameWhilePlayingException {
-		List<Player> turn = game.getPlayersList();
+		List<Player> turn = game.getTurnList();
 		Player currentPlayer = game.getCurrentPlayer();
 
 		Integer index = turn.indexOf(currentPlayer);

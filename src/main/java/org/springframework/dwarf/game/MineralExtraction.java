@@ -13,6 +13,8 @@ import org.springframework.dwarf.mountain_card.MountainCard;
 import org.springframework.dwarf.mountain_card.MountainDeck;
 import org.springframework.dwarf.mountain_card.MountainDeckService;
 import org.springframework.dwarf.web.LoggedUserController;
+import org.springframework.dwarf.worker.Worker;
+import org.springframework.dwarf.worker.WorkerService;
 import org.springframework.stereotype.Component;
 
 @StatePattern.ConcreteState
@@ -27,6 +29,8 @@ public class MineralExtraction implements GamePhase{
     private BoardCellService boardCellService;
 	@Autowired
     private BoardService boardService;
+	@Autowired
+	private WorkerService workerService;
 
 	@Override
     public void phaseResolution(Game game) {
@@ -35,7 +39,7 @@ public class MineralExtraction implements GamePhase{
 		if(game.getFirstPlayer()!=LoggedUserController.loggedPlayer())
 			return;
 		
-		// remove workers from board
+		this.removeWorkers(game);
 		
     	// picks two randoms cards
         MountainDeck mountaindeck = gameService.searchDeckByGameId(game.getId()).get();
@@ -56,13 +60,18 @@ public class MineralExtraction implements GamePhase{
     	List<BoardCell> boardcells = board.getBoardCells();
     	
     	for (BoardCell b : boardcells) {
-    		setCard(mountaincard1, b);
-    		setCard(mountaincard2, b);
+    		this.setCard(mountaincard1, b);
+    		this.setCard(mountaincard2, b);
     	}
     	
     	boardService.saveBoard(board);
     	game.setPhase(GamePhaseEnum.ACTION_SELECTION);
     }
+	
+	private void removeWorkers(Game game) {
+		List<Worker> workersPlaced = workerService.findPlacedByGameId(game.getId());
+		
+	}
     
     private void setCard(MountainCard mountaincard, BoardCell boardcell) {
 		List<MountainCard> cellcards = boardcell.getMountaincards();
