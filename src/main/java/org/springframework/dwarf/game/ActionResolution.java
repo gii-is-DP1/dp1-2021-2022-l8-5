@@ -21,7 +21,7 @@ public class ActionResolution implements GamePhase{
 
 	@Override
 	public void phaseResolution(Game game) {
-		
+		/*
 		Integer gameId = game.getId();
 		List<Player> players = gameService.searchPlayersByGame(gameId);	//Todos los jugadores del game
 		
@@ -36,9 +36,9 @@ public class ActionResolution implements GamePhase{
 				//Comprobaciones de posiciones y resolucion de acciones de las cartas pendiente (Strategy)
 				//ojito hay que quitar posiciones de workers y el atributo de boarcell ponerlo a false
 			}
-		}
+		}*/
 		
-		game.setPhase(GamePhaseEnum.MINERAL_EXTRACTION);
+		//game.setPhase(GamePhaseEnum.MINERAL_EXTRACTION);
 	}
 
 	@Override

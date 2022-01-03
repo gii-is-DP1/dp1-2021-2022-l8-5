@@ -9,21 +9,20 @@ import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.resources.ResourceType;
 import org.springframework.dwarf.resources.Resources;
 import org.springframework.dwarf.resources.ResourcesService;
+import org.springframework.stereotype.Component;
 import org.springframework.dwarf.card.StrategyName;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @StrategyPattern.ConcreteStrategy
+@Component
 public class Shide implements CardStrategy{
 	
-	private GameService gameService;
-	private ResourcesService resourcesService;
-	
 	@Autowired
-	public Shide(GameService gameService) {
-		this.gameService = gameService;
-	}
+	private GameService gameService;
+	@Autowired
+	private ResourcesService resourcesService;
 	
 	@Override
 	public void actions(Player player) {
@@ -33,6 +32,13 @@ public class Shide implements CardStrategy{
 		
 		for(Player p: game.getPlayersList()) {
 			this.exchangeResources(p, game);
+		}
+		
+		Resources playerDefenderResources = resourcesService.findByPlayerIdAndGameId(player.getId(),game.getId()).get();
+		try {
+			playerDefenderResources.setResource(ResourceType.BADGE, 1);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	

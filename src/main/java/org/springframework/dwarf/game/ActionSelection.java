@@ -7,6 +7,7 @@ import org.jpatterns.gof.StatePattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.web.LoggedUserController;
+import org.springframework.dwarf.worker.Worker;
 import org.springframework.dwarf.worker.WorkerService;
 import org.springframework.stereotype.Component;
 
@@ -26,27 +27,11 @@ public class ActionSelection implements GamePhase{
 		// runs only once
 		if (!currentPlayer.equals(loggedUser))
 			return;
-
-		//TODO Los jugadores tienen que colocar sus trabajadores
-		
-
-		//List<Player> players = game.getPlayersList();	
-
-		/*
-		for(int i=0; i<players.size(); i++) {
-			List<Worker> workers = new ArrayList<Worker>(workerService.findByPlayerIdAndGameId(game.getId(), players.get(i).getId()));
-			
-			for(int j=0; j<workers.size(); j++) {
-				Worker w = workers.get(j);		//Worker j del player i;
-				
-			}
-		}*/
 				
 		Integer remainingWorkers = workerService.findNotPlacedAndGameId(game.getId()).size();
 		if (remainingWorkers.equals(0)) {
 			game.setPhase(GamePhaseEnum.ACTION_RESOLUTION);	
 		}
-		
 		
 		try {
 			changeCurrentPlayer(game);
@@ -54,6 +39,10 @@ public class ActionSelection implements GamePhase{
 			e.printStackTrace();
 		}
 		
+		List<Worker> notPlacedWorkers = workerService.findNotPlacedAndGameId(game.getId());
+		// last worker to be placed
+		if(notPlacedWorkers.size()==1)
+			game.setPhase(GamePhaseEnum.ACTION_RESOLUTION);
 	}
 	
 	private void changeCurrentPlayer(Game game) throws CreateGameWhilePlayingException {
