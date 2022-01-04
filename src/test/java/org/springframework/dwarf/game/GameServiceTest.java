@@ -69,6 +69,12 @@ public class GameServiceTest {
 
 		assertThat(playerGames.size()).isEqualTo(1);
 	}
+//	@Test
+//	@DisplayName("Return the player game")
+//	void testFindPlayerGame() {
+//		Player player =playerService.findPlayerById(0)
+//	}
+//	
 	
 	@Test
 	@DisplayName("Returns all the players from the game")
