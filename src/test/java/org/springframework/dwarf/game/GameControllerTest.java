@@ -15,8 +15,10 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.dwarf.configuration.SecurityConfiguration;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
+import org.springframework.dwarf.user.AuthoritiesService;
 import org.springframework.dwarf.user.User;
 import org.springframework.dwarf.user.UserService;
+import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.dwarf.worker.Worker;
 import org.springframework.dwarf.worker.WorkerController;
 import org.springframework.dwarf.worker.WorkerService;
@@ -42,6 +44,9 @@ public class GameControllerTest {
 	
 	@MockBean
 	private GameService gameService;
+	
+	@MockBean
+	private AuthoritiesService authoritiesService;
 	
 	@MockBean
 	private PlayerService playerService;

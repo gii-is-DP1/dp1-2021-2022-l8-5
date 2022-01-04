@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dwarf.board.Board;
 import org.springframework.dwarf.player.Player;
+import org.springframework.dwarf.player.PlayerService;
 import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -25,8 +26,14 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/games")
 public class GameController {
 	
-	@Autowired
 	private GameService gameService;
+	private PlayerService playerService;
+
+	@Autowired
+	public GameController(GameService gameService, PlayerService playerService) {
+		this.gameService = gameService;
+		this.playerService = playerService;
+	}
 	
 	@GetMapping()
 	public String listGames(ModelMap modelMap) {
@@ -71,7 +78,7 @@ public class GameController {
 	@GetMapping("/searchGames")
 	public String searchGames(ModelMap modelMap) {
 		String view  = "games/searchOrCreateGames";
-		Player currentPlayer = LoggedUserController.loggedPlayer();
+		Player currentPlayer = this.loggedPlayer();
 		Integer currentGameId = gameService.getCurrentGameId(currentPlayer);
 		Optional<Board> currentBoard =gameService.findBoardByGameId(currentGameId);
 		if (gameService.alreadyInGame(currentPlayer) && currentBoard.isPresent()){			
@@ -136,6 +143,13 @@ public class GameController {
 		
 
 		return view;
+	}
+	
+	private Player loggedPlayer() {
+		String playerUsername = LoggedUserController.returnLoggedUserName();
+		Player player = playerService.findPlayerByUserName(playerUsername);
+
+		return player;
 	}
 
     private Boolean amIFirstPlayer(Game game){

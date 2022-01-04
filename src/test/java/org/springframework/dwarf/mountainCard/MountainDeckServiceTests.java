@@ -88,6 +88,8 @@ class MountainDeckServiceTests {
 		Iterable<MountainDeck> mountainDecks = this.mountainDeckService.findAll();
 		Long founds = mountainDecks.spliterator().getExactSizeIfKnown();
 		
+		this.mountainDeckService.createMountainDeck();
+		
 		Iterable<MountainDeck> mountainDecksAfterCreate = this.mountainDeckService.findAll();
 		Long foundsAfterCreate = mountainDecksAfterCreate.spliterator().getExactSizeIfKnown();
 		
