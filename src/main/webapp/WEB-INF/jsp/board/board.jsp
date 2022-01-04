@@ -68,6 +68,7 @@
     <c:choose>
 	    <c:when test="${myplayer == game.currentPlayer && myworker != null}">
 			
+			<!--  
 			<form:form modelAttribute="myworker" class="form-horizontal" id="add-player-form" >
 				
 		        <div class="form-group has-feedback col-md-5">
@@ -92,9 +93,111 @@
 		            	<button class="btn btn-default" type="submit" onclick="check()">Confirm action</button>
 		            </div>
 		        </div>
+		        
+		        
 				
 		        
 		    </form:form>
+		    -->
+
+		    <form:form class="form-horizontal" id="add-player-form">
+				<div class="form-group text-center">
+				
+					<h2>Select the tile where you'll place your worker</h2>
+					
+					<div class="row-md-3">
+					
+					<c:choose>
+						<c:when test="${board.boardCells.get(0).cellOccupied}">
+							<button disabled class="btn btn-default" type="submit" onclick="check()" name="pos" value="1,0">1</button>
+						</c:when>
+						<c:otherwise>
+							<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="1,0">1</button>
+						</c:otherwise>
+					</c:choose>
+					
+					<c:choose>
+						<c:when test="${board.boardCells.get(1).cellOccupied}">
+							<button disabled class="btn btn-default" type="submit" onclick="check()" name="pos" value="2,0">2</button>
+						</c:when>
+						<c:otherwise>
+							<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="2,0">2</button>
+						</c:otherwise>
+					</c:choose>
+					
+					<c:choose>
+						<c:when test="${board.boardCells.get(2).cellOccupied}">
+							<button disabled class="btn btn-default" type="submit" onclick="check()" name="pos" value="3,0">3</button>
+						</c:when>
+						<c:otherwise>
+							<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="3,0">3</button>
+						</c:otherwise>
+					</c:choose>
+					
+					</div>
+					<div class="row-md-3">
+					
+					<c:choose>
+						<c:when test="${board.boardCells.get(3).cellOccupied}">
+							<button disabled class="btn btn-default" type="submit" onclick="check()" name="pos" value="1,1">4</button>
+						</c:when>
+						<c:otherwise>
+							<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="1,1">4</button>
+						</c:otherwise>
+					</c:choose>
+					
+					<c:choose>
+						<c:when test="${board.boardCells.get(4).cellOccupied}">
+							<button disabled class="btn btn-default" type="submit" onclick="check()" name="pos" value="2,1">5</button>
+						</c:when>
+						<c:otherwise>
+							<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="2,1">5</button>
+						</c:otherwise>
+					</c:choose>
+					
+					<c:choose>
+						<c:when test="${board.boardCells.get(5).cellOccupied}">
+							<button disabled class="btn btn-default" type="submit" onclick="check()" name="pos" value="3,1">6</button>
+						</c:when>
+						<c:otherwise>
+							<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="3,1">6</button>
+						</c:otherwise>
+					</c:choose>
+					
+					</div>
+					<div class="row-md-3">
+					
+					<c:choose>
+						<c:when test="${board.boardCells.get(6).cellOccupied}">
+							<button disabled class="btn btn-default" type="submit" onclick="check()" name="pos" value="1,2">7</button>
+						</c:when>
+						<c:otherwise>
+							<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="1,2">7</button>
+						</c:otherwise>
+					</c:choose>
+					
+					<c:choose>
+						<c:when test="${board.boardCells.get(7).cellOccupied}">
+							<button disabled class="btn btn-default" type="submit" onclick="check()" name="pos" value="2,2">8</button>
+						</c:when>
+						<c:otherwise>
+							<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="2,2">8</button>
+						</c:otherwise>
+					</c:choose>
+					
+					<c:choose>
+						<c:when test="${board.boardCells.get(8).cellOccupied}">
+							<button disabled class="btn btn-default" type="submit" onclick="check()" name="pos" value="3,2">9</button>
+						</c:when>
+						<c:otherwise>
+							<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="3,2">9</button>
+						</c:otherwise>
+					</c:choose>
+					
+					</div>
+				</div>
+		    </form:form>
+		    
 	    </c:when>
 	    <c:otherwise>
 	    
