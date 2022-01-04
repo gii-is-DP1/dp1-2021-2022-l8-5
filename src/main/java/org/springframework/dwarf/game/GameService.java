@@ -56,6 +56,11 @@ public class GameService {
 	}
 	
 	@Transactional(readOnly = true)
+	public Game findPlayerGame(Player player){
+		return gameRepo.searchPlayerGameNotFinish(player);
+	}
+	
+	@Transactional(readOnly = true)
 	public Optional<Game> findPlayerUnfinishedGames(Player player){
 		return gameRepo.searchPlayerUnfinishedGames(player);
 	}
