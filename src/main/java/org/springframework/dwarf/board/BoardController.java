@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author Diego Ruiz Gil
@@ -161,7 +162,7 @@ public class BoardController {
     
     
     @PostMapping("{boardId}/game/{gameId}")
-    public String postWorker(@Valid Worker myworker, @PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, BindingResult result,Error errors) {
+    public String postWorker(@Valid Worker myworker, @RequestParam String pos, @PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, BindingResult result, Error errors) {
 		Game game = gameService.findByGameId(gameId).get();
 		game.phaseResolution(this.applicationContext);
 		
@@ -169,6 +170,13 @@ public class BoardController {
 			return "/board/board";
 		}
 		else {
+			//parsear pos, settear al worker myworker las posiciones "x" e "y" obtenidas de pos
+			String[] posxy = pos.trim().split(",");
+			Integer posx = Integer.parseInt(posxy[0]);
+			Integer posy = Integer.parseInt(posxy[1]);
+			myworker.setXposition(posx);
+			myworker.setYposition(posy);
+			
 			String username = LoggedUserController.returnLoggedUserName();
 			Player player = playerService.findPlayerByUserName(username);
 			List<Worker> workersNotPlaced = workerService.findNotPlacedByPlayerIdAndGameId(player.getId(), game.getId());

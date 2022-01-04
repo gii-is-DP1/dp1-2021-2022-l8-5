@@ -69,8 +69,8 @@ public class BoardService {
 			specialDecks.add(specialDeckSer.createSpecialDeck(0, i/3, specialCardsId.subList(i, i+3)));
 		}
 		
-		for(int xposition=1; xposition < 4; xposition++) {
-			for(int yposition=0; yposition < 3; yposition++) {
+		for(int yposition=0; yposition < 3; yposition++) {
+			for(int xposition=1; xposition < 4; xposition++) {
 				cells.add(boardCellSer.createBoardCell(xposition, yposition));
 			}
 		}
