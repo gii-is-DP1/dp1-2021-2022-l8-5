@@ -2,6 +2,7 @@ package org.springframework.dwarf.mountainCardStrategies;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.jpatterns.gof.StrategyPattern;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class GetHelp implements CardStrategy{
 	private PlayerService playerService;
 
 	@Override
-	public void actions(Player player) throws IllegalPositionException, DataAccessException, DuplicatedUsernameException, DuplicatedEmailException, InvalidEmailException {
+	public void actions(Player player) throws IllegalPositionException {
 		log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
 		
 		Game game = gameService.findPlayerUnfinishedGames(player).get();
@@ -48,19 +49,25 @@ public class GetHelp implements CardStrategy{
 		
 		// change players turn if you are the first
 		Player currentPlayer = game.getCurrentPlayer();
-		Game playerGame = gameService.findPlayerGame(player);
+		Optional<Game> playerGame = gameService.findPlayerUnfinishedGames(player);
 		if(player.equals(currentPlayer) && player.getTurn().equals(game.getTurnList().get(0).getTurn())) {
-			changePlayerNext(playerGame);
+			changePlayerNext(playerGame.get());
 		}
 		
 	}
 
-	private void changePlayerNext(Game game) throws DataAccessException, DuplicatedUsernameException, DuplicatedEmailException, InvalidEmailException {
+	private void changePlayerNext(Game game) {
 		List<Player> turn = game.getTurnList();
 		//Player currentPlayer = game.getCurrentPlayer();
 		for(Player p:turn) {
 			p.setTurn((p.getTurn()+1)%3);
-			playerService.savePlayer(p);
+			try {
+				playerService.savePlayer(p);
+			} catch (DataAccessException | DuplicatedUsernameException | DuplicatedEmailException
+					| InvalidEmailException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		
