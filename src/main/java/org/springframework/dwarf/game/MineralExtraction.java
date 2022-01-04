@@ -5,7 +5,6 @@ import java.util.Random;
 
 import org.jpatterns.gof.StatePattern;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dwarf.board.Board;
 import org.springframework.dwarf.board.BoardCell;
 import org.springframework.dwarf.board.BoardCellService;

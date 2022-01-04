@@ -1,12 +1,7 @@
 package org.springframework.dwarf.game;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.jpatterns.gof.StatePattern;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dwarf.player.Player;
-import org.springframework.dwarf.worker.Worker;
 import org.springframework.dwarf.worker.WorkerService;
 import org.springframework.stereotype.Component;
 

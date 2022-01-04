@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 class userStoriesGameModuleTest {
-
+	/*
 	@Autowired
 	private PlayerService playerService;
 	@Autowired
@@ -25,7 +25,7 @@ class userStoriesGameModuleTest {
 	void initialData() {
 		gameController = new GameController(gameService, playerService);
 	}
-	/*
+	
 	// H1 - Búsqueda de partida
 
 	// H1+E1
