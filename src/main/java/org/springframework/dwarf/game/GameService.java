@@ -94,10 +94,10 @@ public class GameService {
 		return List.of(searchPlayerOneByGame(gameId), searchPlayerTwoByGame(gameId), searchPlayerThreeByGame(gameId));
 	}
 	
-	public void exit(Game game, Player currentPlayer) throws DataAccessException {
+	public void exit(Game game, Player loggedPlayer) throws DataAccessException {	
 		// the first player must delete the game when exit
-		if(!this.amIFirstPlayer(game, currentPlayer)) {
-			if(this.amISecondPlayer(game, currentPlayer)) {
+		if(!this.amIFirstPlayer(game, loggedPlayer)) {
+			if(this.amISecondPlayer(game, loggedPlayer)) {
 				game.setSecondPlayer(null);
 			}else {
 				game.setThirdPlayer(null);
@@ -123,12 +123,12 @@ public class GameService {
 	}
 	
 	@Transactional(rollbackFor = CreateGameWhilePlayingException.class)
-	public void joinGame(Game game, Player currentPlayer) throws DataAccessException, CreateGameWhilePlayingException {
-		if(!game.isPlayerInGame(currentPlayer)) {
+	public void joinGame(Game game, Player loggedPlayer) throws DataAccessException, CreateGameWhilePlayingException {
+		if(!game.isPlayerInGame(loggedPlayer)) {
 			if(game.getSecondPlayer() == null)
-				game.setSecondPlayer(currentPlayer);
+				game.setSecondPlayer(loggedPlayer);
 			else if(game.getThirdPlayer() == null)
-				game.setThirdPlayer(currentPlayer);
+				game.setThirdPlayer(loggedPlayer);
 		}
 		
 		this.saveGame(game);

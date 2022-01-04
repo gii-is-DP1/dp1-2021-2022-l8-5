@@ -1,6 +1,5 @@
 package org.springframework.dwarf.mountainCardStrategies;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,7 +7,6 @@ import org.jpatterns.gof.StrategyPattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dwarf.card.CardStrategy;
-import org.springframework.dwarf.game.CreateGameWhilePlayingException;
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.player.Player;
@@ -16,7 +14,6 @@ import org.springframework.dwarf.player.PlayerService;
 import org.springframework.dwarf.user.DuplicatedEmailException;
 import org.springframework.dwarf.user.DuplicatedUsernameException;
 import org.springframework.dwarf.user.InvalidEmailException;
-import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.dwarf.card.StrategyName;
 import org.springframework.dwarf.worker.IllegalPositionException;
 import org.springframework.dwarf.worker.Worker;
@@ -37,41 +34,43 @@ public class GetHelp implements CardStrategy{
 	private PlayerService playerService;
 
 	@Override
-	public void actions(Player player) throws IllegalPositionException {
+	public void actions(Player player) {
 		log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
 		
 		Game game = gameService.findPlayerUnfinishedGames(player).get();
 		Worker extraWorker1 = new Worker(player, game, 4);
 		Worker extraWorker2 = new Worker(player, game, 4);
 		
-		workerService.saveWorker(extraWorker1);
-		workerService.saveWorker(extraWorker2);
-		
-		// change players turn if you are the first
-		Player currentPlayer = game.getCurrentPlayer();
-		Optional<Game> playerGame = gameService.findPlayerUnfinishedGames(player);
-		if(player.equals(currentPlayer) && player.getTurn().equals(game.getTurnList().get(0).getTurn())) {
-			changePlayerNext(playerGame.get());
+		try {
+			workerService.saveWorker(extraWorker1);
+		} catch (DataAccessException | IllegalPositionException e) {
+			e.printStackTrace();
+		}
+		try {
+			workerService.saveWorker(extraWorker2);
+		} catch (DataAccessException | IllegalPositionException e) {
+			e.printStackTrace();
 		}
 		
+		// change players turn if you are the first
+		Optional<Game> playerGame = gameService.findPlayerUnfinishedGames(player);
+		if(player.getTurn().equals(1))
+			changePlayerNext(playerGame.get());
 	}
 
 	private void changePlayerNext(Game game) {
 		List<Player> turn = game.getTurnList();
-		//Player currentPlayer = game.getCurrentPlayer();
 		for(Player p:turn) {
 			p.setTurn((p.getTurn()+1)%3);
 			try {
 				playerService.savePlayer(p);
 			} catch (DataAccessException | DuplicatedUsernameException | DuplicatedEmailException
 					| InvalidEmailException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		
-		
 	}
+	
 	@Override
 	public StrategyName getName() {
 		return StrategyName.GET_HELP;
