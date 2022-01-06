@@ -103,7 +103,7 @@ public class BoardController {
     
     @GetMapping("{boardId}/game/{gameId}")
     public String boardGame(@PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, ModelMap modelMap, HttpServletResponse response) {
-    	response.addHeader("REFRESH", "5000");
+    	response.addHeader("REFRESH", "4");
     	String view = "/board/board";
     
     	Game game = gameService.findByGameId(gameId).get();
