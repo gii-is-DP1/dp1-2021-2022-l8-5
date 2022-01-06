@@ -14,21 +14,8 @@
 	<h2><c:out value="Turno para: ${game.currentPlayer.username}"/></h2>
 	<h2><c:out value="Fase de la ronda: ${game.currentPhaseName.toString()}"/></h2>
 	
-    <div class="row">
-    	<div class="col-md-1" style="height: 600px; margin-top: 30px">
-    		<h3 class="text-center" style="height: 200px; padding-top: 90px">0</h3>
-       		<h3 class="text-center" style="height: 200px; padding-top: 90px">1</h3>
-       		<h3 class="text-center" style="height: 200px; padding-top: 90px">2</h3>
-    	</div>
-    
-        <div class="col-md-8">
-        	<div class="row">
-        		<h3 class="text-center" style="width: 150px; float: left">0</h3>
-        		<h3 class="text-center" style="width: 150px; float: left">1</h3>
-        		<h3 class="text-center" style="width: 150px; float: left">2</h3>
-        		<h3 class="text-center" style="width: 150px; float: left">3</h3>
-        		<h3 class="text-center" style="width: 150px; float: left">4</h3>
-        	</div>
+    <div class="row">    
+        <div class="col-md-9">
         
             <dwarf:board board="${board}"/>
             <c:forEach items="${board.specialDecks}" var="specialDeck">
@@ -57,8 +44,6 @@
 				&nbsp; <dwarf:playerInfo player="${player3}" playerNumber="${3}" resources="${resourcesPlayer3}"/><br>
         	
          </div>
-         
-         
     </div>
     
 
@@ -68,37 +53,7 @@
     <c:choose>
 	    <c:when test="${myplayer == game.currentPlayer && myworker != null}">
 			
-			<!--  
-			<form:form modelAttribute="myworker" class="form-horizontal" id="add-player-form" >
-				
-		        <div class="form-group has-feedback col-md-5">
-		          	<h2>Horizontal position</h2>
-		            <form:select  path="xposition" title="Horizontal position">
-					    <form:option value="NONE"> --SELECT--</form:option>
-					    <form:options items="${xpos}"></form:options>
-				    </form:select>
-				    <br/>
-			     <br/>
-			     <h2>Vertical position</h2>
-    	            <form:select  path="yposition" title="Vertical position">
-					    <form:option value="NONE"> --SELECT--</form:option>
-					    <form:options items="${ypos}"></form:options>
-				    </form:select>
-				    
-		             <span class="help-inline"><form:errors path="*"/></span>
-		        </div>
-		        
-		        <div class="form-group">
-		            <div class="col-sm-offset-2 col-sm-10">
-		            	<button class="btn btn-default" type="submit" onclick="check()">Confirm action</button>
-		            </div>
-		        </div>
-		        
-		        
-				
-		        
-		    </form:form>
-		    -->
+			
 
 		    <form:form class="form-horizontal" id="add-player-form">
 				<div class="form-group text-center">
