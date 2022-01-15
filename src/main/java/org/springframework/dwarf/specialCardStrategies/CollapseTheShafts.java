@@ -1,4 +1,4 @@
-package org.springframework.dwarf.specialCardStrategy;
+package org.springframework.dwarf.specialCardStrategies;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class CollapseTheShafts implements CardStrategy {
 	private BoardService bs;
 	
 	@Override
-	public void actions(Player player) {
+	public void actions(Player player, String cardName) {
 		log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
 		
 		Board tablero = gs.findBoardByGameId(gs.getCurrentGameId(player)).get();	

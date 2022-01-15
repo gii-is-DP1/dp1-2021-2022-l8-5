@@ -7,10 +7,10 @@
     "\\src\\main\\java\\org",
     "\\src\\main\\java\\org\\springframework",
     "\\src\\main\\java\\org\\springframework\\dwarf",
-    "\\src\\main\\java\\org\\springframework\\dwarf\\model",
-    "\\src\\main\\java\\org\\springframework\\dwarf\\resources",
-    "\\src\\main\\java\\org\\springframework\\dwarf\\worker"
+    "\\src\\main\\java\\org\\springframework\\dwarf\\game",
+    "\\src\\main\\resources",
+    "\\src\\main\\resources\\db",
+    "\\src\\main\\resources\\db\\hsqldb"
   ],
-  "SelectedNode": "\\src\\main\\java\\org\\springframework\\dwarf\\game\\GameService.java",
   "PreviewInSolutionExplorer": false
 }

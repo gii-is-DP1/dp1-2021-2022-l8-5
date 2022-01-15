@@ -13,6 +13,7 @@
 	
 	<h2><c:out value="Turno para: ${game.currentPlayer.username}"/></h2>
 	<h2><c:out value="Fase de la ronda: ${game.currentPhaseName.toString()}"/></h2>
+	<h2><c:out value="Ronda actual: ${game.currentRound}"/></h2>
 	
     <div class="row">    
         <div class="col-md-9">
@@ -51,7 +52,7 @@
 <div class="row">	
 	<div class="col-md-9">
     <c:choose>
-	    <c:when test="${myplayer == game.currentPlayer && myworker != null}">
+	    <c:when test="${myplayer == game.currentPlayer && myworker != null && phaseName == 'ACTION_SELECTION'}">
 			
 			
 

@@ -1,4 +1,4 @@
-package org.springframework.dwarf.specialCardStrategy;
+package org.springframework.dwarf.specialCardStrategies;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ public class MusterAnArmy implements CardStrategy{
 	}
 
 	@Override
-	public void actions(Player player) {
+	public void actions(Player player, String cardName) {
 		log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
 		/*
 			Game currentGame = gameService.findPlayerUnfinishedGames(player).get();

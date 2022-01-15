@@ -56,6 +56,8 @@ public class BoardController {
     
     @Autowired
     private ApplicationContext applicationContext;
+    
+    private boolean boardPageLoaded;
 	
 	@GetMapping()
 	public String getBoard(ModelMap modelMap) {
@@ -76,6 +78,8 @@ public class BoardController {
 			i = i+1;
 		}
 		this.setTurns(game.getPlayersList());
+		
+		this.boardPageLoaded = false;
 		
 		String redirect = "redirect:/boards/"+board.getId()+"/game/"+gameId;
 	    return redirect;
@@ -122,7 +126,7 @@ public class BoardController {
     	modelMap.addAttribute("myplayer", myplayer);
     	modelMap.addAttribute("board", board);
     	modelMap.addAttribute("game", game);
-    	
+    	modelMap.addAttribute("phaseName", game.getCurrentPhaseName().toString());
     	
     	List<Integer> xpos = Arrays.asList(1,2,3);
     	List<Integer> ypos = Arrays.asList(0,1,2);
@@ -142,9 +146,8 @@ public class BoardController {
     		}
     	}
     	modelMap.addAttribute("workers" , workers);
-
 	
-   		if (game.getCurrentPhaseName() != GamePhaseEnum.ACTION_SELECTION) {
+   		if (game.getCurrentPhaseName() != GamePhaseEnum.ACTION_SELECTION && this.boardPageLoaded) {
 			game.phaseResolution(this.applicationContext);
 		}
     	
@@ -153,6 +156,9 @@ public class BoardController {
 		} catch(CreateGameWhilePlayingException ex) {
 			
 		}
+    	
+    	if(!this.boardPageLoaded)
+    		this.boardPageLoaded = true;
     	
     	return view;
     }
@@ -189,12 +195,13 @@ public class BoardController {
 		String redirect = "redirect:/boards/"+ boardId +  "/game/"+gameId;
 		Worker workerFound = workerService.findByWorkerId(workerId).get();
 		BeanUtils.copyProperties(worker, workerFound, "id", "player", "game", "image");
-		BoardCell boardCell = boardCellService.returnBoardCell(workerFound.getXposition(), workerFound.getYposition());
+		BoardCell boardCell = boardCellService.findByPosition(workerFound.getXposition(), workerFound.getYposition());
 	
-		if(boardCell.getCellOccupied()){
+		if(boardCell.isCellOccupied()){
 			return errors.getMessage();
 		}
-		boardCell.setCellOccupied(true);
+		//boardCell.setCellOccupied(true);
+		boardCell.setOccupiedBy(LoggedUserController.loggedPlayer());
 		workerFound.setStatus(true);
 	//	b.setCellOccupied(true);
 		try {

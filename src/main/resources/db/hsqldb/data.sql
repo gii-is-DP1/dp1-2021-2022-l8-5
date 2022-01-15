@@ -46,27 +46,30 @@ INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,secondPlay
 INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,secondPlayer,thirdPlayer,startDate,finishDate,canResolveActions) VALUES (2,'ACTION_SELECTION',6,3,1,2,'2021-11-12 16:42:00', '2021-11-12 17:42:00',true);
 
 
+ -- Mountain cards
+ -- SEAM,FORGES_ALLOY,GET_HELP,ORC_RAIDERS,DRAGONS_KNOCKERS,SHIDE,
+
  -- Card sheet 1
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Iron Seam', 'Take 3 iron from the supply', 1, 0, 'MINE', 1, '/resources/images/mountainCards/ironSeams/ironSeam1.png');
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Iron Seam', 'Take 3 iron from the supply', 2, 0, 'MINE', 1, '/resources/images/mountainCards/ironSeams/ironSeam2.png');
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Iron Seam', 'Take 3 iron from the supply', 3, 0, 'MINE', 1, '/resources/images/mountainCards/ironSeams/ironSeam3.png');
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Iron Seam', 'Take 3 iron from the supply', 1, 1, 'MINE', 1, '/resources/images/mountainCards/ironSeams/ironSeam4.png');
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Iron Seam', 'Take 3 iron from the supply', 2, 1, 'MINE', 1, '/resources/images/mountainCards/ironSeams/ironSeam5.png');
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Iron Seam', 'Take 3 iron from the supply', 3, 1, 'MINE', 1, '/resources/images/mountainCards/ironSeams/ironSeam6.png');
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Gold Seam', 'Take 1 gold from the supply', 1, 2, 'MINE', 1, '/resources/images/mountainCards/goldSeams/goldSeam.png');
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Iron Seam', 'Take 3 iron from the supply', 2, 2, 'MINE', 1, '/resources/images/mountainCards/ironSeams/ironSeam7.png');
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Gold Seam', 'Take 1 gold from the supply', 3, 2, 'MINE', 1, '/resources/images/mountainCards/goldSeams/goldSeam.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image, actiontype) VALUES ('Iron Seam', 'Take 3 iron from the supply', 1, 0, 'MINE', 1, '/resources/images/mountainCards/ironSeams/ironSeam1.png', 'SEAM');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image, actiontype) VALUES ('Iron Seam', 'Take 3 iron from the supply', 2, 0, 'MINE', 1, '/resources/images/mountainCards/ironSeams/ironSeam2.png', 'SEAM');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image, actiontype) VALUES ('Iron Seam', 'Take 3 iron from the supply', 3, 0, 'MINE', 1, '/resources/images/mountainCards/ironSeams/ironSeam3.png', 'SEAM');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image, actiontype) VALUES ('Iron Seam', 'Take 3 iron from the supply', 1, 1, 'MINE', 1, '/resources/images/mountainCards/ironSeams/ironSeam4.png', 'SEAM');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image, actiontype) VALUES ('Iron Seam', 'Take 3 iron from the supply', 2, 1, 'MINE', 1, '/resources/images/mountainCards/ironSeams/ironSeam5.png', 'SEAM');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image, actiontype) VALUES ('Iron Seam', 'Take 3 iron from the supply', 3, 1, 'MINE', 1, '/resources/images/mountainCards/ironSeams/ironSeam6.png', 'SEAM');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image, actiontype) VALUES ('Gold Seam', 'Take 1 gold from the supply', 1, 2, 'MINE', 1, '/resources/images/mountainCards/goldSeams/goldSeam.png', 'SEAM');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image, actiontype) VALUES ('Iron Seam', 'Take 3 iron from the supply', 2, 2, 'MINE', 1, '/resources/images/mountainCards/ironSeams/ironSeam7.png', 'SEAM');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image, actiontype) VALUES ('Gold Seam', 'Take 1 gold from the supply', 3, 2, 'MINE', 1, '/resources/images/mountainCards/goldSeams/goldSeam.png', 'SEAM');
  
  -- Card sheet 2
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Alloy Steel', 'Return 3 iron to the supply then take 2 steel', 1, 0, 'MINE', 2, '/resources/images/mountainCards/alloySteels/alloySteel.png');
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Orc Raiders', 'If undefended at the end of the round, players cannot take any MINE actions', 2, 0, 'DEFEND', 2, '/resources/images/mountainCards/orcRaiders/orcRaiders.png');
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Forge Sword', 'Return 3 steel to the supply then take 1 item', 3, 0, 'CRAFT', 3, '/resources/images/mountainCards/forges/forgeSword.png');
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Great Dragon', 'If undefended at the end of the round, each player must return all gold they possess to the supply', 1, 1, 'DEFEND', 2, '/resources/images/mountainCards/dragons/dragon.png');
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Knockers', 'If undefended at the end of the round, each player must return 1 iron to the supply', 2, 1, 'DEFEND', 3, '/resources/images/mountainCards/knockers/knockers.png');
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Alloy Steel', 'Return 3 iron to the supply then take 2 steel', 1, 0, 'MINE', 3, '/resources/images/mountainCards/alloySteels/alloySteel.png');
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Forge Mace', 'Return 2 steel and 1 gold to the supply then take 1 item', 1, 2, 'CRAFT', 2, '/resources/images/mountainCards/forges/ForgeMace.png');
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Gold Seam', 'Take 1 gold from the supply', 3, 2, 'MINE', 2, '/resources/images/mountainCards/goldSeams/goldSeam2.png');
- INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image) VALUES ('Iron Seam', 'Take 3 iron from the supply', 2, 2, 'MINE', 2, '/resources/images/mountainCards/ironSeams/ironSeam7.png');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image, actiontype) VALUES ('Alloy Steel', 'Return 3 iron to the supply then take 2 steel', 1, 0, 'MINE', 2, '/resources/images/mountainCards/alloySteels/alloySteel.png', 'FORGES_ALLOY');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image, actiontype) VALUES ('Orc Raiders', 'If undefended at the end of the round, players cannot take any MINE actions', 2, 0, 'DEFEND', 2, '/resources/images/mountainCards/orcRaiders/orcRaiders.png', 'ORC_RAIDERS');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image, actiontype) VALUES ('Forge Sword', 'Return 3 steel to the supply then take 1 item', 3, 0, 'CRAFT', 3, '/resources/images/mountainCards/forges/forgeSword.png', 'FORGES_ALLOY');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image, actiontype) VALUES ('Great Dragon', 'If undefended at the end of the round, each player must return all gold they possess to the supply', 1, 1, 'DEFEND', 2, '/resources/images/mountainCards/dragons/dragon.png', 'DRAGONS_KNOCKERS');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image, actiontype) VALUES ('Knockers', 'If undefended at the end of the round, each player must return 1 iron to the supply', 2, 1, 'DEFEND', 3, '/resources/images/mountainCards/knockers/knockers.png', 'DRAGONS_KNOCKERS');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image, actiontype) VALUES ('Alloy Steel', 'Return 3 iron to the supply then take 2 steel', 1, 0, 'MINE', 3, '/resources/images/mountainCards/alloySteels/alloySteel.png', 'FORGES_ALLOY');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image, actiontype) VALUES ('Forge Mace', 'Return 2 steel and 1 gold to the supply then take 1 item', 1, 2, 'CRAFT', 2, '/resources/images/mountainCards/forges/ForgeMace.png', 'FORGES_ALLOY');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image, actiontype) VALUES ('Gold Seam', 'Take 1 gold from the supply', 3, 2, 'MINE', 2, '/resources/images/mountainCards/goldSeams/goldSeam2.png', 'SEAM');
+ INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image, actiontype) VALUES ('Iron Seam', 'Take 3 iron from the supply', 2, 2, 'MINE', 2, '/resources/images/mountainCards/ironSeams/ironSeam7.png', 'SEAM');
  
  -- Card sheet 3
 
@@ -75,6 +78,10 @@ INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,secondPlay
  -- Card sheet 5
  
  -- Card sheet 6
+ 
+ 
+ -- Special cards
+ -- MUSERT_ARMY,HOLD_COUNCIL,SELL_ITEM,PAST_GLORIES,SPECIAL_ORDER,TURN_BACK,APPRENTICE,COLLAPSE_SHAFTS,RUN_AMOK
  
 -- Special cards (card sheet 7 front & back)
  INSERT INTO special_cards(name, description, back_card, image) VALUES ('Muster an Army', 'When resolving actions this turn, treat all defend cards as if they are ocuppied', 1,'/resources/images/specialCards/musterAnArmy.png');

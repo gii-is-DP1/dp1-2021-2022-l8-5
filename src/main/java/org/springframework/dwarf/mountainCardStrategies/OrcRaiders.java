@@ -26,8 +26,8 @@ public class OrcRaiders implements CardStrategy{
 	private ResourcesService resourcesService;
 	
 	@Override
-	public void actions(Player player) {
-		log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
+	public void actions(Player player, String cardName) {
+		//log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
 		Game game = gameService.findByGameId(gameService.getCurrentGameId(player)).get();
 		
 		game.setCanResolveActions(false);

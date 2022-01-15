@@ -36,6 +36,17 @@ public class BoardCellService {
 		return boardCellRep.findById(id);
 	}
 	
+	// hacer test
+	@Transactional
+	public BoardCell findByPosition(Integer xposition, Integer yposition) {	
+		return boardCellRep.findByPosition(xposition, yposition);
+	}
+	
+	// hacer test
+	public List<BoardCell> findOccupiedByBoardId(Integer boardId) {
+		return boardCellRep.findOccupiedByBoardId(boardId);
+	}
+	
 	public void delete(BoardCell boardCell) {
 		boardCellRep.delete(boardCell);
 	}
@@ -57,15 +68,5 @@ public class BoardCellService {
 		return boardCell;
 	}
 
-	@Transactional
-	public BoardCell returnBoardCell(Integer xposition, Integer yposition){
-		Iterable<BoardCell> blist= findAll();
-		BoardCell bresult = null;
-		for(BoardCell b:blist){
-			if(b.getXposition()==xposition && b.getYposition()==yposition){
-				bresult=b;
-			}
-		}		
-		return bresult;
-	}
+	
 }

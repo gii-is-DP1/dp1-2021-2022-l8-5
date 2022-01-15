@@ -27,22 +27,10 @@ public class DragonsKnockers implements CardStrategy{
 	@Autowired
 	private ResourcesService resourcesService;
 	
-	public void setResources(String cardName) {
-		if(cardName.equals("Great Dragon")) {
-			this.resourceType = ResourceType.GOLD;
-			this.amount = null; // null means all amount the player has
-		}else if(cardName.equals("Dragon")) {
-			this.resourceType = ResourceType.GOLD;
-			this.amount = -1;
-		}else if(cardName.equals("Knockers")) {
-			this.resourceType = ResourceType.IRON;
-			this.amount = -1;
-		}
-	}
-	
 	@Override
-	public void actions(Player player) {
-		log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
+	public void actions(Player player, String cardName) {
+		//log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
+		this.setResources(cardName);
 		
 		Game game = gameService.findByGameId(gameService.getCurrentGameId(player)).get();
 		
@@ -55,6 +43,19 @@ public class DragonsKnockers implements CardStrategy{
 			playerDefenderResources.setResource(ResourceType.BADGE, 1);
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+	
+	private void setResources(String cardName) {
+		if(cardName.equals("Great Dragon")) {
+			this.resourceType = ResourceType.GOLD;
+			this.amount = null; // null means all amount the player has
+		}else if(cardName.equals("Dragon")) {
+			this.resourceType = ResourceType.GOLD;
+			this.amount = -1;
+		}else if(cardName.equals("Knockers")) {
+			this.resourceType = ResourceType.IRON;
+			this.amount = -1;
 		}
 	}
 	

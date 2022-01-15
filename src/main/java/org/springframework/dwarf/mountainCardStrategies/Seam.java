@@ -26,19 +26,11 @@ public class Seam implements CardStrategy {
 	private Integer amountToAdd;
 	private ResourceType resource;
 	
-	public void setResources(String cardName) {
-		if(cardName.equals("Iron Seam")){
-			this.amountToAdd = 3;
-			this.resource = ResourceType.IRON;
-		}else if(cardName.equals("Gold Seam")){
-			this.amountToAdd = 1;
-			this.resource = ResourceType.GOLD;
-		}
-	}
-
 	@Override
-	public void actions(Player player) {
-		log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
+	public void actions(Player player, String cardName) {
+		//log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
+		
+		this.setResources(cardName);
 		
 		Game game = gameService.findPlayerUnfinishedGames(player).get();
 		Resources playerResources = resourcesService.findByPlayerIdAndGameId(player.getId(),game.getId()).get();			
@@ -50,6 +42,16 @@ public class Seam implements CardStrategy {
 		resourcesService.saveResources(playerResources);
 	}
 
+	private void setResources(String cardName) {
+		if(cardName.equals("Iron Seam")){
+			this.amountToAdd = 3;
+			this.resource = ResourceType.IRON;
+		}else if(cardName.equals("Gold Seam")){
+			this.amountToAdd = 1;
+			this.resource = ResourceType.GOLD;
+		}
+	}
+	
 	@Override
 	public StrategyName getName() {
 		return StrategyName.SEAM;

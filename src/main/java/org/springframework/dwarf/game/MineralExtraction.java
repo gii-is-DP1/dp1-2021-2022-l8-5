@@ -42,8 +42,8 @@ public class MineralExtraction implements GamePhase{
 		
 		this.removeWorkers(game);
 		
-    	// picks two randoms cards
-        MountainDeck mountaindeck = gameService.searchDeckByGameId(game.getId()).get();
+		// picks two random cards
+		MountainDeck mountaindeck = gameService.searchDeckByGameId(game.getId()).get();
         List<MountainCard> mountaincards = mountaindeck.getMountainCards();
         Random random = new Random();
         
@@ -53,6 +53,7 @@ public class MineralExtraction implements GamePhase{
         int index2 = random.nextInt(mountaincards.size());
         MountainCard mountaincard2 = mountaincards.remove(index2);
         
+        mountaindeck.setMountainCards(mountaincards);
         mountainDeckService.saveMountainDeck(mountaindeck);
         
         // set cards
@@ -91,7 +92,7 @@ public class MineralExtraction implements GamePhase{
 	}
 	
 	private void setAndSaveBoardCell(BoardCell boardCell) {
-		boardCell.setCellOccupied(false);
+		boardCell.setOccupiedBy(null);
 		boardCellService.saveBoardCell(boardCell);
 	}
     
