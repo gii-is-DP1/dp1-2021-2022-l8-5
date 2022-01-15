@@ -34,8 +34,8 @@ public class GetHelp implements CardStrategy{
 	private PlayerService playerService;
 
 	@Override
-	public void actions(Player player) {
-		log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
+	public void actions(Player player, String cardName) {
+		//log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
 		
 		Game game = gameService.findPlayerUnfinishedGames(player).get();
 		Worker extraWorker1 = new Worker(player, game, 4);

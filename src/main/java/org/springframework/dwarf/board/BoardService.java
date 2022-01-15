@@ -79,7 +79,16 @@ public class BoardService {
 		
 		boardRepo.save(board);
 		
+		//this.setCellsBoardId(cells, board);
+		
 		return board;
+	}
+	
+	private void setCellsBoardId(List<BoardCell> cells, Board board) {
+		for(BoardCell cell: cells) {
+			//cell.setBoard(board);
+			boardCellSer.saveBoardCell(cell);
+		}
 	}
 	
 	private List<Integer> randomList(){

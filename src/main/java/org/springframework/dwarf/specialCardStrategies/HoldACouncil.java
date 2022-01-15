@@ -1,4 +1,4 @@
-package org.springframework.dwarf.specialCardStrategy;
+package org.springframework.dwarf.specialCardStrategies;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,7 @@ public class HoldACouncil implements CardStrategy {
 	//Quitar todas las cartas superiores del tablero (si solo hay una en una posición, se deja) y devolverlas al mazo de montaña.
 	
 	@Override
-	public void actions(Player player) {
+	public void actions(Player player, String cardName) {
 		log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
 		
 		Game currentGame = gameService.findPlayerUnfinishedGames(player).get();

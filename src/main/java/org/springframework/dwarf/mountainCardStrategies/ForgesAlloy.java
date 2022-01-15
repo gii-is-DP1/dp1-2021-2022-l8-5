@@ -32,8 +32,10 @@ public class ForgesAlloy implements CardStrategy{
 	
 
 	@Override
-	public void actions(Player player) {
-		log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
+	public void actions(Player player, String cardName) {
+		//log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
+		
+		this.setResourcesGivenRecived(cardName);
 		
 		Game game = gameService.findPlayerUnfinishedGames(player).get();
 		Resources playerResources = resourcesService.findByPlayerIdAndGameId(player.getId(),game.getId()).get();
@@ -46,7 +48,7 @@ public class ForgesAlloy implements CardStrategy{
 		// change players turn if you are the first (not if the card is alloy steel)
 	}
 	
-	public void setResourcesGivenRecived(String cardName) {
+	private void setResourcesGivenRecived(String cardName) {
 		this.far = this.farService.findByCardName(cardName);
 	}
 	

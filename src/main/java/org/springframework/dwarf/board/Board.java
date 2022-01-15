@@ -2,6 +2,7 @@ package org.springframework.dwarf.board;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -34,6 +35,7 @@ public class Board extends BaseEntity{
     @Positive
     int height;
     
+    //@OneToMany(mappedBy = "board")
     @OneToMany
     @JoinColumn(name = "BOARD_ID")
     List<BoardCell> boardCells;
