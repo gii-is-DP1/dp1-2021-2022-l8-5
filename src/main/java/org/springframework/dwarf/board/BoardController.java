@@ -16,6 +16,7 @@ import org.springframework.dwarf.game.GamePhaseEnum;
 import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
+import org.springframework.dwarf.resources.ResourceType;
 import org.springframework.dwarf.resources.Resources;
 import org.springframework.dwarf.resources.ResourcesService;
 import org.springframework.dwarf.user.DuplicatedEmailException;
@@ -115,6 +116,8 @@ public class BoardController {
     	
 		String playerUsername = LoggedUserController.returnLoggedUserName();
 		Player myplayer = playerService.findPlayerByUserName(playerUsername);
+		Resources myresources = resourcesService.findByPlayerIdAndGameId(myplayer.getId(), gameId).get();
+		modelMap.addAttribute("canPay", myresources.getBadges()>=4);
 		
 		List<Worker> myworkers = workerService.findNotPlacedByPlayerIdAndGameId(myplayer.getId(), gameId);
 		
@@ -165,7 +168,7 @@ public class BoardController {
     
     
     @PostMapping("{boardId}/game/{gameId}")
-    public String postWorker(@Valid Worker myworker, @RequestParam String pos, @PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, BindingResult result, Error errors) {
+    public String postWorker(@Valid Worker myworker, @RequestParam String pos, @RequestParam(required = false) String pay, @PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, BindingResult result, Error errors) {
 		Game game = gameService.findByGameId(gameId).get();
 		game.phaseResolution(this.applicationContext);
 		
@@ -179,22 +182,63 @@ public class BoardController {
 			Integer posy = Integer.parseInt(posxy[1]);
 			myworker.setXposition(posx);
 			myworker.setYposition(posy);
-			
 			String username = LoggedUserController.returnLoggedUserName();
 			Player player = playerService.findPlayerByUserName(username);
 			List<Worker> workersNotPlaced = workerService.findNotPlacedByPlayerIdAndGameId(player.getId(), game.getId());
 			
-			return updatingWorker(workersNotPlaced.get(0).getId(), myworker, boardId, gameId, errors,result);
+			if (posx == 0) {
+				Boolean useBadges = (pay==null) ? false : true;
+				return updatingWorkerSpecial(workersNotPlaced, myworker, useBadges, boardId, gameId, errors,result);
+			} else {
+				return updatingWorker(workersNotPlaced.get(0), myworker, boardId, gameId, errors,result);
+			}
+			
 		}
     	
     }
     
+    private String updatingWorkerSpecial(List<Worker> workers, Worker myworker, Boolean useBadges, Integer boardId, Integer gameId, Error errors, BindingResult result) {
+    	String redirect = "redirect:/boards/"+ boardId +  "/game/"+gameId;
+    	if (useBadges) {
+    		Worker workerFound = workers.get(0);
+    		BeanUtils.copyProperties(myworker, workerFound, "id", "player", "game", "image");
+    		try {
+    			this.workerService.saveWorker(workerFound);
+    		} catch (IllegalPositionException e) {
+    			result.rejectValue ("xposition", " invalid", "can't be empty");
+    			return "/board/board";
+    		}
+    		
+    		Player player = workerFound.getPlayer();
+    		Resources r = resourcesService.findByPlayerIdAndGameId(player.getId(), gameId).get();
+    		
+    		try {
+				r.setResource(ResourceType.BADGES, -4);
+				resourcesService.saveResources(r);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+    	} else {
+        	for (Worker workerFound : workers) {
+        		BeanUtils.copyProperties(myworker, workerFound, "id", "player", "game", "image");
+        		try {
+        			this.workerService.saveWorker(workerFound);
+        		} catch (IllegalPositionException e) {
+        			result.rejectValue ("xposition", " invalid", "can't be empty");
+        			return "/board/board";
+        		}
+        	}
+    	}
+
+    	//ejecutar la action
+    	return redirect;
+    }
     
-	private String updatingWorker(Integer workerId, Worker worker, Integer boardId,Integer gameId, Error errors, BindingResult result) {
+	private String updatingWorker(Worker workerFound, Worker myworker, Integer boardId, Integer gameId, Error errors, BindingResult result) {
 		
 		String redirect = "redirect:/boards/"+ boardId +  "/game/"+gameId;
-		Worker workerFound = workerService.findByWorkerId(workerId).get();
-		BeanUtils.copyProperties(worker, workerFound, "id", "player", "game", "image");
+		BeanUtils.copyProperties(myworker, workerFound, "id", "player", "game", "image");
 		BoardCell boardCell = boardCellService.findByPosition(workerFound.getXposition(), workerFound.getYposition());
 	
 		if(boardCell.isCellOccupied()){
@@ -212,8 +256,6 @@ public class BoardController {
 		}
 		this.boardCellService.saveBoardCell(boardCell);
 		this.boardService.saveBoard(boardService.findByBoardId(boardId).get());
-		
-	    
 		
 		return redirect;
 

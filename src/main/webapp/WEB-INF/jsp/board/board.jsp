@@ -24,7 +24,11 @@
             </c:forEach>
 
             <c:forEach items="${board.boardCells}" var="boardCell">
+            <!-- No seé que hacer con esto pero taria bien verlo -->
+            <div class="tooltip">
+            	<span class="tooltiptext">CumSum</span>
             	<dwarf:mountainCard padding="20" xsize="130" ysize="180" mountainCard="${boardCell.mountaincards.get(0)}"/>
+            </div>
             </c:forEach>
             
             <c:forEach items="${workers}" var="worker">
@@ -151,6 +155,28 @@
 					</c:choose>
 					
 					</div>
+					
+					&nbsp;
+					<h2>Select the special action to perform</h2>
+					<p>You'll use your 2 workers for this turn, but the action will be performed immediatly</p>
+					
+					<div>
+						<c:choose>
+							<c:when test="${!canPay}">
+								<label><input disabled="disabled" type="checkbox" name="pay" value="yes"> Perform action with only 1 worker and pay 4 badges?</label>
+							</c:when>
+							<c:otherwise>
+								<label><input type="checkbox" name="pay" value="yes"> Perform action with only 1 worker and pay 4 badges?</label>
+							</c:otherwise>
+						</c:choose>
+					</div>
+
+					<div class="row-md-3">
+						<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,0">Special 1</button>
+						<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,1">Special 2</button>
+						<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,2">Special 3</button>
+					</div>
+					
 				</div>
 		    </form:form>
 		    
