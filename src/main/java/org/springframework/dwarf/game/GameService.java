@@ -96,13 +96,11 @@ public class GameService {
 	
 	public void exit(Game game, Player loggedPlayer) throws DataAccessException {	
 		// the first player must delete the game when exit
-		if(!this.amIFirstPlayer(game, loggedPlayer)) {
 			if(this.amISecondPlayer(game, loggedPlayer)) {
 				game.setSecondPlayer(null);
-			}else {
+			}else if (this.amIThirdPlayer(game, loggedPlayer)) {
 				game.setThirdPlayer(null);
 			}
-		}
 		
 		gameRepo.save(game);
 	}
@@ -134,12 +132,12 @@ public class GameService {
 		this.saveGame(game);
 	}
 	
-	private Boolean amIFirstPlayer(Game game, Player player){
-        return game.getPlayerPosition(player) == 0;
-    }
-
-    private Boolean amISecondPlayer(Game game, Player player){
+	private Boolean amISecondPlayer(Game game, Player player){
         return game.getPlayerPosition(player) == 1;
+    }
+    
+    private Boolean amIThirdPlayer(Game game, Player player){
+        return game.getPlayerPosition(player) == 2;
     }
     
     public Integer getCurrentGameId(Player player) {
