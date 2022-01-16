@@ -40,6 +40,7 @@ public class ActionResolution implements GamePhase{
 				mountainCard.cardAction(player, applicationContext);
 		}
 		
+		game.setCanResolveActions(true);
 		game.setPhase(GamePhaseEnum.MINERAL_EXTRACTION);
 	}
 	

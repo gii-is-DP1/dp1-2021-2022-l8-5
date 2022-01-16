@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dwarf.game.CreateGameWhilePlayingException;
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GamePhaseEnum;
@@ -94,12 +95,9 @@ public class BoardController {
     		
     		try {
 				playerService.savePlayer(player);
-			} catch (DuplicatedUsernameException e) {
-				e.printStackTrace();
-			} catch (DuplicatedEmailException e) {
-				e.printStackTrace();
-			} catch (InvalidEmailException e) {
-				e.printStackTrace();
+			} catch (DataAccessException | DuplicatedUsernameException | DuplicatedEmailException
+					| InvalidEmailException e1) {
+				e1.printStackTrace();
 			}
     		
     		turn ++;
@@ -113,30 +111,54 @@ public class BoardController {
     
     	Game game = gameService.findByGameId(gameId).get();
     	Board board = boardService.findByBoardId(boardId).get();
-    	
-		String playerUsername = LoggedUserController.returnLoggedUserName();
-		Player myplayer = playerService.findPlayerByUserName(playerUsername);
-		Resources myresources = resourcesService.findByPlayerIdAndGameId(myplayer.getId(), gameId).get();
-		modelMap.addAttribute("canPay", myresources.getBadges()>=4);
+		Player myplayer = LoggedUserController.loggedPlayer();
 		
-		List<Worker> myworkers = workerService.findNotPlacedByPlayerIdAndGameId(myplayer.getId(), gameId);
+		modelMap = this.setHasEnoughBadges(modelMap, myplayer.getId(), gameId);
 		
-		if (myworkers.size()>=1) {
-			Worker myworker = myworkers.get(0);
-			modelMap.addAttribute("myworker", myworker);
-		}
+		modelMap = this.setMyWorkerForPost(modelMap, myplayer.getId(), gameId);
 
     	modelMap.addAttribute("myplayer", myplayer);
     	modelMap.addAttribute("board", board);
     	modelMap.addAttribute("game", game);
     	modelMap.addAttribute("phaseName", game.getCurrentPhaseName().toString());
     	
-    	List<Integer> xpos = Arrays.asList(1,2,3);
-    	List<Integer> ypos = Arrays.asList(0,1,2);
+    	modelMap.addAttribute("xpos", List.of(1,2,3));
+    	modelMap.addAttribute("ypos", List.of(0,1,2));
     	
-    	modelMap.addAttribute("xpos", xpos);
-    	modelMap.addAttribute("ypos", ypos);
+    	modelMap = this.setPlayersData(modelMap, game);
+	
+   		if (game.getCurrentPhaseName() != GamePhaseEnum.ACTION_SELECTION && this.boardPageLoaded) {
+			game.phaseResolution(this.applicationContext);
+		}
     	
+   		try {
+			gameService.saveGame(game);
+		} catch (DataAccessException | CreateGameWhilePlayingException e) {
+			e.printStackTrace();
+		}
+    	
+    	if(!this.boardPageLoaded)
+    		this.boardPageLoaded = true;
+    	
+    	return view;
+    }
+    
+    private ModelMap setHasEnoughBadges(ModelMap modelMap, int pid, int gid) {
+    	Resources myresources = resourcesService.findByPlayerIdAndGameId(pid, gid).get();
+		modelMap.addAttribute("canPay", myresources.getBadges()>=4);
+    	return modelMap;
+    }
+    
+    private ModelMap setMyWorkerForPost(ModelMap modelMap, int pid, int gid) {
+    	List<Worker> myworkers = workerService.findNotPlacedByPlayerIdAndGameId(pid, gid);
+		if (myworkers.size()>=1) {
+			Worker myworker = myworkers.get(0);
+			modelMap.addAttribute("myworker", myworker);
+		}
+    	return modelMap;
+    }
+    
+    private ModelMap setPlayersData(ModelMap modelMap, Game game) {
     	List<Worker> workers = new ArrayList<Worker>();
     	
     	for (int i = 0; i < game.getPlayersList().size(); i++) {
@@ -149,21 +171,14 @@ public class BoardController {
     		}
     	}
     	modelMap.addAttribute("workers" , workers);
-	
-   		if (game.getCurrentPhaseName() != GamePhaseEnum.ACTION_SELECTION && this.boardPageLoaded) {
-			game.phaseResolution(this.applicationContext);
-		}
     	
-    	try {
-			gameService.saveGame(game);
-		} catch(CreateGameWhilePlayingException ex) {
-			
-		}
-    	
-    	if(!this.boardPageLoaded)
-    		this.boardPageLoaded = true;
-    	
-    	return view;
+    	return modelMap;
+    }
+    
+    private ModelMap hasAidWorkers(ModelMap modelMap, int gameId) {
+    	List<Worker> aidWorkersNotPlaced = workerService.findNotPlacedAidByGameId(gameId);
+    	modelMap.addAttribute("hasAidWorkers", !aidWorkersNotPlaced.isEmpty());
+    	return modelMap;
     }
     
     
