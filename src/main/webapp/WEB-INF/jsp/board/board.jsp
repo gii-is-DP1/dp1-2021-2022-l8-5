@@ -41,6 +41,7 @@
             
         </div>
          <div class="col-md-3" style="font-size:16px">
+         		<!-- CAMBIAR DINÁMICAMENTRE LAS IMAGENES DE LOS JUGADORES -->
 				<img src="/resources/images/epicworker1.png"  width="60" height="60" style="float:left" id="player1IMG"><br>
 				&nbsp; <dwarf:playerInfo player="${player1}" playerNumber="${1}" resources="${resourcesPlayer1}"/><br>
 				<img src="/resources/images/epicworker2.png"  width="60" height="60" style="float:left" id="player2IMG"><br>

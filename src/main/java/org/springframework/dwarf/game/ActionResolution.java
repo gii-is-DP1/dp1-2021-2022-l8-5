@@ -109,7 +109,7 @@ public class ActionResolution implements GamePhase{
 				try {
 					amount = resources.getResourceAmount(type);
 					if(!resourcesAmount.containsKey(type))
-						resourcesAmount.put(type, List.of(amount));
+						resourcesAmount.put(type, new ArrayList<>(List.of(amount)));
 					else {
 						List<Integer> amounts = resourcesAmount.get(type);
 						amounts.add(amount);
@@ -129,7 +129,7 @@ public class ActionResolution implements GamePhase{
 		
 		for(int i=0; i<resourcesAmount.size(); i++) {
 			if(resourcesAmount.get(i)==max) {
-				points.set(i, points.get(0)+1);
+				points.set(i, points.get(i)+1);
 			}
 		}
 		
@@ -155,13 +155,15 @@ public class ActionResolution implements GamePhase{
 	private void updateGameWithPositions(List<Integer> points, Game game) {
 		List<Integer> sortedPoints = new ArrayList<Integer>(points);
 		sortedPoints.sort(Collections.reverseOrder());
-		List<Player> players = new ArrayList<Player>(List.of(null,null,null));
+		List<Player> players = game.getPlayersList();
 		
 		for(int i=0; i<sortedPoints.size(); i++) {
-			Integer index = points.indexOf(sortedPoints.get(i));
-			players.add(i,game.getPlayersList().get(index));
-			game.setPlayerPosition(players);
-		}	
+			Integer index = points.indexOf(sortedPoints.get(i)); //como empatan 2 pilla al mismo
+			points.set(index, -1);
+			players.set(i,game.getPlayersList().get(index));
+		}
+		
+		game.setPlayerPosition(players);
 	}
 	
 	@Override
