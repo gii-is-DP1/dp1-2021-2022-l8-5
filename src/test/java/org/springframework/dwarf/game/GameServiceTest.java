@@ -1,7 +1,9 @@
 package org.springframework.dwarf.game;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -10,6 +12,9 @@ import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
@@ -222,17 +227,29 @@ public class GameServiceTest {
 	
 	
 	
-	
-	@Test
+	@ParameterizedTest
+	@ValueSource(ints= {4,5,2})
 	@DisplayName("Exit game")
-	void testExitGame() {
+	void testExitGame(int currentPlayer) {
 		Game game = gameService.findByGameId(2).get();
-		// player with id 5 is in game 2
-		Player player = playerService.findPlayerById(5);
+		Player player = playerService.findPlayerById(currentPlayer);
+		
+		Integer position = game.getPlayerPosition(player);
 		
 		gameService.exit(game, player);
 		
+	
+		
+		if(position == 1) {
 		assertThat(game.getSecondPlayer()).isNull();
+		}
+		else if(position == 2) {
+			assertThat(game.getThirdPlayer()).isNull();
+			}
+	
+		else {
+			assertThat(game.getFirstPlayer()).isNotNull();
+			}
 	}
 	
     @Test
@@ -241,4 +258,48 @@ public class GameServiceTest {
         Optional<MountainDeck> mountainDeck = gameService.searchDeckByGameId(1);
         assertThat(mountainDeck.isPresent()).isTrue();
     }
+    
+	@Test
+	@DisplayName("Delete a game - Negative")
+	void testDeleteGame() {
+		int gameId = 5;
+		
+		Optional<Game> game = gameService.findByGameId(gameId);
+		assertThat(game.isEmpty());
+		System.out.println("Game not found");
+	}
+	
+	
+	 	@Test
+	    @DisplayName("Search the game a player is currently is")
+	    void testGetCurrentGameId(){
+		 Player player = playerService.findPlayerById(6);
+	        Integer gameId = gameService.getCurrentGameId(player);
+	        assertThat(gameId).isEqualTo(1);
+	    }
+	
+	 	@Test
+	    @DisplayName("Search the game a player is currently is - Negative")
+	    void testGetCurrentGameIdNegative(){
+		 Player player = playerService.findPlayerById(3);
+	        Integer gameId = gameService.getCurrentGameId(player);
+	        assertThat(gameId).isEqualTo(null);
+	    }
+	 	
+	 	@Test
+	    @DisplayName("Checks if a player is in a unfinished game")
+	    void testAlreadyInGame(){
+		 Player player = playerService.findPlayerById(3);
+	        Boolean res = gameService.alreadyInGame(player);
+	        assertFalse(res);
+	    }
+	 	
+		@Test
+	    @DisplayName("Checks if a player is in a unfinished game (2nd condition)")
+	    void testAlreadyInGame2(){
+		 Player player = playerService.findPlayerById(6);
+	        Boolean res = gameService.alreadyInGame(player);
+	        assertTrue(res);
+	    }
+    
 }

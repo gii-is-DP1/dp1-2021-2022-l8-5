@@ -1,9 +1,12 @@
 package org.springframework.dwarf.game;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.mockito.BDDMockito.given;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -55,20 +58,25 @@ public class GameControllerTest {
 	private UserService userService;
 	
 	
+	
 	@Autowired
 	private MockMvc mockMvc;
 	
 	private Game g0;
+	
+	private Player p1;
 	
 	
 	@BeforeEach
 	void setup() {
 		g0 = new Game();
 		
-		Player p1 = new Player();
+		p1 = new Player();
 		User u1 = new User();
 		u1.setUsername("player1");
 		p1.setUser(u1);
+		p1.setUsername("player1");
+		p1.setId(1);
 		
 		Player p2 = new Player();
 		User u2 = new User();
@@ -86,16 +94,24 @@ public class GameControllerTest {
 		g0.setThirdPlayer(p3);
 		
 		
-		//given(this.workerService.findByWorkerId(TEST_WORKER_ID).get()).willReturn(w0);
+		given(this.playerService.findPlayerById(1)).willReturn(p1);
+		given(this.playerService.findPlayerByUserName("player1")).willReturn(p1);
 	}
 	
 	@Test
 	@WithMockUser(username = "pabmargom3")
-    void listWorkers() throws Exception {
+    void listSearchGames() throws Exception {
 	 mockMvc.perform(get("/games/searchGames")).andExpect(status().isOk())
 		.andExpect(view().name("games/searchOrCreateGames"))
 		.andExpect(model().attributeExists("gamesToJoin"));
 	    }
 	
-
+	@Test
+	@WithMockUser(username = "pabmargom3")
+    void listGames() throws Exception {
+	 mockMvc.perform(get("/games")).andExpect(status().isOk())
+		.andExpect(view().name("games/listGames"))
+		.andExpect(model().attributeExists("games"));
+	    }
+	
 }
