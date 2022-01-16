@@ -81,7 +81,7 @@ public class WorkerService {
 		return workerRepo.findNotPlacedByGameId(gid);
 	}
 	
-	// needs test
+
 	public List<Worker> findPlacedByGameId(int gid){
 		return workerRepo.findPlacedByGameId(gid);
 	}
