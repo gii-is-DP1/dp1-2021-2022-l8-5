@@ -1,5 +1,6 @@
 package org.springframework.dwarf.worker;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -7,6 +8,8 @@ import java.util.Collection;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
@@ -34,13 +37,13 @@ public class WorkerServiceTest {
 	@Test
 	public void testCountWithInitialData() {
 		int count = workerService.WorkerCount();
-		assertEquals(count,1);
+		assertEquals(count,2);
 	}
 
 	@Test
 	public void testFindAll() {
 		Iterable<Worker> workers = this.workerService.findAll();
-		assertEquals(workers.spliterator().getExactSizeIfKnown(), 1);
+		assertEquals(workers.spliterator().getExactSizeIfKnown(), 2);
 	}
 	
 	
@@ -55,14 +58,34 @@ public class WorkerServiceTest {
 	}
 	
 	@Test
+	public void testFindByWorkerIdNegative() {
+		int id = 50;
+		
+		Optional<Worker> Worker = workerService.findByWorkerId(id);
+		System.out.println("------------TEST FIND BY Worker ID------------");
+		assertTrue(Worker.isEmpty());
+	}
+	
+	
+	@Test
 	public void testFindByPlayerId() {
 		int id = 1;
 		
 		Collection<Worker> Worker = workerService.findByPlayerId(id);
 		System.out.println("------------TEST FIND BY Player ID------------");
-		assertThat(Worker.size()).isEqualTo(1);
+		assertThat(Worker.size()).isEqualTo(2);
 		
 	}
+	@Test
+	public void testFindByPlayerIdNegative() {
+		int id = 50;
+		
+		Collection<Worker> Worker = workerService.findByPlayerId(id);
+		System.out.println("------------TEST FIND BY Player ID------------");
+		assertThat(Worker.size()).isEqualTo(0);
+		
+	}
+	
 	
 	@Test
 	public void testFindNotPlacedByPlayerIdAndGameId() {
@@ -73,6 +96,16 @@ public class WorkerServiceTest {
 		assertThat(Worker.size()).isEqualTo(1);
 		
 	}
+	@Test
+	public void testFindNotPlacedByPlayerIdAndGameIdNegative() {
+		int pid = 2;
+		int gid = 1;
+		
+		Collection<Worker> Worker = workerService.findNotPlacedByPlayerIdAndGameId(pid,gid);
+		assertThat(Worker.size()).isEqualTo(0);
+		
+	}
+	
 	
 	@Test
 	public void tesFfindNotPlacedByGameId() {
@@ -84,13 +117,50 @@ public class WorkerServiceTest {
 	}
 	
 	@Test
+	public void tesFfindNotPlacedByGameIdNegative() {
+		int gid = 2;
+		
+		Collection<Worker> Worker = workerService.findNotPlacedByGameId(gid);
+		assertThat(Worker.size()).isEqualTo(0);
+		
+	}
+	
+	
+	@Test
+	public void testFindNotPlacedAidByGameId() {
+		int gid = 1;
+		
+		Collection<Worker> Worker = workerService.findNotPlacedAidByGameId(gid);
+		assertThat(Worker.size()).isEqualTo(1);
+	
+	}
+	
+	@Test
+	public void testFindNotPlacedAidByGameIdNegative() {
+		int gid = 2;
+		
+		Collection<Worker> Worker = workerService.findNotPlacedAidByGameId(gid);
+		assertThat(Worker.size()).isEqualTo(0);
+	
+	}
+	
+	@Test
 	public void tesFfindPlacedByGameId() {
 		int gid = 1;
+		
+		Collection<Worker> Worker = workerService.findPlacedByGameId(gid);
+		assertThat(Worker.size()).isEqualTo(1);
+		
+	}
+	@Test
+	public void tesFfindPlacedByGameIdNegative() {
+		int gid = 2;
 		
 		Collection<Worker> Worker = workerService.findPlacedByGameId(gid);
 		assertThat(Worker.size()).isEqualTo(0);
 		
 	}
+	
 	
 	@Test
 	public void testFindByPlayerIdAndGameId() {
@@ -98,7 +168,17 @@ public class WorkerServiceTest {
 		int gid = 1;
 		
 		Collection<Worker> Worker = workerService.findByPlayerIdAndGameId(pid,gid);
-		assertThat(Worker.size()).isEqualTo(1);
+		assertThat(Worker.size()).isEqualTo(2);
+		
+	}
+	
+	@Test
+	public void testFindByPlayerIdAndGameIdNegative() {
+		int pid = 1;
+		int gid = 2;
+		
+		Collection<Worker> Worker = workerService.findByPlayerIdAndGameId(pid,gid);
+		assertThat(Worker.size()).isEqualTo(0);
 		
 	}
 	
@@ -128,23 +208,52 @@ public class WorkerServiceTest {
 		assertEquals(p.getXposition(), 3);
 	}
 	
-	
-	@Test
-	public void testInvalidWorker() {
+
+	@ParameterizedTest
+	@CsvSource({
+		"-1,-1",
+		"-1,2",
+		"-1,4",
+		"2,-1",
+		"2,4",
+		"3,3",
+		"4,3",
+		"4,4"
+	})
+	public void testInvalidWorker(int xpos, int ypos) {
 		Worker WorkerTest = new Worker();
-		WorkerTest.xposition=0;
-		WorkerTest.yposition=2;
+		WorkerTest.xposition=xpos;
+		WorkerTest.yposition=ypos;
 		
 		Boolean res = workerService.getWorkerInvalid(WorkerTest);
-		
 		assertEquals(res, true);
 	}
+	
+	@ParameterizedTest
+	@CsvSource({
+		"0,0",
+		"1,1",
+		"3,2",
+		"2,2"
+	})
+	public void testValidWorker(int xpos, int ypos) {
+		Worker WorkerTest = new Worker();
+		WorkerTest.xposition=xpos;
+		WorkerTest.yposition=ypos;
+		
+		Boolean res = workerService.getWorkerInvalid(WorkerTest);
+		assertEquals(res, false);
+	}
+	
+
+	
+	
 	
 	@Test
 	public void testNullWorker() {
 		Worker WorkerTest = new Worker();
 		WorkerTest.xposition=null;
-		WorkerTest.yposition=null;
+		WorkerTest.yposition=2;
 		
 		Boolean res = workerService.getWorkerInvalid(WorkerTest);
 		
@@ -152,9 +261,21 @@ public class WorkerServiceTest {
 	}
 	
 	@Test
+	public void testNullWorker2() {
+		Worker WorkerTest = new Worker();
+		WorkerTest.xposition=2;
+		WorkerTest.yposition=null;
+		
+		Boolean res = workerService.getWorkerInvalid(WorkerTest);
+		
+		assertEquals(res, false);
+	}
+	
+	
+	@Test
 	public void testSaveWorkerInvalid() {
 		Worker WorkerTest = new Worker();
-		WorkerTest.xposition=0;
+		WorkerTest.xposition=-1;
 		WorkerTest.yposition=2;
 		
 		 assertThrows(IllegalPositionException.class, () -> {

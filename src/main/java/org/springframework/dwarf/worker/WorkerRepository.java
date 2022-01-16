@@ -25,4 +25,7 @@ public interface WorkerRepository extends  CrudRepository<Worker, Integer>{
     @Query("SELECT worker FROM Worker worker WHERE worker.game.id =:gameId AND worker.status = true")
     public List<Worker> findPlacedByGameId(@Param("gameId") int gameId);
     
+    @Query("SELECT worker FROM Worker worker WHERE (worker.game.id =:gameId AND worker.status = false) AND worker.image = '/resources/images/epicworker4.png'")
+    public List<Worker> findNotPlacedAidByGameId(@Param("gameId") int gameId);
+    
 }
