@@ -126,6 +126,22 @@ public class Game extends BaseEntity{
 		return pList;
 	}
 	
+	public void setPlayerPosition(Player player, Integer position) {
+		switch (position) {
+			case 0:
+				this.setFirstPlayer(player);
+				break;
+			case 1:
+				this.setSecondPlayer(player);
+				break;
+			case 2:
+				this.setThirdPlayer(player);
+				break;
+			default:
+				break;
+		}
+	}
+	
 	public List<Player> getTurnList(){
 		List<Player> pList = this.getPlayersList();
 		Collections.sort(pList, new PlayerComparator());
