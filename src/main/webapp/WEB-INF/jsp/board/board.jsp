@@ -52,142 +52,51 @@
     </div>
     
 
-<!-- añadir al when que la fase sea la de seleccion de acciones -->
-<div class="row">	
-	<div class="col-md-9">
-    <c:choose>
-	    <c:when test="${myplayer == game.currentPlayer && myworker != null && phaseName == 'ACTION_SELECTION'}">
-			
-			
-
-		    <form:form class="form-horizontal" id="add-player-form">
-				<div class="form-group text-center">
-				
-					<h2>Select the tile where you'll place your worker</h2>
+	<!-- añadir al when que la fase sea la de seleccion de acciones -->
+	<div class="row">	
+		<div class="col-md-9">
+			<c:if test="${myplayer == game.currentPlayer && myworker != null && phaseName == 'ACTION_SELECTION'}">
+				<form:form class="form-horizontal" id="add-player-form">
+					<div class="form-group text-center">
 					
-					<div class="row-md-3">
-					
-					<c:choose>
-						<c:when test="${board.boardCells.get(0).isCellOccupied()}">
-							<button disabled class="btn btn-default" type="submit" onclick="check()" name="pos" value="1,0">1</button>
-						</c:when>
-						<c:otherwise>
-							<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="1,0">1</button>
-						</c:otherwise>
-					</c:choose>
-					
-					<c:choose>
-						<c:when test="${board.boardCells.get(1).isCellOccupied()}">
-							<button disabled class="btn btn-default" type="submit" onclick="check()" name="pos" value="2,0">2</button>
-						</c:when>
-						<c:otherwise>
-							<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="2,0">2</button>
-						</c:otherwise>
-					</c:choose>
-					
-					<c:choose>
-						<c:when test="${board.boardCells.get(2).isCellOccupied()}">
-							<button disabled class="btn btn-default" type="submit" onclick="check()" name="pos" value="3,0">3</button>
-						</c:when>
-						<c:otherwise>
-							<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="3,0">3</button>
-						</c:otherwise>
-					</c:choose>
-					
+						<h2>Select the tile where you'll place your worker</h2>
+						<c:set var="index" value="${0}"/>
+						<c:forEach items="${ypos}" var="y">
+							<div class="row-md-3">
+								<c:forEach items="${xpos}" var="x">
+									<dwarf:choosePanel index="${index}" yposition="${y}" xposition="${x}" isCellOccupied="${board.boardCells.get(index).isCellOccupied()}"/>
+									<c:set var="index" value="${index+1}"/>
+								</c:forEach>
+							</div>
+						</c:forEach>
+						
+						&nbsp;
+						<h2>Select the special action to perform</h2>
+						<p>You'll use your 2 workers for this turn, but the action will be performed immediatly</p>
+						
+						<div>
+							<c:choose>
+								<c:when test="${!canPay}">
+									<label><input disabled="disabled" type="checkbox" name="pay" value="yes"> Perform action with only 1 worker and pay 4 badges?</label>
+								</c:when>
+								<c:otherwise>
+									<label><input type="checkbox" name="pay" value="yes"> Perform action with only 1 worker and pay 4 badges?</label>
+								</c:otherwise>
+							</c:choose>
+						</div>
+		
+						<div class="row-md-3">
+							<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,0">Special 1</button>
+							<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,1">Special 2</button>
+							<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,2">Special 3</button>
+						</div>
+						
 					</div>
-					<div class="row-md-3">
-					
-					<c:choose>
-						<c:when test="${board.boardCells.get(3).isCellOccupied()}">
-							<button disabled class="btn btn-default" type="submit" onclick="check()" name="pos" value="1,1">4</button>
-						</c:when>
-						<c:otherwise>
-							<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="1,1">4</button>
-						</c:otherwise>
-					</c:choose>
-					
-					<c:choose>
-						<c:when test="${board.boardCells.get(4).isCellOccupied()}">
-							<button disabled class="btn btn-default" type="submit" onclick="check()" name="pos" value="2,1">5</button>
-						</c:when>
-						<c:otherwise>
-							<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="2,1">5</button>
-						</c:otherwise>
-					</c:choose>
-					
-					<c:choose>
-						<c:when test="${board.boardCells.get(5).isCellOccupied()}">
-							<button disabled class="btn btn-default" type="submit" onclick="check()" name="pos" value="3,1">6</button>
-						</c:when>
-						<c:otherwise>
-							<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="3,1">6</button>
-						</c:otherwise>
-					</c:choose>
-					
-					</div>
-					<div class="row-md-3">
-					
-					<c:choose>
-						<c:when test="${board.boardCells.get(6).isCellOccupied()}">
-							<button disabled class="btn btn-default" type="submit" onclick="check()" name="pos" value="1,2">7</button>
-						</c:when>
-						<c:otherwise>
-							<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="1,2">7</button>
-						</c:otherwise>
-					</c:choose>
-					
-					<c:choose>
-						<c:when test="${board.boardCells.get(7).isCellOccupied()}">
-							<button disabled class="btn btn-default" type="submit" onclick="check()" name="pos" value="2,2">8</button>
-						</c:when>
-						<c:otherwise>
-							<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="2,2">8</button>
-						</c:otherwise>
-					</c:choose>
-					
-					<c:choose>
-						<c:when test="${board.boardCells.get(8).isCellOccupied()}">
-							<button disabled class="btn btn-default" type="submit" onclick="check()" name="pos" value="3,2">9</button>
-						</c:when>
-						<c:otherwise>
-							<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="3,2">9</button>
-						</c:otherwise>
-					</c:choose>
-					
-					</div>
-					
-					&nbsp;
-					<h2>Select the special action to perform</h2>
-					<p>You'll use your 2 workers for this turn, but the action will be performed immediatly</p>
-					
-					<div>
-						<c:choose>
-							<c:when test="${!canPay}">
-								<label><input disabled="disabled" type="checkbox" name="pay" value="yes"> Perform action with only 1 worker and pay 4 badges?</label>
-							</c:when>
-							<c:otherwise>
-								<label><input type="checkbox" name="pay" value="yes"> Perform action with only 1 worker and pay 4 badges?</label>
-							</c:otherwise>
-						</c:choose>
-					</div>
-
-					<div class="row-md-3">
-						<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,0">Special 1</button>
-						<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,1">Special 2</button>
-						<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,2">Special 3</button>
-					</div>
-					
-				</div>
-		    </form:form>
-		    
-	    </c:when>
-	    <c:otherwise>
-	    
-	    </c:otherwise>
-    </c:choose>
-</div>
-	<img src="/resources/images/dwarfenenao_preview_rev_1.png"  width="250" height="250" style="float:right" id="miImagen">
-</div>
+			    </form:form>
+			</c:if>
+		</div>
+		<img src="/resources/images/dwarfenenao_preview_rev_1.png"  width="250" height="250" style="float:right" id="miImagen">
+	</div>
 </dwarf:layout>
 
 

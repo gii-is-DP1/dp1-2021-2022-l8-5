@@ -20,6 +20,7 @@ package org.springframework.dwarf.worker;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -81,7 +82,15 @@ public class WorkerService {
 		return workerRepo.findNotPlacedByGameId(gid);
 	}
 	
-
+	// need test
+	public List<Worker> findNotPlacedAidByGameId(int gid) {
+		List<Worker> notPlaced = workerRepo.findNotPlacedByGameId(gid);
+		return notPlaced.stream()
+				.filter(worker -> worker.isAidWorker())
+				.collect(Collectors.toList());
+	}
+	
+	// needs test
 	public List<Worker> findPlacedByGameId(int gid){
 		return workerRepo.findPlacedByGameId(gid);
 	}

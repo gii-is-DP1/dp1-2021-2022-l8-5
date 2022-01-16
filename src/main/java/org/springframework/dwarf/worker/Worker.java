@@ -68,5 +68,9 @@ public class Worker extends BaseEntity{
     public Integer getPositionYInPixels(Integer size) {
     	return (yposition)*size;
     }
+    
+    public boolean isAidWorker() {
+    	return this.getImage().equals("/resources/images/epicworker4.png");
+    }
 
 }

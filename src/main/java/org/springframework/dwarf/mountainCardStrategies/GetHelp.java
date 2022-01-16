@@ -1,7 +1,6 @@
 package org.springframework.dwarf.mountainCardStrategies;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.jpatterns.gof.StrategyPattern;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +19,6 @@ import org.springframework.dwarf.worker.Worker;
 import org.springframework.dwarf.worker.WorkerService;
 import org.springframework.stereotype.Component;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @StrategyPattern.ConcreteStrategy
 @Component
 public class GetHelp implements CardStrategy{
@@ -35,7 +31,6 @@ public class GetHelp implements CardStrategy{
 
 	@Override
 	public void actions(Player player, String cardName) {
-		//log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
 		
 		Game game = gameService.findPlayerUnfinishedGames(player).get();
 		Worker extraWorker1 = new Worker(player, game, 4);
@@ -52,10 +47,8 @@ public class GetHelp implements CardStrategy{
 			e.printStackTrace();
 		}
 		
-		// change players turn if you are the first
-		Optional<Game> playerGame = gameService.findPlayerUnfinishedGames(player);
 		if(player.getTurn().equals(1))
-			changePlayerNext(playerGame.get());
+			changePlayerNext(game);
 	}
 
 	private void changePlayerNext(Game game) {

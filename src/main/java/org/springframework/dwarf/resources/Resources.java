@@ -71,15 +71,20 @@ public class Resources extends BaseEntity{
 		this.setPlayer(sustitute);
 	}
 	
-	public void setResource(ResourceType resource, Integer amountToAdd) throws Exception{
+	public void setResource(ResourceType resource, Integer amountToAdd) throws Exception {
 		String resourceName = this.getResourceName(resource);
 
-		Method getter = this.getClass().getMethod("get" + resourceName);
-		amountToAdd += (Integer)getter.invoke(this);
+		amountToAdd += this.getResourceAmount(resource);
 
 		Method setter = this.getClass().getMethod("set" + resourceName, Integer.class);
 		amountToAdd = amountToAdd < 0 ? 0:amountToAdd;
 		setter.invoke(this, amountToAdd);
+	}
+	
+	public Integer getResourceAmount(ResourceType resource) throws Exception {
+		String resourceName = this.getResourceName(resource);
+		Method getter = this.getClass().getMethod("get" + resourceName);
+		return (Integer)getter.invoke(this);
 	}
 	
 	// Ej: BADGES --> Badges
