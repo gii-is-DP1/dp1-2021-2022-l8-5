@@ -13,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dwarf.board.Board;
+import org.springframework.dwarf.board.BoardService;
 import org.springframework.dwarf.mountain_card.MountainDeck;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
@@ -25,6 +27,8 @@ public class GameServiceTest {
 	protected GameService gameService;
 	@Autowired
 	protected PlayerService playerService;
+	@Autowired
+	protected BoardService boardService;
 	
 	@Test
 	@DisplayName("Returns the number of games created")
@@ -34,16 +38,21 @@ public class GameServiceTest {
 	}
 	
 	@Test
-	@DisplayName("Returns a game by its Id correctly")
-	void testFindGameWithCorrectId() {
+	@DisplayName("Returns a game by its Id correctly -  Positive")
+	void testFindGameWithCorrectIdPositive() {
 		Optional<Game> game = this.gameService.findByGameId(3);
-		if(game.isPresent()) {
-			assertThat(game.get().getFinishDate()).isEqualTo(LocalDateTime.of(2021, 11, 12, 17, 42, 0, 0));
-			assertThat(game.get().getFirstPlayer().getUsername()).isEqualTo("dieruigil");
-		}else {
-			System.out.println("Game not found");
-		}
+		assertThat(game.get().getFinishDate()).isEqualTo(LocalDateTime.of(2021, 11, 12, 17, 42, 0, 0));
+		assertThat(game.get().getFirstPlayer().getUsername()).isEqualTo("dieruigil");
 	}
+	
+	@Test
+	@DisplayName("Returns a game by its Id correctly - Negative")
+	void testFindGameWithCorrectIdNegative() {
+		Optional<Game> game = this.gameService.findByGameId(5);
+		assertThat(game.isEmpty());
+		System.out.println("Game not found");	
+	}
+	
 	
 	@Test
 	@DisplayName("Returns all games")
@@ -169,20 +178,50 @@ public class GameServiceTest {
 	}
 	
 	@Test
-	@DisplayName("Delete a game")
-	void testDeleteGame() {
+	@DisplayName("Find Board By GameId- Positive")
+	void testFindBoardByGameIdPositive() {
+		Optional<Game> g = gameService.findByGameId(3);
+		Optional<Board> boardId = boardService.findByBoardId(2);
+		Optional<Board> board = gameService.findBoardByGameId(g.get().getId());
+		assertThat(board.get().getId()).isEqualTo(boardId.get().getId());
+		
+	}
+	
+	
+	@Test
+	@DisplayName("Delete a game - Positive")
+	void testDeleteGamePositive() {
 		int gameId = 3;
 		
 		Optional<Game> game = gameService.findByGameId(gameId);
+		gameService.delete(game.get());
+		Optional<Game> gameDeleted = gameService.findByGameId(gameId);
+		assertThat(gameDeleted.isPresent()).isFalse();
+	}
+	
+	@Test
+	@DisplayName("Delete a game - Negative")
+	void testDeleteGameNegative() {
+		int gameId = 5;
 		
-		if(game.isPresent()) {
-			gameService.delete(game.get());
-			Optional<Game> gameDeleted = gameService.findByGameId(gameId);
-			assertThat(gameDeleted.isPresent()).isFalse();
-		}else {
-			System.out.println("Game not found");
+		Optional<Game> game = gameService.findByGameId(gameId);
+		assertThat(game.isEmpty());
+		System.out.println("Game not found");
+	}
+	
+	@Test
+	@DisplayName("Find Unfinished Games")
+	void testFindUnfinishedGames() {
+	
+		List<Game> games = gameService.findUnfinishedGames();
+		for(Game g:games) {
+			assertThat(g.getFinishDate()).isNull();
 		}
 	}
+	
+	
+	
+	
 	
 	@Test
 	@DisplayName("Exit game")
