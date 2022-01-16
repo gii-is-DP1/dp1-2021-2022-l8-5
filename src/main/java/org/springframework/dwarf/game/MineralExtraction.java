@@ -41,6 +41,7 @@ public class MineralExtraction implements GamePhase{
 			return;
 		
 		this.removeWorkers(game);
+		game.setCurrentPlayer(game.getTurnList().get(0));
 		
 		// picks two random cards
 		MountainDeck mountaindeck = gameService.searchDeckByGameId(game.getId()).get();
@@ -74,7 +75,9 @@ public class MineralExtraction implements GamePhase{
 		List<Worker> workersPlaced = workerService.findPlacedByGameId(game.getId());
 		Board board = gameService.findBoardByGameId(game.getId()).get();
 		for(Worker worker: workersPlaced) {
-			this.setAndSaveBoardCell(board.getBoardCell(worker.getXposition(), worker.getYposition()));
+			if (worker.getXposition() != 0) {
+				this.setAndSaveBoardCell(board.getBoardCell(worker.getXposition(), worker.getYposition()));
+			}
 			this.setAndSaveWorker(worker);
 		}
 	}
