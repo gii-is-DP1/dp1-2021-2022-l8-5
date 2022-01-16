@@ -214,15 +214,10 @@ public class BoardController {
     
     private String updatingWorkerSpecial(List<Worker> workers, Worker myworker, Boolean useBadges, Integer boardId, Integer gameId, Error errors, BindingResult result) {
     	String redirect = "redirect:/boards/"+ boardId +  "/game/"+gameId;
+    	
     	if (useBadges) {
     		Worker workerFound = workers.get(0);
-    		BeanUtils.copyProperties(myworker, workerFound, "id", "player", "game", "image");
-    		try {
-    			this.workerService.saveWorker(workerFound);
-    		} catch (IllegalPositionException e) {
-    			result.rejectValue ("xposition", " invalid", "can't be empty");
-    			return "/board/board";
-    		}
+    		redirect = updateWorker(myworker, workerFound, result, redirect);
     		
     		Player player = workerFound.getPlayer();
     		Resources r = resourcesService.findByPlayerIdAndGameId(player.getId(), gameId).get();
@@ -236,39 +231,38 @@ public class BoardController {
 
     	} else {
         	for (Worker workerFound : workers) {
-        		BeanUtils.copyProperties(myworker, workerFound, "id", "player", "game", "image");
-        		try {
-        			this.workerService.saveWorker(workerFound);
-        		} catch (IllegalPositionException e) {
-        			result.rejectValue ("xposition", " invalid", "can't be empty");
-        			return "/board/board";
-        		}
+        		redirect = updateWorker(myworker, workerFound, result, redirect);
         	}
     	}
 
     	//ejecutar la action
+    	
     	return redirect;
     }
     
-	private String updatingWorker(Worker workerFound, Worker myworker, Integer boardId, Integer gameId, Error errors, BindingResult result) {
-		
-		String redirect = "redirect:/boards/"+ boardId +  "/game/"+gameId;
+    private String updateWorker(Worker myworker, Worker workerFound, BindingResult result, String redirect) {
 		BeanUtils.copyProperties(myworker, workerFound, "id", "player", "game", "image");
-		BoardCell boardCell = boardCellService.findByPosition(workerFound.getXposition(), workerFound.getYposition());
-	
-		if(boardCell.isCellOccupied()){
-			return errors.getMessage();
-		}
-		//boardCell.setCellOccupied(true);
-		boardCell.setOccupiedBy(LoggedUserController.loggedPlayer());
 		workerFound.setStatus(true);
-	//	b.setCellOccupied(true);
 		try {
 			this.workerService.saveWorker(workerFound);
 		} catch (IllegalPositionException e) {
 			result.rejectValue ("xposition", " invalid", "can't be empty");
 			return "/board/board";
 		}
+		return redirect;
+    }
+    
+	private String updatingWorker(Worker workerFound, Worker myworker, Integer boardId, Integer gameId, Error errors, BindingResult result) {
+		
+		String redirect = "redirect:/boards/"+ boardId +  "/game/"+gameId;
+		redirect = updateWorker(myworker, workerFound, result, redirect);
+		BoardCell boardCell = boardCellService.findByPosition(workerFound.getXposition(), workerFound.getYposition());
+	
+		if(boardCell.isCellOccupied()){
+			return errors.getMessage();
+		}
+
+		boardCell.setOccupiedBy(LoggedUserController.loggedPlayer());
 		this.boardCellService.saveBoardCell(boardCell);
 		this.boardService.saveBoard(boardService.findByBoardId(boardId).get());
 		

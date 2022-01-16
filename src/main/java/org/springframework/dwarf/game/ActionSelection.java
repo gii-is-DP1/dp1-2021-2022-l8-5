@@ -28,28 +28,39 @@ public class ActionSelection implements GamePhase{
 		if (!currentPlayer.equals(loggedUser))
 			return;
 		
+		List<Worker> notPlacedWorkers = workerService.findNotPlacedByGameId(game.getId());
+		// last worker to be placed
+		if(notPlacedWorkers.size()==1)
+			game.setPhase(GamePhaseEnum.ACTION_RESOLUTION);
+		
 		try {
 			changeCurrentPlayer(game);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		List<Worker> notPlacedWorkers = workerService.findNotPlacedByGameId(game.getId());
-		// last worker to be placed
-		if(notPlacedWorkers.size()==1)
-			game.setPhase(GamePhaseEnum.ACTION_RESOLUTION);
+		
 	}
 	
 	private void changeCurrentPlayer(Game game) throws CreateGameWhilePlayingException {
 		List<Player> turn = game.getTurnList();
 		Player currentPlayer = game.getCurrentPlayer();
-
-		Integer index = turn.indexOf(currentPlayer);
-		currentPlayer = turn.get((index+1)%3);
+		Boolean changePlayer = true;
 		
-		game.setCurrentPlayer(currentPlayer);
+		List<Worker> notPlacedWorkers = workerService.findNotPlacedByGameId(game.getId());
+		if (notPlacedWorkers.size()==1) {
+			changePlayer = false;
+		}
+		
+		while(changePlayer) {
+			Integer index = turn.indexOf(currentPlayer);
+			currentPlayer = turn.get((index+1)%3);
+			game.setCurrentPlayer(currentPlayer);
+			List<Worker> workersNotPlaced = workerService.findNotPlacedByPlayerIdAndGameId(currentPlayer.getId(), game.getId());
+			changePlayer = workersNotPlaced.isEmpty();
+		}
+		
 		gameService.saveGame(game);
-		phaseResolution(game);
 	}
 
 	@Override

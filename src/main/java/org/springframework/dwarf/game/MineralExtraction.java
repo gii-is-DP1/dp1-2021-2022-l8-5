@@ -41,6 +41,7 @@ public class MineralExtraction implements GamePhase{
 			return;
 		
 		this.removeWorkers(game);
+		game.setCurrentPlayer(game.getTurnList().get(0));
 		
 		// picks two random cards
 		MountainDeck mountaindeck = gameService.searchDeckByGameId(game.getId()).get();
