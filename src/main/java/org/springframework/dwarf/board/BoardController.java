@@ -77,6 +77,7 @@ public class BoardController {
 		for (Player p : game.getPlayersList()) {
 			resourcesService.createPlayerResource(p, game);
 			workerService.createPlayerWorkers(p, game, i);
+			//modelMap.addAttribute("imgPlayer" + i, i);
 			i = i+1;
 		}
 		this.setTurns(game.getPlayersList());
