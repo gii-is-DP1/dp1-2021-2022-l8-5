@@ -55,41 +55,45 @@
 	<!-- añadir al when que la fase sea la de seleccion de acciones -->
 	<div class="row">	
 		<div class="col-md-9">
-			<c:if test="${myplayer == game.currentPlayer && myworker != null && phaseName == 'ACTION_SELECTION'}">
+			<c:if test="${myplayer == game.currentPlayer && myworker != null && phaseName != 'MINERAL_EXTRACTION'}">
 				<form:form class="form-horizontal" id="add-player-form">
 					<div class="form-group text-center">
 					
-						<h2>Select the tile where you'll place your worker</h2>
-						<c:set var="index" value="${0}"/>
-						<c:forEach items="${ypos}" var="y">
-							<div class="row-md-3">
-								<c:forEach items="${xpos}" var="x">
-									<dwarf:choosePanel index="${index}" yposition="${y}" xposition="${x}" isCellOccupied="${board.boardCells.get(index).isCellOccupied()}"/>
-									<c:set var="index" value="${index+1}"/>
-								</c:forEach>
+						<c:if test="${phaseName == 'ACTION_SELECTION' || hasAidWorkers}">
+							<h2>Select the tile where you'll place your worker</h2>
+							<c:set var="index" value="${0}"/>
+							<c:forEach items="${ypos}" var="y">
+								<div class="row-md-3">
+									<c:forEach items="${xpos}" var="x">
+										<dwarf:choosePanel index="${index}" yposition="${y}" xposition="${x}" isCellOccupied="${board.boardCells.get(index).isCellOccupied()}"/>
+										<c:set var="index" value="${index+1}"/>
+									</c:forEach>
+								</div>
+							</c:forEach>
+						</c:if>
+						
+						<c:if test="${phaseName == 'ACTION_SELECTION'}">
+							&nbsp;
+							<h2>Select the special action to perform</h2>
+							<p>You'll use your 2 workers for this turn, but the action will be performed immediatly</p>
+							
+							<div>
+								<c:choose>
+									<c:when test="${!canPay}">
+										<label><input disabled="disabled" type="checkbox" name="pay" value="yes"> Perform action with only 1 worker and pay 4 badges?</label>
+									</c:when>
+									<c:otherwise>
+										<label><input type="checkbox" name="pay" value="yes"> Perform action with only 1 worker and pay 4 badges?</label>
+									</c:otherwise>
+								</c:choose>
 							</div>
-						</c:forEach>
-						
-						&nbsp;
-						<h2>Select the special action to perform</h2>
-						<p>You'll use your 2 workers for this turn, but the action will be performed immediatly</p>
-						
-						<div>
-							<c:choose>
-								<c:when test="${!canPay}">
-									<label><input disabled="disabled" type="checkbox" name="pay" value="yes"> Perform action with only 1 worker and pay 4 badges?</label>
-								</c:when>
-								<c:otherwise>
-									<label><input type="checkbox" name="pay" value="yes"> Perform action with only 1 worker and pay 4 badges?</label>
-								</c:otherwise>
-							</c:choose>
-						</div>
-		
-						<div class="row-md-3">
-							<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,0">Special 1</button>
-							<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,1">Special 2</button>
-							<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,2">Special 3</button>
-						</div>
+			
+							<div class="row-md-3">
+								<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,0">Special 1</button>
+								<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,1">Special 2</button>
+								<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,2">Special 3</button>
+							</div>
+						</c:if>
 						
 					</div>
 			    </form:form>

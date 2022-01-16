@@ -116,6 +116,7 @@ public class BoardController {
 		modelMap = this.setHasEnoughBadges(modelMap, myplayer.getId(), gameId);
 		
 		modelMap = this.setMyWorkerForPost(modelMap, myplayer.getId(), gameId);
+		modelMap = this.hasAidWorkers(modelMap, gameId);
 
     	modelMap.addAttribute("myplayer", myplayer);
     	modelMap.addAttribute("board", board);
