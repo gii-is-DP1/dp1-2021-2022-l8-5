@@ -110,7 +110,7 @@ public class WorkerService {
 		if (worker.xposition==null || worker.yposition==null) {
 			return false;
 		} else {
-		res = res || !(worker.xposition>=1 && worker.xposition<=3);
+		res = res || !(worker.xposition>=0 && worker.xposition<=3);
 		res = res || !(worker.yposition>=0 && worker.yposition<=2);
 		return res;	
 		}

@@ -40,7 +40,7 @@ public class Worker extends BaseEntity{
 	}
 
 	@Column(name = "xposition")
-	@Range(min= 1, max= 3)
+	@Range(min= 0, max= 3)
     Integer xposition;
 	
 	@Column(name = "yposition")
