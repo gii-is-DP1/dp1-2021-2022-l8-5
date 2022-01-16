@@ -35,31 +35,57 @@ public class SpecialDeckServiceTest {
 	}
 	
 	@Test 
-	@DisplayName("Returns a special_deck by its Id correctly")
-	void testFinBySpecialDeckId() {
+	@DisplayName("Returns a special_deck by its Id correctly - Positive")
+	void testFinBySpecialDeckIdPositive() {
 		int specialdeckid=1;
 		Optional<SpecialDeck> sp= specialDeckService.findBySpecialDeckId(specialdeckid);
-		if(sp.isPresent()) {
-			assertThat(sp.get().getXPosition()).isEqualTo(0);
-			assertThat(sp.get().getYPosition()).isEqualTo(0);
-		}else {
-			System.out.println("Special deck not found");
-		}
+		assertThat(sp.get().getXPosition()).isEqualTo(0);
+		assertThat(sp.get().getYPosition()).isEqualTo(0);
+		System.out.println("Special deck not found");
+	}
+	
+	@Test 
+	@DisplayName("Returns a special_deck by its Id correctly - Negative")
+	void testFinBySpecialDeckIdNegative() {
+		int specialdeckid=17;
+		Optional<SpecialDeck> sp= specialDeckService.findBySpecialDeckId(specialdeckid);
+		assertThat(sp.isEmpty());
+		System.out.println("Special deck not found");
 	
 	}
 	@Test
-	@DisplayName("Delete a special deck")
-	void testDeleteSpecialDeck() {
+	@DisplayName("Delete a special deck - Positive")
+	void testDeleteSpecialDeckPositive() {
 		int spid=2;
 		Optional<SpecialDeck> sp= specialDeckService.findBySpecialDeckId(spid);
-		if(sp.isPresent()) {
-			specialDeckService.delete(sp.get());
-			Optional<SpecialDeck> spdeleted =specialDeckService.findBySpecialDeckId(spid);
-			assertThat(spdeleted.isPresent()).isFalse();
-		}else {
-			System.out.println("Special deck not found");
-		}	
+		specialDeckService.delete(sp.get());
+		Optional<SpecialDeck> spdeleted =specialDeckService.findBySpecialDeckId(spid);
+		assertThat(spdeleted.isPresent()).isFalse();
+		
 	}
+	
+	@Test
+	@DisplayName("Delete a special deck - Negative")
+	void testDeleteSpecialDeckNegative() {
+		int spid=17;
+		Optional<SpecialDeck> sp= specialDeckService.findBySpecialDeckId(spid);
+		assertThat(sp.isEmpty());
+		System.out.println("Special deck not found");	
+	}
+	
+	@Test
+	@DisplayName("Create SpecialDeck")
+	void testCreateSpecialDeck() {
+		List<Integer> sc= new ArrayList<Integer>();
+		sc.add(specialCardService.findBySpecialCardId(1).get().getId());
+		sc.add(specialCardService.findBySpecialCardId(2).get().getId());
+		sc.add(specialCardService.findBySpecialCardId(3).get().getId());
+		SpecialDeck sp = specialDeckService.createSpecialDeck(0, 0, sc);
+		assertThat(sp).isNotNull();
+	}
+	
+	
+	
 	@Test
 	@DisplayName("Save a special deck")
 	void testSaveSpecialDeck() {

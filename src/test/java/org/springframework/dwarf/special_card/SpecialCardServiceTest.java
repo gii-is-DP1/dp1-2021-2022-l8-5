@@ -25,15 +25,22 @@ public class SpecialCardServiceTest {
 	}
 	
 	@Test
-	@DisplayName("Returns a special card by its Id correctly")
-	void testFindBySpecialCardId() {
+	@DisplayName("Returns a special card by its Id correctly - Positive")
+	void testFindBySpecialCardIdPositive() {
 		Optional<SpecialCard> specialCard = specialCardService.findBySpecialCardId(1);
-		if(specialCard.isPresent()) {
-			assertThat(specialCard.get().getName()).isEqualTo("Muster an Army");
-		}else {
-			System.out.println("Special card not found");
-		}
+		assertThat(specialCard.get().getName()).isEqualTo("Muster an Army");
+		//System.out.println("Special card not found");
 	}
+	
+	@Test
+	@DisplayName("Returns a special card by its Id correctly - Negative")
+	void testFindBySpecialCardIdNegative() {
+		Optional<SpecialCard> specialCard = specialCardService.findBySpecialCardId(17);
+		assertThat(specialCard.isEmpty());
+		System.out.println("Special card not found");
+	}
+	
+	
 	
 	@Test
 	@DisplayName("Returns all special cards")
