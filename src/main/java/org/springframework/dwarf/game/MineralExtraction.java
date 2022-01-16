@@ -75,7 +75,9 @@ public class MineralExtraction implements GamePhase{
 		List<Worker> workersPlaced = workerService.findPlacedByGameId(game.getId());
 		Board board = gameService.findBoardByGameId(game.getId()).get();
 		for(Worker worker: workersPlaced) {
-			this.setAndSaveBoardCell(board.getBoardCell(worker.getXposition(), worker.getYposition()));
+			if (worker.getXposition() != 0) {
+				this.setAndSaveBoardCell(board.getBoardCell(worker.getXposition(), worker.getYposition()));
+			}
 			this.setAndSaveWorker(worker);
 		}
 	}
