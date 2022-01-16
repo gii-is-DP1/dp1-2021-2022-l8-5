@@ -108,6 +108,10 @@ public class Game extends BaseEntity{
 	@Column(name = "CANRESOLVEACTIONS")
 	boolean canResolveActions;
 	
+	// por alguna razon el @Getter no pilla el atributo, pero el @Setter si
+	public boolean getCanResolveActions() {
+		return this.canResolveActions;
+	}
 	
 	public List<Player> getPlayersList(){
 		List<Player> pList = new ArrayList<Player>();

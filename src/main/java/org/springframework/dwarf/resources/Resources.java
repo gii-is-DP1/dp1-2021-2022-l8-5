@@ -78,8 +78,8 @@ public class Resources extends BaseEntity{
 		amountToAdd += (Integer)getter.invoke(this);
 
 		Method setter = this.getClass().getMethod("set" + resourceName, Integer.class);
+		amountToAdd = amountToAdd < 0 ? 0:amountToAdd;
 		setter.invoke(this, amountToAdd);
-			
 	}
 	
 	// Ej: BADGES --> Badges
