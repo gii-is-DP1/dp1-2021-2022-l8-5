@@ -1,6 +1,7 @@
 package org.springframework.dwarf.forgesAlloyResources;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,4 +28,19 @@ public class ForgesAlloyResourcesServiceTest {
 		
 		assertThat(forgesAlloyResources.getResourcesReceived().getResource()).isEqualTo(ResourceType.STEEL);
 	}
+	
+	@Test
+	@DisplayName("Find ForgesAlloyResources by card name (Negative)")
+	void testFindByCardNameNeg() {
+		String cardName = "Alloy Steel No";
+		
+		ForgesAlloyResources forgesAlloyResources = this.forgeAlloyResourceService.findByCardName(cardName);
+		
+		 assertThrows(NullPointerException.class, () -> {
+			 forgesAlloyResources.getResourcesReceived().getResource();
+		    });
+		
+	}
+	
+	
 }

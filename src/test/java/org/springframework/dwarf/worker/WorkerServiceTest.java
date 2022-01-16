@@ -1,6 +1,7 @@
 package org.springframework.dwarf.worker;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
 import org.springframework.stereotype.Service;
@@ -35,7 +37,7 @@ public class WorkerServiceTest {
 		assertEquals(count,1);
 	}
 
-		@Test
+	@Test
 	public void testFindAll() {
 		Iterable<Worker> workers = this.workerService.findAll();
 		assertEquals(workers.spliterator().getExactSizeIfKnown(), 1);
@@ -73,7 +75,7 @@ public class WorkerServiceTest {
 	}
 	
 	@Test
-	public void tesFfindNotPlacedAndGameId() {
+	public void tesFfindNotPlacedByGameId() {
 		int gid = 1;
 		
 		Collection<Worker> Worker = workerService.findNotPlacedByGameId(gid);
@@ -81,7 +83,14 @@ public class WorkerServiceTest {
 		
 	}
 	
-	
+	@Test
+	public void tesFfindPlacedByGameId() {
+		int gid = 1;
+		
+		Collection<Worker> Worker = workerService.findPlacedByGameId(gid);
+		assertThat(Worker.size()).isEqualTo(0);
+		
+	}
 	
 	@Test
 	public void testFindByPlayerIdAndGameId() {
@@ -108,6 +117,7 @@ public class WorkerServiceTest {
 		Worker WorkerTest = new Worker();
 		WorkerTest.setStatus(true);
 		WorkerTest.setXposition(3);
+		WorkerTest.setYposition(2);
 		
 		workerService.saveWorker(WorkerTest);
 		int id = WorkerTest.getId();
@@ -116,6 +126,58 @@ public class WorkerServiceTest {
 		System.out.println("------------TEST SAVE Worker------------");
 		Worker p = Worker.orElse(null);
 		assertEquals(p.getXposition(), 3);
+	}
+	
+	
+	@Test
+	public void testInvalidWorker() {
+		Worker WorkerTest = new Worker();
+		WorkerTest.xposition=0;
+		WorkerTest.yposition=2;
+		
+		Boolean res = workerService.getWorkerInvalid(WorkerTest);
+		
+		assertEquals(res, true);
+	}
+	
+	@Test
+	public void testNullWorker() {
+		Worker WorkerTest = new Worker();
+		WorkerTest.xposition=null;
+		WorkerTest.yposition=null;
+		
+		Boolean res = workerService.getWorkerInvalid(WorkerTest);
+		
+		assertEquals(res, false);
+	}
+	
+	@Test
+	public void testSaveWorkerInvalid() {
+		Worker WorkerTest = new Worker();
+		WorkerTest.xposition=0;
+		WorkerTest.yposition=2;
+		
+		 assertThrows(IllegalPositionException.class, () -> {
+			 workerService.saveWorker(WorkerTest);
+		    });
+	}
+	
+	@Test
+	public void testCreatePlayerWorkers() throws IllegalPositionException {
+		
+		Player player = playerService.findPlayerById(1);
+		Game game = new Game();
+		game.setId(1);
+		
+		int count = workerService.findByPlayerIdAndGameId(1, 1).size();
+		
+		workerService.createPlayerWorkers(player, game, 1);
+		
+		int countAfter = workerService.findByPlayerIdAndGameId(1, 1).size();
+		
+		assertEquals(count+2, countAfter);
+		
+
 	}
 	
 	@Test
