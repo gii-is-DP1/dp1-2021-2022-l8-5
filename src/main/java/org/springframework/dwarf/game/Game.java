@@ -126,20 +126,10 @@ public class Game extends BaseEntity{
 		return pList;
 	}
 	
-	public void setPlayerPosition(Player player, Integer position) {
-		switch (position) {
-			case 0:
-				this.setFirstPlayer(player);
-				break;
-			case 1:
-				this.setSecondPlayer(player);
-				break;
-			case 2:
-				this.setThirdPlayer(player);
-				break;
-			default:
-				break;
-		}
+	public void setPlayerPosition(List<Player> players) {
+		this.setFirstPlayer(players.get(0));
+		this.setSecondPlayer(players.get(1));
+		this.setThirdPlayer(players.get(2));
 	}
 	
 	public List<Player> getTurnList(){
