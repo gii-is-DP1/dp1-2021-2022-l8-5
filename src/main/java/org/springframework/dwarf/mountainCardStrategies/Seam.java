@@ -12,9 +12,6 @@ import org.springframework.dwarf.resources.ResourcesService;
 import org.springframework.stereotype.Component;
 import org.springframework.dwarf.card.StrategyName;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @StrategyPattern.ConcreteStrategy
 @Component
 public class Seam implements CardStrategy {
@@ -28,8 +25,6 @@ public class Seam implements CardStrategy {
 	
 	@Override
 	public void actions(Player player, String cardName) {
-		//log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
-		
 		this.setResources(cardName);
 		
 		Game game = gameService.findPlayerUnfinishedGames(player).get();

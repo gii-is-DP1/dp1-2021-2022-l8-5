@@ -34,6 +34,8 @@ public class ActionResolution implements GamePhase{
     private ResourcesService resourcesService;
     @Autowired
     private ApplicationContext applicationContext;
+    
+    private static final int FINAL_GAME_ROUND = 6;
 
 	@Override
 	public void phaseResolution(Game game) {
@@ -51,7 +53,12 @@ public class ActionResolution implements GamePhase{
 		game.setCanResolveActions(true);
 		// necesita testeo
 		this.updatePlayersPositions(game);
-		game.setPhase(GamePhaseEnum.MINERAL_EXTRACTION);
+		if(game.getCurrentRound() < FINAL_GAME_ROUND) {
+			game.setPhase(GamePhaseEnum.MINERAL_EXTRACTION);
+		} else {
+			// finalizar partida
+		}
+		
 	}
 	
 	private boolean canResolveAction(Game game, MountainCard mountainCard) {
@@ -147,16 +154,14 @@ public class ActionResolution implements GamePhase{
 
 	private void updateGameWithPositions(List<Integer> points, Game game) {
 		List<Integer> sortedPoints = new ArrayList<Integer>(points);
-		Collections.sort(sortedPoints);
-		List<Player> players = game.getPlayersList();
+		sortedPoints.sort(Collections.reverseOrder());
+		List<Player> players = new ArrayList<Player>(List.of(null,null,null));
 		
 		for(int i=0; i<sortedPoints.size(); i++) {
-			Integer index = points.indexOf(sortedPoints.get(0));
-			// lista ordenada de menor a mayor
-			Integer position = sortedPoints.size()-i;
-			game.setPlayerPosition(players.get(index), position);
-		}
-		
+			Integer index = points.indexOf(sortedPoints.get(i));
+			players.add(i,game.getPlayersList().get(index));
+			game.setPlayerPosition(players);
+		}	
 	}
 	
 	@Override
