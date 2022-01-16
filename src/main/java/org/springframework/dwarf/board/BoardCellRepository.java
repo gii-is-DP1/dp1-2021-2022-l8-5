@@ -8,6 +8,10 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 public interface BoardCellRepository extends  CrudRepository<BoardCell, Integer>{
+	List<BoardCell> findAll();
+	
+	@Query(value = "SELECT BC.* FROM BOARDCELLS BC JOIN BOARDS B WHERE B.ID=:boardId", nativeQuery = true)
+	List<BoardCell> findAllByBoardId(@Param("boardId") Integer boardId)  throws DataAccessException;
 	
 	@Query("SELECT bc FROM BoardCell bc WHERE bc.xposition =:xposition AND bc.yposition =:yposition")
 	BoardCell findByPosition(@Param("xposition") Integer xposition, @Param("yposition") Integer yposition)  throws DataAccessException;

@@ -27,7 +27,7 @@ public class BoardCellService {
 		return boardCellRep.count();
 	}
 	
-	public Iterable<BoardCell> findAll() {
+	public List<BoardCell> findAll() {
 		return boardCellRep.findAll();
 	}
 	
@@ -45,6 +45,11 @@ public class BoardCellService {
 	// hacer test
 	public List<BoardCell> findOccupiedByBoardId(Integer boardId) {
 		return boardCellRep.findOccupiedByBoardId(boardId);
+	}
+	
+	// hacer test
+	public List<BoardCell> findAllByBoardId(Integer boardId) {
+		return boardCellRep.findAllByBoardId(boardId);
 	}
 	
 	public void delete(BoardCell boardCell) {

@@ -64,7 +64,7 @@
 					<div class="row-md-3">
 					
 					<c:choose>
-						<c:when test="${board.boardCells.get(0).cellOccupied}">
+						<c:when test="${board.boardCells.get(0).isCellOccupied()}">
 							<button disabled class="btn btn-default" type="submit" onclick="check()" name="pos" value="1,0">1</button>
 						</c:when>
 						<c:otherwise>
@@ -73,7 +73,7 @@
 					</c:choose>
 					
 					<c:choose>
-						<c:when test="${board.boardCells.get(1).cellOccupied}">
+						<c:when test="${board.boardCells.get(1).isCellOccupied()}">
 							<button disabled class="btn btn-default" type="submit" onclick="check()" name="pos" value="2,0">2</button>
 						</c:when>
 						<c:otherwise>
@@ -82,7 +82,7 @@
 					</c:choose>
 					
 					<c:choose>
-						<c:when test="${board.boardCells.get(2).cellOccupied}">
+						<c:when test="${board.boardCells.get(2).isCellOccupied()}">
 							<button disabled class="btn btn-default" type="submit" onclick="check()" name="pos" value="3,0">3</button>
 						</c:when>
 						<c:otherwise>
@@ -94,7 +94,7 @@
 					<div class="row-md-3">
 					
 					<c:choose>
-						<c:when test="${board.boardCells.get(3).cellOccupied}">
+						<c:when test="${board.boardCells.get(3).isCellOccupied()}">
 							<button disabled class="btn btn-default" type="submit" onclick="check()" name="pos" value="1,1">4</button>
 						</c:when>
 						<c:otherwise>
@@ -103,7 +103,7 @@
 					</c:choose>
 					
 					<c:choose>
-						<c:when test="${board.boardCells.get(4).cellOccupied}">
+						<c:when test="${board.boardCells.get(4).isCellOccupied()}">
 							<button disabled class="btn btn-default" type="submit" onclick="check()" name="pos" value="2,1">5</button>
 						</c:when>
 						<c:otherwise>
@@ -112,7 +112,7 @@
 					</c:choose>
 					
 					<c:choose>
-						<c:when test="${board.boardCells.get(5).cellOccupied}">
+						<c:when test="${board.boardCells.get(5).isCellOccupied()}">
 							<button disabled class="btn btn-default" type="submit" onclick="check()" name="pos" value="3,1">6</button>
 						</c:when>
 						<c:otherwise>
@@ -124,7 +124,7 @@
 					<div class="row-md-3">
 					
 					<c:choose>
-						<c:when test="${board.boardCells.get(6).cellOccupied}">
+						<c:when test="${board.boardCells.get(6).isCellOccupied()}">
 							<button disabled class="btn btn-default" type="submit" onclick="check()" name="pos" value="1,2">7</button>
 						</c:when>
 						<c:otherwise>
@@ -133,7 +133,7 @@
 					</c:choose>
 					
 					<c:choose>
-						<c:when test="${board.boardCells.get(7).cellOccupied}">
+						<c:when test="${board.boardCells.get(7).isCellOccupied()}">
 							<button disabled class="btn btn-default" type="submit" onclick="check()" name="pos" value="2,2">8</button>
 						</c:when>
 						<c:otherwise>
@@ -142,7 +142,7 @@
 					</c:choose>
 					
 					<c:choose>
-						<c:when test="${board.boardCells.get(8).cellOccupied}">
+						<c:when test="${board.boardCells.get(8).isCellOccupied()}">
 							<button disabled class="btn btn-default" type="submit" onclick="check()" name="pos" value="3,2">9</button>
 						</c:when>
 						<c:otherwise>

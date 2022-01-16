@@ -9,12 +9,10 @@ import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.resources.ResourceType;
 import org.springframework.dwarf.resources.Resources;
 import org.springframework.dwarf.resources.ResourcesService;
+import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.stereotype.Component;
 import org.springframework.dwarf.card.StrategyName;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @StrategyPattern.ConcreteStrategy
 @Component
 public class Shide implements CardStrategy{
@@ -26,19 +24,21 @@ public class Shide implements CardStrategy{
 	
 	@Override
 	public void actions(Player player, String cardName) {
-		//log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
+		Player loggedUser = LoggedUserController.loggedPlayer();
+		Game game = gameService.findByGameId(gameService.getCurrentGameId(loggedUser)).get();
+		boolean defended = player != null;
 		
-		Game game = gameService.findByGameId(gameService.getCurrentGameId(player)).get();
-		
-		for(Player p: game.getPlayersList()) {
-			this.exchangeResources(p, game);
-		}
-		
-		Resources playerDefenderResources = resourcesService.findByPlayerIdAndGameId(player.getId(),game.getId()).get();
-		try {
-			playerDefenderResources.setResource(ResourceType.BADGE, 1);
-		} catch (Exception e) {
-			e.printStackTrace();
+		if(!defended) {
+			for(Player p: game.getPlayersList()) {
+				this.exchangeResources(p, game);
+			}
+		} else {
+			Resources playerDefenderResources = resourcesService.findByPlayerIdAndGameId(player.getId(),game.getId()).get();
+			try {
+				playerDefenderResources.setResource(ResourceType.BADGES, 1);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
