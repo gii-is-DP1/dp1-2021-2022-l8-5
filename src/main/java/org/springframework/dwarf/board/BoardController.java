@@ -230,7 +230,7 @@ public class BoardController {
     	
     }
     
-    private String updatingWorkerSpecial(Player player, List<Worker> workers, Worker myworker, Boolean useBadges, Integer boardId, Integer gameId, Error errors, BindingResult result) {
+    private String updatingWorkerSpecial(Player player, List<Worker> workers, Worker myworker, Boolean useBadges, Integer boardId, Integer gameId, Error errors, BindingResult result) throws Exception {
     	String redirect = "redirect:/boards/"+ boardId +  "/game/"+gameId;
     	
     	if (useBadges) {

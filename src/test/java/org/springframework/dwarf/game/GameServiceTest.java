@@ -24,9 +24,11 @@ import org.springframework.dwarf.board.BoardService;
 import org.springframework.dwarf.mountain_card.MountainDeck;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+@DataJpaTest(includeFilters = @ComponentScan.Filter(value= {Service.class, Component.class}))
 public class GameServiceTest {
 	
 	@Autowired
@@ -248,23 +250,17 @@ public class GameServiceTest {
 		}
 	}
 	
-	@ParameterizedTest
-	@ValueSource(ints= {4,5,2})
+	@Test
 	@DisplayName("Exit game")
-	void testExitGame(int currentPlayer) {
-		/*
-		 * TODO
+	@WithMockUser(username = "test")
+	void testExitGame() {
 		Game game = gameService.findByGameId(2).get();
-		Player player = playerService.findPlayerById(currentPlayer);
-		
-		Integer position = game.getPlayerPosition(player);
-		
+
 		gameService.exit(game);
 		
 		// al salir un jugador, todos suben una posicion (el tercero se queda null)
 		// hace falta conseguir que player sea el logged user (se pilla dentro de la funcion de exit)
 		assertThat(game.getThirdPlayer()).isNull();
-		*/
 	}
 	
     @Test
