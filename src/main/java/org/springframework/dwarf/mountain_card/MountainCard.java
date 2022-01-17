@@ -62,7 +62,7 @@ public class MountainCard extends Card{
 	@StrategyPattern.StrategyField
 	CardStrategy cardStrategy;
 	
-	public void cardAction(Player player, ApplicationContext applicationContext) {
+	public void cardAction(Player player, ApplicationContext applicationContext) throws Exception {
 		this.setStrategy(applicationContext);
 		this.cardStrategy.actions(player,this.getName());
 	}

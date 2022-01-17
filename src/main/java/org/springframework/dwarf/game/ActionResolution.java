@@ -28,7 +28,7 @@ public class ActionResolution implements GamePhase{
     private ApplicationContext applicationContext;
 
 	@Override
-	public void phaseResolution(Game game) {
+	public void phaseResolution(Game game) throws Exception {
 		// funcion service no testeada
 		List<BoardCell> cellsToResolve = this.getCellstoResolveActions(game);
 		

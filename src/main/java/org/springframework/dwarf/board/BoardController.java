@@ -105,7 +105,7 @@ public class BoardController {
     }
     
     @GetMapping("{boardId}/game/{gameId}")
-    public String boardGame(@PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, ModelMap modelMap, HttpServletResponse response) {
+    public String boardGame(@PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, ModelMap modelMap, HttpServletResponse response) throws Exception {
     	response.addHeader("REFRESH", "4");
     	String view = "/board/board";
     
@@ -183,7 +183,7 @@ public class BoardController {
     
     
     @PostMapping("{boardId}/game/{gameId}")
-    public String postWorker(@Valid Worker myworker, @RequestParam String pos, @RequestParam(required = false) String pay, @PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, BindingResult result, Error errors) {
+    public String postWorker(@Valid Worker myworker, @RequestParam String pos, @RequestParam(required = false) String pay, @PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, BindingResult result, Error errors) throws Exception {
 		Game game = gameService.findByGameId(gameId).get();
 		game.phaseResolution(this.applicationContext);
 		

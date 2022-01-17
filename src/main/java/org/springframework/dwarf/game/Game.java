@@ -47,7 +47,7 @@ public class Game extends BaseEntity{
 		this.currentPhaseName = gamePhaseName;
 	}
 	
-	public void phaseResolution(ApplicationContext applicationContext) {
+	public void phaseResolution(ApplicationContext applicationContext) throws Exception {
 		this.getPhase(applicationContext).phaseResolution(this);
 	}
 	
