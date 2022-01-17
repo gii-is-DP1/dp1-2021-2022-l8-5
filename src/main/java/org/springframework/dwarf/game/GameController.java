@@ -49,8 +49,8 @@ public class GameController {
 		Optional<Game> game = gameService.findByGameId(gameId);
 		
 		if (game.isPresent()) {
-			// only first player can delete a game
-			if(this.amIFirstPlayer(game.get())) {
+			// only the last player can delete a game
+			if(game.get().getPlayersList().size() <= 1) {
 				gameService.delete(game.get());
 				modelMap.addAttribute("message", "game deleted!");
 			}
@@ -64,10 +64,10 @@ public class GameController {
     @GetMapping(path="/{gameId}/exit")
     public String exitGame(@PathVariable("gameId") Integer gameId, ModelMap modelMap){
         Optional<Game> game = gameService.findByGameId(gameId);
-        Player loggedPlayer = LoggedUserController.loggedPlayer();
+        //Player loggedPlayer = LoggedUserController.loggedPlayer();
         
         if(game.isPresent()){
-        	gameService.exit(game.get(), loggedPlayer);
+        	gameService.exit(game.get());
         }else{
             modelMap.addAttribute("message", "game not found!");
         }

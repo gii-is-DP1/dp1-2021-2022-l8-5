@@ -86,7 +86,11 @@ public class ActionResolution implements GamePhase{
 	}
 	
 	public void updatePlayersPositions(Game game) {
-		List<Integer> points = new ArrayList<Integer>(List.of(0,0,0));
+		List<Integer> points = new ArrayList<Integer>();
+		for(int i=0; i<game.getPlayersList().size(); i++) {
+			points.add(0);
+		}
+		
 		Map<ResourceType, List<Integer>> resourcesAmount = this.getResourcesAmount(game);
 		
 		for(ResourceType type: List.of(ResourceType.STEEL, ResourceType.GOLD, ResourceType.ITEMS)) {
@@ -163,7 +167,7 @@ public class ActionResolution implements GamePhase{
 			players.set(i,game.getPlayersList().get(index));
 		}
 		
-		game.setPlayerPosition(players);
+		game.setPlayersPosition(players);
 	}
 	
 	@Override
