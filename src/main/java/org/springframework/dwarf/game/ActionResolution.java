@@ -37,7 +37,7 @@ public class ActionResolution implements GamePhase{
     @Autowired
     private ApplicationContext applicationContext;
     
-    private static final int FINAL_GAME_ROUND = 1;
+    private static final int FINAL_GAME_ROUND = 6;
 
 	@Override
 	public void phaseResolution(Game game) {
