@@ -108,9 +108,8 @@ public class PlayerService {
 	}
 	
 	public Boolean getusernameDuplicated(Player player){
-		Boolean res=true;
 		Player otherPlayer=playerRepository.findByUsername(player.getUsername());
-		res= res && otherPlayer!= null;
+		Boolean res =  otherPlayer!= null;
 		res= res && otherPlayer.getId()!= player.getId();
 		res = res && otherPlayer.getUsername().equals(player.getUsername());
 		return res;	
@@ -118,33 +117,18 @@ public class PlayerService {
 	
 		
 	public Boolean getEmailDuplicated(Player player){
-		Boolean res=true;
 		Player otherPlayer=playerRepository.findByEmail(player.getEmail());
-		res= res && otherPlayer!= null;
+		Boolean res= otherPlayer!= null;
 		res= res && otherPlayer.getId()!= player.getId();
 		res = res && otherPlayer.getEmail().equals(player.getEmail());
 		return res;	
 	}
 	
 	public Boolean getEmailInvalid(Player player){
-		Boolean res=true;
-		res= res && player.getEmail().isBlank();
+		Boolean res= player.getEmail().isBlank();
 		return res;	
 	}
 	
-	
-	
-	/*
-	@Transactional
-	public void saveAdmin(Player player) throws DataAccessException {
-		//creating owner
-		playerRepository.save(player);		
-		//creating user
-		userService.saveUser(player.getUser());
-		//creating authorities
-		authoritiesService.saveAuthorities(player.getUser().getUsername(), "admin");
-	}*/
-
 
 	@Transactional(rollbackFor = DeletePlayerInGameException.class)
 	public void delete(Player player) throws DeletePlayerInGameException{
@@ -172,8 +156,8 @@ public class PlayerService {
 		//userService.delete(player.getUser());
 	}
 
-	private void isExceptionalCase(Game game) throws DeletePlayerInGameException {
-		if(game.getFinishDate().equals(null)){
+	protected void isExceptionalCase(Game game) throws DeletePlayerInGameException {
+		if(game.getFinishDate()==null){
 			throw new DeletePlayerInGameException();
 		}
 	}

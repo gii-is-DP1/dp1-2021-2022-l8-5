@@ -84,13 +84,6 @@ public class BoardService {
 		return board;
 	}
 	
-	private void setCellsBoardId(List<BoardCell> cells, Board board) {
-		for(BoardCell cell: cells) {
-			//cell.setBoard(board);
-			boardCellSer.saveBoardCell(cell);
-		}
-	}
-	
 	private List<Integer> randomList(){
 		Random rand = new Random();
         Integer limite = 9;
