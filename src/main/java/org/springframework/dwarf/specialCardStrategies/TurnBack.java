@@ -3,12 +3,14 @@ package org.springframework.dwarf.specialCardStrategies;
 import org.jpatterns.gof.StrategyPattern;
 import org.springframework.dwarf.card.CardStrategy;
 import org.springframework.dwarf.player.Player;
+import org.springframework.stereotype.Component;
 import org.springframework.dwarf.card.StrategyName;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @StrategyPattern.ConcreteStrategy
+@Component
 public class TurnBack implements CardStrategy {
 	
 	@Override
