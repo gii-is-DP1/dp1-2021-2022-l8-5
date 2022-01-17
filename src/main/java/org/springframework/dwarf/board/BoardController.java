@@ -114,7 +114,7 @@ public class BoardController {
     }
     
     @GetMapping("{boardId}/game/{gameId}")
-    public String boardGame(@PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, ModelMap modelMap, HttpServletResponse response) {
+    public String boardGame(@PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, ModelMap modelMap, HttpServletResponse response) throws Exception {
     	response.addHeader("REFRESH", "4");
     	String view = "/board/board";
     	
@@ -202,7 +202,7 @@ public class BoardController {
     
     
     @PostMapping("{boardId}/game/{gameId}")
-    public String postWorker(@Valid Worker myworker, @RequestParam String pos, @RequestParam(required = false) String pay, @PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, BindingResult result, Error errors) {
+    public String postWorker(@Valid Worker myworker, @RequestParam String pos, @RequestParam(required = false) String pay, @PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, BindingResult result, Error errors) throws Exception {
 		Game game = gameService.findByGameId(gameId).get();
 		String redirect = "/board/board";
 		if (result.hasErrors()) {
@@ -233,7 +233,7 @@ public class BoardController {
     	
     }
     
-    private String updatingWorkerSpecial(Player player, List<Worker> workers, Worker myworker, Boolean useBadges, Integer boardId, Integer gameId, Error errors, BindingResult result) {
+    private String updatingWorkerSpecial(Player player, List<Worker> workers, Worker myworker, Boolean useBadges, Integer boardId, Integer gameId, Error errors, BindingResult result) throws Exception {
     	String redirect = "redirect:/boards/"+ boardId +  "/game/"+gameId;
     	
     	if (useBadges) {
@@ -243,7 +243,7 @@ public class BoardController {
     		Resources r = resourcesService.findByPlayerIdAndGameId(player.getId(), gameId).get();
     		
     		try {
-				r.setResource(ResourceType.BADGES, -4);
+				r.addResource(ResourceType.BADGES, -4);
 				resourcesService.saveResources(r);
 			} catch (Exception e) {
 				e.printStackTrace();

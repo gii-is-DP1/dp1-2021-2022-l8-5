@@ -87,27 +87,17 @@ public class ForgesAlloy implements CardStrategy{
 		return true;
 	}
 	
-	private Resources giveResources(Resources playerResources) {
+	protected Resources giveResources(Resources playerResources) throws Exception{
 		for(ResourceAmount rAmount: far.getResourcesGiven()) {
-			try {
-				playerResources.setResource(rAmount.getResource(), rAmount.getAmount()*-1);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			playerResources.addResource(rAmount.getResource(), rAmount.getAmount()*-1);
 		}
 		
 		return playerResources;
 	}
 	
-	private Resources receiveResources(Resources playerResources) {
+	protected Resources receiveResources(Resources playerResources) throws Exception {
 		ResourceAmount receive = far.getResourcesReceived();
-		
-		try {
-			playerResources.setResource(receive.getResource(), receive.getAmount());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
+		playerResources.addResource(receive.getResource(), receive.getAmount());
 		return playerResources;
 	}
 

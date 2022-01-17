@@ -23,7 +23,7 @@ public class Shide implements CardStrategy{
 	private ResourcesService resourcesService;
 	
 	@Override
-	public void actions(Player player, String cardName) {
+	public void actions(Player player, String cardName) throws Exception {
 		Player loggedUser = LoggedUserController.loggedPlayer();
 		Game game = gameService.findByGameId(gameService.getCurrentGameId(loggedUser)).get();
 		boolean defended = player != null;
@@ -34,28 +34,14 @@ public class Shide implements CardStrategy{
 			}
 		} else {
 			Resources playerDefenderResources = resourcesService.findByPlayerIdAndGameId(player.getId(),game.getId()).get();
-			try {
-				playerDefenderResources.setResource(ResourceType.BADGES, 1);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			playerDefenderResources.addResource(ResourceType.BADGES, 1);
 		}
 	}
 	
-	private void exchangeResources(Player player, Game game) {
+	protected void exchangeResources(Player player, Game game) throws Exception{
 		Resources playerResources = resourcesService.findByPlayerIdAndGameId(player.getId(),game.getId()).get();
-		
-		try {
-			playerResources.setResource(ResourceType.GOLD, -2);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		try {
-			playerResources.setResource(ResourceType.IRON, 2);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		playerResources.addResource(ResourceType.GOLD, -2);
+		playerResources.addResource(ResourceType.IRON, 2);
 	}
 
 	@Override

@@ -19,7 +19,7 @@ import org.springframework.dwarf.model.BaseEntity;
  */
 import org.springframework.dwarf.player.Player;
 
-
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -71,7 +71,7 @@ public class Resources extends BaseEntity{
 		this.setPlayer(sustitute);
 	}
 	
-	public void setResource(ResourceType resource, Integer amountToAdd) throws Exception {
+	public void addResource(ResourceType resource, Integer amountToAdd) throws Exception {
 		String resourceName = this.getResourceName(resource);
 
 		amountToAdd += this.getResourceAmount(resource);

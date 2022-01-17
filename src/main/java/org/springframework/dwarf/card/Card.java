@@ -52,7 +52,7 @@ public class Card extends BaseEntity{
 	@Enumerated(value = EnumType.STRING)
 	StrategyName actionType;
 	
-	public void cardAction(Player player, ApplicationContext applicationContext, Boolean isSpecial) {
+	public void cardAction(Player player, ApplicationContext applicationContext, Boolean isSpecial) throws Exception {
 		this.setStrategy(applicationContext, isSpecial);
 		this.cardStrategy.actions(player,this.getName());
 	}

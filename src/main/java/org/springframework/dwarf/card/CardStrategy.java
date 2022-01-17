@@ -5,6 +5,6 @@ import org.springframework.dwarf.player.Player;
 
 @StrategyPattern.Strategy
 public interface CardStrategy {
-	void actions(Player player, String cardName);
+	void actions(Player player, String cardName) throws Exception;
 	StrategyName getName();
 }

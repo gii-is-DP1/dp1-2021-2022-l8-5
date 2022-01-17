@@ -40,7 +40,7 @@ public class ActionResolution implements GamePhase{
     private static final int FINAL_GAME_ROUND = 6;
 
 	@Override
-	public void phaseResolution(Game game) {
+	public void phaseResolution(Game game) throws Exception {
 		// funcion service no testeada
 		List<BoardCell> cellsToResolve = this.getCellstoResolveActions(game);
 		
