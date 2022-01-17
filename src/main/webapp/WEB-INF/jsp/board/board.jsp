@@ -60,11 +60,11 @@
         </div>
          <div class="col-md-3" style="font-size:16px">
          		<!-- CAMBIAR DINÁMICAMENTRE LAS IMAGENES DE LOS JUGADORES -->
-				<img src="/resources/images/epicworker1.png"  width="60" height="60" style="float:left" id="player1IMG"><br>
+				<img src="${player1worker.image}"  width="60" height="60" style="float:left" id="player1IMG"><br>
 				&nbsp; <dwarf:playerInfo player="${player1}" playerNumber="${1}" resources="${resourcesPlayer1}"/><br>
-				<img src="/resources/images/epicworker2.png"  width="60" height="60" style="float:left" id="player2IMG"><br>
+				<img src="${player2worker.image}"  width="60" height="60" style="float:left" id="player2IMG"><br>
 				&nbsp; 	<dwarf:playerInfo player="${player2}" playerNumber="${2}" resources="${resourcesPlayer2}"/><br>
-				<img src="/resources/images/epicworker3.png"  width="60" height="60" style="float:left" id="player3IMG"><br>
+				<img src="${player3worker.image}"  width="60" height="60" style="float:left" id="player3IMG"><br>
 				&nbsp; <dwarf:playerInfo player="${player3}" playerNumber="${3}" resources="${resourcesPlayer3}"/><br>
         	
          </div>

@@ -15,11 +15,13 @@ import org.springframework.dwarf.card.StrategyName;
 import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.mountain_card.MountainCard;
 import org.springframework.dwarf.player.Player;
+import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @StrategyPattern.ConcreteStrategy
+@Component
 public class RunAmok implements CardStrategy {
 	
 	

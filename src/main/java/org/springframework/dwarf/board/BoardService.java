@@ -84,11 +84,9 @@ public class BoardService {
 		return board;
 	}
 	
-	private void setCellsBoardId(List<BoardCell> cells, Board board) {
-		for(BoardCell cell: cells) {
-			//cell.setBoard(board);
-			boardCellSer.saveBoardCell(cell);
-		}
+
+	public List<SpecialDeck> findSpecialDeckByBoardId(int id){
+		return boardRepo.findSpecialDecksByBoardId(id);
 	}
 	
 	private List<Integer> randomList(){

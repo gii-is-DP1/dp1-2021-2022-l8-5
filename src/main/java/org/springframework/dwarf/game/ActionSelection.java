@@ -30,6 +30,7 @@ public class ActionSelection implements GamePhase{
 		
 		List<Worker> notPlacedWorkers = workerService.findNotPlacedByGameId(game.getId());
 		// last worker to be placed
+		//hay que comprobar el caso de que todos hagan una acción especial, por lo que el último jugador en poner tendria aun los 2 workers por poner
 		if(notPlacedWorkers.size()==1)
 			game.setPhase(GamePhaseEnum.ACTION_RESOLUTION);
 		

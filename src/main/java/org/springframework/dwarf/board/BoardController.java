@@ -3,6 +3,7 @@ package org.springframework.dwarf.board;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -15,11 +16,16 @@ import org.springframework.dwarf.game.CreateGameWhilePlayingException;
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GamePhaseEnum;
 import org.springframework.dwarf.game.GameService;
+import org.springframework.dwarf.game.MineralExtraction;
+import org.springframework.dwarf.mountain_card.MountainCard;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
 import org.springframework.dwarf.resources.ResourceType;
 import org.springframework.dwarf.resources.Resources;
 import org.springframework.dwarf.resources.ResourcesService;
+import org.springframework.dwarf.special_card.SpecialCard;
+import org.springframework.dwarf.special_card.SpecialDeck;
+import org.springframework.dwarf.special_card.SpecialDeckService;
 import org.springframework.dwarf.user.DuplicatedEmailException;
 import org.springframework.dwarf.user.DuplicatedUsernameException;
 import org.springframework.dwarf.user.InvalidEmailException;
@@ -55,6 +61,8 @@ public class BoardController {
     private PlayerService playerService;
     @Autowired
     private BoardCellService boardCellService;
+    @Autowired
+    private SpecialDeckService specialDeckService;
     
     @Autowired
     private ApplicationContext applicationContext;
@@ -115,7 +123,6 @@ public class BoardController {
 		Player myplayer = LoggedUserController.loggedPlayer();
 		
 		modelMap = this.setHasEnoughBadges(modelMap, myplayer.getId(), gameId);
-		
 		modelMap = this.setMyWorkerForPost(modelMap, myplayer.getId(), gameId);
 		modelMap = this.hasAidWorkers(modelMap, gameId);
 
@@ -124,8 +131,8 @@ public class BoardController {
     	modelMap.addAttribute("game", game);
     	modelMap.addAttribute("phaseName", game.getCurrentPhaseName().toString());
     	
-    	modelMap.addAttribute("xpos", List.of(1,2,3));
-    	modelMap.addAttribute("ypos", List.of(0,1,2));
+    	modelMap.addAttribute("xpos",List.of(1,2,3));
+    	modelMap.addAttribute("ypos",List.of(0,1,2));
     	
     	modelMap = this.setPlayersData(modelMap, game);
 	
@@ -169,7 +176,10 @@ public class BoardController {
 	        	modelMap.addAttribute("player" + (i+1), p);
 	        	Resources resourcesPlayer = resourcesService.findByPlayerIdAndGameId(p.getId(), game.getId()).get();
 	        	modelMap.addAttribute("resourcesPlayer" + (i+1), resourcesPlayer);
-	        	workers.addAll(workerService.findByPlayerId(p.getId()));
+	        	List<Worker> playerWorkers = workerService.findByPlayerId(p.getId()).stream().collect(Collectors.toList());
+	        	workers.addAll(playerWorkers);
+	        	Worker playerWorker = playerWorkers.get(0);
+	        	modelMap.addAttribute("player" + (i+1) + "worker", playerWorker);
     		}
     	}
     	modelMap.addAttribute("workers" , workers);
@@ -205,7 +215,7 @@ public class BoardController {
 			
 			if (posx == 0) {
 				Boolean useBadges = (pay==null) ? false : true;
-				return updatingWorkerSpecial(workersNotPlaced, myworker, useBadges, boardId, gameId, errors,result);
+				return updatingWorkerSpecial(player, workersNotPlaced, myworker, useBadges, boardId, gameId, errors,result);
 			} else {
 				return updatingWorker(workersNotPlaced.get(0), myworker, boardId, gameId, errors,result);
 			}
@@ -214,14 +224,13 @@ public class BoardController {
     	
     }
     
-    private String updatingWorkerSpecial(List<Worker> workers, Worker myworker, Boolean useBadges, Integer boardId, Integer gameId, Error errors, BindingResult result) {
+    private String updatingWorkerSpecial(Player player, List<Worker> workers, Worker myworker, Boolean useBadges, Integer boardId, Integer gameId, Error errors, BindingResult result) {
     	String redirect = "redirect:/boards/"+ boardId +  "/game/"+gameId;
     	
     	if (useBadges) {
     		Worker workerFound = workers.get(0);
     		redirect = updateWorker(myworker, workerFound, result, redirect);
     		
-    		Player player = workerFound.getPlayer();
     		Resources r = resourcesService.findByPlayerIdAndGameId(player.getId(), gameId).get();
     		
     		try {
@@ -237,9 +246,33 @@ public class BoardController {
         	}
     	}
 
-    	//ejecutar la action
+    	//ejecutar la acción
+    	List<SpecialDeck> specialDecks = boardService.findSpecialDeckByBoardId(boardId);
+    	SpecialDeck currentSpecialDeck = specialDecks.get(myworker.getYposition());
+    	SpecialCard cardToExecute = currentSpecialDeck.getSpecialCard().remove(0);
+    	cardToExecute.cardAction(player, applicationContext, true);
+    	
+    	Board board = boardService.findByBoardId(boardId).get();
+    	MountainCard backCard = cardToExecute.getBackCard();
+    	List<BoardCell> boardcells = board.getBoardCells();	
+    	setCard(backCard, boardcells);
+    	specialDeckService.saveSpecialDeck(currentSpecialDeck);
+    	boardService.saveBoard(board);
+    	
     	
     	return redirect;
+    }
+    
+    private void setCard(MountainCard mountaincard, List<BoardCell> boardcells) {
+    	for (BoardCell boardcell: boardcells) {
+			List<MountainCard> cellcards = boardcell.getMountaincards();
+			if (mountaincard.getXPosition().equals(boardcell.getXposition()) &&
+					mountaincard.getYPosition().equals(boardcell.getYposition())) {
+				cellcards.add(0, mountaincard);
+				boardcell.setMountaincards(cellcards);
+				boardCellService.saveBoardCell(boardcell);
+			}
+		}
     }
     
     private String updateWorker(Worker myworker, Worker workerFound, BindingResult result, String redirect) {
