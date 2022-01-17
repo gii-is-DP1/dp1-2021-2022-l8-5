@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class MusterAnArmy implements CardStrategy{
 
-		
+	@Autowired
 	GameService gameService;
 
 	@Autowired
