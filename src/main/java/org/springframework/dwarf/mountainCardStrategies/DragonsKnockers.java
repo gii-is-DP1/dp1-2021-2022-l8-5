@@ -40,7 +40,7 @@ public class DragonsKnockers implements CardStrategy{
 		} else {
 			Resources playerDefenderResources = resourcesService.findByPlayerIdAndGameId(player.getId(),game.getId()).get();
 			try {
-				playerDefenderResources.setResource(ResourceType.BADGES, 1);
+				playerDefenderResources.addResource(ResourceType.BADGES, 1);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -66,7 +66,7 @@ public class DragonsKnockers implements CardStrategy{
 			this.amount = playerResources.getGold()*-1;
 		
 		try {
-			playerResources.setResource(resourceType, amount);
+			playerResources.addResource(resourceType, amount);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -228,7 +228,7 @@ public class BoardController {
     		Resources r = resourcesService.findByPlayerIdAndGameId(player.getId(), gameId).get();
     		
     		try {
-				r.setResource(ResourceType.BADGES, -4);
+				r.addResource(ResourceType.BADGES, -4);
 				resourcesService.saveResources(r);
 			} catch (Exception e) {
 				e.printStackTrace();

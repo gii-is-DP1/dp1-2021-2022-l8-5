@@ -35,7 +35,7 @@ public class Shide implements CardStrategy{
 		} else {
 			Resources playerDefenderResources = resourcesService.findByPlayerIdAndGameId(player.getId(),game.getId()).get();
 			try {
-				playerDefenderResources.setResource(ResourceType.BADGES, 1);
+				playerDefenderResources.addResource(ResourceType.BADGES, 1);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -46,13 +46,13 @@ public class Shide implements CardStrategy{
 		Resources playerResources = resourcesService.findByPlayerIdAndGameId(player.getId(),game.getId()).get();
 		
 		try {
-			playerResources.setResource(ResourceType.GOLD, -2);
+			playerResources.addResource(ResourceType.GOLD, -2);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		try {
-			playerResources.setResource(ResourceType.IRON, 2);
+			playerResources.addResource(ResourceType.IRON, 2);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

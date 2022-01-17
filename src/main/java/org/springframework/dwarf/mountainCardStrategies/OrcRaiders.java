@@ -42,7 +42,7 @@ public class OrcRaiders implements CardStrategy{
 		} else {
 			Resources playerDefenderResources = resourcesService.findByPlayerIdAndGameId(player.getId(),game.getId()).get();
 			try {
-				playerDefenderResources.setResource(ResourceType.BADGES, 1);
+				playerDefenderResources.addResource(ResourceType.BADGES, 1);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

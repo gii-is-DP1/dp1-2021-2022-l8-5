@@ -35,7 +35,7 @@ public class Seam implements CardStrategy {
 		Game game = gameService.findPlayerUnfinishedGames(player).get();
 		Resources playerResources = resourcesService.findByPlayerIdAndGameId(player.getId(),game.getId()).get();			
 		try {
-			playerResources.setResource(resource, amountToAdd);
+			playerResources.addResource(resource, amountToAdd);
 		}catch(Exception e) {
 			
 		}
