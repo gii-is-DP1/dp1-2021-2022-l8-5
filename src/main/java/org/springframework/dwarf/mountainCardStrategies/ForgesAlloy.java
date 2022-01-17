@@ -61,10 +61,10 @@ public class ForgesAlloy implements CardStrategy{
 		}
 	}
 	
-	private void changePlayerNext(Game game) {
+	protected void changePlayerNext(Game game) {
 		List<Player> turn = game.getTurnList();
 		for(Player p:turn) {
-			p.setTurn((p.getTurn()+1)%3);
+			p.setTurn((p.getTurn()%3)+1);
 			try {
 				playerService.savePlayer(p);
 			} catch (DataAccessException | DuplicatedUsernameException | DuplicatedEmailException
@@ -74,11 +74,11 @@ public class ForgesAlloy implements CardStrategy{
 		}
 	}
 	
-	private void setResourcesGivenRecived(String cardName) {
+	protected void setResourcesGivenRecived(String cardName) {
 		this.far = this.farService.findByCardName(cardName);
 	}
 	
-	private boolean canResolveAction(Resources playerResources) throws Exception {
+	protected boolean canResolveAction(Resources playerResources) throws Exception {
 		for(ResourceAmount ra: far.getResourcesGiven()) {
 			if(playerResources.getResourceAmount(ra.getResource()) < ra.getAmount())
 				return false;

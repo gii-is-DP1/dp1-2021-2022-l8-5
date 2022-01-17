@@ -3,6 +3,7 @@ package org.springframework.dwarf.game;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
@@ -155,8 +156,8 @@ public class GameServiceTest {
 	}
 	
 	@Test
-	@DisplayName("Join a game")
-	void testJoinGame() throws Exception {
+	@DisplayName("Join a game as P2")
+	void testJoinGameasP2() throws Exception {
 		// game with id 1 has just one player
 		Game game = gameService.findByGameId(1).get();
 		// player with id 3 is not in an unfinished game
@@ -166,6 +167,64 @@ public class GameServiceTest {
 		
 		assertThat(game.getSecondPlayer().getId()).isEqualTo(player.getId());
 	}
+	
+	@Test
+	@DisplayName("Join a game as P3")
+	void testJoinGame() throws Exception {
+		// game with id 1 has just one player
+		Game game = gameService.findByGameId(1).get();
+		// player with id 3 is not in an unfinished game
+		Player player = playerService.findPlayerById(3);
+		Player player2 = playerService.findPlayerById(1);
+		
+		gameService.joinGame(game, player);
+		gameService.joinGame(game, player2);
+		
+		
+		
+		assertThat(game.getThirdPlayer().getId()).isEqualTo(player2.getId());
+	}
+	@Test
+	@DisplayName("Join a game when already playing there")
+	void testJoinGameJoinedAlready() throws Exception {
+		// game with id 1 has just one player
+		Game game = gameService.findByGameId(1).get();
+		// player with id 3 is not in an unfinished game
+		Player player = playerService.findPlayerById(3);
+		
+		gameService.joinGame(game, player);
+		
+		gameService.joinGame(game, player);
+		
+		
+		
+		assertThat(game.getSecondPlayer().getId()).isEqualTo(player.getId());
+		
+		assertThrows(NullPointerException.class, () -> {
+			game.getThirdPlayer().getId();
+		    });
+		
+	}
+	
+	@Test
+	@DisplayName("Join a game already full")
+	void testJoinGameAlreadyFull() throws Exception {
+		// game with id 1 has just one player
+		Game game = gameService.findByGameId(2).get();
+		// player with id 3 is not in an unfinished game
+		Player player = playerService.findPlayerById(1);
+		
+		gameService.joinGame(game, player);
+
+
+		
+		assertThat(game.getFirstPlayer().getId()).isNotEqualTo(player.getId());
+		assertThat(game.getSecondPlayer().getId()).isNotEqualTo(player.getId());
+		assertThat(game.getThirdPlayer().getId()).isNotEqualTo(player.getId());
+		
+		
+	}
+	
 	
 	@Test
 	@DisplayName("The player is already in another unfinished game exception")
