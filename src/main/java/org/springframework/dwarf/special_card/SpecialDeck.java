@@ -5,11 +5,13 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Range;
 import org.springframework.dwarf.model.BaseEntity;
+import org.springframework.dwarf.player.Player;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +29,9 @@ public class SpecialDeck extends BaseEntity {
 	@Column(name ="yposition")
     @Range(min=0,max=2)
     int yPosition;
+	
+	@OneToOne
+	Player occupiedBy;
 
     public Integer getPositionXInPixels(Integer size) {
         return (xPosition)*size;
@@ -47,6 +52,7 @@ public class SpecialDeck extends BaseEntity {
 		super();
 		this.xPosition = xPosition;
 		this.yPosition = yPosition;
+		this.occupiedBy = null;
 	}
 	
 	

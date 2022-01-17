@@ -47,7 +47,7 @@ public class ActionResolution implements GamePhase{
 			MountainCard mountainCard = cell.getMountaincards().get(0);
 			// check orc raiders effect
 			if(this.canResolveAction(game, mountainCard))
-				mountainCard.cardAction(player, applicationContext);
+				mountainCard.cardAction(player, applicationContext, false);
 		}
 		
 		game.setCanResolveActions(true);

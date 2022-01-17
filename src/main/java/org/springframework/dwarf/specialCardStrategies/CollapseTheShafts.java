@@ -11,12 +11,14 @@ import org.springframework.dwarf.card.CardStrategy;
 import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.mountain_card.MountainCard;
 import org.springframework.dwarf.player.Player;
+import org.springframework.stereotype.Component;
 import org.springframework.dwarf.card.StrategyName;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @StrategyPattern.ConcreteStrategy
+@Component
 public class CollapseTheShafts implements CardStrategy {
 	
 	//Colocar la carta superior de cada celda del tablero en la parte inferior.
@@ -50,7 +52,7 @@ public class CollapseTheShafts implements CardStrategy {
 
 	@Override
 	public StrategyName getName() {
-		return StrategyName.COLLAPSE_SHAFTS;
+		return StrategyName.COLLAPSE_THE_SHAFTS;
 	}
 
 }

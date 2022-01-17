@@ -84,6 +84,11 @@ public class BoardService {
 		return board;
 	}
 	
+
+	public List<SpecialDeck> findSpecialDeckByBoardId(int id){
+		return boardRepo.findSpecialDecksByBoardId(id);
+	}
+	
 	private List<Integer> randomList(){
 		Random rand = new Random();
         Integer limite = 9;
