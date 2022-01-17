@@ -147,11 +147,13 @@ public class GameService {
 	
 	@Transactional(rollbackFor = CreateGameWhilePlayingException.class)
 	public void finishGame(Game game) throws DataAccessException, CreateGameWhilePlayingException {
+		if(this.findBoardByGameId(game.getId()).isEmpty())
+			return;
+		
 		Board board = this.findBoardByGameId(game.getId()).get();
 		boardService.delete(board);
 		
 		this.deleteAllWorkers(game);
-		game.setFinishDate(LocalDateTime.now());
 		
 		this.saveGame(game);
 	}

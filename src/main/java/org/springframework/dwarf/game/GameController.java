@@ -156,6 +156,7 @@ public class GameController {
 	@GetMapping(path="{gameId}/gameClassification")
 	public String gameClassication(@PathVariable("gameId") Integer gameId, ModelMap modelMap) {
 		String view = "games/gameClassification";
+		Player player = LoggedUserController.loggedPlayer();
 		
 		Game game = gameService.findByGameId(gameId).get();
 		modelMap = this.setPlayersData(modelMap, game);

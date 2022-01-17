@@ -117,8 +117,12 @@ public class BoardController {
     public String boardGame(@PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, ModelMap modelMap, HttpServletResponse response) {
     	response.addHeader("REFRESH", "4");
     	String view = "/board/board";
-    
+    	
     	Game game = gameService.findByGameId(gameId).get();
+    	
+    	if(game.getFinishDate() != null)
+   			return "redirect:/games/" + gameId + "/gameClassification";
+    	
     	Board board = boardService.findByBoardId(boardId).get();
 		Player myplayer = LoggedUserController.loggedPlayer();
 		
@@ -146,9 +150,6 @@ public class BoardController {
 			e.printStackTrace();
 		}
    		
-   		if(game.getFinishDate() != null)
-   			return "redirect:/games/" + gameId + "/gameClassification";
-    	
     	if(!this.boardPageLoaded)
     		this.boardPageLoaded = true;
     	
