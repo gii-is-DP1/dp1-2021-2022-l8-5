@@ -29,9 +29,10 @@ public class ActionSelection implements GamePhase{
 			return;
 		
 		List<Worker> notPlacedWorkers = workerService.findNotPlacedByGameId(game.getId());
-		// last worker to be placed
-		//hay que comprobar el caso de que todos hagan una acción especial, por lo que el último jugador en poner tendria aun los 2 workers por poner
-		if(notPlacedWorkers.size()==1)
+		
+		
+		// last worker(s) to be placed, covers only 2 workers special actions scenario
+		if(notPlacedWorkers.size()==0)
 			game.setPhase(GamePhaseEnum.ACTION_RESOLUTION);
 		
 		try {
@@ -49,7 +50,7 @@ public class ActionSelection implements GamePhase{
 		Boolean changePlayer = true;
 		
 		List<Worker> notPlacedWorkers = workerService.findNotPlacedByGameId(game.getId());
-		if (notPlacedWorkers.size()==1) {
+		if (notPlacedWorkers.size()==0) {
 			changePlayer = false;
 		}
 		

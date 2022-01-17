@@ -197,10 +197,9 @@ public class BoardController {
     @PostMapping("{boardId}/game/{gameId}")
     public String postWorker(@Valid Worker myworker, @RequestParam String pos, @RequestParam(required = false) String pay, @PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, BindingResult result, Error errors) {
 		Game game = gameService.findByGameId(gameId).get();
-		game.phaseResolution(this.applicationContext);
-		
+		String redirect = "/board/board";
 		if (result.hasErrors()) {
-			return "/board/board";
+			return redirect;
 		}
 		else {
 			//parsear pos, settear al worker myworker las posiciones "x" e "y" obtenidas de pos
@@ -215,12 +214,15 @@ public class BoardController {
 			
 			if (posx == 0) {
 				Boolean useBadges = (pay==null) ? false : true;
-				return updatingWorkerSpecial(player, workersNotPlaced, myworker, useBadges, boardId, gameId, errors,result);
+				redirect = updatingWorkerSpecial(player, workersNotPlaced, myworker, useBadges, boardId, gameId, errors,result);
 			} else {
-				return updatingWorker(workersNotPlaced.get(0), myworker, boardId, gameId, errors,result);
+				redirect = updatingWorker(workersNotPlaced.get(0), myworker, boardId, gameId, errors,result);
 			}
 			
 		}
+		
+		game.phaseResolution(this.applicationContext);
+		return redirect;
     	
     }
     
