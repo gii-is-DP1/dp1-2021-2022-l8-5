@@ -16,6 +16,7 @@
 package org.springframework.dwarf.player;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Collection;
 
@@ -24,10 +25,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.user.DuplicatedEmailException;
 import org.springframework.dwarf.user.DuplicatedUsernameException;
 import org.springframework.dwarf.user.InvalidEmailException;
 import org.springframework.dwarf.user.User;
+import org.springframework.dwarf.worker.IllegalPositionException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -116,6 +119,96 @@ class PlayerServiceTests {
 		players = this.playerService.findPlayerByLastName("Schultz");
 		assertThat(players.size()).isEqualTo(found + 1);
 	}
+	
+	@Test
+	@Transactional
+	public void shouldInsertPlayerUsernameDuplicated() throws DataAccessException, DuplicatedUsernameException, DuplicatedEmailException, InvalidEmailException {
+
+		Player player = new Player();
+		player.setFirstName("Sam");
+		player.setLastName("Schultz");
+		player.setAvatarUrl("https://www.w3schools.com/w3images/avatar2.png");
+                User user=new User();
+                user.setUsername("pabmargom3");
+                user.setPassword("supersecretpassword");
+                user.setEmail("superemail@email.com");
+                user.setEnabled(true);
+                player.setUser(user);                
+                
+		assertThrows(DuplicatedUsernameException.class, () -> {
+			this.playerService.savePlayer(player);
+		    });
+
+	}
+	
+	@Test
+	@Transactional
+	public void shouldInsertPlayerEmailDuplicated() throws DataAccessException, DuplicatedUsernameException, DuplicatedEmailException, InvalidEmailException {
+
+		Player player = new Player();
+		player.setFirstName("Sam");
+		player.setLastName("Schultz");
+		player.setAvatarUrl("https://www.w3schools.com/w3images/avatar2.png");
+                User user=new User();
+                user.setUsername("sam");
+                user.setPassword("supersecretpassword");
+                user.setEmail("test10@test.com");
+                user.setEnabled(true);
+                player.setUser(user);                
+                
+		assertThrows(DuplicatedEmailException.class, () -> {
+			this.playerService.savePlayer(player);
+		    });
+
+	}
+	
+	@Test
+	@Transactional
+	public void shouldInsertPlayerEmailInvalid() throws DataAccessException, DuplicatedUsernameException, DuplicatedEmailException, InvalidEmailException {
+
+		Player player = new Player();
+		player.setFirstName("Sam");
+		player.setLastName("Schultz");
+		player.setAvatarUrl("https://www.w3schools.com/w3images/avatar2.png");
+                User user=new User();
+                user.setUsername("sam");
+                user.setPassword("supersecretpassword");
+                user.setEmail("");
+                user.setEnabled(true);
+                player.setUser(user);                
+                
+		assertThrows(InvalidEmailException.class, () -> {
+			this.playerService.savePlayer(player);
+		    });
+
+	}
+	@Test
+	@Transactional
+	public void shouldInsertPlayerSameDifferentId() throws DataAccessException, DuplicatedUsernameException, DuplicatedEmailException, InvalidEmailException {
+		
+		Player player = new Player();
+		player.setFirstName("Pablo");
+		player.setLastName("Marin");
+		player.setId(10);
+		player.setAvatarUrl("https://www.w3schools.com/w3images/avatar2.png");
+                User user=new User();
+                user.setUsername("pabmargom3");
+                user.setPassword("supersecretpassword");
+                user.setEmail("test10@test.com");
+                user.setEnabled(true);
+                player.setUser(user);      
+		
+                
+		assertThrows(DuplicatedUsernameException.class, () -> {
+			this.playerService.savePlayer(player);
+		    });
+
+	}
+	
+
+	
+	
+	
 
 	@Test
 	@Transactional
@@ -141,5 +234,16 @@ class PlayerServiceTests {
 		long numPlayersAfterDelete = playerService.findAll().spliterator().getExactSizeIfKnown();
 		assertThat(numPlayers).isEqualTo(numPlayersAfterDelete+1);
 	}
+	
+	@Test
+	void testIsExceptionalCase() {
+		Game g = new Game();
+		g.setFinishDate(null);
+		assertThrows(DeletePlayerInGameException.class, () -> {
+			playerService.isExceptionalCase(g);
+		    });
+	}
+	
+	
 
 }
