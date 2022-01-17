@@ -1,15 +1,21 @@
 package org.springframework.dwarf.game;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dwarf.board.Board;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
+import org.springframework.dwarf.resources.Resources;
+import org.springframework.dwarf.resources.ResourcesService;
 import org.springframework.dwarf.web.LoggedUserController;
+import org.springframework.dwarf.worker.Worker;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,11 +34,13 @@ public class GameController {
 	
 	private GameService gameService;
 	private PlayerService playerService;
+	private ResourcesService resourcesService;
 
 	@Autowired
-	public GameController(GameService gameService, PlayerService playerService) {
+	public GameController(GameService gameService, PlayerService playerService, ResourcesService resourcesService) {
 		this.gameService = gameService;
 		this.playerService = playerService;
+		this.resourcesService = resourcesService;
 	}
 	
 	@GetMapping()
@@ -49,8 +57,8 @@ public class GameController {
 		Optional<Game> game = gameService.findByGameId(gameId);
 		
 		if (game.isPresent()) {
-			// only first player can delete a game
-			if(this.amIFirstPlayer(game.get())) {
+			// only the last player can delete a game
+			if(game.get().getPlayersList().size() <= 1) {
 				gameService.delete(game.get());
 				modelMap.addAttribute("message", "game deleted!");
 			}
@@ -64,10 +72,10 @@ public class GameController {
     @GetMapping(path="/{gameId}/exit")
     public String exitGame(@PathVariable("gameId") Integer gameId, ModelMap modelMap){
         Optional<Game> game = gameService.findByGameId(gameId);
-        Player loggedPlayer = LoggedUserController.loggedPlayer();
+        //Player loggedPlayer = LoggedUserController.loggedPlayer();
         
         if(game.isPresent()){
-        	gameService.exit(game.get(), loggedPlayer);
+        	gameService.exit(game.get());
         }else{
             modelMap.addAttribute("message", "game not found!");
         }
@@ -144,6 +152,36 @@ public class GameController {
 
 		return view;
 	}
+	
+	@GetMapping(path="{gameId}/gameClassification")
+	public String gameClassication(@PathVariable("gameId") Integer gameId, ModelMap modelMap) {
+		String view = "games/gameClassification";
+		
+		Game game = gameService.findByGameId(gameId).get();
+		modelMap = this.setPlayersData(modelMap, game);
+		
+		try {
+			gameService.finishGame(game);
+		} catch (DataAccessException | CreateGameWhilePlayingException e) {
+			e.printStackTrace();
+		}
+		
+		return view;
+	}
+	
+	private ModelMap setPlayersData(ModelMap modelMap, Game game) {
+    	
+    	for (int i = 0; i < game.getPlayersList().size(); i++) {
+    		Player p = game.getPlayersList().get(i);
+    		if (p != null) {
+	        	modelMap.addAttribute("player" + (i+1), p);
+	        	Resources resourcesPlayer = resourcesService.findByPlayerIdAndGameId(p.getId(), game.getId()).get();
+	        	modelMap.addAttribute("resourcesPlayer" + (i+1), resourcesPlayer);
+    		}
+    	}
+    	
+    	return modelMap;
+    }
 	
 	private Player loggedPlayer() {
 		String playerUsername = LoggedUserController.returnLoggedUserName();

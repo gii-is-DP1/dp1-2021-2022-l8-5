@@ -1,5 +1,6 @@
 package org.springframework.dwarf.game;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -10,6 +11,7 @@ import java.util.stream.Collectors;
 import org.jpatterns.gof.StatePattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dwarf.board.Board;
 import org.springframework.dwarf.board.BoardCell;
 import org.springframework.dwarf.board.BoardCellActionsComparator;
@@ -51,12 +53,13 @@ public class ActionResolution implements GamePhase{
 		}
 		
 		game.setCanResolveActions(true);
-		// necesita testeo
+		game.setCurrentRound(game.getCurrentRound()+1);
 		this.updatePlayersPositions(game);
-		if(game.getCurrentRound() < FINAL_GAME_ROUND) {
+		
+		if(game.getCurrentRound() <= FINAL_GAME_ROUND) {
 			game.setPhase(GamePhaseEnum.MINERAL_EXTRACTION);
 		} else {
-			// finalizar partida
+			game.setFinishDate(LocalDateTime.now());
 		}
 		
 	}
@@ -86,7 +89,11 @@ public class ActionResolution implements GamePhase{
 	}
 	
 	public void updatePlayersPositions(Game game) {
-		List<Integer> points = new ArrayList<Integer>(List.of(0,0,0));
+		List<Integer> points = new ArrayList<Integer>();
+		for(int i=0; i<game.getPlayersList().size(); i++) {
+			points.add(0);
+		}
+		
 		Map<ResourceType, List<Integer>> resourcesAmount = this.getResourcesAmount(game);
 		
 		for(ResourceType type: List.of(ResourceType.STEEL, ResourceType.GOLD, ResourceType.ITEMS)) {
@@ -163,7 +170,7 @@ public class ActionResolution implements GamePhase{
 			players.set(i,game.getPlayersList().get(index));
 		}
 		
-		game.setPlayerPosition(players);
+		game.setPlayersPosition(players);
 	}
 	
 	@Override

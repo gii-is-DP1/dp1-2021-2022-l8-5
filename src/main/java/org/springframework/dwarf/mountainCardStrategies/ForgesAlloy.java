@@ -50,21 +50,22 @@ public class ForgesAlloy implements CardStrategy{
 				playerResources = this.giveResources(playerResources);
 				playerResources = this.receiveResources(playerResources);
 				resourcesService.saveResources(playerResources);
+				
+				if(!cardName.equals("Alloy Steel")) {
+					if(player.getTurn().equals(1))
+						changePlayerNext(game);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		
-		if(!cardName.equals("Alloy Steel")) {
-			if(player.getTurn().equals(1))
-				changePlayerNext(game);
 		}
 	}
 	
 	protected void changePlayerNext(Game game) {
 		List<Player> turn = game.getTurnList();
 		for(Player p:turn) {
-			p.setTurn((p.getTurn()%3)+1);
+			// turns start with 1
+			p.setTurn((p.getTurn()%turn.size())+1);
 			try {
 				playerService.savePlayer(p);
 			} catch (DataAccessException | DuplicatedUsernameException | DuplicatedEmailException

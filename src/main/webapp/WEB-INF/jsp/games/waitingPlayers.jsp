@@ -34,7 +34,7 @@
 	</lu>
 	
     <c:choose>
-        <c:when test="${loggedPlayer.getId() == game.firstPlayer.getId()}">
+        <c:when test="${game.getPlayersList().size() <= 1}">
 			<spring:url value="/games/{gameId}/delete" var="gameUrl">
 		        <spring:param name="gameId" value="${game.id}"/>
 	        </spring:url>

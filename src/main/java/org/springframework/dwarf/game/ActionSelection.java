@@ -56,7 +56,7 @@ public class ActionSelection implements GamePhase{
 		
 		while(changePlayer) {
 			Integer index = turn.indexOf(currentPlayer);
-			currentPlayer = turn.get((index+1)%3);
+			currentPlayer = turn.get((index+1)%turn.size());
 			game.setCurrentPlayer(currentPlayer);
 			List<Worker> workersNotPlaced = workerService.findNotPlacedByPlayerIdAndGameId(currentPlayer.getId(), game.getId());
 			changePlayer = workersNotPlaced.isEmpty();
