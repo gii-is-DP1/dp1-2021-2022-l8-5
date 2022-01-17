@@ -66,7 +66,6 @@
 				&nbsp; 	<dwarf:playerInfo player="${player2}" playerNumber="${2}" resources="${resourcesPlayer2}"/><br>
 				<img src="${player3worker.image}"  width="60" height="60" style="float:left" id="player3IMG"><br>
 				&nbsp; <dwarf:playerInfo player="${player3}" playerNumber="${3}" resources="${resourcesPlayer3}"/><br>
-        	
          </div>
     </div>
     

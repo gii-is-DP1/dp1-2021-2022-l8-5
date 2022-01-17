@@ -19,6 +19,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.dwarf.model.BaseEntity;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerComparator;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -99,9 +100,11 @@ public class Game extends BaseEntity{
 	Player thirdPlayer;
 	
 	@NotNull
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	@Column(name = "STARTDATE")
 	LocalDateTime startDate;
 	
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	@Column(name = "FINISHDATE")
 	LocalDateTime finishDate;
 	

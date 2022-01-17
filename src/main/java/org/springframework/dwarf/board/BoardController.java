@@ -145,6 +145,9 @@ public class BoardController {
 		} catch (DataAccessException | CreateGameWhilePlayingException e) {
 			e.printStackTrace();
 		}
+   		
+   		if(game.getFinishDate() != null)
+   			return "redirect:/games/" + gameId + "/gameClassification";
     	
     	if(!this.boardPageLoaded)
     		this.boardPageLoaded = true;

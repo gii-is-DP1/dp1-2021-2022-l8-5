@@ -1,11 +1,13 @@
 package org.springframework.dwarf.game;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dwarf.board.Board;
+import org.springframework.dwarf.board.BoardService;
 import org.springframework.dwarf.mountain_card.MountainDeck;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
@@ -31,6 +33,8 @@ public class GameService {
 	private PlayerService playerService;
 	@Autowired
 	private WorkerService workerService;
+	@Autowired
+	private BoardService boardService;
 	
 	@Autowired
 	public GameService(GameRepository gameRepository) {
@@ -139,6 +143,23 @@ public class GameService {
 		}
 		
 		this.saveGame(game);
+	}
+	
+	@Transactional(rollbackFor = CreateGameWhilePlayingException.class)
+	public void finishGame(Game game) throws DataAccessException, CreateGameWhilePlayingException {
+		Board board = this.findBoardByGameId(game.getId()).get();
+		boardService.delete(board);
+		
+		this.deleteAllWorkers(game);
+		game.setFinishDate(LocalDateTime.now());
+		
+		this.saveGame(game);
+	}
+	
+	private void deleteAllWorkers(Game game) {
+		for(Player player: game.getPlayersList()) {
+			workerService.deletePlayerWorker(player);
+		}
 	}
     
     public Integer getCurrentGameId(Player player) {

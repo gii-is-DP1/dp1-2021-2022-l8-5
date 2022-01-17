@@ -1,5 +1,6 @@
 package org.springframework.dwarf.game;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -10,6 +11,7 @@ import java.util.stream.Collectors;
 import org.jpatterns.gof.StatePattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dwarf.board.Board;
 import org.springframework.dwarf.board.BoardCell;
 import org.springframework.dwarf.board.BoardCellActionsComparator;
@@ -35,7 +37,7 @@ public class ActionResolution implements GamePhase{
     @Autowired
     private ApplicationContext applicationContext;
     
-    private static final int FINAL_GAME_ROUND = 6;
+    private static final int FINAL_GAME_ROUND = 1;
 
 	@Override
 	public void phaseResolution(Game game) {
@@ -51,12 +53,13 @@ public class ActionResolution implements GamePhase{
 		}
 		
 		game.setCanResolveActions(true);
-		// necesita testeo
+		game.setCurrentRound(game.getCurrentRound()+1);
 		this.updatePlayersPositions(game);
-		if(game.getCurrentRound() < FINAL_GAME_ROUND) {
+		
+		if(game.getCurrentRound() <= FINAL_GAME_ROUND) {
 			game.setPhase(GamePhaseEnum.MINERAL_EXTRACTION);
 		} else {
-			// finalizar partida
+			game.setFinishDate(LocalDateTime.now());
 		}
 		
 	}
