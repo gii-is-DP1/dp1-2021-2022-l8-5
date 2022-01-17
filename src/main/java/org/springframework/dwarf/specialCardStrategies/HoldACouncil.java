@@ -18,9 +18,7 @@ import org.springframework.dwarf.player.Player;
 import org.springframework.stereotype.Component;
 import org.springframework.dwarf.card.StrategyName;
 
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @StrategyPattern.ConcreteStrategy
 @Component
 public class HoldACouncil implements CardStrategy {
@@ -34,36 +32,32 @@ public class HoldACouncil implements CardStrategy {
 	@Autowired
 	MountainDeckService mountainDeckService;
 	
-	//Quitar todas las cartas superiores del tablero (si solo hay una en una posición, se deja) y devolverlas al mazo de montaña.
-	
+		
 	@Override
 	public void actions(Player player, String cardName) {
-		log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
-		
 		Game currentGame = gameService.findPlayerUnfinishedGames(player).get();
 		Board board = gameService.findBoardByGameId(currentGame.getId()).get();
-		// se podria hacer una query que te diese el mazo de montaña con el game id
+		
 		MountainDeck mountainDeck = board.getMountainDeck();
-		List<MountainCard> removedCards = this.removeTopCards(currentGame);
+		List<MountainCard> removedCards = this.removeTopCards(currentGame, board);
 		
 		mountainDeck.getMountainCards().addAll(removedCards);
 		mountainDeckService.saveMountainDeck(mountainDeck);
 	}
 	
-	private List<MountainCard> removeTopCards(Game currentGame){
+	private List<MountainCard> removeTopCards(Game currentGame, Board board){
 		List<MountainCard> cardsToRemove = new ArrayList<MountainCard>();
-		Board board = gameService.findBoardByGameId(currentGame.getId()).get();
 		
 		for(BoardCell boardCell: board.getBoardCells()) {
 			List<MountainCard> listRemoveTop = boardCell.getMountaincards();
-			MountainCard cardRemoved = listRemoveTop.remove(0);
-			
-			boardCell.setMountaincards(listRemoveTop);
-			cardsToRemove.add(cardRemoved);
+			if (listRemoveTop.size()>1) {	
+				MountainCard cardRemoved = listRemoveTop.remove(0);
+				boardCell.setMountaincards(listRemoveTop);
+				cardsToRemove.add(cardRemoved);
+			}
 			
 			boardCellService.saveBoardCell(boardCell);
 		}
-		
 		
 		return cardsToRemove;
 	}

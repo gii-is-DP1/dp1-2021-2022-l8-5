@@ -126,7 +126,7 @@ public class BoardController {
     	Board board = boardService.findByBoardId(boardId).get();
 		Player myplayer = LoggedUserController.loggedPlayer();
 		
-		modelMap = this.setHasEnoughBadges(modelMap, myplayer.getId(), gameId);
+		modelMap = this.setCanUseSpecial(modelMap, myplayer.getId(), gameId);
 		modelMap = this.setMyWorkerForPost(modelMap, myplayer.getId(), gameId);
 		modelMap = this.hasAidWorkers(modelMap, gameId);
 
@@ -156,8 +156,11 @@ public class BoardController {
     	return view;
     }
     
-    private ModelMap setHasEnoughBadges(ModelMap modelMap, int pid, int gid) {
+    private ModelMap setCanUseSpecial(ModelMap modelMap, int pid, int gid) {
     	Resources myresources = resourcesService.findByPlayerIdAndGameId(pid, gid).get();
+    	List<Worker> myavailableworkers = workerService.findNotPlacedByPlayerIdAndGameId(pid, gid).stream().collect(Collectors.toList());
+    	modelMap.addAttribute("hasEnoughWorkers", myavailableworkers.size()>=2);
+    	modelMap.addAttribute("hasOneWorker", myavailableworkers.size()==1);
 		modelMap.addAttribute("canPay", myresources.getBadges()>=4);
     	return modelMap;
     }

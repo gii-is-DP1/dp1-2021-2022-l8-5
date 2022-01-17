@@ -90,7 +90,7 @@
 							</c:forEach>
 						</c:if>
 						
-						<c:if test="${phaseName == 'ACTION_SELECTION'}">
+						<c:if test="${(phaseName == 'ACTION_SELECTION') && (hasEnoughWorkers || canPay)}">
 							&nbsp;
 							<h2>Select the special action to perform</h2>
 							<p>You'll use your 2 workers for this turn, but the action will be performed immediatly</p>
@@ -99,6 +99,10 @@
 								<c:choose>
 									<c:when test="${!canPay}">
 										<label><input disabled="disabled" type="checkbox" name="pay" value="yes"> Perform action with only 1 worker and pay 4 badges?</label>
+									</c:when>
+									<c:when test="${canPay && hasOneWorker}">
+										<label><input disabled="disabled" type="checkbox" name="pay" value="yes" checked="checked"> Perform action with only 1 worker and pay 4 badges?</label>
+										<input type="hidden" id="hiddenInput" name="pay" value="yes" />
 									</c:when>
 									<c:otherwise>
 										<label><input type="checkbox" name="pay" value="yes"> Perform action with only 1 worker and pay 4 badges?</label>
