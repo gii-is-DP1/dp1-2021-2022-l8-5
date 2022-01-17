@@ -54,7 +54,7 @@ public class GetHelp implements CardStrategy{
 	private void changePlayerNext(Game game) {
 		List<Player> turn = game.getTurnList();
 		for(Player p:turn) {
-			p.setTurn((p.getTurn()+1)%3);
+			p.setTurn((p.getTurn()+1)%turn.size());
 			try {
 				playerService.savePlayer(p);
 			} catch (DataAccessException | DuplicatedUsernameException | DuplicatedEmailException

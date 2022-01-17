@@ -8,6 +8,12 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dwarf.board.Board;
 import org.springframework.dwarf.mountain_card.MountainDeck;
 import org.springframework.dwarf.player.Player;
+import org.springframework.dwarf.player.PlayerService;
+import org.springframework.dwarf.user.DuplicatedEmailException;
+import org.springframework.dwarf.user.DuplicatedUsernameException;
+import org.springframework.dwarf.user.InvalidEmailException;
+import org.springframework.dwarf.web.LoggedUserController;
+import org.springframework.dwarf.worker.WorkerService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +26,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class GameService {
 	
 	private GameRepository gameRepo;
+	
+	@Autowired
+	private PlayerService playerService;
+	@Autowired
+	private WorkerService workerService;
 	
 	@Autowired
 	public GameService(GameRepository gameRepository) {
@@ -77,32 +88,30 @@ public class GameService {
 		return gameRepo.searchDeckByGameId(gameId);
 	}
 	
-	public Player searchPlayerOneByGame(Integer gameId) {
-		return gameRepo.searchPlayerOneByGame(gameId);
-	}
-
-	public Player searchPlayerTwoByGame(Integer gameId) {
-		return gameRepo.searchPlayerTwoByGame(gameId);
-	}
-
-	public Player searchPlayerThreeByGame(Integer gameId) {
-		return gameRepo.searchPlayerThreeByGame(gameId);
-	}
-	
-	//All players from the game
-	public List<Player> searchPlayersByGame(Integer gameId) {		
-		return List.of(searchPlayerOneByGame(gameId), searchPlayerTwoByGame(gameId), searchPlayerThreeByGame(gameId));
-	}
-	
-	public void exit(Game game, Player loggedPlayer) throws DataAccessException {	
-		// the first player must delete the game when exit
-			if(this.amISecondPlayer(game, loggedPlayer)) {
-				game.setSecondPlayer(null);
-			}else if (this.amIThirdPlayer(game, loggedPlayer)) {
-				game.setThirdPlayer(null);
-			}
+	public void exit(Game game) throws DataAccessException {	
+		Player loggedPlayer = LoggedUserController.loggedPlayer();
+		workerService.deletePlayerWorker(loggedPlayer);
+		int playerIndex = game.getPlayerPosition(loggedPlayer);
+		
+		List<Player> newPlayerList = game.getPlayersList();
+		newPlayerList.remove(playerIndex);
+		game.setPlayersPosition(newPlayerList);
+		this.setPlayersTurns(newPlayerList);
 		
 		gameRepo.save(game);
+	}
+	
+	private void setPlayersTurns(List<Player> newPlayerList) {
+		for(int i=0; i<newPlayerList.size(); i++) {
+			Player player = newPlayerList.get(i);
+			player.setTurn(i+1);
+			try {
+				playerService.savePlayer(player);
+			} catch (DataAccessException | DuplicatedUsernameException | DuplicatedEmailException
+					| InvalidEmailException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	@Transactional(rollbackFor = CreateGameWhilePlayingException.class)
@@ -131,14 +140,6 @@ public class GameService {
 		
 		this.saveGame(game);
 	}
-	
-	private Boolean amISecondPlayer(Game game, Player player){
-        return game.getPlayerPosition(player) == 1;
-    }
-    
-    private Boolean amIThirdPlayer(Game game, Player player){
-        return game.getPlayerPosition(player) == 2;
-    }
     
     public Integer getCurrentGameId(Player player) {
     	return gameRepo.searchPlayerIsInGame(player);
