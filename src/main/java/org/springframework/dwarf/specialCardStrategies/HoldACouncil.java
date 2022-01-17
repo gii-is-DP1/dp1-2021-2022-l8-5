@@ -3,6 +3,7 @@ package org.springframework.dwarf.specialCardStrategies;
 import java.util.ArrayList;
 import java.util.List;
 import org.jpatterns.gof.StrategyPattern;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dwarf.board.Board;
 import org.springframework.dwarf.board.BoardCell;
 import org.springframework.dwarf.board.BoardCellService;
@@ -24,9 +25,13 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class HoldACouncil implements CardStrategy {
 	
+	@Autowired
 	GameService gameService;
+	@Autowired
 	BoardService boardService;
+	@Autowired
 	BoardCellService boardCellService;
+	@Autowired
 	MountainDeckService mountainDeckService;
 	
 	//Quitar todas las cartas superiores del tablero (si solo hay una en una posición, se deja) y devolverlas al mazo de montaña.
