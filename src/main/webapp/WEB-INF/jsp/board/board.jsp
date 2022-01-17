@@ -1,6 +1,7 @@
 <%@ page session="false" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="dwarf" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -10,8 +11,25 @@
 <!-- %@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %-->  
 
 <dwarf:layout pageName="board">
-	
-	<h2><c:out value="Turno para: ${game.currentPlayer.username}"/></h2>
+
+	<c:choose>
+        <c:when test="${game.getPlayersList().size() <= 2}">
+			<spring:url value="/games/{gameId}/delete" var="gameUrl">
+		        <spring:param name="gameId" value="${game.id}"/>
+	        </spring:url>
+	        <a class="btn btn-default" href="${fn:escapeXml(gameUrl)}">Exit and delete</a>
+        </c:when>
+		<c:otherwise>
+            <spring:url value="/games/{gameId}/exit" var="gameUrl">
+		        <spring:param name="gameId" value="${game.id}"/>
+	        </spring:url>
+	        <a class="btn btn-default" href="${fn:escapeXml(gameUrl)}">Exit game</a>
+        </c:otherwise>
+    </c:choose>
+    
+	<c:if test="${phaseName == 'ACTION_SELECTION'}">
+		<h2><c:out value="Turno para: ${game.currentPlayer.username}"/></h2>
+	</c:if>
 	<h2><c:out value="Fase de la ronda: ${game.currentPhaseName.toString()}"/></h2>
 	<h2><c:out value="Ronda actual: ${game.currentRound}"/></h2>
 	
@@ -41,13 +59,13 @@
             
         </div>
          <div class="col-md-3" style="font-size:16px">
-				<img src="/resources/images/epicworker1.png"  width="60" height="60" style="float:left" id="player1IMG"><br>
+         		<!-- CAMBIAR DINÁMICAMENTRE LAS IMAGENES DE LOS JUGADORES -->
+				<img src="${player1worker.image}"  width="60" height="60" style="float:left" id="player1IMG"><br>
 				&nbsp; <dwarf:playerInfo player="${player1}" playerNumber="${1}" resources="${resourcesPlayer1}"/><br>
-				<img src="/resources/images/epicworker2.png"  width="60" height="60" style="float:left" id="player2IMG"><br>
+				<img src="${player2worker.image}"  width="60" height="60" style="float:left" id="player2IMG"><br>
 				&nbsp; 	<dwarf:playerInfo player="${player2}" playerNumber="${2}" resources="${resourcesPlayer2}"/><br>
-				<img src="/resources/images/epicworker3.png"  width="60" height="60" style="float:left" id="player3IMG"><br>
+				<img src="${player3worker.image}"  width="60" height="60" style="float:left" id="player3IMG"><br>
 				&nbsp; <dwarf:playerInfo player="${player3}" playerNumber="${3}" resources="${resourcesPlayer3}"/><br>
-        	
          </div>
     </div>
     
@@ -55,41 +73,45 @@
 	<!-- aÃ±adir al when que la fase sea la de seleccion de acciones -->
 	<div class="row">	
 		<div class="col-md-9">
-			<c:if test="${myplayer == game.currentPlayer && myworker != null && phaseName == 'ACTION_SELECTION'}">
+			<c:if test="${myplayer == game.currentPlayer && myworker != null && phaseName != 'MINERAL_EXTRACTION'}">
 				<form:form class="form-horizontal" id="add-player-form">
 					<div class="form-group text-center">
 					
-						<h2>Select the tile where you'll place your worker</h2>
-						<c:set var="index" value="${0}"/>
-						<c:forEach items="${ypos}" var="y">
-							<div class="row-md-3">
-								<c:forEach items="${xpos}" var="x">
-									<dwarf:choosePanel index="${index}" yposition="${y}" xposition="${x}" isCellOccupied="${board.boardCells.get(index).isCellOccupied()}"/>
-									<c:set var="index" value="${index+1}"/>
-								</c:forEach>
+						<c:if test="${phaseName == 'ACTION_SELECTION' || hasAidWorkers}">
+							<h2>Select the tile where you'll place your worker</h2>
+							<c:set var="index" value="${0}"/>
+							<c:forEach items="${ypos}" var="y">
+								<div class="row-md-3">
+									<c:forEach items="${xpos}" var="x">
+										<dwarf:choosePanel index="${index}" yposition="${y}" xposition="${x}" isCellOccupied="${board.boardCells.get(index).isCellOccupied()}"/>
+										<c:set var="index" value="${index+1}"/>
+									</c:forEach>
+								</div>
+							</c:forEach>
+						</c:if>
+						
+						<c:if test="${phaseName == 'ACTION_SELECTION'}">
+							&nbsp;
+							<h2>Select the special action to perform</h2>
+							<p>You'll use your 2 workers for this turn, but the action will be performed immediatly</p>
+							
+							<div>
+								<c:choose>
+									<c:when test="${!canPay}">
+										<label><input disabled="disabled" type="checkbox" name="pay" value="yes"> Perform action with only 1 worker and pay 4 badges?</label>
+									</c:when>
+									<c:otherwise>
+										<label><input type="checkbox" name="pay" value="yes"> Perform action with only 1 worker and pay 4 badges?</label>
+									</c:otherwise>
+								</c:choose>
 							</div>
-						</c:forEach>
-						
-						&nbsp;
-						<h2>Select the special action to perform</h2>
-						<p>You'll use your 2 workers for this turn, but the action will be performed immediatly</p>
-						
-						<div>
-							<c:choose>
-								<c:when test="${!canPay}">
-									<label><input disabled="disabled" type="checkbox" name="pay" value="yes"> Perform action with only 1 worker and pay 4 badges?</label>
-								</c:when>
-								<c:otherwise>
-									<label><input type="checkbox" name="pay" value="yes"> Perform action with only 1 worker and pay 4 badges?</label>
-								</c:otherwise>
-							</c:choose>
-						</div>
-		
-						<div class="row-md-3">
-							<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,0">Special 1</button>
-							<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,1">Special 2</button>
-							<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,2">Special 3</button>
-						</div>
+			
+							<div class="row-md-3">
+								<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,0">Special 1</button>
+								<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,1">Special 2</button>
+								<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,2">Special 3</button>
+							</div>
+						</c:if>
 						
 					</div>
 			    </form:form>

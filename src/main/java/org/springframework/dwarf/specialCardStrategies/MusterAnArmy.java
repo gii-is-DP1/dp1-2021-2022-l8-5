@@ -11,15 +11,17 @@ import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.mountain_card.CardType;
 import org.springframework.dwarf.player.Player;
+import org.springframework.stereotype.Component;
 import org.springframework.dwarf.card.StrategyName;
 import org.springframework.dwarf.card.CardStrategy;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @StrategyPattern.ConcreteStrategy
+@Component
 public class MusterAnArmy implements CardStrategy{
 
-		
+	@Autowired
 	GameService gameService;
 
 	@Autowired
@@ -54,6 +56,6 @@ public class MusterAnArmy implements CardStrategy{
 
 	@Override
 	public StrategyName getName() {
-		return StrategyName.MUSERT_ARMY;
+		return StrategyName.MUSTER_AN_ARMY;
 	}
 }

@@ -50,6 +50,14 @@ public class BoardService {
 	}
 	
 	public void delete(Board board) {
+		for(BoardCell cell: board.getBoardCells()) {
+			boardCellSer.delete(cell);
+		}
+		for(SpecialDeck specialDeck: board.getSpecialDecks()) {
+			specialDeckSer.delete(specialDeck);
+		}
+		mountainDeckSer.delete(board.getMountainDeck());
+		
 		boardRepo.delete(board);
 	}
 	
@@ -82,6 +90,11 @@ public class BoardService {
 		//this.setCellsBoardId(cells, board);
 		
 		return board;
+	}
+	
+
+	public List<SpecialDeck> findSpecialDeckByBoardId(int id){
+		return boardRepo.findSpecialDecksByBoardId(id);
 	}
 	
 	private List<Integer> randomList(){

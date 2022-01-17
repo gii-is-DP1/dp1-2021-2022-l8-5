@@ -87,15 +87,15 @@ INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,secondPlay
  -- MUSERT_ARMY,HOLD_COUNCIL,SELL_ITEM,PAST_GLORIES,SPECIAL_ORDER,TURN_BACK,APPRENTICE,COLLAPSE_SHAFTS,RUN_AMOK
  
 -- Special cards (card sheet 7 front & back)
- INSERT INTO special_cards(name, description, back_card, image) VALUES ('Muster an Army', 'When resolving actions this turn, treat all defend cards as if they are ocuppied', 1,'/resources/images/specialCards/musterAnArmy.png');
- INSERT INTO special_cards(name, description, back_card, image) VALUES ('Muster an Army', 'When resolving actions this turn, treat all defend cards as if they are ocuppied', 2,'/resources/images/specialCards/holdACouncil.png');
- INSERT INTO special_cards(name, description, back_card, image) VALUES ('Muster an Army', 'When resolving actions this turn, treat all defend cards as if they are ocuppied', 3,'/resources/images/specialCards/sellAnItem.png');
- INSERT INTO special_cards(name, description, back_card, image) VALUES ('Muster an Army', 'When resolving actions this turn, treat all defend cards as if they are ocuppied', 4,'/resources/images/specialCards/pastGlories.png');
- INSERT INTO special_cards(name, description, back_card, image) VALUES ('Muster an Army', 'When resolving actions this turn, treat all defend cards as if they are ocuppied', 5,'/resources/images/specialCards/specialOrder.png');
- INSERT INTO special_cards(name, description, back_card, image) VALUES ('Muster an Army', 'When resolving actions this turn, treat all defend cards as if they are ocuppied', 6,'/resources/images/specialCards/turnBack.png');
- INSERT INTO special_cards(name, description, back_card, image) VALUES ('Muster an Army', 'When resolving actions this turn, treat all defend cards as if they are ocuppied', 7,'/resources/images/specialCards/apprentice.png');
- INSERT INTO special_cards(name, description, back_card, image) VALUES ('Muster an Army', 'When resolving actions this turn, treat all defend cards as if they are ocuppied', 8,'/resources/images/specialCards/collapseTheShafts.png');
- INSERT INTO special_cards(name, description, back_card, image) VALUES ('Muster an Army', 'When resolving actions this turn, treat all defend cards as if they are ocuppied', 9,'/resources/images/specialCards/runAmok.png');
+ INSERT INTO special_cards(name, description, back_card, image, actiontype) VALUES ('Muster an Army', 'When resolving actions this turn, treat all defend cards as if they are ocuppied', 1,'/resources/images/specialCards/musterAnArmy.png', 'MUSTER_AN_ARMY');
+ INSERT INTO special_cards(name, description, back_card, image, actiontype) VALUES ('Hold a Council', 'Remove the top card from each location (leaving at least one card) and shuffle them back into The Mountain', 2,'/resources/images/specialCards/holdACouncil.png', 'HOLD_A_COUNCIL');
+ INSERT INTO special_cards(name, description, back_card, image, actiontype) VALUES ('Sell an Item', 'Exchange 1 of your items for 5 resources of your choice', 3,'/resources/images/specialCards/sellAnItem.png', 'SELL_AN_ITEM');
+ INSERT INTO special_cards(name, description, back_card, image, actiontype) VALUES ('Past Glories', 'Name a card previously on top in any location and return it to the top of that location', 4,'/resources/images/specialCards/pastGlories.png', 'PAST_GLORIES');
+ INSERT INTO special_cards(name, description, back_card, image, actiontype) VALUES ('Special Order', 'Return 5 resources of your choice, including at least 1 of each type, to the supply and take 1 item', 5,'/resources/images/specialCards/specialOrder.png', 'SPECIAL_ORDER');
+ INSERT INTO special_cards(name, description, back_card, image, actiontype) VALUES ('Turn Back', 'Remove the top card from 1 location and suffle it back into the mountain. Immediatly place 1 worker on that location', 6,'/resources/images/specialCards/turnBack.png', 'TURN_BACK');
+ INSERT INTO special_cards(name, description, back_card, image, actiontype) VALUES ('Apprentice', 'Place one worker on a location occupied by other player', 7,'/resources/images/specialCards/apprentice.png', 'APPRENTICE');
+ INSERT INTO special_cards(name, description, back_card, image, actiontype) VALUES ('Collapse the Shafts', 'Remove the top card from each location and place it on the bottom of that stack', 8,'/resources/images/specialCards/collapseTheShafts.png', 'COLLAPSE_THE_SHAFTS');
+ INSERT INTO special_cards(name, description, back_card, image, actiontype) VALUES ('Run Amok', 'Collect all of the cards from each location, in turn, shuffle them and return them to that location', 9,'/resources/images/specialCards/runAmok.png', 'RUN_AMOK');
 
  INSERT INTO special_decks(xposition, yposition) VALUES (0,0);
  INSERT INTO special_decks(xposition, yposition) VALUES (0,1);

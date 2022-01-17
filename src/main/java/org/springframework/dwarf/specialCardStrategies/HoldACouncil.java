@@ -3,6 +3,7 @@ package org.springframework.dwarf.specialCardStrategies;
 import java.util.ArrayList;
 import java.util.List;
 import org.jpatterns.gof.StrategyPattern;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dwarf.board.Board;
 import org.springframework.dwarf.board.BoardCell;
 import org.springframework.dwarf.board.BoardCellService;
@@ -14,17 +15,23 @@ import org.springframework.dwarf.mountain_card.MountainCard;
 import org.springframework.dwarf.mountain_card.MountainDeck;
 import org.springframework.dwarf.mountain_card.MountainDeckService;
 import org.springframework.dwarf.player.Player;
+import org.springframework.stereotype.Component;
 import org.springframework.dwarf.card.StrategyName;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @StrategyPattern.ConcreteStrategy
+@Component
 public class HoldACouncil implements CardStrategy {
 	
+	@Autowired
 	GameService gameService;
+	@Autowired
 	BoardService boardService;
+	@Autowired
 	BoardCellService boardCellService;
+	@Autowired
 	MountainDeckService mountainDeckService;
 	
 	//Quitar todas las cartas superiores del tablero (si solo hay una en una posición, se deja) y devolverlas al mazo de montaña.
@@ -63,7 +70,7 @@ public class HoldACouncil implements CardStrategy {
 
 	@Override
 	public StrategyName getName() {
-		return StrategyName.HOLD_COUNCIL;
+		return StrategyName.HOLD_A_COUNCIL;
 	}
 	
 }

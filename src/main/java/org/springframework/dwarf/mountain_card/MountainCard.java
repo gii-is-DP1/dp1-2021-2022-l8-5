@@ -53,42 +53,6 @@ public class MountainCard extends Card{
 	@Range(min= 0, max= 3)
 	Integer group;
 	
-	@Column(name = "actiontype")
-	@NotNull
-	@Enumerated(value = EnumType.STRING)
-	StrategyName actionType;
-	
-	@Transient
-	@StrategyPattern.StrategyField
-	CardStrategy cardStrategy;
-	
-	public void cardAction(Player player, ApplicationContext applicationContext) throws Exception {
-		this.setStrategy(applicationContext);
-		this.cardStrategy.actions(player,this.getName());
-	}
-	
-	// Ej: DRAGONS_KNOCKERS --> DragonsKnockers
-	private String getStrategyClassName() {
-		String strategyName = "";
-		String[] split = this.actionType.toString().split("_");
-		
-		for(String s: split) {
-			s = s.toLowerCase();
-			s = s.substring(0,1).toUpperCase() + s.substring(1, s.length());
-			strategyName += s;
-		}
-		
-		return "org.springframework.dwarf.mountainCardStrategies." + strategyName;
-	}
-	
-	private void setStrategy(ApplicationContext applicationContext) {
-		try {
-			this.cardStrategy = (CardStrategy)applicationContext.getBean(Class.forName(this.getStrategyClassName()));
-		} catch (BeansException | ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
-	
 	public Integer getPositionXInPixels(Integer size) {
     	return (xPosition)*size;
     }

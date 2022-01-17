@@ -18,6 +18,7 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.dwarf.configuration.SecurityConfiguration;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
+import org.springframework.dwarf.resources.ResourcesService;
 import org.springframework.dwarf.user.AuthoritiesService;
 import org.springframework.dwarf.user.User;
 import org.springframework.dwarf.user.UserService;
@@ -41,12 +42,12 @@ import org.springframework.test.web.servlet.MockMvc;
 public class GameControllerTest {
 
 	private static final int TEST_GAME_ID = 1;
-
-	@Autowired
-	private GameController gameController;
 	
 	@MockBean
 	private GameService gameService;
+	
+	@MockBean
+	private ResourcesService resourcesService;
 	
 	@MockBean
 	private AuthoritiesService authoritiesService;
@@ -104,7 +105,7 @@ public class GameControllerTest {
 	 mockMvc.perform(get("/games/searchGames")).andExpect(status().isOk())
 		.andExpect(view().name("games/searchOrCreateGames"))
 		.andExpect(model().attributeExists("gamesToJoin"));
-	    }
+	}
 	
 	@Test
 	@WithMockUser(username = "pabmargom3")
@@ -112,6 +113,6 @@ public class GameControllerTest {
 	 mockMvc.perform(get("/games")).andExpect(status().isOk())
 		.andExpect(view().name("games/listGames"))
 		.andExpect(model().attributeExists("games"));
-	    }
+	}
 	
 }

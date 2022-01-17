@@ -19,6 +19,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.dwarf.model.BaseEntity;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerComparator;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -85,7 +86,7 @@ public class Game extends BaseEntity{
 	@Column(name = "CURRENTROUND")
 	Integer currentRound;
 	
-	@NotNull
+	//@NotNull
 	@OneToOne
 	@JoinColumn(name = "FIRSTPLAYER", referencedColumnName="id")
 	Player firstPlayer;
@@ -99,9 +100,11 @@ public class Game extends BaseEntity{
 	Player thirdPlayer;
 	
 	@NotNull
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	@Column(name = "STARTDATE")
 	LocalDateTime startDate;
 	
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	@Column(name = "FINISHDATE")
 	LocalDateTime finishDate;
 	
@@ -113,7 +116,7 @@ public class Game extends BaseEntity{
 		return this.canResolveActions;
 	}
 	
-	public List<Player> getPlayersList(){
+	public List<Player> getPlayersList() {
 		List<Player> pList = new ArrayList<Player>();
 		
 		if(this.firstPlayer != null)
@@ -126,6 +129,32 @@ public class Game extends BaseEntity{
 		return pList;
 	}
 	
+	public void setPlayersPosition(List<Player> players) {
+		Integer listSize = players.size();
+		for(int i=0; i<3; i++) {
+			if(i <= listSize-1)
+				this.setPlayer(i, players.get(i));
+			else
+				this.setPlayer(i, null);
+		}
+	}
+	
+	private void setPlayer(int index, Player player) {
+		switch (index) {
+			case 0:
+				this.setFirstPlayer(player);
+				break;
+			case 1:
+				this.setSecondPlayer(player);
+				break;
+			case 2:
+				this.setThirdPlayer(player);
+				break;
+			default:
+				break;
+		}
+	}
+	
 	public List<Player> getTurnList(){
 		List<Player> pList = this.getPlayersList();
 		Collections.sort(pList, new PlayerComparator());
@@ -134,7 +163,8 @@ public class Game extends BaseEntity{
 	}
 	
     public Boolean allPlayersSet(){
-        return this.getPlayersList().size() == 3;
+    	// can start a game with 2 players
+        return this.getPlayersList().size() >= 2;
     }
     
     public Boolean isPlayerInGame(Player player) {

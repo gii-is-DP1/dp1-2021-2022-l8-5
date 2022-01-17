@@ -3,6 +3,7 @@ package org.springframework.dwarf.board;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -15,11 +16,16 @@ import org.springframework.dwarf.game.CreateGameWhilePlayingException;
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GamePhaseEnum;
 import org.springframework.dwarf.game.GameService;
+import org.springframework.dwarf.game.MineralExtraction;
+import org.springframework.dwarf.mountain_card.MountainCard;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
 import org.springframework.dwarf.resources.ResourceType;
 import org.springframework.dwarf.resources.Resources;
 import org.springframework.dwarf.resources.ResourcesService;
+import org.springframework.dwarf.special_card.SpecialCard;
+import org.springframework.dwarf.special_card.SpecialDeck;
+import org.springframework.dwarf.special_card.SpecialDeckService;
 import org.springframework.dwarf.user.DuplicatedEmailException;
 import org.springframework.dwarf.user.DuplicatedUsernameException;
 import org.springframework.dwarf.user.InvalidEmailException;
@@ -55,6 +61,8 @@ public class BoardController {
     private PlayerService playerService;
     @Autowired
     private BoardCellService boardCellService;
+    @Autowired
+    private SpecialDeckService specialDeckService;
     
     @Autowired
     private ApplicationContext applicationContext;
@@ -77,6 +85,7 @@ public class BoardController {
 		for (Player p : game.getPlayersList()) {
 			resourcesService.createPlayerResource(p, game);
 			workerService.createPlayerWorkers(p, game, i);
+			//modelMap.addAttribute("imgPlayer" + i, i);
 			i = i+1;
 		}
 		this.setTurns(game.getPlayersList());
@@ -108,22 +117,26 @@ public class BoardController {
     public String boardGame(@PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, ModelMap modelMap, HttpServletResponse response) throws Exception {
     	response.addHeader("REFRESH", "4");
     	String view = "/board/board";
-    
+    	
     	Game game = gameService.findByGameId(gameId).get();
+    	
+    	if(game.getFinishDate() != null)
+   			return "redirect:/games/" + gameId + "/gameClassification";
+    	
     	Board board = boardService.findByBoardId(boardId).get();
 		Player myplayer = LoggedUserController.loggedPlayer();
 		
 		modelMap = this.setHasEnoughBadges(modelMap, myplayer.getId(), gameId);
-		
 		modelMap = this.setMyWorkerForPost(modelMap, myplayer.getId(), gameId);
+		modelMap = this.hasAidWorkers(modelMap, gameId);
 
     	modelMap.addAttribute("myplayer", myplayer);
     	modelMap.addAttribute("board", board);
     	modelMap.addAttribute("game", game);
     	modelMap.addAttribute("phaseName", game.getCurrentPhaseName().toString());
     	
-    	modelMap.addAttribute("xpos", List.of(1,2,3));
-    	modelMap.addAttribute("ypos", List.of(0,1,2));
+    	modelMap.addAttribute("xpos",List.of(1,2,3));
+    	modelMap.addAttribute("ypos",List.of(0,1,2));
     	
     	modelMap = this.setPlayersData(modelMap, game);
 	
@@ -136,7 +149,7 @@ public class BoardController {
 		} catch (DataAccessException | CreateGameWhilePlayingException e) {
 			e.printStackTrace();
 		}
-    	
+   		
     	if(!this.boardPageLoaded)
     		this.boardPageLoaded = true;
     	
@@ -167,7 +180,10 @@ public class BoardController {
 	        	modelMap.addAttribute("player" + (i+1), p);
 	        	Resources resourcesPlayer = resourcesService.findByPlayerIdAndGameId(p.getId(), game.getId()).get();
 	        	modelMap.addAttribute("resourcesPlayer" + (i+1), resourcesPlayer);
-	        	workers.addAll(workerService.findByPlayerId(p.getId()));
+	        	List<Worker> playerWorkers = workerService.findByPlayerId(p.getId()).stream().collect(Collectors.toList());
+	        	workers.addAll(playerWorkers);
+	        	Worker playerWorker = playerWorkers.get(0);
+	        	modelMap.addAttribute("player" + (i+1) + "worker", playerWorker);
     		}
     	}
     	modelMap.addAttribute("workers" , workers);
@@ -185,10 +201,9 @@ public class BoardController {
     @PostMapping("{boardId}/game/{gameId}")
     public String postWorker(@Valid Worker myworker, @RequestParam String pos, @RequestParam(required = false) String pay, @PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, BindingResult result, Error errors) throws Exception {
 		Game game = gameService.findByGameId(gameId).get();
-		game.phaseResolution(this.applicationContext);
-		
+		String redirect = "/board/board";
 		if (result.hasErrors()) {
-			return "/board/board";
+			return redirect;
 		}
 		else {
 			//parsear pos, settear al worker myworker las posiciones "x" e "y" obtenidas de pos
@@ -203,28 +218,25 @@ public class BoardController {
 			
 			if (posx == 0) {
 				Boolean useBadges = (pay==null) ? false : true;
-				return updatingWorkerSpecial(workersNotPlaced, myworker, useBadges, boardId, gameId, errors,result);
+				redirect = updatingWorkerSpecial(player, workersNotPlaced, myworker, useBadges, boardId, gameId, errors,result);
 			} else {
-				return updatingWorker(workersNotPlaced.get(0), myworker, boardId, gameId, errors,result);
+				redirect = updatingWorker(workersNotPlaced.get(0), myworker, boardId, gameId, errors,result);
 			}
 			
 		}
+		
+		game.phaseResolution(this.applicationContext);
+		return redirect;
     	
     }
     
-    private String updatingWorkerSpecial(List<Worker> workers, Worker myworker, Boolean useBadges, Integer boardId, Integer gameId, Error errors, BindingResult result) {
+    private String updatingWorkerSpecial(Player player, List<Worker> workers, Worker myworker, Boolean useBadges, Integer boardId, Integer gameId, Error errors, BindingResult result) {
     	String redirect = "redirect:/boards/"+ boardId +  "/game/"+gameId;
+    	
     	if (useBadges) {
     		Worker workerFound = workers.get(0);
-    		BeanUtils.copyProperties(myworker, workerFound, "id", "player", "game", "image");
-    		try {
-    			this.workerService.saveWorker(workerFound);
-    		} catch (IllegalPositionException e) {
-    			result.rejectValue ("xposition", " invalid", "can't be empty");
-    			return "/board/board";
-    		}
+    		redirect = updateWorker(myworker, workerFound, result, redirect);
     		
-    		Player player = workerFound.getPlayer();
     		Resources r = resourcesService.findByPlayerIdAndGameId(player.getId(), gameId).get();
     		
     		try {
@@ -236,39 +248,62 @@ public class BoardController {
 
     	} else {
         	for (Worker workerFound : workers) {
-        		BeanUtils.copyProperties(myworker, workerFound, "id", "player", "game", "image");
-        		try {
-        			this.workerService.saveWorker(workerFound);
-        		} catch (IllegalPositionException e) {
-        			result.rejectValue ("xposition", " invalid", "can't be empty");
-        			return "/board/board";
-        		}
+        		redirect = updateWorker(myworker, workerFound, result, redirect);
         	}
     	}
 
-    	//ejecutar la action
+    	//ejecutar la acción
+    	List<SpecialDeck> specialDecks = boardService.findSpecialDeckByBoardId(boardId);
+    	SpecialDeck currentSpecialDeck = specialDecks.get(myworker.getYposition());
+    	SpecialCard cardToExecute = currentSpecialDeck.getSpecialCard().remove(0);
+    	cardToExecute.cardAction(player, applicationContext, true);
+    	
+    	Board board = boardService.findByBoardId(boardId).get();
+    	MountainCard backCard = cardToExecute.getBackCard();
+    	List<BoardCell> boardcells = board.getBoardCells();	
+    	setCard(backCard, boardcells);
+    	specialDeckService.saveSpecialDeck(currentSpecialDeck);
+    	boardService.saveBoard(board);
+    	
+    	
     	return redirect;
     }
     
-	private String updatingWorker(Worker workerFound, Worker myworker, Integer boardId, Integer gameId, Error errors, BindingResult result) {
-		
-		String redirect = "redirect:/boards/"+ boardId +  "/game/"+gameId;
-		BeanUtils.copyProperties(myworker, workerFound, "id", "player", "game", "image");
-		BoardCell boardCell = boardCellService.findByPosition(workerFound.getXposition(), workerFound.getYposition());
-	
-		if(boardCell.isCellOccupied()){
-			return errors.getMessage();
+    private void setCard(MountainCard mountaincard, List<BoardCell> boardcells) {
+    	for (BoardCell boardcell: boardcells) {
+			List<MountainCard> cellcards = boardcell.getMountaincards();
+			if (mountaincard.getXPosition().equals(boardcell.getXposition()) &&
+					mountaincard.getYPosition().equals(boardcell.getYposition())) {
+				cellcards.add(0, mountaincard);
+				boardcell.setMountaincards(cellcards);
+				boardCellService.saveBoardCell(boardcell);
+			}
 		}
-		//boardCell.setCellOccupied(true);
-		boardCell.setOccupiedBy(LoggedUserController.loggedPlayer());
+    }
+    
+    private String updateWorker(Worker myworker, Worker workerFound, BindingResult result, String redirect) {
+		BeanUtils.copyProperties(myworker, workerFound, "id", "player", "game", "image");
 		workerFound.setStatus(true);
-	//	b.setCellOccupied(true);
 		try {
 			this.workerService.saveWorker(workerFound);
 		} catch (IllegalPositionException e) {
 			result.rejectValue ("xposition", " invalid", "can't be empty");
 			return "/board/board";
 		}
+		return redirect;
+    }
+    
+	private String updatingWorker(Worker workerFound, Worker myworker, Integer boardId, Integer gameId, Error errors, BindingResult result) {
+		
+		String redirect = "redirect:/boards/"+ boardId +  "/game/"+gameId;
+		redirect = updateWorker(myworker, workerFound, result, redirect);
+		BoardCell boardCell = boardCellService.findByPosition(workerFound.getXposition(), workerFound.getYposition());
+	
+		if(boardCell.isCellOccupied()){
+			return errors.getMessage();
+		}
+
+		boardCell.setOccupiedBy(LoggedUserController.loggedPlayer());
 		this.boardCellService.saveBoardCell(boardCell);
 		this.boardService.saveBoard(boardService.findByBoardId(boardId).get());
 		
