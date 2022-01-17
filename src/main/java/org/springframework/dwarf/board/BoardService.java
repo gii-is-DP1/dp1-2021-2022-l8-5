@@ -50,6 +50,14 @@ public class BoardService {
 	}
 	
 	public void delete(Board board) {
+		for(BoardCell cell: board.getBoardCells()) {
+			boardCellSer.delete(cell);
+		}
+		for(SpecialDeck specialDeck: board.getSpecialDecks()) {
+			specialDeckSer.delete(specialDeck);
+		}
+		mountainDeckSer.delete(board.getMountainDeck());
+		
 		boardRepo.delete(board);
 	}
 	

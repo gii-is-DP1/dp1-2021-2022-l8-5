@@ -35,12 +35,10 @@ public class Board extends BaseEntity{
     @Positive
     int height;
     
-    //@OneToMany(mappedBy = "board")
     @OneToMany
     @JoinColumn(name = "BOARD_ID")
     List<BoardCell> boardCells;
     
-    @NotNull
     @OneToOne
     @JoinColumn(name = "MOUNTAINDECK")
     MountainDeck mountainDeck;
@@ -49,7 +47,6 @@ public class Board extends BaseEntity{
     @JoinColumn(name = "BOARD_ID")
     List<SpecialDeck> specialDecks;
     
-    @NotNull
     @OneToOne(optional=false)
     @JoinColumn(name = "GAME")
     Game game;
