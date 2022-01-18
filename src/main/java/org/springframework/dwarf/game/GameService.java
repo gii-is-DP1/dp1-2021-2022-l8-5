@@ -1,6 +1,5 @@
 package org.springframework.dwarf.game;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -98,11 +97,22 @@ public class GameService {
 		int playerIndex = game.getPlayerPosition(loggedPlayer);
 		
 		List<Player> newPlayerList = game.getPlayersList();
-		newPlayerList.remove(playerIndex);
+		Player playerToRemove = newPlayerList.remove(playerIndex);
+		this.changeCurrentPlayer(game, playerToRemove);
 		game.setPlayersPosition(newPlayerList);
 		this.setPlayersTurns(newPlayerList);
 		
 		gameRepo.save(game);
+	}
+	
+	private void changeCurrentPlayer(Game game, Player playerToRemove) {
+		if(this.findBoardByGameId(game.getId()).isEmpty())
+			return;
+		
+		List<Player> turnList = game.getTurnList();
+		Integer index = turnList.indexOf(playerToRemove);
+		Player nextPlayer = turnList.get((index+1)%turnList.size());
+		game.setCurrentPlayer(nextPlayer);
 	}
 	
 	private void setPlayersTurns(List<Player> newPlayerList) {
