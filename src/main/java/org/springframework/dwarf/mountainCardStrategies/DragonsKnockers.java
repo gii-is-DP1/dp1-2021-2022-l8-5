@@ -9,16 +9,18 @@ import org.springframework.dwarf.resources.Resources;
 import org.springframework.dwarf.resources.ResourcesService;
 import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.stereotype.Component;
+
 import org.springframework.dwarf.card.StrategyName;
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
+
 
 @StrategyPattern.ConcreteStrategy
 @Component
 public class DragonsKnockers implements CardStrategy{
 	
-	private ResourceType resourceType;
-	private Integer amount;
+	protected ResourceType resourceType;
+	protected Integer amount;
 	
 	@Autowired
 	private GameService gameService;
@@ -47,7 +49,7 @@ public class DragonsKnockers implements CardStrategy{
 		}
 	}
 	
-	private void setResources(String cardName) {
+	protected void setResources(String cardName) {
 		if(cardName.equals("Great Dragon")) {
 			this.resourceType = ResourceType.GOLD;
 			this.amount = null; // null means all amount the player has
@@ -60,7 +62,7 @@ public class DragonsKnockers implements CardStrategy{
 		}
 	}
 	
-	private void removeResources(Player player, Game game) {
+	protected void removeResources(Player player, Game game) {
 		Resources playerResources = resourcesService.findByPlayerIdAndGameId(player.getId(),game.getId()).get();
 		if(this.amount == null)
 			this.amount = playerResources.getGold()*-1;
