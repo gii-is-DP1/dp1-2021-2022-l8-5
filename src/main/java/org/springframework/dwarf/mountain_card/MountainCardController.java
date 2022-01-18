@@ -15,7 +15,15 @@
  */
 package org.springframework.dwarf.mountain_card;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dwarf.board.Board;
+import org.springframework.dwarf.board.BoardCell;
+import org.springframework.dwarf.game.Game;
+import org.springframework.dwarf.game.GameService;
+import org.springframework.dwarf.player.Player;
+import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.ModelMap;
@@ -29,19 +37,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 
 @Controller
-@RequestMapping("/cards/mountain")
+@RequestMapping("/board/boardcards")
 public class MountainCardController {
-
+	
 	private MountainCardService mountainCardService;
+	private GameService gameService;
 
 	@Autowired
-	public MountainCardController(MountainCardService mountainCardService) {
+	public MountainCardController(MountainCardService mountainCardService, GameService gameService) {
 		this.mountainCardService = mountainCardService;
+		this.gameService = gameService;
 	}
 
 	@GetMapping()
 	public String listMountainCards(ModelMap modelMap) {
-		String view = "cards/mountain/listCards";
+		Player player = LoggedUserController.loggedPlayer();
+		Game currentPlayerGame = gameService.findPlayerUnfinishedGames(player).get();
+		Board currentBoard = gameService.findBoardByGameId(currentPlayerGame.getId()).get();
+		List<BoardCell> currentBoardCells = currentBoard.getBoardCells();
+		modelMap.addAttribute("boardCells", currentBoardCells);
+
+		/*for (int i=0; i<currentBoardCells.size(); i++) {
+			BoardCell currentCell = currentBoardCells.get(i);
+			modelMap.addAttribute("board" + (i+1), currentCell.getMountaincards());
+		}*/
+		
+		String view = "board/boardcards";
 		Iterable<MountainCard> mountainCards = mountainCardService.findAll();
 		modelMap.addAttribute("mountainCards", mountainCards);
 		return view;
