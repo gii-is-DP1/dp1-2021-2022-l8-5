@@ -256,20 +256,29 @@ public class BoardController {
     	}
 
     	//ejecutar la acción
+    	
     	List<SpecialDeck> specialDecks = boardService.findSpecialDeckByBoardId(boardId);
     	SpecialDeck currentSpecialDeck = specialDecks.get(myworker.getYposition());
+
+    	SpecialCard cardToExecute = executeSpecialAction(currentSpecialDeck, player);
+    	MountainCard backCard = cardToExecute.getBackCard();
+    	placeBackCard(boardId, backCard);
+
+    	return redirect;
+    }
+    
+    private SpecialCard executeSpecialAction(SpecialDeck currentSpecialDeck, Player player) throws Exception {
     	SpecialCard cardToExecute = currentSpecialDeck.getSpecialCard().remove(0);
     	cardToExecute.cardAction(player, applicationContext, true);
-    	
+    	specialDeckService.saveSpecialDeck(currentSpecialDeck);
+    	return cardToExecute;
+    }
+    
+    private void placeBackCard(Integer boardId, MountainCard backCard) {
     	Board board = boardService.findByBoardId(boardId).get();
-    	MountainCard backCard = cardToExecute.getBackCard();
     	List<BoardCell> boardcells = board.getBoardCells();	
     	setCard(backCard, boardcells);
-    	specialDeckService.saveSpecialDeck(currentSpecialDeck);
     	boardService.saveBoard(board);
-    	
-    	
-    	return redirect;
     }
     
     private void setCard(MountainCard mountaincard, List<BoardCell> boardcells) {
