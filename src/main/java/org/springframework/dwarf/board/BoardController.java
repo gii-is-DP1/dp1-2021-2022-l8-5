@@ -1,7 +1,9 @@
 package org.springframework.dwarf.board;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,7 +18,6 @@ import org.springframework.dwarf.game.CreateGameWhilePlayingException;
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GamePhaseEnum;
 import org.springframework.dwarf.game.GameService;
-import org.springframework.dwarf.game.MineralExtraction;
 import org.springframework.dwarf.mountain_card.MountainCard;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
@@ -67,6 +68,8 @@ public class BoardController {
     @Autowired
     private ApplicationContext applicationContext;
     
+    private static final Integer REFRESH_TIME = 4;
+    
     private boolean boardPageLoaded;
 	
 	@GetMapping()
@@ -115,15 +118,19 @@ public class BoardController {
     
     @GetMapping("{boardId}/game/{gameId}")
     public String boardGame(@PathVariable("gameId") Integer gameId, @PathVariable("boardId") Integer boardId, ModelMap modelMap, HttpServletResponse response) throws Exception {
-    	response.addHeader("REFRESH", "4");
+    	response.addHeader("REFRESH", REFRESH_TIME.toString());
     	String view = "/board/board";
     	
     	Game game = gameService.findByGameId(gameId).get();
+    	
+    	if(game.getPlayersList().size() <= 1)
+    		game.setFinishDate(new Date());
     	
     	if(game.getFinishDate() != null)
    			return "redirect:/games/" + gameId + "/gameClassification";
     	
     	Board board = boardService.findByBoardId(boardId).get();
+    	this.updateInactivityTimer(board, game);
 		Player myplayer = LoggedUserController.loggedPlayer();
 		
 		modelMap = this.setCanUseSpecial(modelMap, myplayer.getId(), gameId);
@@ -154,6 +161,15 @@ public class BoardController {
     		this.boardPageLoaded = true;
     	
     	return view;
+    }
+    
+    private void updateInactivityTimer(Board board, Game game) {
+    	if(game.getCurrentPhaseName().equals(GamePhaseEnum.ACTION_SELECTION)
+    			&& game.getFirstPlayer().equals(LoggedUserController.loggedPlayer())) {
+    		LocalTime updateTimer = board.getInactivityTimer().plusSeconds(-REFRESH_TIME);
+	    	board.setInactivityTimer(updateTimer);
+	    	boardService.saveBoard(board);
+    	}
     }
     
     private ModelMap setCanUseSpecial(ModelMap modelMap, int pid, int gid) {

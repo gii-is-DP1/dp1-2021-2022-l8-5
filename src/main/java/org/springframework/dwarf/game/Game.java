@@ -1,8 +1,8 @@
 package org.springframework.dwarf.game;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -40,7 +40,7 @@ public class Game extends BaseEntity{
 	public Game () {
 		this.currentPhaseName = GamePhaseEnum.MINERAL_EXTRACTION;
 		this.currentRound = 1;
-		this.startDate = LocalDateTime.now();
+		this.startDate = new Date();
 		this.canResolveActions = true;
 	}
 	
@@ -102,11 +102,11 @@ public class Game extends BaseEntity{
 	@NotNull
 	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	@Column(name = "STARTDATE")
-	LocalDateTime startDate;
+	Date startDate;
 	
 	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	@Column(name = "FINISHDATE")
-	LocalDateTime finishDate;
+	Date finishDate;
 	
 	@Column(name = "CANRESOLVEACTIONS")
 	boolean canResolveActions;
