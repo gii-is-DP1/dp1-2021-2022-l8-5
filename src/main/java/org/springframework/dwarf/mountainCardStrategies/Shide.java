@@ -26,7 +26,7 @@ public class Shide implements CardStrategy{
 	public void actions(Player player, String cardName) throws Exception {
 		Player loggedUser = LoggedUserController.loggedPlayer();
 		Game game = gameService.findByGameId(gameService.getCurrentGameId(loggedUser)).get();
-		boolean defended = player != null || game.getMusterAnArmyEffect();
+		boolean defended = player != null;
 		
 		if(!defended) {
 			for(Player p: game.getPlayersList()) {

@@ -110,17 +110,17 @@ public class Game extends BaseEntity{
 	Date finishDate;
 	
 	@Column(name = "CANRESOLVEACTIONS")
-	boolean canResolveActions;
+	Boolean canResolveActions;
 	
 	@Column(name = "MUSTERANARMYEFFECT")
-	boolean musterAnArmyEffect;
+	Boolean musterAnArmyEffect;
 	
 	// @Getter no pilla el atributo, pero el @Setter si
-	public boolean getCanResolveActions() {
+	public Boolean getCanResolveActions() {
 		return this.canResolveActions;
 	}
 	// @Getter no pilla el atributo, pero el @Setter si
-	public boolean getMusterAnArmyEffect() {
+	public Boolean getMusterAnArmyEffect() {
 		return this.musterAnArmyEffect;
 	}
 	
