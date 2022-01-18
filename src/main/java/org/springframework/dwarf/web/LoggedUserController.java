@@ -19,23 +19,6 @@ public class LoggedUserController {
 	public LoggedUserController(PlayerService playerService) {
 		LoggedUserController.playerService = playerService;
 	}
-
-	@GetMapping("/currentsession")
-	public String showCurrentUser() {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth!=null) {
-			if (auth.isAuthenticated() && auth.getPrincipal() instanceof User) {
-				User user = (User) auth.getPrincipal();
-				System.out.println("------------------------------------------------");
-				System.out.println("USER LOGGED: " + user.toString());
-				System.out.println("------------------------------------------------");
-				
-			} else {
-				System.out.println("User not auth");
-			}
-		}
-		return "welcome";
-	}
 	
 	public static String returnLoggedUserName() {
 		Authentication auth =SecurityContextHolder.getContext().getAuthentication();

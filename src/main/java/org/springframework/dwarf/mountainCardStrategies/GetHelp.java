@@ -51,7 +51,7 @@ public class GetHelp implements CardStrategy{
 			changePlayerNext(game);
 	}
 
-	private void changePlayerNext(Game game) {
+	protected void changePlayerNext(Game game) {
 		List<Player> turn = game.getTurnList();
 		for(Player p:turn) {
 			// turns start with 1
