@@ -67,7 +67,6 @@ public class RunAmokTests {
 	       
 	       boardService.createBoard(game);
 	       
-	       
 	       p1 = playerService.findPlayerById(4);
 	       p2 = playerService.findPlayerById(5);
 	       p3 = playerService.findPlayerById(2);

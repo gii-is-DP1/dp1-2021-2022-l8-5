@@ -1,5 +1,10 @@
 package org.springframework.dwarf.specialCardStrategies;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.jpatterns.gof.StrategyPattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dwarf.card.CardStrategy;
@@ -23,17 +28,44 @@ public class SellAnItem implements CardStrategy {
 	
 	@Override
 	public void actions(Player player, String cardName) {
-		// 1 objeto --> 5 recursos aleatorios
 		Game game = gameService.findPlayerUnfinishedGames(player).get();
 		Resources resources = resourcesService.findByPlayerIdAndGameId(player.getId(), game.getId()).get();
 		
 		try {
 			resources.addResource(ResourceType.ITEMS, -1);
+			this.setResourcesToPlayer(resources);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void setResourcesToPlayer(Resources resources) {
+		Map<ResourceType, Integer> resourcesRecieved = this.giveRandomResources();
 		
+		for(ResourceType type: resourcesRecieved.keySet()) {
+			try {
+				resources.addResource(type, resourcesRecieved.get(type));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private Map<ResourceType, Integer> giveRandomResources() {
+		Map<ResourceType, Integer> resources = new HashMap<ResourceType, Integer>();
+		resources.put(ResourceType.IRON, 0);
+		resources.put(ResourceType.GOLD, 0);
+		resources.put(ResourceType.STEEL, 0);
 		
+		Integer totalAmount = 5;
+		for(int i=0; i<totalAmount; i++) {
+			List<ResourceType> resourcesTypes = resources.keySet().stream().collect(Collectors.toList());
+			int indexResource = (int) Math.floor(Math.random()*(resourcesTypes.size()-1));
+			Integer currentAmount = resources.get(resourcesTypes.get(indexResource));
+			resources.put(resourcesTypes.get(indexResource), currentAmount+1);
+		}
+		
+		return resources;
 	}
 
 	@Override

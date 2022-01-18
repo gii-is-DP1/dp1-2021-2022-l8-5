@@ -122,8 +122,10 @@ public class BoardController {
     	
     	Game game = gameService.findByGameId(gameId).get();
     	
-    	if(game.getPlayersList().size() <= 1)
+    	if(game.getPlayersList().size() <= 1) {
     		game.setFinishDate(new Date());
+    		gameService.saveGame(game);
+    	}
     	
     	if(game.getFinishDate() != null)
    			return "redirect:/games/" + gameId + "/gameClassification";
