@@ -29,10 +29,13 @@ public class SellAnItem implements CardStrategy {
 		
 		try {
 			resources.addResource(ResourceType.ITEMS, -1);
+			this.setResourcesToPlayer();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+	}
+	
+	private void setResourcesToPlayer() {
 		
 	}
 

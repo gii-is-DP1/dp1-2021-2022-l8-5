@@ -98,21 +98,19 @@ public class GameService {
 		
 		List<Player> newPlayerList = game.getPlayersList();
 		Player playerToRemove = newPlayerList.remove(playerIndex);
-		this.changeCurrentPlayer(game, playerToRemove);
+		
+		int turnPlayerToRemove = -1;
+		if(!this.findBoardByGameId(game.getId()).isEmpty())
+			turnPlayerToRemove = game.getTurnList().indexOf(playerToRemove);
+		
 		game.setPlayersPosition(newPlayerList);
-		this.setPlayersTurns(newPlayerList);
+		
+		if(!this.findBoardByGameId(game.getId()).isEmpty()) {
+			this.setPlayersTurns(newPlayerList);
+			game.setCurrentPlayer(game.getTurnList().get(turnPlayerToRemove));
+		}
 		
 		gameRepo.save(game);
-	}
-	
-	private void changeCurrentPlayer(Game game, Player playerToRemove) {
-		if(this.findBoardByGameId(game.getId()).isEmpty())
-			return;
-		
-		List<Player> turnList = game.getTurnList();
-		Integer index = turnList.indexOf(playerToRemove);
-		Player nextPlayer = turnList.get((index+1)%turnList.size());
-		game.setCurrentPlayer(nextPlayer);
 	}
 	
 	private void setPlayersTurns(List<Player> newPlayerList) {
