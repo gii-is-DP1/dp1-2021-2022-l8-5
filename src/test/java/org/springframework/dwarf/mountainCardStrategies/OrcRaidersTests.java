@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
 import org.springframework.dwarf.card.StrategyName;
 import org.springframework.dwarf.forgesAlloy.ForgesAlloyResources;
 import org.springframework.dwarf.game.Game;
@@ -32,6 +33,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(value= {Service.class, Component.class}))
+@Import(LoggedUserController.class)
 public class OrcRaidersTests {
 
 	
