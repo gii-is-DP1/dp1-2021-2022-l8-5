@@ -68,9 +68,9 @@
     </div>
     
 
-	<!-- añadir al when que la fase sea la de seleccion de acciones -->
 	<div class="row">	
 		<div class="col-md-9">
+	        
 			<c:if test="${myplayer == game.currentPlayer && myworker != null && phaseName != 'MINERAL_EXTRACTION'}">
 				<form:form class="form-horizontal" id="add-player-form">
 					<div class="form-group text-center">
@@ -118,6 +118,11 @@
 					</div>
 			    </form:form>
 			</c:if>
+			<div class="text-center">
+				<spring:url value="/board/boardcards" var="cardsUrl">
+		        </spring:url>
+		        <a class="btn btn-default" href="${fn:escapeXml(cardsUrl)}">View all cards for each tile</a>
+	        </div>
 		</div>
 		<img src="/resources/images/dwarfenenao_preview_rev_1.png"  width="250" height="250" style="float:right" id="miImagen">
 	</div>
