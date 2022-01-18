@@ -53,8 +53,10 @@
 				&nbsp; <dwarf:playerInfo player="${player1}" playerNumber="${1}" resources="${resourcesPlayer1}"/><br>
 				<img src="${player2worker.image}"  width="60" height="60" style="float:left" id="player2IMG"><br>
 				&nbsp; 	<dwarf:playerInfo player="${player2}" playerNumber="${2}" resources="${resourcesPlayer2}"/><br>
-				<img src="${player3worker.image}"  width="60" height="60" style="float:left" id="player3IMG"><br>
-				&nbsp; <dwarf:playerInfo player="${player3}" playerNumber="${3}" resources="${resourcesPlayer3}"/><br>
+				<c:if test="${player3 != null}">
+					<img src="${player3worker.image}"  width="60" height="60" style="float:left" id="player3IMG"><br>
+					&nbsp; <dwarf:playerInfo player="${player3}" playerNumber="${3}" resources="${resourcesPlayer3}"/><br>
+				</c:if>
          </div>
     </div>
     
@@ -100,9 +102,33 @@
 							</div>
 			
 							<div class="row-md-3">
-								<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,0">Special 1</button>
-								<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,1">Special 2</button>
-								<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,2">Special 3</button>
+							<c:choose>
+								<c:when test="${board.specialDecks.get(0).getSpecialCard().size() > 0}">
+									<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,0">Special 1</button>
+								</c:when>
+								<c:otherwise>
+									<button disabled class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,0">Special 1</button>
+								</c:otherwise>
+							</c:choose>
+							
+							<c:choose>
+								<c:when test="${board.specialDecks.get(1).getSpecialCard().size() > 0}">
+									<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,1">Special 2</button>
+								</c:when>
+								<c:otherwise>
+									<button disabled class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,1">Special 2</button>
+								</c:otherwise>
+							</c:choose>
+							
+							<c:choose>
+								<c:when test="${board.specialDecks.get(2).getSpecialCard().size() > 0}">
+									<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,2">Special 3</button>
+								</c:when>
+								<c:otherwise>
+									<button disabled class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,2">Special 3</button>
+								</c:otherwise>
+							</c:choose>
+								
 							</div>
 						</c:if>
 						
@@ -110,7 +136,7 @@
 			    </form:form>
 			</c:if>
 			<div class="text-center">
-				<spring:url value="/board/boardcards" var="cardsUrl">
+				<spring:url value="/boards/${board.id}/boardcards" var="cardsUrl">
 		        </spring:url>
 		        <a class="btn btn-default" href="${fn:escapeXml(cardsUrl)}">View all cards for each tile</a>
 	        </div>

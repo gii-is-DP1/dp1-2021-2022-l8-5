@@ -20,6 +20,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dwarf.board.Board;
 import org.springframework.dwarf.board.BoardCell;
+import org.springframework.dwarf.board.BoardService;
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.player.Player;
@@ -28,7 +29,7 @@ import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -37,30 +38,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 
 @Controller
-@RequestMapping("/board/boardcards")
+@RequestMapping("/boards/{boardId}/boardcards")
 public class MountainCardController {
 	
 	private MountainCardService mountainCardService;
-	private GameService gameService;
+	private BoardService boardService;
 
 	@Autowired
-	public MountainCardController(MountainCardService mountainCardService, GameService gameService) {
+	public MountainCardController(MountainCardService mountainCardService, GameService gameService, BoardService boardService) {
 		this.mountainCardService = mountainCardService;
-		this.gameService = gameService;
+		this.boardService = boardService;
+		
 	}
 
 	@GetMapping()
-	public String listMountainCards(ModelMap modelMap) {
-		Player player = LoggedUserController.loggedPlayer();
-		Game currentPlayerGame = gameService.findPlayerUnfinishedGames(player).get();
-		Board currentBoard = gameService.findBoardByGameId(currentPlayerGame.getId()).get();
+	public String listMountainCards(@PathVariable("boardId") Integer boardId, ModelMap modelMap) {
+		Board currentBoard = boardService.findByBoardId(boardId).get();
 		List<BoardCell> currentBoardCells = currentBoard.getBoardCells();
 		modelMap.addAttribute("boardCells", currentBoardCells);
-
-		/*for (int i=0; i<currentBoardCells.size(); i++) {
-			BoardCell currentCell = currentBoardCells.get(i);
-			modelMap.addAttribute("board" + (i+1), currentCell.getMountaincards());
-		}*/
 		
 		String view = "board/boardcards";
 		Iterable<MountainCard> mountainCards = mountainCardService.findAll();
