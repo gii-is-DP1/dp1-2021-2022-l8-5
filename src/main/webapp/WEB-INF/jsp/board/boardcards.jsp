@@ -13,12 +13,14 @@
 		<h2><c:out value="Cards of the cell: ${i}"></c:out></h2>
 		</div>
 		<c:set var="pos" value="1" scope="page"/>
-		<c:forEach items="${boardCell.mountaincards}" var="card">
-			<div>
-				<dwarf:cardInfo card="${card}" position="${pos}"></dwarf:cardInfo>
-				<c:set var="pos" value="${pos+1}" scope="page" />
-			</div>
-		</c:forEach>
+		<div class="row">
+			<c:forEach items="${boardCell.mountaincards}" var="card">
+				<div class="col-md-3">
+					<dwarf:cardInfo card="${card}" position="${pos}"></dwarf:cardInfo>
+					<c:set var="pos" value="${pos+1}" scope="page" />
+				</div>
+			</c:forEach>
+		</div>
 		<c:set var="i" value="${i+1}" scope="page" />
 	</c:forEach>
 
