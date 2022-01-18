@@ -33,14 +33,13 @@ public class CollapseTheShafts implements CardStrategy {
 	
 	@Override
 	public void actions(Player player, String cardName) {
-		log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
 		Integer gameId = gs.getCurrentGameId(player);
 		Board tablero = gs.findBoardByGameId(gameId).get();	
 		fromTopToBottom(tablero);
 		bs.saveBoard(tablero);
 	}
 	
-	private void fromTopToBottom (Board tablero) {
+	protected void fromTopToBottom (Board tablero) {
 		List<BoardCell> boardcells = tablero.getBoardCells();
 		for(int i=0; i<boardcells.size(); i++) {
 			BoardCell celdai = boardcells.get(i);
@@ -49,7 +48,8 @@ public class CollapseTheShafts implements CardStrategy {
 				MountainCard cartaArriba = cartasCeldai.remove(0);
 				cartasCeldai.add(cartaArriba);
 			}
-			bcs.saveBoardCell(celdai);
+			celdai.setMountaincards(cartasCeldai);
+			bcs.saveBoardCell(celdai); 
 		}
 	}
 
