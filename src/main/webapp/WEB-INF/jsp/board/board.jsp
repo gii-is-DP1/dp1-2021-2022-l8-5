@@ -53,8 +53,10 @@
 				&nbsp; <dwarf:playerInfo player="${player1}" playerNumber="${1}" resources="${resourcesPlayer1}"/><br>
 				<img src="${player2worker.image}"  width="60" height="60" style="float:left" id="player2IMG"><br>
 				&nbsp; 	<dwarf:playerInfo player="${player2}" playerNumber="${2}" resources="${resourcesPlayer2}"/><br>
-				<img src="${player3worker.image}"  width="60" height="60" style="float:left" id="player3IMG"><br>
-				&nbsp; <dwarf:playerInfo player="${player3}" playerNumber="${3}" resources="${resourcesPlayer3}"/><br>
+				<c:if test="${player3 != null}">
+					<img src="${player3worker.image}"  width="60" height="60" style="float:left" id="player3IMG"><br>
+					&nbsp; <dwarf:playerInfo player="${player3}" playerNumber="${3}" resources="${resourcesPlayer3}"/><br>
+				</c:if>
          </div>
     </div>
     
@@ -110,7 +112,7 @@
 			    </form:form>
 			</c:if>
 			<div class="text-center">
-				<spring:url value="/board/boardcards" var="cardsUrl">
+				<spring:url value="/boards/${board.id}/boardcards" var="cardsUrl">
 		        </spring:url>
 		        <a class="btn btn-default" href="${fn:escapeXml(cardsUrl)}">View all cards for each tile</a>
 	        </div>
