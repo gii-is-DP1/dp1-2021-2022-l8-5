@@ -8,5 +8,5 @@ description="Position of the card in the stack" %>
 
 	<h3><c:out value="Card position: ${position}"/></h3>
 	<h3><c:out value="Card name: ${card.name}"/></h3>
-	<img src="${card.image}" alt="${card.name}" width="200" height="300">
+	<img src="${card.image}" alt="${card.description}" title="Name: ${card.name} -> Effect: ${card.description}" width="200" height="300">
 	&nbsp;
