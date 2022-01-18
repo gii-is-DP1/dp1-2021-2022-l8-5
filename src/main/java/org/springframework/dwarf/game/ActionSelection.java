@@ -1,10 +1,13 @@
 package org.springframework.dwarf.game;
 
+import java.time.LocalTime;
 import java.util.List;
 
 import org.jpatterns.gof.StatePattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dwarf.board.Board;
+import org.springframework.dwarf.board.BoardService;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.dwarf.worker.Worker;
@@ -19,6 +22,10 @@ public class ActionSelection implements GamePhase{
     private GameService gameService;
 	@Autowired
     private WorkerService workerService;
+	@Autowired
+	private BoardService boardService;
+	
+	private static final LocalTime INACTIVITY_TIMER = LocalTime.of(0, 1);
     
 	@Override
 	public void phaseResolution(Game game) {
@@ -62,6 +69,10 @@ public class ActionSelection implements GamePhase{
 			changePlayer = workersNotPlaced.isEmpty();
 		}
 		
+		Board board = gameService.findBoardByGameId(game.getId()).get();
+		board.setInactivityTimer(INACTIVITY_TIMER);
+		
+		boardService.saveBoard(board);
 		gameService.saveGame(game);
 	}
 

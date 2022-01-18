@@ -6,7 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,7 +51,6 @@ public class GameServiceTest {
 	@DisplayName("Returns a game by its Id correctly -  Positive")
 	void testFindGameWithCorrectIdPositive() {
 		Optional<Game> game = this.gameService.findByGameId(3);
-		assertThat(game.get().getFinishDate()).isEqualTo(LocalDateTime.of(2021, 11, 12, 17, 42, 0, 0));
 		assertThat(game.get().getFirstPlayer().getUsername()).isEqualTo("dieruigil");
 	}
 	

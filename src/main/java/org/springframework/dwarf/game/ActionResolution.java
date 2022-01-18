@@ -3,6 +3,7 @@ package org.springframework.dwarf.game;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,7 +60,7 @@ public class ActionResolution implements GamePhase{
 		if(game.getCurrentRound() <= FINAL_GAME_ROUND) {
 			game.setPhase(GamePhaseEnum.MINERAL_EXTRACTION);
 		} else {
-			game.setFinishDate(LocalDateTime.now());
+			game.setFinishDate(new Date());
 		}
 		
 	}

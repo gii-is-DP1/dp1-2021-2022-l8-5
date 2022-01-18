@@ -57,7 +57,7 @@
                		</td> 
                
            			<td>
-            			<c:out value="${game.startDate}"/>
+            			<fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${game.startDate}"/>
            			</td>
      
 					<td> 

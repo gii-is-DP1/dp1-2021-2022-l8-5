@@ -1,14 +1,13 @@
 package org.springframework.dwarf.board;
 
+import java.time.LocalTime;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 import org.springframework.dwarf.game.Game;
@@ -51,16 +50,20 @@ public class Board extends BaseEntity{
     @JoinColumn(name = "GAME")
     Game game;
     
+    LocalTime inactivityTimer;
+    
     public Board(){
     	this.background ="/resources/images/oro_erebor.jpg";
         this.width=750;
         this.height=600;
+        this.inactivityTimer = LocalTime.of(0, 1);
     }
     
     public Board(List<BoardCell> boardCells, MountainDeck mountainDeck, Game game, List<SpecialDeck> specialDecks){
     	this.background ="/resources/images/oro_erebor.jpg";
         this.width=750;
         this.height=600;
+        this.inactivityTimer = LocalTime.of(0, 1);
         
         this.boardCells = boardCells;
         this.mountainDeck = mountainDeck;

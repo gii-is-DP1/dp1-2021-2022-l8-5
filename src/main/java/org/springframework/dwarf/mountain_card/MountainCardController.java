@@ -66,7 +66,6 @@ public class MountainCardController {
 		Iterable<MountainCard> mountainCards = mountainCardService.findAll();
 		modelMap.addAttribute("mountainCards", mountainCards);
 		return view;
-
 	}
 
 }

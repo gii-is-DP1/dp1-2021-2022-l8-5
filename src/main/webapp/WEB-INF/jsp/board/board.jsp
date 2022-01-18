@@ -12,22 +12,13 @@
 
 <dwarf:layout pageName="board">
 
-	<c:choose>
-        <c:when test="${game.getPlayersList().size() <= 2}">
-			<spring:url value="/games/{gameId}/delete" var="gameUrl">
-		        <spring:param name="gameId" value="${game.id}"/>
-	        </spring:url>
-	        <a class="btn btn-default" href="${fn:escapeXml(gameUrl)}">Exit and delete</a>
-        </c:when>
-		<c:otherwise>
-            <spring:url value="/games/{gameId}/exit" var="gameUrl">
-		        <spring:param name="gameId" value="${game.id}"/>
-	        </spring:url>
-	        <a class="btn btn-default" href="${fn:escapeXml(gameUrl)}">Exit game</a>
-        </c:otherwise>
-    </c:choose>
+	<spring:url value="/games/{gameId}/exit" var="gameUrl">
+		<spring:param name="gameId" value="${game.id}"/>
+	</spring:url>
+	<a class="btn btn-default" href="${fn:escapeXml(gameUrl)}">Exit game</a>
     
 	<c:if test="${phaseName == 'ACTION_SELECTION'}">
+		<h2><c:out value="Timer: ${board.inactivityTimer}"/></h2>
 		<h2><c:out value="Turno para: ${game.currentPlayer.username}"/></h2>
 	</c:if>
 	<h2><c:out value="Fase de la ronda: ${game.currentPhaseName.toString()}"/></h2>
