@@ -38,62 +38,37 @@ import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(value= {Service.class, Component.class}))
 public class MusterAnArmyTests {
-	
-
-	   @Autowired
-	   protected MusterAnArmy mana;
+	@Autowired
+	protected MusterAnArmy mana;
 	   
-	   @Autowired
-	   private GameService gameService;
+	@Autowired
+	private GameService gameService;
 	   
-	   @Autowired
-	   private BoardService boardService;
+	@Autowired
+	private BoardService boardService;
 	   
-	   private Game game;
+	private Game game;
 	   
-	   private Board board;
-	   
-	   @BeforeEach
-	   void setup() throws Exception {
-
-		   game = gameService.findByGameId(2).get();
-	       
-	       boardService.createBoard(game);
-	       
-	       board = gameService.findBoardByGameId(game.getId()).get();
-	       
-	      List<BoardCell> boardCells = board.getBoardCells();
-	      boardCells.get(0).getMountaincards().get(0).setCardType(CardType.AID);
-	      
-	      boardService.saveBoard(board);
-	   }
-	
-	   @Test
-	    void testGetName() {
-	        StrategyName name = mana.getName();
-	        assertThat(name).isEqualTo(StrategyName.MUSTER_AN_ARMY);
-	 
-	    }
-	   
-	   @Test
-	    void testGetGetHelpCardsInBoard() {
-		   game = gameService.findByGameId(2).get();
-	       List<BoardCell> listHelpCards = mana.getGetHelpCardsInBoard(game);
-	        assertThat(listHelpCards).isNotEmpty();
-	 
-	    }
-	   
-	   @Test
-	    void testGetGetHelpCardsInBoardNegative() {
-		   List<BoardCell> boardCells = board.getBoardCells();
-	      boardCells.get(0).getMountaincards().get(0).setCardType(CardType.MINE);
+	private Board board;
+   
+	@BeforeEach
+	void setup() throws Exception {
+		
+		game = gameService.findByGameId(2).get();
+		       
+		boardService.createBoard(game);
+		       
+		board = gameService.findBoardByGameId(game.getId()).get();
+		       
+		List<BoardCell> boardCells = board.getBoardCells();
+		boardCells.get(0).getMountaincards().get(0).setCardType(CardType.AID);
 		      
-		   game = gameService.findByGameId(2).get();
-	       List<BoardCell> listHelpCards = mana.getGetHelpCardsInBoard(game);
-	        assertThat(listHelpCards).isEmpty();
-	 
-	    }
-	   
-	   
+		boardService.saveBoard(board);
+	}
 
+	@Test
+	void testGetName() {
+		StrategyName name = mana.getName();
+		assertThat(name).isEqualTo(StrategyName.MUSTER_AN_ARMY);
+	}
 }
