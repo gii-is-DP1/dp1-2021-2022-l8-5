@@ -14,9 +14,7 @@ import org.springframework.dwarf.player.Player;
 import org.springframework.stereotype.Component;
 import org.springframework.dwarf.card.StrategyName;
 import org.springframework.dwarf.card.CardStrategy;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @StrategyPattern.ConcreteStrategy
 @Component
 public class MusterAnArmy implements CardStrategy{
@@ -31,7 +29,6 @@ public class MusterAnArmy implements CardStrategy{
 
 	@Override
 	public void actions(Player player, String cardName) {
-		log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
 		/*
 			Game currentGame = gameService.findPlayerUnfinishedGames(player).get();
 			List<BoardCell> listHelpCards = this.getGetHelpCardsInBoard(currentGame);
