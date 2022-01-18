@@ -39,7 +39,7 @@ public class MusterAnArmy implements CardStrategy{
 		 */
 	}
 
-	private List<BoardCell> getGetHelpCardsInBoard(Game currentGame){
+	protected List<BoardCell> getGetHelpCardsInBoard(Game currentGame){
 		List<BoardCell> listHelpCards = new ArrayList<BoardCell>();
 		Board board = gameService.findBoardByGameId(currentGame.getId()).get();
 
