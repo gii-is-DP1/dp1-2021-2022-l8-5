@@ -2,7 +2,6 @@ package org.springframework.dwarf.web;
 
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
@@ -19,6 +18,7 @@ public class LoggedUserController {
 	public LoggedUserController(PlayerService playerService) {
 		LoggedUserController.playerService = playerService;
 	}
+
 	
 	public static String returnLoggedUserName() {
 		Authentication auth =SecurityContextHolder.getContext().getAuthentication();

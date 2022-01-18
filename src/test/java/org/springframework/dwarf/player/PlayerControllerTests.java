@@ -39,6 +39,7 @@ import org.springframework.test.web.servlet.MockMvc;
  */
 
 @WebMvcTest(controllers = PlayerController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
+
 class PlayerControllerTests {
 
 	private static final int TEST_PLAYER_ID = 1;

@@ -15,9 +15,12 @@
  */
 package org.springframework.dwarf.player;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -25,6 +28,11 @@ import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Range;
 import org.springframework.core.style.ToStringCreator;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.dwarf.model.Person;
 import org.springframework.dwarf.user.User;
 
@@ -36,8 +44,53 @@ import org.springframework.dwarf.user.User;
  */
 @Entity
 @Table(name = "player")
+@EntityListeners(AuditingEntityListener.class)
 public class Player extends Person {
 	
+	@CreatedBy
+	private String creator;
+	@CreatedDate
+	private LocalDateTime createdDateTime;
+	@LastModifiedBy
+	private String modifier;
+	@LastModifiedDate
+	private LocalDateTime lastModifiedDate;
+	
+	
+	
+	
+	public String getCreator() {
+		return creator;
+	}
+
+	public void setCreator(String creator) {
+		this.creator = creator;
+	}
+
+	public LocalDateTime getCreatedDateTime() {
+		return createdDateTime;
+	}
+
+	public void setCreatedDateTime(LocalDateTime createdDateTime) {
+		this.createdDateTime = createdDateTime;
+	}
+
+	public String getModifier() {
+		return modifier;
+	}
+
+	public void setModifier(String modifier) {
+		this.modifier = modifier;
+	}
+
+	public LocalDateTime getLastModifiedDate() {
+		return lastModifiedDate;
+	}
+
+	public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
+		this.lastModifiedDate = lastModifiedDate;
+	}
+
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
