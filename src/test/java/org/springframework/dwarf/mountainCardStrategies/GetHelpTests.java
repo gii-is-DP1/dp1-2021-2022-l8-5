@@ -41,11 +41,7 @@ public class GetHelpTests {
 	private Player p1;
 	private Player p2;
 	private Player p3;
-	
-	
-	
-	
-	
+
 	 @BeforeEach
 		void setup() throws Exception {
 
@@ -55,7 +51,6 @@ public class GetHelpTests {
 			p1 = playerService.findPlayerById(4);
 			p2 = playerService.findPlayerById(5);
 			p3 = playerService.findPlayerById(2);
-			//Game gm = new Game(game);
 			game.getPlayersList().stream().forEach(x -> x.setTurn(game.getPlayerPosition(x)+1));
 			
 			workerService.createPlayerWorkers(p1, game, null);
