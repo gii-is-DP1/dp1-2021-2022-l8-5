@@ -20,24 +20,20 @@ public class Seam implements CardStrategy {
 	@Autowired
 	private GameService gameService;
 
-	private Integer amountToAdd;
-	private ResourceType resource;
+	protected Integer amountToAdd;
+	protected ResourceType resource;
 	
 	@Override
-	public void actions(Player player, String cardName) {
+	public void actions(Player player, String cardName) throws Exception {
 		this.setResources(cardName);
 		
 		Game game = gameService.findPlayerUnfinishedGames(player).get();
 		Resources playerResources = resourcesService.findByPlayerIdAndGameId(player.getId(),game.getId()).get();			
-		try {
-			playerResources.addResource(resource, amountToAdd);
-		}catch(Exception e) {
-			
-		}
+		playerResources.addResource(resource, amountToAdd);
 		resourcesService.saveResources(playerResources);
 	}
 
-	private void setResources(String cardName) {
+	protected void setResources(String cardName) {
 		if(cardName.equals("Iron Seam")){
 			this.amountToAdd = 3;
 			this.resource = ResourceType.IRON;
