@@ -24,7 +24,7 @@ public class OrcRaiders implements CardStrategy{
 	private ResourcesService resourcesService;
 	
 	@Override
-	public void actions(Player player, String cardName) {
+	public void actions(Player player, String cardName) throws Exception {
 		Player loggedUser = LoggedUserController.loggedPlayer();
 		Game game = gameService.findByGameId(gameService.getCurrentGameId(loggedUser)).get();
 		boolean defended = player != null;
@@ -41,11 +41,7 @@ public class OrcRaiders implements CardStrategy{
 			}
 		} else {
 			Resources playerDefenderResources = resourcesService.findByPlayerIdAndGameId(player.getId(),game.getId()).get();
-			try {
-				playerDefenderResources.addResource(ResourceType.BADGES, 1);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			playerDefenderResources.addResource(ResourceType.BADGES, 1);
 		}
 	}
 

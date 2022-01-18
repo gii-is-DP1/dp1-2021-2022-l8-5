@@ -86,7 +86,7 @@ public class GameController {
 	@GetMapping("/searchGames")
 	public String searchGames(ModelMap modelMap) {
 		String view  = "games/searchOrCreateGames";
-		Player currentPlayer = this.loggedPlayer();
+		Player currentPlayer = LoggedUserController.loggedPlayer();
 		Integer currentGameId = gameService.getCurrentGameId(currentPlayer);
 		Optional<Board> currentBoard =gameService.findBoardByGameId(currentGameId);
 		if (gameService.alreadyInGame(currentPlayer) && currentBoard.isPresent()){			
@@ -181,20 +181,5 @@ public class GameController {
     	}
     	
     	return modelMap;
-    }
-	
-	private Player loggedPlayer() {
-		String playerUsername = LoggedUserController.returnLoggedUserName();
-		Player player = playerService.findPlayerByUserName(playerUsername);
-
-		return player;
-	}
-
-    private Boolean amIFirstPlayer(Game game){
-        Boolean amI = false;
-        if(game.firstPlayer != null)
-            amI = game.firstPlayer.getId() == LoggedUserController.loggedPlayer().getId();
-
-        return amI;
     }
 }

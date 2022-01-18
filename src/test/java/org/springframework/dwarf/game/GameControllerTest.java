@@ -15,6 +15,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.context.annotation.Import;
 import org.springframework.dwarf.configuration.SecurityConfiguration;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
@@ -28,6 +29,9 @@ import org.springframework.dwarf.worker.WorkerController;
 import org.springframework.dwarf.worker.WorkerService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.test.web.servlet.MockMvc;
 
 /**
@@ -38,7 +42,7 @@ import org.springframework.test.web.servlet.MockMvc;
  */
 
 @WebMvcTest(controllers = GameController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
-
+@Import(LoggedUserController.class)
 public class GameControllerTest {
 
 	private static final int TEST_GAME_ID = 1;
