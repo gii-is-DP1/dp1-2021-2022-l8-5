@@ -54,6 +54,7 @@ public class ActionResolution implements GamePhase{
 		}
 		
 		game.setCanResolveActions(true);
+		game.setMusterAnArmyEffect(false);
 		game.setCurrentRound(game.getCurrentRound()+1);
 		this.updatePlayersPositions(game);
 		

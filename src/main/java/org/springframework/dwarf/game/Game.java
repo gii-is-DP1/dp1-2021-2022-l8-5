@@ -42,6 +42,7 @@ public class Game extends BaseEntity{
 		this.currentRound = 1;
 		this.startDate = new Date();
 		this.canResolveActions = true;
+		this.musterAnArmyEffect = false;
 	}
 	
 	public void setPhase(GamePhaseEnum gamePhaseName) {
@@ -111,9 +112,16 @@ public class Game extends BaseEntity{
 	@Column(name = "CANRESOLVEACTIONS")
 	boolean canResolveActions;
 	
-	// por alguna razon el @Getter no pilla el atributo, pero el @Setter si
+	@Column(name = "MUSTERANARMYEFFECT")
+	boolean musterAnArmyEffect;
+	
+	// @Getter no pilla el atributo, pero el @Setter si
 	public boolean getCanResolveActions() {
 		return this.canResolveActions;
+	}
+	// @Getter no pilla el atributo, pero el @Setter si
+	public boolean getMusterAnArmyEffect() {
+		return this.musterAnArmyEffect;
 	}
 	
 	public List<Player> getPlayersList() {
