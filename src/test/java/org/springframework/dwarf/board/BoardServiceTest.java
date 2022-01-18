@@ -2,8 +2,10 @@ package org.springframework.dwarf.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
 import java.util.Optional;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.mountain_card.MountainDeckService;
+import org.springframework.dwarf.special_card.SpecialDeck;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
@@ -24,6 +27,7 @@ public class BoardServiceTest {
 	private GameService gameService;
 	@Autowired
 	private MountainDeckService mountainDesckService;
+	
 	
 	@Test
 	@DisplayName("Board count")
@@ -87,4 +91,19 @@ public class BoardServiceTest {
 		
 		assertThat(boardsFound+1).isEqualTo(boardsFoundAfterCreate);
 	}
+	
+	@Test
+	@DisplayName("Find the Special Decks by the id of the board")
+	void testFindSpecialDeckByBoardId() {
+		Game game = gameService.findByGameId(2).get();
+		boardService.createBoard(game);
+		
+		Integer boardId = this.gameService.findBoardByGameId(game.getId()).get().getId();
+		List<SpecialDeck> specialDecks = this.boardService.findSpecialDeckByBoardId(boardId);
+		
+		assertThat(specialDecks.size()).isEqualTo(3);	//createBoard crea 3 specialDecks
+	}
+	
 }
+
+
