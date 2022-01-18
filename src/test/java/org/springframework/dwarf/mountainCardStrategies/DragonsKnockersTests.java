@@ -27,7 +27,7 @@ public class DragonsKnockersTests {
     
 
     @Autowired
-    protected DragonsKnockers dK;
+    protected DragonsKnockers dk;
     
     @Autowired
     ResourcesService resourcesService;
@@ -71,7 +71,7 @@ public class DragonsKnockersTests {
    
     @Test
    void testGetName() {
-     StrategyName name = dK.getName();
+     StrategyName name = dk.getName();
      assertThat(name).isEqualTo(StrategyName.DRAGONS_KNOCKERS);
      
    }
@@ -83,29 +83,29 @@ public class DragonsKnockersTests {
         String dragon = "Dragon";
         String knockers = "Knockers";
                 
-        dK.setResources(greatDragon);        
-         assertThat(dK.resourceType==ResourceType.GOLD);
-         assertThat(dK.amount==null);
+        dk.setResources(greatDragon);        
+         assertThat(dk.resourceType==ResourceType.GOLD);
+         assertThat(dk.amount==null);
 
-        dK.setResources(dragon);        
-         assertThat(dK.resourceType==ResourceType.GOLD);
-         assertThat(dK.amount==-1);
+        dk.setResources(dragon);        
+         assertThat(dk.resourceType==ResourceType.GOLD);
+         assertThat(dk.amount==-1);
         
-         dK.setResources(knockers);        
-         assertThat(dK.resourceType==ResourceType.IRON);
-         assertThat(dK.amount==-1);
+         dk.setResources(knockers);        
+         assertThat(dk.resourceType==ResourceType.IRON);
+         assertThat(dk.amount==-1);
          
        }
        
     @Test
        void testRemoveResources() throws Exception {
 
-        dK.amount= 1;
-        dK.removeResources(p1,game);        
+        dk.amount= 1;
+        dk.removeResources(p1,game);        
         assertThat(playerResources.getGold()==2);
 
-        dK.amount=null;
-        dK.removeResources(p1,game);        
+        dk.amount=null;
+        dk.removeResources(p1,game);        
         assertThat(playerResources.getGold()==null);
 
        }
@@ -114,7 +114,7 @@ public class DragonsKnockersTests {
     @Test
     @WithMockUser(username = "test") 
     void testActions() throws Exception {
-            dK.actions(p1, "Great Dragon");
+            dk.actions(p1, "Great Dragon");
             Resources newResources = resourcesService.findByPlayerIdAndGameId(p1.getId(), game.getId()).get();
             int newBadges = newResources.getBadges();
              
@@ -124,7 +124,7 @@ public class DragonsKnockersTests {
     @Test
     @WithMockUser(username = "test") 
     void testActionsNull() throws Exception {
-            dK.actions(null, "Great Dragon");
+            dk.actions(null, "Great Dragon");
             Resources newResources = resourcesService.findByPlayerIdAndGameId(p1.getId(), game.getId()).get();
             int newGold = newResources.getGold();
                  

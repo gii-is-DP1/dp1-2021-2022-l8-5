@@ -45,7 +45,7 @@ public class HoldACouncil implements CardStrategy {
 		mountainDeckService.saveMountainDeck(mountainDeck);
 	}
 	
-	private List<MountainCard> removeTopCards(Game currentGame, Board board){
+	protected List<MountainCard> removeTopCards(Game currentGame, Board board){
 		List<MountainCard> cardsToRemove = new ArrayList<MountainCard>();
 		
 		for(BoardCell boardCell: board.getBoardCells()) {
