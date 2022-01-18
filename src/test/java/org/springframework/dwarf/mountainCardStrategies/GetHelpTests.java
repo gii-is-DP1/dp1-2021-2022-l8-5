@@ -75,14 +75,14 @@ public class GetHelpTests {
 	}
 	 
 	 @Test
-	 void testActions() {
+	 void testActions() throws Exception{
 		 gh.actions(p1, "GetHelp");
 		 Collection<Worker> workers = workerService.findByPlayerId(p1.getId());
 		 workers.size();
 		 assertThat(workers.size()).isEqualTo(4);
 	 }
 	 @Test
-	 void testActionsGetTurn() {
+	 void testActionsGetTurn() throws Exception {
 		 gh.actions(p2, "GetHelp");
 		assertThat(p2.getTurn()).isEqualTo(2);
 	 }
