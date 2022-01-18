@@ -2,6 +2,7 @@ package org.springframework.dwarf.player;
 
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.BDDMockito.given;
@@ -76,7 +77,28 @@ class PlayerControllerTests {
 		
 		george.setUser(user);
 		given(this.playerService.findPlayerById(TEST_PLAYER_ID)).willReturn(george);
+		given(this.playerService.findPlayerByUserName("paco")).willReturn(george);
 	}
+	
+	//Tests del LoggedUserController
+	@WithMockUser(username = "paco")
+	@Test
+	void testloggedPlayerPositive() throws Exception{
+		LoggedUserController lg = new LoggedUserController(playerService);
+		String userlogged = LoggedUserController.returnLoggedUserName();
+		assertEquals(playerService.findPlayerByUserName(userlogged).getUsername(), lg.loggedPlayer().getUsername());
+		
+	}
+	
+	@Test
+	void testloggedPlayerNegative() throws Exception{
+		LoggedUserController lg = new LoggedUserController(playerService);
+		//String userlogged = LoggedUserController.returnLoggedUserName();
+		assertEquals(lg.loggedPlayer().getFirstName() , "Guest");
+		
+	}
+	
+	////
 	@WithMockUser(username = "pabmargom3")
     @Test
     void loginSuccesful() throws Exception {
