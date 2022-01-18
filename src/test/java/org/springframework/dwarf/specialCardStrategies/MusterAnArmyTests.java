@@ -23,6 +23,7 @@ import org.springframework.dwarf.card.StrategyName;
 import org.springframework.dwarf.forgesAlloy.ForgesAlloyResources;
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
+import org.springframework.dwarf.mountain_card.CardType;
 import org.springframework.dwarf.mountain_card.MountainCard;
 import org.springframework.dwarf.mountain_card.MountainDeck;
 import org.springframework.dwarf.mountain_card.MountainDeckService;
@@ -36,30 +37,22 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(value= {Service.class, Component.class}))
-public class RunAmokTests {
+public class MusterAnArmyTests {
 	
+
 	   @Autowired
-	   protected RunAmok ra;
-	    
-	   @Autowired
-	   ResourcesService resourcesService;
-	    
-	   @Autowired
-	   private PlayerService playerService;
-	   
-	   @Autowired
-	   private BoardService boardService;
+	   protected MusterAnArmy mana;
 	   
 	   @Autowired
 	   private GameService gameService;
 	   
+	   @Autowired
+	   private BoardService boardService;
 	   
-	   private Player p1;
-	   private Player p2;
-	   private Player p3;
-	   private Resources playerResources;
 	   private Game game;
-
+	   
+	   private Board board;
+	   
 	   @BeforeEach
 	   void setup() throws Exception {
 
@@ -67,43 +60,40 @@ public class RunAmokTests {
 	       
 	       boardService.createBoard(game);
 	       
+	       board = gameService.findBoardByGameId(game.getId()).get();
 	       
-	       p1 = playerService.findPlayerById(4);
-	       p2 = playerService.findPlayerById(5);
-	       p3 = playerService.findPlayerById(2);
-	       
-	   
-	       playerResources = new Resources(game, p1);
-	       playerResources.addResource(ResourceType.GOLD, 2);
-	       resourcesService.saveResources(playerResources);
-	       
-	       Resources playerResources2 = new Resources(game, p2);
-	       playerResources.addResource(ResourceType.GOLD, 2);
-	       resourcesService.saveResources(playerResources2);
-	       
-	       Resources playerResources3 = new Resources(game, p3);
-	       playerResources.addResource(ResourceType.GOLD, 2);
-	       resourcesService.saveResources(playerResources3);
+	      List<BoardCell> boardCells = board.getBoardCells();
+	      boardCells.get(0).getMountaincards().get(0).setCardType(CardType.AID);
+	      
+	      boardService.saveBoard(board);
 	   }
-	   
-	    @Test
+	
+	   @Test
 	    void testGetName() {
-	        StrategyName name = ra.getName();
-	        assertThat(name).isEqualTo(StrategyName.RUN_AMOK);
+	        StrategyName name = mana.getName();
+	        assertThat(name).isEqualTo(StrategyName.MUSTER_AN_ARMY);
 	 
 	    }
-	    
-	    @Test
-	    void testActions() {
-	    	Board tablero = gameService.findBoardByGameId(game.getId()).get();
-	    	List<MountainCard> cartasTableroInicial = tablero.getBoardCells().get(0).getMountaincards();
-	    	
-	        ra.actions(p1, "");
-	        
-	        List<MountainCard> cartasTableroFinal = tablero.getBoardCells().get(0).getMountaincards();
-      
-	        assertThat(cartasTableroInicial).isNotEqualTo(cartasTableroFinal);
+	   
+	   @Test
+	    void testGetGetHelpCardsInBoard() {
+		   game = gameService.findByGameId(2).get();
+	       List<BoardCell> listHelpCards = mana.getGetHelpCardsInBoard(game);
+	        assertThat(listHelpCards).isNotEmpty();
 	 
 	    }
+	   
+	   @Test
+	    void testGetGetHelpCardsInBoardNegative() {
+		   List<BoardCell> boardCells = board.getBoardCells();
+	      boardCells.get(0).getMountaincards().get(0).setCardType(CardType.MINE);
+		      
+		   game = gameService.findByGameId(2).get();
+	       List<BoardCell> listHelpCards = mana.getGetHelpCardsInBoard(game);
+	        assertThat(listHelpCards).isEmpty();
+	 
+	    }
+	   
+	   
 
 }
