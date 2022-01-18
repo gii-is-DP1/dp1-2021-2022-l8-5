@@ -102,9 +102,33 @@
 							</div>
 			
 							<div class="row-md-3">
-								<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,0">Special 1</button>
-								<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,1">Special 2</button>
-								<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,2">Special 3</button>
+							<c:choose>
+								<c:when test="${board.specialDecks.get(0).getSpecialCard().size() > 0}">
+									<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,0">Special 1</button>
+								</c:when>
+								<c:otherwise>
+									<button disabled class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,0">Special 1</button>
+								</c:otherwise>
+							</c:choose>
+							
+							<c:choose>
+								<c:when test="${board.specialDecks.get(1).getSpecialCard().size() > 0}">
+									<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,1">Special 2</button>
+								</c:when>
+								<c:otherwise>
+									<button disabled class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,1">Special 2</button>
+								</c:otherwise>
+							</c:choose>
+							
+							<c:choose>
+								<c:when test="${board.specialDecks.get(2).getSpecialCard().size() > 0}">
+									<button class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,2">Special 3</button>
+								</c:when>
+								<c:otherwise>
+									<button disabled class="btn btn-default" type="submit" onclick="check()" name="pos" value="0,2">Special 3</button>
+								</c:otherwise>
+							</c:choose>
+								
 							</div>
 						</c:if>
 						
