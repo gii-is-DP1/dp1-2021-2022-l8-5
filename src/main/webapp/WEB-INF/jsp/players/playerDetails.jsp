@@ -1,5 +1,6 @@
 <%@ page session="false" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec"
@@ -71,10 +72,10 @@
 	                    <c:out value="${game.thirdPlayer.username}"/>
 	            	</td>
 	     	         <td>
-	                    <c:out value="${game.startDate}"/>
+	                    <fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${game.startDate}"/>
 	            	</td>
 	              <td>
-	                    <c:out value="${game.finishDate}"/>
+	                    <fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${game.finishDate}"/>
 	            	</td>
 	            	  
 					</tr>       

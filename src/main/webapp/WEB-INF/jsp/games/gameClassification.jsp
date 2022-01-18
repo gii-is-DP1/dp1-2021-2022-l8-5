@@ -24,4 +24,5 @@
 	</div>
 	
 	<!-- incluir boton para volver al menu inicial de la pagina -->
+	
 </dwarf:layout>

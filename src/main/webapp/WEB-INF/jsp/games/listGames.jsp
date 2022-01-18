@@ -29,10 +29,10 @@
                     <c:out value="${game.id}"/>
                 </td>
                 <td>
-                    <c:out value="${game.startDate}"/>
+                    <fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${game.startDate}"/>
                 </td>
                 <td>
-                    <c:out value="${game.finishDate}"/>
+                    <fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${game.finishDate}"/>
                 </td>
                 <td>
                     <c:out value="${game.firstPlayer.username}"/>
