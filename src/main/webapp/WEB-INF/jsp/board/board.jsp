@@ -38,15 +38,13 @@
         
             <dwarf:board board="${board}"/>
             <c:forEach items="${board.specialDecks}" var="specialDeck">
-            	<dwarf:specialDeck padding="20" xsize="130" ysize="180" specialDeck="${specialDeck}"/>
+            	<c:if test="${specialDeck.getSpecialCard().size() != 0}">
+            		<dwarf:specialDeck padding="20" xsize="130" ysize="180" specialDeck="${specialDeck}"/>
+            	</c:if>
             </c:forEach>
 
             <c:forEach items="${board.boardCells}" var="boardCell">
-            <!-- No seé que hacer con esto pero taria bien verlo -->
-            <div class="tooltip">
-            	<span class="tooltiptext">CumSum</span>
             	<dwarf:mountainCard padding="20" xsize="130" ysize="180" mountainCard="${boardCell.mountaincards.get(0)}"/>
-            </div>
             </c:forEach>
             
             <c:forEach items="${workers}" var="worker">
