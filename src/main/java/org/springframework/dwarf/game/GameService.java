@@ -106,6 +106,9 @@ public class GameService {
 	}
 	
 	private void changeCurrentPlayer(Game game, Player playerToRemove) {
+		if(this.findBoardByGameId(game.getId()).isEmpty())
+			return;
+		
 		List<Player> turnList = game.getTurnList();
 		Integer index = turnList.indexOf(playerToRemove);
 		Player nextPlayer = turnList.get((index+1)%turnList.size());
