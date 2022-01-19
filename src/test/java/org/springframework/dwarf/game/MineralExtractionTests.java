@@ -39,6 +39,7 @@ import org.springframework.dwarf.user.User;
 import org.springframework.dwarf.worker.IllegalPositionException;
 import org.springframework.dwarf.worker.Worker;
 import org.springframework.dwarf.worker.WorkerService;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -77,6 +78,7 @@ public class MineralExtractionTests {
 		g = new Game();
 		g.setId(1);
 		g.setCurrentPlayer(p1);
+		g.setFirstPlayer(p1);
 		
 		boardService.createBoard(g);
 
@@ -198,6 +200,19 @@ public class MineralExtractionTests {
 		
 		workersAfter.stream().forEach(x -> assertThat(x.getXposition()).isNull());
 		workersAfter.stream().forEach(x -> assertThat(x.getYposition()).isNull());
+
+	}
+	@WithMockUser(username = "test")
+	@Test
+	void testPhaseResolutionNegative() {
+		g.setFirstPlayer(null);
+		GamePhaseEnum ogphase = g.getCurrentPhaseName();
+		
+		me.phaseResolution(g);
+		
+		GamePhaseEnum newphase = g.getCurrentPhaseName();
+		
+		assertThat(ogphase).isEqualTo(newphase);
 		
 		
 	}
