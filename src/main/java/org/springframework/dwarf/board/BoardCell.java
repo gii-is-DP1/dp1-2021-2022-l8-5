@@ -1,5 +1,6 @@
 package org.springframework.dwarf.board;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -48,7 +49,7 @@ public class BoardCell extends BaseEntity{
 	public BoardCell(Integer xposition, Integer yposition, List<MountainCard> mountaincards) {
 		this.xposition = xposition;
 		this.yposition = yposition;
-		this.mountaincards = mountaincards;
+		this.mountaincards = new ArrayList<>(mountaincards);
 		//this.cellOccupied = false;
 		this.occupiedBy = null;
 	}
