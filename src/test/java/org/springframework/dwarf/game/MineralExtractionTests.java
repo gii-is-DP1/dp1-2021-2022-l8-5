@@ -83,6 +83,8 @@ public class MineralExtractionTests {
 	@Test
 	void testSetAndSaveWorker() {
 		Worker w = workerService.findByWorkerId(2).get();
+		w.setXposition(1);
+		w.setYposition(0);
 		Integer xpos = w.getXposition();
 		Integer ypos = w.getYposition();
 		me.setAndSaveWorker(w);
@@ -94,7 +96,6 @@ public class MineralExtractionTests {
 		assertThat(ypos).isNotEqualTo(ypos2);
 		assertThat(xpos2).isNull();
 		assertThat(ypos2).isNull();
-		
 	}
 
 	@Test
@@ -170,14 +171,12 @@ public class MineralExtractionTests {
 		});
 	
 		workers.stream().forEach(x -> assertThat(x.getXposition()).isNotNull());
-		workers.stream().forEach(x -> assertThat(x.getYposition()).isNotNull());
 		
 		me.removeWorkers(g);
 		
 		List<Worker> workersAfter = workerService.findPlacedByGameId(1);
 		
 		workersAfter.stream().forEach(x -> assertThat(x.getXposition()).isNull());
-		workersAfter.stream().forEach(x -> assertThat(x.getYposition()).isNull());
 
 	}
 	@WithMockUser(username = "test")
