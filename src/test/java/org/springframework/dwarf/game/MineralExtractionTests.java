@@ -2,12 +2,16 @@ package org.springframework.dwarf.game;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
+
+import org.dom4j.datatype.InvalidSchemaException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dwarf.board.Board;
 import org.springframework.dwarf.board.BoardCell;
 import org.springframework.dwarf.board.BoardCellService;
 import org.springframework.dwarf.board.BoardService;
@@ -15,6 +19,7 @@ import org.springframework.dwarf.mountain_card.MountainCard;
 import org.springframework.dwarf.mountain_card.MountainCardService;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
+import org.springframework.dwarf.worker.IllegalPositionException;
 import org.springframework.dwarf.worker.Worker;
 import org.springframework.dwarf.worker.WorkerService;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -36,11 +41,15 @@ public class MineralExtractionTests {
 	@Autowired
 	private WorkerService workerService;
 	
-	@MockBean
+	@Autowired
 	private BoardService boardService;
 
 	@Autowired
 	private MountainCardService mountainCardService;
+	
+	@Autowired
+	private GameService gameService;
+	
 
 	@Autowired
 	private BoardService bs;
@@ -48,6 +57,7 @@ public class MineralExtractionTests {
 	private Player p1;
 	
 	private Game g;
+	
 
 	@BeforeEach
 	void setup() throws Exception {
@@ -58,7 +68,6 @@ public class MineralExtractionTests {
 		g.setCurrentPlayer(p1);
 		g.setFirstPlayer(p1);
 		
-		boardService.createBoard(g);
 
 	}
 
@@ -179,6 +188,41 @@ public class MineralExtractionTests {
 		workersAfter.stream().forEach(x -> assertThat(x.getXposition()).isNull());
 
 	}
+	
+	
+	@Test
+	void testRemoveWorkers2() throws DataAccessException, IllegalPositionException, CreateGameWhilePlayingException {		
+		Player p2 = playerService.findPlayerById(3);
+		Game g = new Game();
+		
+		g.setFirstPlayer(p2);
+		g.setCurrentPlayer(p2);
+		
+		
+		Worker w = new Worker(p2, g, 4);
+		
+		w.setXposition(1);
+		w.setYposition(0);
+		w.setStatus(true);
+		gameService.saveGame(g);
+		workerService.saveWorker(w);
+
+
+		Board b = boardService.createBoard(g);
+		
+		BoardCell bc = b.getBoardCell(1, 0);
+		bc.setOccupiedBy(p1);
+		
+		assertThat(w.getXposition()).isNotNull();
+		
+		me.removeWorkers(g);
+		
+		List<Worker> workersAfter = workerService.findPlacedByGameId(1);
+		
+		workersAfter.stream().forEach(x -> assertThat(x.getXposition()).isNull());
+
+	}
+	
 	@WithMockUser(username = "test")
 	@Test
 	void testPhaseResolutionNegative() {
@@ -193,5 +237,26 @@ public class MineralExtractionTests {
 		
 	}
 	
+	@Test
+	void testDeleteAidWorkers() throws DataAccessException, IllegalPositionException {
+		
+		Worker w = new Worker(p1, g, 4);
+		
+		workerService.saveWorker(w);
+		
+		List<Worker> Workers = workerService.findPlayerAidWorkers(p1.getId());
+		
+		assertThat(Workers.size()).isEqualTo(1);
+		
+		me.deleteAidWorkers(g);
+		
+		List<Worker> WorkersAfter = workerService.findPlayerAidWorkers(p1.getId());
+		
+		assertThat(WorkersAfter.size()).isEqualTo(0);
+		
+		
+		
+		
+	}
 
 }
