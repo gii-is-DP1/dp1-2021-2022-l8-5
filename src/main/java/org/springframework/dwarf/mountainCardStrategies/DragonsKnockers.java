@@ -31,7 +31,7 @@ public class DragonsKnockers implements CardStrategy{
 	public void actions(Player player, String cardName) {
 		Player loggedUser = LoggedUserController.loggedPlayer();
 		Game game = gameService.findByGameId(gameService.getCurrentGameId(loggedUser)).get();
-		boolean defended = player != null || game.getMusterAnArmyEffect();
+		Boolean defended = player != null || game.getMusterAnArmyEffect();
 		
 		if(!defended) {
 			this.setResources(cardName);

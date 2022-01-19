@@ -96,12 +96,11 @@ public class GameService {
 	}
 	
 	@Transactional
-	public void exit(Game game, Player loggedPlayer) throws DataAccessException {
-		workerService.deletePlayerWorker(loggedPlayer);
-		int playerIndex = game.getPlayerPosition(loggedPlayer);
+	public void exit(Game game, Player playerToRemove) throws DataAccessException {
+		workerService.deletePlayerWorker(playerToRemove);
 		
 		List<Player> newPlayerList = game.getPlayersList();
-		Player playerToRemove = newPlayerList.remove(playerIndex);
+		newPlayerList.remove(playerToRemove);
 		
 		int turnPlayerToRemove = -1;
 		if(!this.findBoardByGameId(game.getId()).isEmpty())
@@ -111,7 +110,8 @@ public class GameService {
 		
 		if(!this.findBoardByGameId(game.getId()).isEmpty()) {
 			this.setPlayersTurns(newPlayerList);
-			game.setCurrentPlayer(game.getTurnList().get(turnPlayerToRemove));
+			if(playerToRemove.equals(game.getCurrentPlayer()))
+				game.setCurrentPlayer(game.getTurnList().get(turnPlayerToRemove));
 		}
 		
 		gameRepo.save(game);
