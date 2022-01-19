@@ -1,21 +1,4 @@
-/*
- * Copyright 2002-2013 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package org.springframework.dwarf.worker;
-
 
 import java.util.Collection;
 import java.util.List;
@@ -24,13 +7,14 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dwarf.board.Board;
+import org.springframework.dwarf.board.BoardCell;
+import org.springframework.dwarf.board.BoardCellService;
 import org.springframework.dwarf.game.Game;
+import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.player.Player;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  *
@@ -44,6 +28,11 @@ public class WorkerService {
 
 	
 	private WorkerRepository workerRepo;
+	
+	@Autowired
+	private BoardCellService boardCellService;
+	@Autowired
+	private GameService gameService;
 	
 	@Autowired
 	public WorkerService(WorkerRepository WorkerRepository) {
@@ -96,8 +85,20 @@ public class WorkerService {
 	}
 	
 	public void deletePlayerWorker(Player player) {
-		Collection<Worker> Workers = findByPlayerId(player.getId());
-		Workers.stream().forEach(worker -> delete(worker));
+		Collection<Worker> workers = findByPlayerId(player.getId());
+		List<Worker> workersWithPosition = workers.stream()
+				.filter(worker -> worker.getXposition() != null && worker.getYposition() != null)
+				.collect(Collectors.toList());
+		Game game = gameService.findPlayerUnfinishedGames(player).orElse(null);
+		
+		if(game != null) {
+			Board board = gameService.findBoardByGameId(game.getId()).orElse(null);
+			if(board != null) {
+				List<BoardCell> boardCells = board.getBoardCells();
+			}
+		}
+		
+		workers.stream().forEach(worker -> delete(worker));
 	}
 	
 	@Transactional(rollbackFor = IllegalPositionException.class)
