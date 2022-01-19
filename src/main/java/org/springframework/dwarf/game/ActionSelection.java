@@ -51,7 +51,7 @@ public class ActionSelection implements GamePhase{
 		
 	}
 	
-	private void changeCurrentPlayer(Game game) throws CreateGameWhilePlayingException {
+	protected void changeCurrentPlayer(Game game) throws CreateGameWhilePlayingException {
 		List<Player> turn = game.getTurnList();
 		Player currentPlayer = game.getCurrentPlayer();
 		Boolean changePlayer = true;

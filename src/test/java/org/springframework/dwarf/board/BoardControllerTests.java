@@ -3,7 +3,7 @@ package org.springframework.dwarf.board;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -20,25 +20,25 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(controllers = BoardController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 class BoardControllerTests {
-	
+
 	@MockBean
 	private BoardService boardService;
 	@MockBean
 	private GameService gameService;
 	@MockBean
-    private ResourcesService resourcesService;
+	private ResourcesService resourcesService;
 	@MockBean
-    private WorkerService workerService;
+	private WorkerService workerService;
 	@MockBean
-    private PlayerService playerService;
+	private PlayerService playerService;
 	@MockBean
-    private BoardCellService boardCellService;
+	private BoardCellService boardCellService;
 	@MockBean
-    private SpecialDeckService specialDeckService;
-	
+	private SpecialDeckService specialDeckService;
+
 	@Autowired
 	private MockMvc mockMvc;
-	
+
 	@Test
 	void testGetBoard() throws Exception {
 		mockMvc.perform(get("/boards")).andExpect(status().is4xxClientError());
