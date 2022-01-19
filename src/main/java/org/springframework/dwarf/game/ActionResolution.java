@@ -58,6 +58,8 @@ public class ActionResolution implements GamePhase{
 					boardCellService.saveBoardCell(cell);
 					game.setPhase(GamePhaseEnum.ACTION_SELECTION);
 					gameService.saveGame(game);
+					game.phaseResolution(applicationContext);
+					return;
 				}
 			
 		}
