@@ -15,31 +15,32 @@ import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 public class ForgesAlloyResourcesServiceTest {
-
+	
 	@Autowired
 	private ForgesAlloyResourcesService forgeAlloyResourceService;
-
+	
 	@Test
 	@DisplayName("Find ForgesAlloyResources by card name")
 	void testFindByCardName() {
 		String cardName = "Alloy Steel";
-
+		
 		ForgesAlloyResources forgesAlloyResources = this.forgeAlloyResourceService.findByCardName(cardName);
-
+		
 		assertThat(forgesAlloyResources.getResourcesReceived().getResource()).isEqualTo(ResourceType.STEEL);
 	}
-
+	
 	@Test
 	@DisplayName("Find ForgesAlloyResources by card name (Negative)")
 	void testFindByCardNameNeg() {
 		String cardName = "Alloy Steel No";
-
+		
 		ForgesAlloyResources forgesAlloyResources = this.forgeAlloyResourceService.findByCardName(cardName);
-
-		assertThrows(NullPointerException.class, () -> {
-			forgesAlloyResources.getResourcesReceived().getResource();
-		});
-
+		
+		 assertThrows(NullPointerException.class, () -> {
+			 forgesAlloyResources.getResourcesReceived().getResource();
+		    });
+		
 	}
-
+	
+	
 }

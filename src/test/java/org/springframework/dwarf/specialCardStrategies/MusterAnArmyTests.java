@@ -36,33 +36,33 @@ import org.springframework.dwarf.user.User;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@DataJpaTest(includeFilters = @ComponentScan.Filter(value = { Service.class, Component.class }))
+@DataJpaTest(includeFilters = @ComponentScan.Filter(value= {Service.class, Component.class}))
 public class MusterAnArmyTests {
 	@Autowired
 	protected MusterAnArmy mana;
-
+	   
 	@Autowired
 	private GameService gameService;
-
+	   
 	@Autowired
 	private BoardService boardService;
-
+	   
 	private Game game;
-
+	   
 	private Board board;
-
+   
 	@BeforeEach
 	void setup() throws Exception {
-
+		
 		game = gameService.findByGameId(2).get();
-
+		       
 		boardService.createBoard(game);
-
+		       
 		board = gameService.findBoardByGameId(game.getId()).get();
-
+		       
 		List<BoardCell> boardCells = board.getBoardCells();
 		boardCells.get(0).getMountaincards().get(0).setCardType(CardType.AID);
-
+		      
 		boardService.saveBoard(board);
 	}
 

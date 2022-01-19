@@ -11,12 +11,12 @@ import org.springframework.dwarf.card.StrategyName;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@DataJpaTest(includeFilters = @ComponentScan.Filter(value = { Service.class, Component.class }))
+@DataJpaTest(includeFilters = @ComponentScan.Filter(value= {Service.class, Component.class}))
 public class SpecialOrderTests {
-
+	
 	@Autowired
 	private SpecialOrder so;
-
+	
 	@Test
 	void testGetName() {
 		StrategyName name = so.getName();

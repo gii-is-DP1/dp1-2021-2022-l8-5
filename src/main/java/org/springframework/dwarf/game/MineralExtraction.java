@@ -82,7 +82,7 @@ public class MineralExtraction implements GamePhase{
 		}
 	}
 	
-	protected void setAndSaveWorker(Worker worker) {
+	private void setAndSaveWorker(Worker worker) {
 		worker.setXposition(null);
 		worker.setYposition(null);
 		worker.setStatus(false);
@@ -99,7 +99,7 @@ public class MineralExtraction implements GamePhase{
 		boardCellService.saveBoardCell(boardCell);
 	}
     
-    protected void setCard(MountainCard mountaincard, BoardCell boardcell) {
+    private void setCard(MountainCard mountaincard, BoardCell boardcell) {
 		List<MountainCard> cellcards = boardcell.getMountaincards();
 		if (mountaincard.getXPosition().equals(boardcell.getXposition()) &&
 				mountaincard.getYPosition().equals(boardcell.getYposition())) {

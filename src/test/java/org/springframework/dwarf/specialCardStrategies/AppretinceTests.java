@@ -35,16 +35,17 @@ import org.springframework.dwarf.user.User;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@DataJpaTest(includeFilters = @ComponentScan.Filter(value = { Service.class, Component.class }))
+@DataJpaTest(includeFilters = @ComponentScan.Filter(value= {Service.class, Component.class}))
 public class AppretinceTests {
 
-	@Autowired
-	protected Apprentice ap;
-
-	@Test
-	void testGetName() {
-		StrategyName name = ap.getName();
-		assertThat(name).isEqualTo(StrategyName.APPRENTICE);
-
-	}
+	   @Autowired
+	   protected Apprentice ap;
+	   
+	   
+	   @Test
+	    void testGetName() {
+	        StrategyName name = ap.getName();
+	        assertThat(name).isEqualTo(StrategyName.APPRENTICE);
+	 
+	    }
 }
