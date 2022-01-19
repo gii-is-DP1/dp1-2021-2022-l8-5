@@ -24,9 +24,9 @@ public class PastGlories implements CardStrategy {
 	@Autowired
 	private GameService gameService;
 	@Autowired
-	BoardService boardService;
+	private BoardService boardService;
 	@Autowired
-	BoardCellService boardCellService;
+	private BoardCellService boardCellService;
 	
 	@Override
 	public void actions(Player player, String cardName) {

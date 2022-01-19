@@ -58,7 +58,7 @@ public class ActionResolution implements GamePhase{
 		game.setCurrentRound(game.getCurrentRound()+1);
 		this.updatePlayersPositions(game);
 		
-		if(game.getCurrentRound() <= FINAL_GAME_ROUND) {
+		if(game.getCurrentRound() <= FINAL_GAME_ROUND && !this.hasFourItems(game)) {
 			game.setPhase(GamePhaseEnum.MINERAL_EXTRACTION);
 		} else {
 			game.setFinishDate(new Date());
@@ -66,14 +66,20 @@ public class ActionResolution implements GamePhase{
 		
 	}
 	
-	private boolean canResolveAction(Game game, MountainCard mountainCard) {
-		boolean canResolve = game.getCanResolveActions();
+	private Boolean canResolveAction(Game game, MountainCard mountainCard) {
+		Boolean canResolve = game.getCanResolveActions();
 		
 		// orc raiders ONLY avoid resolve MINE cards
 		if(!mountainCard.getCardType().equals(CardType.MINE) && !canResolve)
 			canResolve = true;
 			
 		return canResolve;
+	}
+	
+	private Boolean hasFourItems(Game game) {
+		return resourcesService.findByGameId(game.getId()).stream()
+				.filter(resource -> resource.getItems() <= 4)
+				.collect(Collectors.toList()).size() >= 1;
 	}
 	
 	private List<BoardCell> getCellstoResolveActions(Game game) {
@@ -145,7 +151,7 @@ public class ActionResolution implements GamePhase{
 		return points;
 	}
 	
-	private boolean getIsTie(List<Integer> points) {
+	private Boolean getIsTie(List<Integer> points) {
 		Integer max = Collections.max(new ArrayList<Integer>(points));
 		Integer count = 0;
 		for(Integer point: points)

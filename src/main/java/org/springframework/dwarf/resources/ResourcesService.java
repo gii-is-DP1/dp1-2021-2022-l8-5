@@ -72,7 +72,6 @@ public class ResourcesService {
 		return ResourcesRepo.findByPlayerIdAndGameId(pid,gid);
 	}
 	
-	
 	public void delete(Resources Resources) {
 		ResourcesRepo.delete(Resources);
 	}
