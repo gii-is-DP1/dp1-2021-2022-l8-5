@@ -94,7 +94,7 @@ public class MineralExtraction implements GamePhase{
 		}
 	}
 	
-	private void setAndSaveBoardCell(BoardCell boardCell) {
+	protected void setAndSaveBoardCell(BoardCell boardCell) {
 		boardCell.setOccupiedBy(null);
 		boardCellService.saveBoardCell(boardCell);
 	}
