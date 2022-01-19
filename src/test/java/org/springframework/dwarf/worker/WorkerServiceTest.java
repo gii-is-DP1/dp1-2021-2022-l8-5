@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -13,7 +14,12 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dwarf.board.Board;
+import org.springframework.dwarf.board.BoardService;
+import org.springframework.dwarf.game.CreateGameWhilePlayingException;
 import org.springframework.dwarf.game.Game;
+import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
 import org.springframework.stereotype.Service;
@@ -32,6 +38,13 @@ public class WorkerServiceTest {
 	private WorkerService workerService;
 	@Autowired
 	protected PlayerService playerService;
+	
+	@Autowired
+	protected BoardService boardService;
+	
+
+	@Autowired
+	protected GameService gameService;
 	
 	
 	@Test
@@ -306,16 +319,65 @@ public class WorkerServiceTest {
 		int id = 1;
 		
 		Optional<Worker> Worker = workerService.findByWorkerId(id);
-		System.out.println("------------TEST DELETE Worker------------");
 		Worker p = Worker.orElse(null);
+		workerService.delete(p);
+		Worker deletedWorker = workerService.findByWorkerId(id).orElse(null);
+		assertEquals(deletedWorker, null);
+	}
+	
+	@Test
+	public void testDeleteWorker2() throws DataAccessException, IllegalPositionException, CreateGameWhilePlayingException {
+	
+		Player p = playerService.findPlayerById(3);
 		
-		if(p != null) {
-			workerService.delete(p);
-			Worker deletedWorker = workerService.findByWorkerId(id).orElse(null);
-			assertEquals(deletedWorker, null);
-		}else {
-			System.out.println("Worker not found");
-		}
-		System.out.println("------------------------");
+		Game g = new Game();
+		
+		g.setFirstPlayer(p);
+		g.setCurrentPlayer(p);
+		
+		Worker w1 = new Worker(p, g, 4);
+		
+		gameService.saveGame(g);
+	
+		Board  b = boardService.createBoard(g);
+		
+		w1.setId(5);
+		w1.setXposition(1);
+		w1.setYposition(0);
+		w1.setPlayer(p);
+		
+		workerService.saveWorker(w1);
+		
+		workerService.deletePlayerWorker(w1.getPlayer());
+		Worker deletedWorker = workerService.findByWorkerId(5).orElse(null);
+		assertThat(deletedWorker).isEqualTo(null);
+	}
+	
+	@Test
+	public void testDeleteAidWorker() throws DataAccessException, IllegalPositionException {
+
+		Player p = playerService.findPlayerById(4);
+		Game g = new Game();
+		g.setId(1);
+		
+		Worker w = new Worker(p, g, 4);
+		
+		workerService.saveWorker(w);
+		
+		List<Worker> Workers = workerService.findPlayerAidWorkers(p.getId());
+		
+		Collection<Worker> WorkersNotAid = workerService.findByPlayerId(p.getId());
+		
+		assertThat(WorkersNotAid.size()).isEqualTo(1);
+		
+		assertThat(Workers.size()).isEqualTo(1);
+		
+		Workers.stream().forEach(x -> workerService.deletePlayerAidWorkers(p));
+		
+		List<Worker> WorkersAfter = workerService.findPlayerAidWorkers(p.getId());
+		
+		assertThat(WorkersAfter.size()).isEqualTo(0);
+		
+
 	}
 }
