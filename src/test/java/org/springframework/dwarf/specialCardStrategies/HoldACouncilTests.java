@@ -89,17 +89,16 @@ public class HoldACouncilTests {
         
         List<MountainCard> removedCardsList = hac.removeTopCards(game, board);
         
-        assertThat(!(removedCardsList.isEmpty()));
+        assertThat(!(removedCardsList.isEmpty())); //La primera lista que obtiene no es vacía ya que el tablero tiene boardCells con más de 1 carta
         List<BoardCell> boardCell2 = board.getBoardCells();
-        assertThat(boardCell1!=boardCell2);
+        assertThat(boardCell1!=boardCell2); //No son iguales ya que hemos eliminado las cartas de antes de cada celda del tablero
         
 
         removedCardsList = hac.removeTopCards(game, board);
 
-        assertThat((removedCardsList.isEmpty()));
+        assertThat((removedCardsList.isEmpty())); //La lista que obtiene es vacía ya que el tablero no tiene boardCells con más de 1 carta
         List<BoardCell> boardCell3 = board.getBoardCells();
-        assertThat(boardCell2!=boardCell3);
-
+        assertThat(boardCell2==boardCell3); //Son iguales ya que no hemos eliminado ninguna carta de las celdas
        }
 
 
@@ -119,7 +118,7 @@ public class HoldACouncilTests {
 
 
         MountainDeck mountainDeck3 = board.getMountainDeck();
-        assertThat(mountainDeck2!=mountainDeck3);
+        assertThat(mountainDeck2==mountainDeck3);
 
           }
     
