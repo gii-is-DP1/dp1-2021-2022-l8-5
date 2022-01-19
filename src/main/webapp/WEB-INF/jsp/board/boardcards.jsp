@@ -2,10 +2,20 @@
     pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="dwarf" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <dwarf:layout pageName="boardcards">
 	
 	<c:set var="i" value="1" scope="page" />
+	
+	<div class="row">
+		<div class="col-md-6">
+			<a class="btn btn-default" onclick="history.back()">
+		        Return to the board
+			</a>
+		</div>
+	</div>
+	
 	
 	<c:forEach items="${boardCells}" var="boardCell">
 		&nbsp;

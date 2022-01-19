@@ -58,11 +58,11 @@ public class DragonsKnockersTests {
 		resourcesService.saveResources(playerResources);
 		       
 		Resources playerResources2 = new Resources(game, p2);
-		playerResources.addResource(ResourceType.GOLD, 2);
+		playerResources2.addResource(ResourceType.GOLD, 2);
 		resourcesService.saveResources(playerResources2);
 		       
 		Resources playerResources3 = new Resources(game, p3);
-		playerResources.addResource(ResourceType.GOLD, 2);
+		playerResources3.addResource(ResourceType.GOLD, 2);
 		resourcesService.saveResources(playerResources3);
 	}
    
@@ -80,16 +80,16 @@ public class DragonsKnockersTests {
 		String knockers = "Knockers";
 		            
 		dk.setResources(greatDragon);        
-		assertThat(dk.resourceType==ResourceType.GOLD);
-		assertThat(dk.amount==null);
+		assertThat(dk.resourceType).isEqualTo(ResourceType.GOLD);
+		assertThat(dk.amount).isEqualTo(null);
 		
 		dk.setResources(dragon);        
-		assertThat(dk.resourceType==ResourceType.GOLD);
-		assertThat(dk.amount==-1);
+		assertThat(dk.resourceType).isEqualTo(ResourceType.GOLD);
+		assertThat(dk.amount).isEqualTo(-1);
 		    
 		dk.setResources(knockers);        
-		assertThat(dk.resourceType==ResourceType.IRON);
-		assertThat(dk.amount==-1);
+		assertThat(dk.resourceType).isEqualTo(ResourceType.IRON);
+		assertThat(dk.amount).isEqualTo(-1);
 	}
        
 	@Test
@@ -97,32 +97,41 @@ public class DragonsKnockersTests {
 	
 		dk.amount= 1;
 		dk.removeResources(p1,game);        
-		assertThat(playerResources.getGold()==2);
-		
+		assertThat(dk.amount).isEqualTo(1);
+
 		dk.amount=null;
-		dk.removeResources(p1,game);        
-		assertThat(playerResources.getGold()==null);
-	
+		dk.removeResources(p1,game);   
+		assertThat(dk.amount).isEqualTo(-2);	
 	}
 
    
 	@Test
 	@WithMockUser(username = "test") 
 	void testActions() throws Exception {
+
+		Resources oldResources = resourcesService.findByPlayerIdAndGameId(p1.getId(), game.getId()).get();
+		int oldBadges = oldResources.getBadges();		         
+		assertThat(oldBadges).isEqualTo(0);
+
 		dk.actions(p1, "Great Dragon");
+
 		Resources newResources = resourcesService.findByPlayerIdAndGameId(p1.getId(), game.getId()).get();
-		int newBadges = newResources.getBadges();
-		         
+		int newBadges = newResources.getBadges();		         
 		assertThat(newBadges).isEqualTo(1);
 	}
         
 	@Test
 	@WithMockUser(username = "test") 
 	void testActionsNull() throws Exception {
+
+		Resources oldResources = resourcesService.findByPlayerIdAndGameId(p1.getId(), game.getId()).get();
+		int oldGold = oldResources.getGold();		         
+		assertThat(oldGold).isEqualTo(2);
+
 		dk.actions(null, "Great Dragon");
+
 		Resources newResources = resourcesService.findByPlayerIdAndGameId(p1.getId(), game.getId()).get();
-		int newGold = newResources.getGold();
-		         
+		int newGold = newResources.getGold();		         
 		assertThat(newGold).isEqualTo(0);
 	}
 
