@@ -6,16 +6,12 @@ import org.springframework.dwarf.player.Player;
 import org.springframework.stereotype.Component;
 import org.springframework.dwarf.card.StrategyName;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @StrategyPattern.ConcreteStrategy
 @Component
 public class TurnBack implements CardStrategy {
 	
 	@Override
 	public void actions(Player player, String cardName) {
-		log.debug(player.getUsername() + ", con id" + player.getId() + ", ha realizado la accion " + this.getName().toString());
 		
 	}
 

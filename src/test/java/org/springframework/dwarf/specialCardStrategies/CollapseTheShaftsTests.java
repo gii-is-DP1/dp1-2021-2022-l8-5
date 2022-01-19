@@ -55,10 +55,7 @@ public class CollapseTheShaftsTests {
 			List<MountainCard> listacartas = new ArrayList<MountainCard>();
 			listacartas.add(mcs.findByMountainCardId(1).get());
 			listacartas.add(mcs.findByMountainCardId(10).get());
-			for(BoardCell c : board.getBoardCells()) {
-				c.setMountaincards(listacartas);
-			}
-			//board.getBoardCell(1, 0).setMountaincards(listacartas);
+			board.getBoardCell(1, 0).setMountaincards(listacartas);
 			p1 = playerService.findPlayerById(4);
 			
 				

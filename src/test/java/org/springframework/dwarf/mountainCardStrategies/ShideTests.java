@@ -49,7 +49,7 @@ public class ShideTests {
 		void setup() throws Exception {
 
 			game = gameService.findByGameId(2).get();
-
+			game.setMusterAnArmyEffect(false);
 			
 			p1 = playerService.findPlayerById(4);
 			p2 = playerService.findPlayerById(5);
