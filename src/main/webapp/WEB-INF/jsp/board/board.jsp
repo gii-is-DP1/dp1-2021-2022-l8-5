@@ -39,7 +39,7 @@
             </c:forEach>
             
             <c:forEach items="${workers}" var="worker">
-	            <c:if test="${worker.xposition != null && worker.yposition != null}">
+	            <c:if test="${worker.xposition != null && worker.yposition != null && worker.xposition > 0}">
 	           		<dwarf:worker padding="20" xsize="130" ysize="180" worker="${worker}"/>
 	            </c:if>
             </c:forEach>
@@ -50,15 +50,15 @@
          <div class="col-md-3" style="font-size:16px">
 	         <c:if test="${player1 != null}">
 	         	<img src="${player1worker.image}"  width="60" height="60" style="float:left" id="player1IMG"><br>
-				&nbsp; <dwarf:playerInfo player="${player1}" playerNumber="${1}" resources="${resourcesPlayer1}"/><br>
+				&nbsp; <dwarf:playerInfo player="${player1}" playerNumber="${1}" resources="${resourcesPlayer1}" workers="${remainingWorkersPlayer1}"/><br>
 	         </c:if>
 	         <c:if test="${player2 != null}">
 	         	<img src="${player2worker.image}"  width="60" height="60" style="float:left" id="player2IMG"><br>
-				&nbsp; 	<dwarf:playerInfo player="${player2}" playerNumber="${2}" resources="${resourcesPlayer2}"/><br>
+				&nbsp; <dwarf:playerInfo player="${player2}" playerNumber="${2}" resources="${resourcesPlayer2}" workers="${remainingWorkersPlayer2}"/><br>
 	         </c:if>
 	         <c:if test="${player3 != null}">
 	         	<img src="${player3worker.image}"  width="60" height="60" style="float:left" id="player3IMG"><br>
-				&nbsp; <dwarf:playerInfo player="${player3}" playerNumber="${3}" resources="${resourcesPlayer3}"/><br>
+				&nbsp; <dwarf:playerInfo player="${player3}" playerNumber="${3}" resources="${resourcesPlayer3}" workers="${remainingWorkersPlayer3}"/><br>
 	         </c:if>
          </div>
     </div>

@@ -1,44 +1,23 @@
 package org.springframework.dwarf.game;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.BDDMockito.*;
-
-import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dwarf.board.Board;
 import org.springframework.dwarf.board.BoardCell;
-import org.springframework.dwarf.board.BoardCellRepository;
 import org.springframework.dwarf.board.BoardCellService;
 import org.springframework.dwarf.board.BoardService;
-import org.springframework.dwarf.card.CardStrategy;
-import org.springframework.dwarf.card.StrategyName;
-import org.springframework.dwarf.forgesAlloy.ForgesAlloyResources;
-import org.springframework.dwarf.game.Game;
-import org.springframework.dwarf.game.GameService;
-import org.springframework.dwarf.mountainCardStrategies.Shide;
-import org.springframework.dwarf.mountain_card.CardType;
 import org.springframework.dwarf.mountain_card.MountainCard;
 import org.springframework.dwarf.mountain_card.MountainCardService;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
-import org.springframework.dwarf.resources.ResourceType;
-import org.springframework.dwarf.resources.Resources;
-import org.springframework.dwarf.resources.ResourcesService;
-import org.springframework.dwarf.user.User;
-import org.springframework.dwarf.worker.IllegalPositionException;
 import org.springframework.dwarf.worker.Worker;
 import org.springframework.dwarf.worker.WorkerService;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -77,6 +56,7 @@ public class MineralExtractionTests {
 		g = new Game();
 		g.setId(1);
 		g.setCurrentPlayer(p1);
+		g.setFirstPlayer(p1);
 		
 		boardService.createBoard(g);
 
@@ -155,7 +135,7 @@ public class MineralExtractionTests {
 		List<MountainCard> cellcards = bc2.getMountaincards();
 		
 		assertThat(cellcards.size()).isEqualTo(1);
-		
+	
 	}
 	
 	@Test
@@ -198,8 +178,21 @@ public class MineralExtractionTests {
 		
 		workersAfter.stream().forEach(x -> assertThat(x.getXposition()).isNull());
 		workersAfter.stream().forEach(x -> assertThat(x.getYposition()).isNull());
+
+	}
+	@WithMockUser(username = "test")
+	@Test
+	void testPhaseResolutionNegative() {
+		g.setFirstPlayer(null);
+		GamePhaseEnum ogphase = g.getCurrentPhaseName();
 		
+		me.phaseResolution(g);
+		
+		GamePhaseEnum newphase = g.getCurrentPhaseName();
+		
+		assertThat(ogphase).isEqualTo(newphase);
 		
 	}
+	
 
 }

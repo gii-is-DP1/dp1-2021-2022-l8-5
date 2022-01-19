@@ -49,6 +49,8 @@ public class GetHelp implements CardStrategy{
 		
 		if(player.getTurn().equals(1))
 			changePlayerNext(game);
+		
+		
 	}
 
 	protected void changePlayerNext(Game game) {

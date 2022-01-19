@@ -84,8 +84,13 @@ public class WorkerService {
 		workerRepo.delete(worker);
 	}
 	
+	public List<Worker> findPlayerAidWorkers(int pid) {
+		return workerRepo.findAidByPlayerId(pid);
+	}
+	
 	public void deletePlayerWorker(Player player) {
 		Collection<Worker> workers = findByPlayerId(player.getId());
+
 		List<Worker> workersWithPosition = workers.stream()
 				.filter(worker -> worker.getXposition() != null && worker.getYposition() != null)
 				.collect(Collectors.toList());
@@ -100,6 +105,11 @@ public class WorkerService {
 			});
 		}
 		
+		workers.stream().forEach(worker -> delete(worker));
+	}
+	
+	public void deletePlayerAidWorkers(Player player) {
+		List<Worker> workers = findPlayerAidWorkers(player.getId());
 		workers.stream().forEach(worker -> delete(worker));
 	}
 	

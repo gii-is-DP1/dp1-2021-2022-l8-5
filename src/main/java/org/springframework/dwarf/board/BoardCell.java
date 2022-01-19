@@ -28,30 +28,26 @@ public class BoardCell extends BaseEntity{
 	
 	@Range(min= 0, max= 2)
 	Integer yposition;
-	/*
-	@ManyToOne
-	@JoinColumn(name = "BOARD_ID")
-	Board board;
-	*/
+
 	@OneToOne
 	Player occupiedBy;
+	
+	Boolean isDisabled;
 	
 	@ManyToMany
 	List<MountainCard> mountaincards;
 	
 	// para empezar una partida se pide un constructor por defecto
 	public BoardCell() {
-		//this.xposition = 1;
-		//this.yposition = 0;
-		//this.mountaincards = new ArrayList<MountainCard>();
+
 	}
 	
 	public BoardCell(Integer xposition, Integer yposition, List<MountainCard> mountaincards) {
 		this.xposition = xposition;
 		this.yposition = yposition;
 		this.mountaincards = new ArrayList<>(mountaincards);
-		//this.cellOccupied = false;
 		this.occupiedBy = null;
+		this.isDisabled = false;
 	}
 	
 	public boolean isCellOccupied() {
