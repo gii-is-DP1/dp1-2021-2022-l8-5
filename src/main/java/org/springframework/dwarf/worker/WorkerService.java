@@ -90,6 +90,21 @@ public class WorkerService {
 	
 	public void deletePlayerWorker(Player player) {
 		Collection<Worker> workers = findByPlayerId(player.getId());
+
+		List<Worker> workersWithPosition = workers.stream()
+				.filter(worker -> worker.getXposition() != null && worker.getYposition() != null)
+				.collect(Collectors.toList());
+		
+		if(workersWithPosition.size() > 0) {
+			Game game = gameService.findPlayerUnfinishedGames(player).get();
+			Board board = gameService.findBoardByGameId(game.getId()).get();
+			workersWithPosition.stream().forEach(worker -> {
+				BoardCell boardCell = board.getBoardCell(worker.getXposition(), worker.getYposition());
+				boardCell.setOccupiedBy(null);
+				boardCellService.saveBoardCell(boardCell);
+			});
+		}
+		
 		workers.stream().forEach(worker -> delete(worker));
 	}
 	

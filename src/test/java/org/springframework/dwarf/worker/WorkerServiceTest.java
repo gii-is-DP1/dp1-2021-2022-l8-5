@@ -43,7 +43,7 @@ public class WorkerServiceTest {
 	@Test
 	public void testFindAll() {
 		Iterable<Worker> workers = this.workerService.findAll();
-		assertEquals(workers.spliterator().getExactSizeIfKnown(), 2);
+		assertThat(workers.spliterator().getExactSizeIfKnown()).isEqualTo(2);
 	}
 	
 	
@@ -54,7 +54,7 @@ public class WorkerServiceTest {
 		Optional<Worker> Worker = workerService.findByWorkerId(id);
 		System.out.println("------------TEST FIND BY Worker ID------------");
 		Worker p = Worker.orElse(null);
-		assertEquals(p.getXposition(), 1);
+		assertThat(p.getXposition()).isNull();
 	}
 	
 	@Test
