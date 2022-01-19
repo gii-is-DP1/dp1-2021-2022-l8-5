@@ -77,7 +77,7 @@ public class MineralExtractionTests {
 		bc.setOccupiedBy(p1);
 		assertThat(bc.getOccupiedBy()).isNotNull();
 		me.setAndSaveBoardCell(bc);
-		bc = bcs.findByBoardCellId(1).get();
+		bc = bcs.findByBoardCellId(bc.getId()).get();
 		assertThat(bc.getOccupiedBy()).isNull();
 
 	}
