@@ -28,23 +28,38 @@ public class GetHelp implements CardStrategy{
 	private GameService gameService;
 	@Autowired
 	private PlayerService playerService;
+	
+	private static final int MAX_WORKERS = 9;
 
 	@Override
 	public void actions(Player player, String cardName) {
 		
 		Game game = gameService.findPlayerUnfinishedGames(player).get();
-		Worker extraWorker1 = new Worker(player, game, 4);
-		Worker extraWorker2 = new Worker(player, game, 4);
 		
-		try {
-			workerService.saveWorker(extraWorker1);
-		} catch (DataAccessException | IllegalPositionException e) {
-			e.printStackTrace();
-		}
-		try {
-			workerService.saveWorker(extraWorker2);
-		} catch (DataAccessException | IllegalPositionException e) {
-			e.printStackTrace();
+		Integer totalWorkers = workerService.findPlacedByGameId(game.getId()).size()
+				+ workerService.findNotPlacedByGameId(game.getId()).size();
+		
+		//check the amount of workers to not give more workers than tiles
+		
+		if (totalWorkers < MAX_WORKERS-1) {
+			Worker extraWorker1 = new Worker(player, game, 4);
+			Worker extraWorker2 = new Worker(player, game, 4);
+			
+			try {
+				workerService.saveWorker(extraWorker1);
+				workerService.saveWorker(extraWorker2);
+			} catch (DataAccessException | IllegalPositionException e) {
+				e.printStackTrace();
+			}
+			
+		} else if (totalWorkers == MAX_WORKERS-1) {
+			Worker extraWorker1 = new Worker(player, game, 4);
+			
+			try {
+				workerService.saveWorker(extraWorker1);
+			} catch (DataAccessException | IllegalPositionException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		if(player.getTurn().equals(1))
@@ -52,6 +67,7 @@ public class GetHelp implements CardStrategy{
 		
 		
 	}
+	
 
 	protected void changePlayerNext(Game game) {
 		List<Player> turn = game.getTurnList();
