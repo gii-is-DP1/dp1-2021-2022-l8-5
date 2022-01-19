@@ -46,14 +46,14 @@ class MountainCardServiceTests {
 	@Test
 	void ShouldFindAllMountainCards() {
 		Iterable<MountainCard> mountainCards = this.mountainCardService.findAll();
-		assertThat(mountainCards.spliterator().getExactSizeIfKnown()).isEqualTo(18);
+		assertThat(mountainCards.spliterator().getExactSizeIfKnown()).isEqualTo(54);
 	}
 	
 	@Test
 	void shouldFindByGroupCard() {
 		// mirar el numero de cartas que hay del tipo 2 cuando se actualice data.sql (actualmente 6)
-		List<MountainCard> mountainCards = mountainCardService.findByGroupCard(2);
-		assertThat(mountainCards.size()).isEqualTo(6);
+		List<MountainCard> mountainCards = mountainCardService.findByGroupCard(1);
+		assertThat(mountainCards.size()).isEqualTo(9);
 	}
 	
 	@Test
