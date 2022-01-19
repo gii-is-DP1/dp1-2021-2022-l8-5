@@ -45,7 +45,6 @@ public class GameService {
 		return (int) gameRepo.count();
 	}
 	
-	@Transactional(readOnly = true)
 	public Iterable<Game> findAll() {
 		return gameRepo.findAll();
 	}
@@ -80,23 +79,20 @@ public class GameService {
 		return gameRepo.searchPlayerFinishedGames(player);
 	}
 	
-	@Transactional(readOnly = true)
 	public Optional<Board> findBoardByGameId(Integer gameId){
 		return gameRepo.searchBoardByGameId(gameId);
 	}
   
-	@Transactional(readOnly = true)
 	public void delete(Game game) {
 		gameRepo.delete(game);
 	}
 	
-	@Transactional(readOnly = true)
 	public Optional<MountainDeck> searchDeckByGameId(Integer gameId) {
 		return gameRepo.searchDeckByGameId(gameId);
 	}
 	
-	@Transactional
-	public void exit(Game game, Player loggedPlayer) throws DataAccessException {
+	public void exit(Game game) throws DataAccessException {	
+		Player loggedPlayer = LoggedUserController.loggedPlayer();
 		workerService.deletePlayerWorker(loggedPlayer);
 		int playerIndex = game.getPlayerPosition(loggedPlayer);
 		
@@ -128,12 +124,6 @@ public class GameService {
 				e.printStackTrace();
 			}
 		}
-	}
-	
-	@Transactional
-	public void kickOutInactives(Game game) {
-		if(LoggedUserController.loggedPlayer().equals(game.getCurrentPlayer()))
-			this.exit(game, game.getCurrentPlayer());
 	}
 	
 	@Transactional(rollbackFor = CreateGameWhilePlayingException.class)

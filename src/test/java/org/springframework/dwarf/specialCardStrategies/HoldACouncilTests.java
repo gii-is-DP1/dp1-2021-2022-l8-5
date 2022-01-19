@@ -17,7 +17,6 @@ import org.springframework.dwarf.card.StrategyName;
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.mountain_card.MountainCard;
-import org.springframework.dwarf.mountain_card.MountainCardService;
 import org.springframework.dwarf.mountain_card.MountainDeck;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
@@ -47,28 +46,46 @@ public class HoldACouncilTests {
     @Autowired
     private BoardService boardService;
 
-    @Autowired
-    private MountainCardService mountainCardService;
-
     private Player p1;
+    private Player p2;
+    private Player p3;
+    private Resources playerResources;
     private Game game;
     private Board board;
+    private Board board2;
+    // private Board board3;
 
     @BeforeEach
     void setup() throws Exception {
 
         game = gameService.findByGameId(2).get();
 
-        p1 = playerService.findPlayerById(2);
+        p1 = playerService.findPlayerById(6);
+        p2 = playerService.findPlayerById(5);
+        p3 = playerService.findPlayerById(2);
 
-        board = boardService.createBoard(game);
-        List<MountainCard> listacartas = new ArrayList<MountainCard>();
-        listacartas.add(mountainCardService.findByMountainCardId(1).get());
-        listacartas.add(mountainCardService.findByMountainCardId(10).get());
-        for (BoardCell c : board.getBoardCells()) {
-            c.setMountaincards(listacartas);
-        }
-        // board.getBoardCell(1, 0).setMountaincards(listacartas);
+        board = boardService.findByBoardId(2).get();
+
+        playerResources = new Resources(game, p1);
+        playerResources.addResource(ResourceType.GOLD, 2);
+        resourcesService.saveResources(playerResources);
+
+        Resources playerResources2 = new Resources(game, p2);
+        playerResources.addResource(ResourceType.GOLD, 2);
+        resourcesService.saveResources(playerResources2);
+
+        Resources playerResources3 = new Resources(game, p3);
+        playerResources.addResource(ResourceType.GOLD, 2);
+        resourcesService.saveResources(playerResources3);
+
+        List<BoardCell> boardCells = new ArrayList<>();
+        MountainDeck mountainDeck = new MountainDeck();
+        Game game = new Game();
+        List<SpecialDeck> specialDecks = new ArrayList<>();
+
+        board2 = new Board(boardCells, mountainDeck, game, specialDecks);
+
+        // board3 = boardService.createBoard(game);
 
     }
 
@@ -82,40 +99,27 @@ public class HoldACouncilTests {
     @Test
     void testRemoveTopCards() throws Exception {
 
-        List<BoardCell> boardCell1 = board.getBoardCells();
-
         List<MountainCard> removedCardsList = hac.removeTopCards(game, board);
-
         assertThat(!(removedCardsList.isEmpty()));
-        List<BoardCell> boardCell2 = board.getBoardCells();
-        assertThat(boardCell1 != boardCell2);
 
-        removedCardsList = hac.removeTopCards(game, board);
-
+        removedCardsList = hac.removeTopCards(game, board2);
         assertThat((removedCardsList.isEmpty()));
-        List<BoardCell> boardCell3 = board.getBoardCells();
-        assertThat(boardCell2 != boardCell3);
 
-    }
+        // removedCardsList = hac.removeTopCards(game, board3);
+        // assertThat((removedCardsList.isEmpty()));
 
     }
 
     @Test
-       @WithMockUser(username = "test") 
-       void testActions() throws Exception {
-
-        MountainDeck mountainDeck1 = board.getMountainDeck();     
-        
+    @WithMockUser(username = "test")
+    void testActions() throws Exception {
+        Game currentGame = gameService.findPlayerUnfinishedGames(p1).get();
+        Board currentBoard = gameService.findBoardByGameId(currentGame.getId()).get();
+        MountainDeck oldMountainDeck = currentBoard.getMountainDeck();
         hac.actions(p1, "");
+        MountainDeck newMountainDeck = currentBoard.getMountainDeck();
+        assertThat(newMountainDeck != oldMountainDeck);
 
-        MountainDeck mountainDeck2 = board.getMountainDeck();
-        assertThat(mountainDeck1!=mountainDeck2);
-        
-
-        hac.actions(p1, "");
-
-
-        MountainDeck mountainDeck3 = board.getMountainDeck();
-        assertThat(mountainDeck2!=mountainDeck3);
+    }
 
 }

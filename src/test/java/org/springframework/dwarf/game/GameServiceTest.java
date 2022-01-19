@@ -241,15 +241,14 @@ public class GameServiceTest {
 			assertThat(g.getFinishDate()).isNull();
 		}
 	}
-	
-	@ParameterizedTest
-	@ValueSource(ints = {4,5,2})
+
+	@Test
 	@DisplayName("Exit game")
-	void testExitGame(int currentPlayer) {
+	@WithMockUser(username = "test")
+	void testExitGame() {
 		Optional<Game> game = gameService.findByGameId(2);
-		if(!gameService.findByGameId(2).isEmpty()) {
-			Player player = playerService.findPlayerById(currentPlayer);
-			gameService.exit(game.get(),player);
+		if (!gameService.findByGameId(2).isEmpty()) {
+			gameService.exit(game.get());
 			assertThat(game.get().getThirdPlayer()).isNull();
 		} else {
 			System.out.println("Board not found");
