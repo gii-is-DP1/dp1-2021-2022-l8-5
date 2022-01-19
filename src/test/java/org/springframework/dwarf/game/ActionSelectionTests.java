@@ -63,7 +63,7 @@ public class ActionSelectionTests {
 	  GamePhaseEnum name = actionSelection.getPhaseName();
 	  assertThat(name).isEqualTo(GamePhaseEnum.ACTION_SELECTION);
 	}
-	
+	@WithMockUser(username ="test")
 	@Test
 	void testChangeCurrentPlayer() throws Exception {
 		workerService.createPlayerWorkers(p1, g.get(), null);
@@ -75,6 +75,7 @@ public class ActionSelectionTests {
 		assertThat(currentPlayerBefore).isNotEqualTo(currentPlayerAfter);
 	}
 	
+	@WithMockUser(username ="test")
 	@Test
 	void testChangeCurrentPlayerNegative() throws Exception {
 		String currentPlayerBefore = g.get().getCurrentPlayer().getUsername();
