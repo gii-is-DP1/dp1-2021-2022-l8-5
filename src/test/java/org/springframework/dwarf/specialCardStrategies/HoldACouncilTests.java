@@ -1,6 +1,7 @@
 package org.springframework.dwarf.specialCardStrategies;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +19,9 @@ import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.mountain_card.MountainCard;
 import org.springframework.dwarf.mountain_card.MountainCardService;
-import org.springframework.dwarf.mountain_card.MountainDeck;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
-import org.springframework.dwarf.resources.ResourceType;
-import org.springframework.dwarf.resources.Resources;
 import org.springframework.dwarf.resources.ResourcesService;
-import org.springframework.dwarf.special_card.SpecialDeck;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -69,7 +66,6 @@ public class HoldACouncilTests {
        for(BoardCell c : board.getBoardCells()) {
            c.setMountaincards(listacartas);
        }
-       //board.getBoardCell(1, 0).setMountaincards(listacartas);
 
    }
 
@@ -85,20 +81,20 @@ public class HoldACouncilTests {
     void testRemoveTopCards() throws Exception {
 
 	
-		List<BoardCell> boardCell1 = board.getBoardCells();
+		MountainCard boardCell1 = board.getBoardCells().get(0).getMountaincards().get(0);
         
         List<MountainCard> removedCardsList = hac.removeTopCards(game, board);
         
-        assertThat(!(removedCardsList.isEmpty())); //La primera lista que obtiene no es vacía ya que el tablero tiene boardCells con más de 1 carta
-        List<BoardCell> boardCell2 = board.getBoardCells();
-        assertThat(boardCell1!=boardCell2); //No son iguales ya que hemos eliminado las cartas de antes de cada celda del tablero
+        assertTrue(!(removedCardsList.isEmpty())); //La primera lista que obtiene no es vacía ya que el tablero tiene boardCells con más de 1 carta
+        MountainCard boardCell2 = board.getBoardCells().get(0).getMountaincards().get(0);
+        assertThat(boardCell1).isNotEqualTo(boardCell2);   //No son iguales ya que hemos eliminado las cartas de antes de cada celda del tablero
         
 
         removedCardsList = hac.removeTopCards(game, board);
 
-        assertThat((removedCardsList.isEmpty())); //La lista que obtiene es vacía ya que el tablero no tiene boardCells con más de 1 carta
-        List<BoardCell> boardCell3 = board.getBoardCells();
-        assertThat(boardCell2==boardCell3); //Son iguales ya que no hemos eliminado ninguna carta de las celdas
+        assertTrue((removedCardsList.isEmpty())); //La lista que obtiene es vacía ya que el tablero no tiene boardCells con más de 1 carta
+        MountainCard boardCell3 = board.getBoardCells().get(0).getMountaincards().get(0);
+        assertThat(boardCell2).isEqualTo(boardCell3); //Son iguales ya que no hemos eliminado ninguna carta de las celdas
        }
 
 
@@ -106,19 +102,21 @@ public class HoldACouncilTests {
        @WithMockUser(username = "test") 
        void testActions() throws Exception {
 
-        MountainDeck mountainDeck1 = board.getMountainDeck();     
+        Integer mountainDeckSize1 = board.getMountainDeck().getMountainCards().size();
+        MountainCard lastCard1 = board.getMountainDeck().getMountainCards().get(mountainDeckSize1-1);
         
         hac.actions(p1, "");
 
-        MountainDeck mountainDeck2 = board.getMountainDeck();
-        assertThat(mountainDeck1!=mountainDeck2);
+        Integer mountainDeckSize2 = board.getMountainDeck().getMountainCards().size();
+        MountainCard lastCard2 = board.getMountainDeck().getMountainCards().get(mountainDeckSize2-1);
+        assertThat(lastCard1).isNotEqualTo(lastCard2);
         
 
         hac.actions(p1, "");
 
-
-        MountainDeck mountainDeck3 = board.getMountainDeck();
-        assertThat(mountainDeck2==mountainDeck3);
+        Integer mountainDeckSize3 = board.getMountainDeck().getMountainCards().size();
+        MountainCard lastCard3 = board.getMountainDeck().getMountainCards().get(mountainDeckSize3-1);
+        assertThat(lastCard2).isEqualTo(lastCard3);
 
           }
     
