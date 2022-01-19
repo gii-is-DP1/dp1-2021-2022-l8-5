@@ -27,7 +27,7 @@ public class OrcRaiders implements CardStrategy{
 	public void actions(Player player, String cardName) throws Exception {
 		Player loggedUser = LoggedUserController.loggedPlayer();
 		Game game = gameService.findByGameId(gameService.getCurrentGameId(loggedUser)).get();
-		boolean defended = player != null || game.getMusterAnArmyEffect();
+		Boolean defended = player != null || game.getMusterAnArmyEffect();
 		
 		if(!defended) {
 			game.setCanResolveActions(false);
