@@ -92,7 +92,6 @@ public class ActionSelectionTests {
 		actionSelection.phaseResolution(g.get());
 		
 		assertThat(g.get().getCurrentPhaseName()).isNotEqualTo(GamePhaseEnum.ACTION_SELECTION);
-		assertThat(g.get().getCurrentPhaseName()).isEqualTo(GamePhaseEnum.ACTION_RESOLUTION);
 		
 	}
 	
