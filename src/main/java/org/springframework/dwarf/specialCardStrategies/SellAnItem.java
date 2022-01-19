@@ -39,7 +39,7 @@ public class SellAnItem implements CardStrategy {
 		}
 	}
 	
-	private void setResourcesToPlayer(Resources resources) {
+	protected void setResourcesToPlayer(Resources resources) {
 		Map<ResourceType, Integer> resourcesRecieved = this.giveRandomResources();
 		
 		for(ResourceType type: resourcesRecieved.keySet()) {
@@ -51,7 +51,7 @@ public class SellAnItem implements CardStrategy {
 		}
 	}
 	
-	private Map<ResourceType, Integer> giveRandomResources() {
+	protected Map<ResourceType, Integer> giveRandomResources() {
 		Map<ResourceType, Integer> resources = new HashMap<ResourceType, Integer>();
 		resources.put(ResourceType.IRON, 0);
 		resources.put(ResourceType.GOLD, 0);
