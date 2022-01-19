@@ -84,7 +84,7 @@ public class MineralExtraction implements GamePhase{
 		}
 	}
 	
-	private void deleteAidWorkers(Game game) {
+	protected void deleteAidWorkers(Game game) {
 		for (Player player : game.getPlayersList()) {
 			workerService.deletePlayerAidWorkers(player);
 		}
