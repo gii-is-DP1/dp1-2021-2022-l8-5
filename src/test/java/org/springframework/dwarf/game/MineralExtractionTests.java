@@ -157,7 +157,7 @@ public class MineralExtractionTests {
 		List<MountainCard> cellcards = bc2.getMountaincards();
 		
 		assertThat(cellcards.size()).isEqualTo(1);
-		
+	
 	}
 	
 	@Test
@@ -213,6 +213,49 @@ public class MineralExtractionTests {
 		GamePhaseEnum newphase = g.getCurrentPhaseName();
 		
 		assertThat(ogphase).isEqualTo(newphase);
+		
+	}
+	
+	@Test
+	void testSetCardNegative2() {
+		
+		BoardCell bc = bcs.createBoardCell(1, 0);
+		MountainCard mc = mountainCardService.findInitialCardByPosition(2, 1);
+	
+		mc.setName("je suis un espion");
+		
+		me.setCard(mc, bc);
+		
+		BoardCell bc2 = bcs.findByBoardCellId(bc.getId()).get();
+		
+		List<MountainCard> cellcards = bc2.getMountaincards();
+		
+		assertThat(cellcards.size()).isEqualTo(1);
+		
+	}
+	
+	@Test
+	void testRemoveWorkers() {
+		List<Worker> workers = workerService.findPlacedByGameId(1);
+		
+		workers.stream().forEach(x -> x.setXposition(0));
+		workers.stream().forEach(x -> {
+			try {
+				workerService.saveWorker(x);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+	
+		workers.stream().forEach(x -> assertThat(x.getXposition()).isNotNull());
+		workers.stream().forEach(x -> assertThat(x.getYposition()).isNotNull());
+		
+		me.removeWorkers(g);
+		
+		List<Worker> workersAfter = workerService.findPlacedByGameId(1);
+		
+		workersAfter.stream().forEach(x -> assertThat(x.getXposition()).isNull());
+		workersAfter.stream().forEach(x -> assertThat(x.getYposition()).isNull());
 		
 		
 	}
