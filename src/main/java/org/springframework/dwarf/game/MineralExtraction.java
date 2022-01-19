@@ -73,7 +73,7 @@ public class MineralExtraction implements GamePhase{
     	game.setPhase(GamePhaseEnum.ACTION_SELECTION);
     }
 	
-	private void removeWorkers(Game game) {
+	protected void removeWorkers(Game game) {
 		List<Worker> workersPlaced = workerService.findPlacedByGameId(game.getId());
 		Board board = gameService.findBoardByGameId(game.getId()).get();
 		for(Worker worker: workersPlaced) {
