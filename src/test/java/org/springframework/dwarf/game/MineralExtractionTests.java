@@ -15,23 +15,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dwarf.board.Board;
 import org.springframework.dwarf.board.BoardCell;
 import org.springframework.dwarf.board.BoardCellRepository;
 import org.springframework.dwarf.board.BoardCellService;
 import org.springframework.dwarf.board.BoardService;
+import org.springframework.dwarf.card.CardStrategy;
 import org.springframework.dwarf.card.StrategyName;
 import org.springframework.dwarf.forgesAlloy.ForgesAlloyResources;
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.mountainCardStrategies.Shide;
+import org.springframework.dwarf.mountain_card.CardType;
 import org.springframework.dwarf.mountain_card.MountainCard;
+import org.springframework.dwarf.mountain_card.MountainCardService;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
 import org.springframework.dwarf.resources.ResourceType;
 import org.springframework.dwarf.resources.Resources;
 import org.springframework.dwarf.resources.ResourcesService;
 import org.springframework.dwarf.user.User;
+import org.springframework.dwarf.worker.IllegalPositionException;
 import org.springframework.dwarf.worker.Worker;
 import org.springframework.dwarf.worker.WorkerService;
 import org.springframework.stereotype.Component;
@@ -51,16 +56,29 @@ public class MineralExtractionTests {
 
 	@Autowired
 	private WorkerService workerService;
+	
+	@MockBean
+	private BoardService boardService;
+
+	@Autowired
+	private MountainCardService mountainCardService;
 
 	@Autowired
 	private BoardService bs;
 
 	private Player p1;
+	
+	private Game g;
 
 	@BeforeEach
 	void setup() throws Exception {
 
 		p1 = playerService.findPlayerById(4);
+		g = new Game();
+		g.setId(1);
+		g.setCurrentPlayer(p1);
+		
+		boardService.createBoard(g);
 
 	}
 
@@ -98,28 +116,90 @@ public class MineralExtractionTests {
 		assertThat(ypos2).isNull();
 		
 	}
-/*
+
 	@Test
 	void testSetCard() {
-		BoardCell bc = bcs.createBoardCell(1, 0);
-		MountainCard mc = new MountainCard();
-		mc.setXPosition(bc.getXposition());
-		mc.setYPosition(bc.getYposition());
 		
+		BoardCell bc = bcs.createBoardCell(1, 0);
+		MountainCard mc = mountainCardService.findInitialCardByPosition(1, 0);
+	
 		mc.setName("je suis un espion");
 		
 		me.setCard(mc, bc);
 		
 		BoardCell bc2 = bcs.findByBoardCellId(bc.getId()).get();
 		
-		List<MountainCard> cellcards = bc2.getMountaincards();;
+		List<MountainCard> cellcards = bc2.getMountaincards();
+		
+		assertThat(cellcards.size()).isEqualTo(2);
 		
 		MountainCard mc2 = cellcards.get(0);
 		
-		assertThat(mc2.getXPosition()).isEqualTo(mc.getXPosition());
+		assertThat(bc2.getMountaincards().get(0).getName()).isEqualTo("je suis un espion");
 		
-		//assertThat(bc2.getMountaincards().get(0).getName()).isEqualTo("je suis un espion");
+	}
+	
+
+	@Test
+	void testSetCardNegative() {
 		
-	}*/
+		BoardCell bc = bcs.createBoardCell(1, 0);
+		MountainCard mc = mountainCardService.findInitialCardByPosition(1, 1);
+	
+		mc.setName("je suis un espion");
+		
+		me.setCard(mc, bc);
+		
+		BoardCell bc2 = bcs.findByBoardCellId(bc.getId()).get();
+		
+		List<MountainCard> cellcards = bc2.getMountaincards();
+		
+		assertThat(cellcards.size()).isEqualTo(1);
+		
+	}
+	
+	@Test
+	void testSetCardNegative2() {
+		
+		BoardCell bc = bcs.createBoardCell(1, 0);
+		MountainCard mc = mountainCardService.findInitialCardByPosition(2, 1);
+	
+		mc.setName("je suis un espion");
+		
+		me.setCard(mc, bc);
+		
+		BoardCell bc2 = bcs.findByBoardCellId(bc.getId()).get();
+		
+		List<MountainCard> cellcards = bc2.getMountaincards();
+		
+		assertThat(cellcards.size()).isEqualTo(1);
+		
+	}
+	
+	@Test
+	void testRemoveWorkers() {
+		List<Worker> workers = workerService.findPlacedByGameId(1);
+		
+		workers.stream().forEach(x -> x.setXposition(0));
+		workers.stream().forEach(x -> {
+			try {
+				workerService.saveWorker(x);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+	
+		workers.stream().forEach(x -> assertThat(x.getXposition()).isNotNull());
+		workers.stream().forEach(x -> assertThat(x.getYposition()).isNotNull());
+		
+		me.removeWorkers(g);
+		
+		List<Worker> workersAfter = workerService.findPlacedByGameId(1);
+		
+		workersAfter.stream().forEach(x -> assertThat(x.getXposition()).isNull());
+		workersAfter.stream().forEach(x -> assertThat(x.getYposition()).isNull());
+		
+		
+	}
 
 }
