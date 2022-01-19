@@ -38,18 +38,23 @@ public class Apprentice implements CardStrategy {
 		Board board = gameService.findBoardByGameId(currentGame.getId()).get();
 		
 		BoardCell boardCell = this.searchBoardCell(board);
-		this.placeWorker(player, boardCell);
+		if(boardCell != null)
+			this.placeWorker(player, boardCell);
 	}
 	
 	private BoardCell searchBoardCell(Board board) {
 		List<BoardCell> cells = board.getBoardCells();
 		
-		cells = cells.stream()
+		int indexCell = -1;
+		if(cells.size() > 0) {
+			cells = cells.stream()
 				.filter(cell -> cell.getOccupiedBy() != null)
 				.collect(Collectors.toList());
-		int indexCell = (int) Math.floor(Math.random()*(cells.size()-1));
+			indexCell = (int) Math.floor(Math.random()*(cells.size()-1));
+		}
 		
-		return cells.get(indexCell);
+		BoardCell cell = indexCell==-1 ? null:cells.get(indexCell);
+		return cell;
 	}
 	
 	private void placeWorker(Player player, BoardCell boardCell) {
