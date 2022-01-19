@@ -18,6 +18,7 @@ import org.springframework.dwarf.game.GameService;
 @StrategyPattern.ConcreteStrategy
 @Component
 public class OrcRaiders implements CardStrategy{
+	
 	@Autowired
 	private GameService gameService;
 	@Autowired

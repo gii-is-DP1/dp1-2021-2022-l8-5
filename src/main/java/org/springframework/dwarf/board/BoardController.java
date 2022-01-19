@@ -214,8 +214,10 @@ public class BoardController {
 	        	modelMap.addAttribute("resourcesPlayer" + (i+1), resourcesPlayer);
 	        	List<Worker> playerWorkers = workerService.findByPlayerId(p.getId()).stream().collect(Collectors.toList());
 	        	workers.addAll(playerWorkers);
+	        	List<Worker> notPlaced = workerService.findNotPlacedByPlayerIdAndGameId(p.getId(), game.getId());
 	        	Worker playerWorker = playerWorkers.get(0);
 	        	modelMap.addAttribute("player" + (i+1) + "worker", playerWorker);
+	        	modelMap.addAttribute("remainingWorkersPlayer" + (i+1), notPlaced.size());
     		}
     	}
     	modelMap.addAttribute("workers" , workers);

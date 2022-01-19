@@ -84,20 +84,17 @@ public class WorkerService {
 		workerRepo.delete(worker);
 	}
 	
+	public List<Worker> findPlayerAidWorkers(int pid) {
+		return workerRepo.findAidByPlayerId(pid);
+	}
+	
 	public void deletePlayerWorker(Player player) {
 		Collection<Worker> workers = findByPlayerId(player.getId());
-		List<Worker> workersWithPosition = workers.stream()
-				.filter(worker -> worker.getXposition() != null && worker.getYposition() != null)
-				.collect(Collectors.toList());
-		Game game = gameService.findPlayerUnfinishedGames(player).orElse(null);
-		
-		if(game != null) {
-			Board board = gameService.findBoardByGameId(game.getId()).orElse(null);
-			if(board != null) {
-				List<BoardCell> boardCells = board.getBoardCells();
-			}
-		}
-		
+		workers.stream().forEach(worker -> delete(worker));
+	}
+	
+	public void deletePlayerAidWorkers(Player player) {
+		List<Worker> workers = findPlayerAidWorkers(player.getId());
 		workers.stream().forEach(worker -> delete(worker));
 	}
 	

@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 import org.jpatterns.gof.StatePattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dwarf.board.Board;
 import org.springframework.dwarf.board.BoardCell;
 import org.springframework.dwarf.board.BoardCellActionsComparator;
@@ -23,6 +22,7 @@ import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.resources.ResourceType;
 import org.springframework.dwarf.resources.Resources;
 import org.springframework.dwarf.resources.ResourcesService;
+import org.springframework.dwarf.worker.WorkerService;
 import org.springframework.stereotype.Component;
 
 @StatePattern.ConcreteState
@@ -36,6 +36,8 @@ public class ActionResolution implements GamePhase{
     @Autowired
     private ResourcesService resourcesService;
     @Autowired
+    private WorkerService workerService;
+    @Autowired
     private ApplicationContext applicationContext;
     
     private static final int FINAL_GAME_ROUND = 6;
@@ -48,9 +50,16 @@ public class ActionResolution implements GamePhase{
 		for(BoardCell cell: cellsToResolve) {
 			Player player = cell.getOccupiedBy();
 			MountainCard mountainCard = cell.getMountaincards().get(0);
-			// check orc raiders effect
-			if(this.canResolveAction(game, mountainCard))
+			if(this.canResolveAction(game, mountainCard) && !cell.getIsDisabled())
 				mountainCard.cardAction(player, applicationContext, false);
+
+				if (workerService.findNotPlacedAidByGameId(game.getId()).size() > 0) {
+					cell.setIsDisabled(true);
+					boardCellService.saveBoardCell(cell);
+					game.setPhase(GamePhaseEnum.ACTION_SELECTION);
+					gameService.saveGame(game);
+				}
+			
 		}
 		
 		game.setCanResolveActions(true);
@@ -78,7 +87,7 @@ public class ActionResolution implements GamePhase{
 	
 	private Boolean hasFourItems(Game game) {
 		return resourcesService.findByGameId(game.getId()).stream()
-				.filter(resource -> resource.getItems() <= 4)
+				.filter(resource -> resource.getItems() >= 4)
 				.collect(Collectors.toList()).size() >= 1;
 	}
 	
