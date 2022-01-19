@@ -16,13 +16,13 @@ import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 public class BoardCellServiceTest {
-	
+
 	@Autowired
 	private BoardCellService boardCellService;
-	
+
 	@Autowired
 	private MountainCardService mountainCardService;
-	
+
 	@Test
 	@DisplayName("Save a board cell")
 	void testSaveBoardCell() {
@@ -31,14 +31,14 @@ public class BoardCellServiceTest {
 		Integer xposition = 1;
 		Integer yposition = 0;
 		BoardCell cell = new BoardCell(xposition, yposition, List.of(card));
-		
+
 		this.boardCellService.saveBoardCell(cell);
-		
+
 		long cellsAfterSave = this.boardCellService.count();
-		
-		assertThat(cellsFound+1).isEqualTo(cellsAfterSave);
+
+		assertThat(cellsFound + 1).isEqualTo(cellsAfterSave);
 	}
-	
+
 	@Test
 	@DisplayName("Find all board cells")
 	void testFindAllBoardCells() {
@@ -47,7 +47,7 @@ public class BoardCellServiceTest {
 				.getExactSizeIfKnown();
 		assertThat(boardCellsFound).isEqualTo(this.boardCellService.count());
 	}
-	
+
 	@Test
 	@DisplayName("Returns a board cell by its Id correctly")
 	void testFindByBoardCellId() {
@@ -55,42 +55,42 @@ public class BoardCellServiceTest {
 		Integer xposition = 1;
 		Integer yposition = 0;
 		BoardCell cell = new BoardCell(xposition, yposition, List.of(card));
-		
+
 		this.boardCellService.saveBoardCell(cell);
-		
+
 		Optional<BoardCell> cellById = this.boardCellService.findByBoardCellId(cell.getId());
-		
+
 		assertThat(cellById.isPresent()).isTrue();
 	}
-	
+
 	@Test
 	@DisplayName("Create a board cell")
 	void testCreateBoardCell() {
 		Long cellsFound = this.boardCellService.count();
 		Integer xposition = 2;
 		Integer yposition = 0;
-		
+
 		this.boardCellService.createBoardCell(xposition, yposition);
-		
+
 		Long cellsAfterCreate = this.boardCellService.count();
-		
-		assertThat(cellsFound+1).isEqualTo(cellsAfterCreate);
-		
+
+		assertThat(cellsFound + 1).isEqualTo(cellsAfterCreate);
+
 	}
-	
+
 	@Test
 	@DisplayName("Delete a board cell")
 	void testDeleteBoardCell() {
 		Integer xposition = 2;
 		Integer yposition = 0;
 		BoardCell boardCell = this.boardCellService.createBoardCell(xposition, yposition);
-		
+
 		Long cellsFound = this.boardCellService.count();
-		
+
 		this.boardCellService.delete(boardCell);
-		
+
 		Long cellsAfterDelete = this.boardCellService.count();
-		
-		assertThat(cellsFound-1).isEqualTo(cellsAfterDelete);
+
+		assertThat(cellsFound - 1).isEqualTo(cellsAfterDelete);
 	}
 }

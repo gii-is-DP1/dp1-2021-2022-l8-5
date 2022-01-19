@@ -31,52 +31,49 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@DataJpaTest(includeFilters = @ComponentScan.Filter(value= {Service.class, Component.class}))
+@DataJpaTest(includeFilters = @ComponentScan.Filter(value = { Service.class, Component.class }))
 public class SeamTests {
-	
+
 	@Autowired
-    protected Seam sm;
-	 
-	 @Autowired
-    ResourcesService resourcesService;
-	 
+	protected Seam sm;
+
+	@Autowired
+	ResourcesService resourcesService;
+
 	@Autowired
 	private PlayerService playerService;
-	
+
 	@Autowired
 	private GameService gameService;
-	
+
 	private Player p1;
 	private Player p2;
 	private Player p3;
-	 
-	 private Game game;
+
+	private Game game;
 
 	@BeforeEach
 	void setup() throws Exception {
 
 		game = gameService.findByGameId(2).get();
 
-		
 		p1 = playerService.findPlayerById(4);
 		p2 = playerService.findPlayerById(5);
 		p3 = playerService.findPlayerById(2);
-		
-	
+
 		Resources playerResources = new Resources(game, p1);
 		playerResources.addResource(ResourceType.GOLD, 0);
 		playerResources.addResource(ResourceType.IRON, 0);
 		resourcesService.saveResources(playerResources);
 	}
 
-	
 	@Test
 	void testGetName() {
-	  StrategyName name = sm.getName();
-	  assertThat(name).isEqualTo(StrategyName.SEAM);
-	  
-		}
-	
+		StrategyName name = sm.getName();
+		assertThat(name).isEqualTo(StrategyName.SEAM);
+
+	}
+
 	@Test
 	void testSetResourcesIron() {
 		sm.setResources("Iron Seam");
@@ -85,8 +82,8 @@ public class SeamTests {
 		assertThat(newType).isEqualTo(ResourceType.IRON);
 		assertThat(newAmountToAdd).isEqualTo(3);
 
-		}
-	
+	}
+
 	@Test
 	void testSetResourcesGold() {
 		sm.setResources("Gold Seam");
@@ -95,22 +92,22 @@ public class SeamTests {
 		assertThat(newType).isEqualTo(ResourceType.GOLD);
 		assertThat(newAmountToAdd).isEqualTo(1);
 
-		}
-	
+	}
+
 	@Test
 	void testSetResourcesNegative() {
 		sm.setResources("");
 		ResourceType newType = sm.resource;
 		Integer newAmountToAdd = sm.amountToAdd;
 		if (newType.equals(ResourceType.IRON)) {
-		assertThat(newAmountToAdd).isEqualTo(3);
+			assertThat(newAmountToAdd).isEqualTo(3);
 
 		} else {
 			assertThat(newAmountToAdd).isEqualTo(1);
 		}
-		
-		}
-	
+
+	}
+
 	@Test
 	void testActions() throws Exception {
 		Resources initialResources = resourcesService.findByPlayerIdAndGameId(p1.getId(), game.getId()).get();
@@ -123,5 +120,5 @@ public class SeamTests {
 		assertThat(initialIron).isEqualTo(0);
 		assertThat(newIron).isEqualTo(3);
 
-		}
+	}
 }

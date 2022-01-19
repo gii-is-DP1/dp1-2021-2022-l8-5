@@ -35,16 +35,16 @@ import org.springframework.dwarf.user.User;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@DataJpaTest(includeFilters = @ComponentScan.Filter(value= {Service.class, Component.class}))
+@DataJpaTest(includeFilters = @ComponentScan.Filter(value = { Service.class, Component.class }))
 public class TurnBackTests {
-	
-	   @Autowired
-	   protected TurnBack tb;
 
-	   @Test
-	   void testGetName() {
-		   StrategyName name = tb.getName();
-	        assertThat(name).isEqualTo(StrategyName.TURN_BACK);
-	   }
+	@Autowired
+	protected TurnBack tb;
+
+	@Test
+	void testGetName() {
+		StrategyName name = tb.getName();
+		assertThat(name).isEqualTo(StrategyName.TURN_BACK);
+	}
 
 }

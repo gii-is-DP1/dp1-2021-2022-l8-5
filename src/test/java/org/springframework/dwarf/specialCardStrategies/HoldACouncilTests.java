@@ -28,75 +28,73 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@DataJpaTest(includeFilters = @ComponentScan.Filter(value= {Service.class, Component.class}))
+@DataJpaTest(includeFilters = @ComponentScan.Filter(value = { Service.class, Component.class }))
 public class HoldACouncilTests {
 
-   @Autowired
-   protected HoldACouncil hac;
-    
-   @Autowired
-   ResourcesService resourcesService;
-    
-   @Autowired
-   private PlayerService playerService;
-   
-   @Autowired
-   private GameService gameService;
+    @Autowired
+    protected HoldACouncil hac;
 
-   @Autowired
-   private BoardService boardService;
-   
-   
-   private Player p1;
-   private Player p2;
-   private Player p3;
-   private Resources playerResources;
-   private Game game;
-   private Board board;
-   private Board board2;
-   //private Board board3;
+    @Autowired
+    ResourcesService resourcesService;
 
-   @BeforeEach
-   void setup() throws Exception {
+    @Autowired
+    private PlayerService playerService;
 
-       game = gameService.findByGameId(2).get();
-       
-       p1 = playerService.findPlayerById(6);
-       p2 = playerService.findPlayerById(5);
-       p3 = playerService.findPlayerById(2);
-       
-       board = boardService.findByBoardId(2).get();
-   
-       playerResources = new Resources(game, p1);
-       playerResources.addResource(ResourceType.GOLD, 2);
-       resourcesService.saveResources(playerResources);
-       
-       Resources playerResources2 = new Resources(game, p2);
-       playerResources.addResource(ResourceType.GOLD, 2);
-       resourcesService.saveResources(playerResources2);
-       
-       Resources playerResources3 = new Resources(game, p3);
-       playerResources.addResource(ResourceType.GOLD, 2);
-       resourcesService.saveResources(playerResources3);
+    @Autowired
+    private GameService gameService;
 
-       List<BoardCell> boardCells = new ArrayList<>();
-       MountainDeck mountainDeck = new MountainDeck();
-       Game game = new Game();
-       List<SpecialDeck> specialDecks = new ArrayList<>();
+    @Autowired
+    private BoardService boardService;
 
-       board2 = new Board(boardCells, mountainDeck, game, specialDecks);
+    private Player p1;
+    private Player p2;
+    private Player p3;
+    private Resources playerResources;
+    private Game game;
+    private Board board;
+    private Board board2;
+    // private Board board3;
 
-      // board3 = boardService.createBoard(game);
+    @BeforeEach
+    void setup() throws Exception {
 
-   }
+        game = gameService.findByGameId(2).get();
+
+        p1 = playerService.findPlayerById(6);
+        p2 = playerService.findPlayerById(5);
+        p3 = playerService.findPlayerById(2);
+
+        board = boardService.findByBoardId(2).get();
+
+        playerResources = new Resources(game, p1);
+        playerResources.addResource(ResourceType.GOLD, 2);
+        resourcesService.saveResources(playerResources);
+
+        Resources playerResources2 = new Resources(game, p2);
+        playerResources.addResource(ResourceType.GOLD, 2);
+        resourcesService.saveResources(playerResources2);
+
+        Resources playerResources3 = new Resources(game, p3);
+        playerResources.addResource(ResourceType.GOLD, 2);
+        resourcesService.saveResources(playerResources3);
+
+        List<BoardCell> boardCells = new ArrayList<>();
+        MountainDeck mountainDeck = new MountainDeck();
+        Game game = new Game();
+        List<SpecialDeck> specialDecks = new ArrayList<>();
+
+        board2 = new Board(boardCells, mountainDeck, game, specialDecks);
+
+        // board3 = boardService.createBoard(game);
+
+    }
 
     @Test
     void testGetName() {
         StrategyName name = hac.getName();
         assertThat(name).isEqualTo(StrategyName.HOLD_A_COUNCIL);
- 
+
     }
-    
 
     @Test
     void testRemoveTopCards() throws Exception {
@@ -107,23 +105,21 @@ public class HoldACouncilTests {
         removedCardsList = hac.removeTopCards(game, board2);
         assertThat((removedCardsList.isEmpty()));
 
-        //removedCardsList = hac.removeTopCards(game, board3);
-        //assertThat((removedCardsList.isEmpty()));
+        // removedCardsList = hac.removeTopCards(game, board3);
+        // assertThat((removedCardsList.isEmpty()));
 
+    }
 
-       }
-
-
-       @Test
-       @WithMockUser(username = "test") 
-       void testActions() throws Exception {
+    @Test
+    @WithMockUser(username = "test")
+    void testActions() throws Exception {
         Game currentGame = gameService.findPlayerUnfinishedGames(p1).get();
-		Board currentBoard = gameService.findBoardByGameId(currentGame.getId()).get();		
-		MountainDeck oldMountainDeck = currentBoard.getMountainDeck();        
+        Board currentBoard = gameService.findBoardByGameId(currentGame.getId()).get();
+        MountainDeck oldMountainDeck = currentBoard.getMountainDeck();
         hac.actions(p1, "");
-        MountainDeck newMountainDeck = currentBoard.getMountainDeck();  
-        assertThat(newMountainDeck!=oldMountainDeck);
+        MountainDeck newMountainDeck = currentBoard.getMountainDeck();
+        assertThat(newMountainDeck != oldMountainDeck);
 
-          }
-    
+    }
+
 }
