@@ -12,16 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dwarf.board.Board;
-import org.springframework.dwarf.board.BoardCell;
-import org.springframework.dwarf.board.BoardCellService;
 import org.springframework.dwarf.board.BoardService;
 import org.springframework.dwarf.card.StrategyName;
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.mountain_card.MountainCard;
 import org.springframework.dwarf.mountain_card.MountainCardService;
-import org.springframework.dwarf.player.Player;
-import org.springframework.dwarf.player.PlayerService;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -36,17 +32,12 @@ public class CollapseTheShaftsTests {
 		@Autowired
 		private GameService gs;
 		@Autowired
-		private BoardCellService bcs;
-		@Autowired
 		private BoardService bs;
 		@Autowired
 		private MountainCardService mcs;
-		@Autowired
-		private PlayerService playerService;
 		
 		private Board board;
 		
-		private Player p1;
 		
 		@BeforeEach
 		void setup() throws Exception {
@@ -56,7 +47,6 @@ public class CollapseTheShaftsTests {
 			listacartas.add(mcs.findByMountainCardId(1).get());
 			listacartas.add(mcs.findByMountainCardId(10).get());
 			board.getBoardCell(1, 0).setMountaincards(listacartas);
-			p1 = playerService.findPlayerById(4);
 			
 				
 		}
