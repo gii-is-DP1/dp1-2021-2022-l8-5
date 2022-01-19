@@ -13,8 +13,10 @@ public class TurnBack implements CardStrategy {
 	@Override
 	public void actions(Player player, String cardName) {
 
-	//Remove the top card from 1 location and suffle it back into the mountain
+	//Remove the top card from 1 location and shuffle it back into the mountain
 	//Immediatly place 1 worker on that location
+		
+	
 
 		
 	}
