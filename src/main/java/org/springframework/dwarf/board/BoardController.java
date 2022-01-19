@@ -69,6 +69,7 @@ public class BoardController {
     private ApplicationContext applicationContext;
     
     private static final Integer REFRESH_TIME = 4;
+    private static final LocalTime INACTIVITY_TIMER = LocalTime.of(0, 1);
     
     private boolean boardPageLoaded;
 	
@@ -131,7 +132,9 @@ public class BoardController {
    			return "redirect:/games/" + gameId + "/gameClassification";
     	
     	Board board = boardService.findByBoardId(boardId).get();
-    	this.updateInactivityTimer(board, game);
+    	String kickOutRedirect = this.updateInactivityTimer(board, game);
+    	if(!kickOutRedirect.equals(""))
+    		return kickOutRedirect;
 		Player myplayer = LoggedUserController.loggedPlayer();
 		
 		modelMap = this.setCanUseSpecial(modelMap, myplayer.getId(), gameId);
@@ -164,13 +167,22 @@ public class BoardController {
     	return view;
     }
     
-    private void updateInactivityTimer(Board board, Game game) {
+    private String updateInactivityTimer(Board board, Game game) {
     	if(game.getCurrentPhaseName().equals(GamePhaseEnum.ACTION_SELECTION)
     			&& game.getFirstPlayer().equals(LoggedUserController.loggedPlayer())) {
     		LocalTime updateTimer = board.getInactivityTimer().plusSeconds(-REFRESH_TIME);
 	    	board.setInactivityTimer(updateTimer);
 	    	boardService.saveBoard(board);
     	}
+    	
+    	if(INACTIVITY_TIMER.isBefore(board.getInactivityTimer()) || board.getInactivityTimer().equals(LocalTime.of(0, 0))) {
+    		board.setInactivityTimer(INACTIVITY_TIMER);
+    		boardService.saveBoard(board);
+    		gameService.kickOutInactives(game);
+    		return "redirect:/games/searchGames";
+    	}
+    		
+    	return "";
     }
     
     private ModelMap setCanUseSpecial(ModelMap modelMap, int pid, int gid) {
