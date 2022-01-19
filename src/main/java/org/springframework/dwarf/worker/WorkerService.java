@@ -95,9 +95,18 @@ public class WorkerService {
 		workerRepo.delete(worker);
 	}
 	
+	public List<Worker> findPlayerAidWorkers(int pid) {
+		return workerRepo.findAidByPlayerId(pid);
+	}
+	
 	public void deletePlayerWorker(Player player) {
-		Collection<Worker> Workers = findByPlayerId(player.getId());
-		Workers.stream().forEach(worker -> delete(worker));
+		Collection<Worker> workers = findByPlayerId(player.getId());
+		workers.stream().forEach(worker -> delete(worker));
+	}
+	
+	public void deletePlayerAidWorkers(Player player) {
+		List<Worker> workers = findPlayerAidWorkers(player.getId());
+		workers.stream().forEach(worker -> delete(worker));
 	}
 	
 	@Transactional(rollbackFor = IllegalPositionException.class)

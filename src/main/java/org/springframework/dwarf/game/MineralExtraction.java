@@ -12,6 +12,7 @@ import org.springframework.dwarf.board.BoardService;
 import org.springframework.dwarf.mountain_card.MountainCard;
 import org.springframework.dwarf.mountain_card.MountainDeck;
 import org.springframework.dwarf.mountain_card.MountainDeckService;
+import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.dwarf.worker.IllegalPositionException;
 import org.springframework.dwarf.worker.Worker;
@@ -41,6 +42,7 @@ public class MineralExtraction implements GamePhase{
 			return;
 		
 		this.removeWorkers(game);
+		this.deleteAidWorkers(game);
 		game.setCurrentPlayer(game.getTurnList().get(0));
 		
 		// picks two random cards
@@ -82,6 +84,13 @@ public class MineralExtraction implements GamePhase{
 		}
 	}
 	
+	private void deleteAidWorkers(Game game) {
+		for (Player player : game.getPlayersList()) {
+			workerService.deletePlayerAidWorkers(player);
+		}
+		
+	}
+	
 	protected void setAndSaveWorker(Worker worker) {
 		worker.setXposition(null);
 		worker.setYposition(null);
@@ -96,6 +105,7 @@ public class MineralExtraction implements GamePhase{
 	
 	protected void setAndSaveBoardCell(BoardCell boardCell) {
 		boardCell.setOccupiedBy(null);
+		boardCell.setIsDisabled(false);
 		boardCellService.saveBoardCell(boardCell);
 	}
     
