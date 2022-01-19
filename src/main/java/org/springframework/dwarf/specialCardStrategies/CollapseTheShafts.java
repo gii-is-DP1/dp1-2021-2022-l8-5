@@ -15,15 +15,9 @@ import org.springframework.dwarf.player.Player;
 import org.springframework.stereotype.Component;
 import org.springframework.dwarf.card.StrategyName;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @StrategyPattern.ConcreteStrategy
 @Component
 public class CollapseTheShafts implements CardStrategy {
-	
-	//Colocar la carta superior de cada celda del tablero en la parte inferior.
-	
 	@Autowired
 	private GameService gs;
 	@Autowired
@@ -44,7 +38,7 @@ public class CollapseTheShafts implements CardStrategy {
 		for(int i=0; i<boardcells.size(); i++) {
 			BoardCell celdai = boardcells.get(i);
 			List<MountainCard> cartasCeldai = celdai.getMountaincards();
-			if(cartasCeldai.size() > 1) {	//Si solo hay una carta en la celda no hacemos nada
+			if(cartasCeldai.size() > 1) {
 				MountainCard cartaArriba = cartasCeldai.remove(0);
 				cartasCeldai.add(cartaArriba);
 			}
