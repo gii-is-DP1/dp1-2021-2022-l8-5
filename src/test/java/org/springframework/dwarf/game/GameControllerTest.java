@@ -1,7 +1,5 @@
 package org.springframework.dwarf.game;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -15,7 +13,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.context.annotation.Import;
 import org.springframework.dwarf.configuration.SecurityConfiguration;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
@@ -24,14 +21,8 @@ import org.springframework.dwarf.user.AuthoritiesService;
 import org.springframework.dwarf.user.User;
 import org.springframework.dwarf.user.UserService;
 import org.springframework.dwarf.web.LoggedUserController;
-import org.springframework.dwarf.worker.Worker;
-import org.springframework.dwarf.worker.WorkerController;
-import org.springframework.dwarf.worker.WorkerService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.test.web.servlet.MockMvc;
 
 /**
@@ -62,9 +53,7 @@ public class GameControllerTest {
 	private UserService userService;
 	
 	@Autowired
-	private LoggedUserController loggedUserController;
-	
-	
+	private LoggedUserController loggedUserController;	
 	
 	@Autowired
 	private MockMvc mockMvc;
@@ -82,7 +71,6 @@ public class GameControllerTest {
 		User u1 = new User();
 		u1.setUsername("player1");
 		p1.setUser(u1);
-		p1.setUsername("player1");
 		p1.setId(1);
 		
 		Player p2 = new Player();
@@ -107,7 +95,7 @@ public class GameControllerTest {
 	
 	@Test
 	@WithMockUser(username = "pabmargom3")
-    void listSearchGames() throws Exception {
+    void testSearchGames_searchOrCreate() throws Exception {
 	 mockMvc.perform(get("/games/searchGames")).andExpect(status().isOk())
 		.andExpect(view().name("games/searchOrCreateGames"))
 		.andExpect(model().attributeExists("gamesToJoin"));

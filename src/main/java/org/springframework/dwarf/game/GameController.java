@@ -1,9 +1,7 @@
 package org.springframework.dwarf.game;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,7 +13,6 @@ import org.springframework.dwarf.player.PlayerService;
 import org.springframework.dwarf.resources.Resources;
 import org.springframework.dwarf.resources.ResourcesService;
 import org.springframework.dwarf.web.LoggedUserController;
-import org.springframework.dwarf.worker.Worker;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -90,7 +87,7 @@ public class GameController {
 		String view  = "games/searchOrCreateGames";
 		Player currentPlayer = loggedUserController.loggedPlayer();
 		Integer currentGameId = gameService.getCurrentGameId(currentPlayer);
-		Optional<Board> currentBoard =gameService.findBoardByGameId(currentGameId);
+		Optional<Board> currentBoard = gameService.findBoardByGameId(currentGameId);
 		if (gameService.alreadyInGame(currentPlayer) && currentBoard.isPresent()){			
 			return "redirect:/boards/"+ currentBoard.get().getId() +"/game/"+currentGameId;
 		}
