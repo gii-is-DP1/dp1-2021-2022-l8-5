@@ -246,7 +246,7 @@ public class ActionResolutionTest {
 		
 		assertThat(puntosFinales.size()).isNotEqualTo(comprobador.size());	//no tienen hierro que desempate (= medallas)
 	}
-	
+	@Test
 	void testGetName() {
 	  GamePhaseEnum name = actionResolution.getPhaseName();
 	  assertThat(name).isEqualTo(GamePhaseEnum.ACTION_RESOLUTION);
@@ -314,6 +314,8 @@ public class ActionResolutionTest {
 		 assertThat(points).isNotEqualTo(newPoints);
 	  
 		}
+
+	@Test	
 	void testGetResourcesAmount() throws Exception{
 		resourcesService.createPlayerResource(p1, g.get());	
 		resourcesService.createPlayerResource(p2, g.get());	
