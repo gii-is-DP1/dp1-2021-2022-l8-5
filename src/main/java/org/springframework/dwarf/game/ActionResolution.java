@@ -123,7 +123,7 @@ public class ActionResolution implements GamePhase{
 		this.updateGameWithPositions(points, game);
 	}
 	
-	private Map<ResourceType, List<Integer>> getResourcesAmount(Game game) {
+	protected Map<ResourceType, List<Integer>> getResourcesAmount(Game game) {
 		Map<ResourceType, List<Integer>> resourcesAmount = new HashMap<>();
 		
 		for(Player p: game.getPlayersList()) {
