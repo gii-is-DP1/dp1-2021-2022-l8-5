@@ -23,6 +23,7 @@ import org.springframework.dwarf.player.PlayerService;
 import org.springframework.dwarf.worker.IllegalPositionException;
 import org.springframework.dwarf.worker.Worker;
 import org.springframework.dwarf.worker.WorkerService;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -118,4 +119,15 @@ public class TurnBackTests {
 		StrategyName name = tb.getName();
 		assertThat(name).isEqualTo(StrategyName.TURN_BACK);
 	}
+
+	@Test
+	@WithMockUser(username = "test") 
+	void testActions() throws Exception {
+
+		tb.actions(p1, "");
+
+		Integer workersNotPlaced = workerService.findNotPlacedByPlayerIdAndGameId(p1.getId(), game.getId()).size();		
+
+		assertThat(workersNotPlaced).isEqualTo(0);
+	} 
 }

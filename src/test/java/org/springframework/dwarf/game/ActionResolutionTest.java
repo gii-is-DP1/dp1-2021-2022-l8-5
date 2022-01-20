@@ -329,4 +329,31 @@ public class ActionResolutionTest {
 		Map<ResourceType, List<Integer>> recursos =actionResolution.getResourcesAmount(g.get());
 		assertThat(recursos.get(ResourceType.IRON).get(0)).isEqualTo(resourcesP1.getIron());
 	}
+
+	@Test
+	void testUpdatePlayersPositions() throws Exception {
+
+		Game game = g.get();
+
+		game.setFirstPlayer(p2);
+		game.setSecondPlayer(p1);
+		String oldFirstPlayer= game.firstPlayer.getUsername();
+		
+		resourcesService.createPlayerResource(p1, game);	
+		resourcesService.createPlayerResource(p2, game);	
+		resourcesService.createPlayerResource(p3, game);	
+
+		Resources resourcesP1 = resourcesService.findByPlayerIdAndGameId(p1.getId(), g.get().getId()).get();
+		resourcesP1.setGold(500);
+		resourcesP1.setItems(500);
+		resourcesP1.setSteel(500);
+		
+		actionResolution.updatePlayersPositions(game);
+
+		String newFirstPlayer= game.firstPlayer.getUsername();
+
+		assertThat(oldFirstPlayer).isNotEqualTo(newFirstPlayer);
+
+	}
+	
 }
