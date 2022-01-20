@@ -32,6 +32,8 @@ public class MusterAnArmyTests {
 	
 	@Autowired
 	private LoggedUserController loggedUserController;
+	
+	@Autowired
 	private PlayerService playerService;
 	   
 	private Game game;
