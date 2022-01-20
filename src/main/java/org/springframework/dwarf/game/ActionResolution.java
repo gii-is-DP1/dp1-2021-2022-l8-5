@@ -75,7 +75,7 @@ public class ActionResolution implements GamePhase{
 		
 	}
 	
-	private Boolean canResolveAction(Game game, MountainCard mountainCard) {
+	protected Boolean canResolveAction(Game game, MountainCard mountainCard) {
 		Boolean canResolve = game.getCanResolveActions();
 		
 		// orc raiders ONLY avoid resolve MINE cards
