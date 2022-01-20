@@ -89,7 +89,7 @@ public class GameService {
 		return gameRepo.searchBoardByGameId(gameId);
 	}
   
-	@Transactional(readOnly = true)
+	@Transactional
 	public void delete(Game game) {
 		gameRepo.delete(game);
 	}
@@ -114,6 +114,7 @@ public class GameService {
 		
 		if(!this.findBoardByGameId(game.getId()).isEmpty()) {
 			this.setPlayersTurns(newPlayerList);
+			turnPlayerToRemove = turnPlayerToRemove%game.getPlayersList().size();
 			if(playerToRemove.equals(game.getCurrentPlayer()))
 				game.setCurrentPlayer(game.getTurnList().get(turnPlayerToRemove));
 		}

@@ -93,6 +93,7 @@ public class WorkerService {
 
 		List<Worker> workersWithPosition = workers.stream()
 				.filter(worker -> worker.getXposition() != null && worker.getYposition() != null)
+				.filter(worker -> worker.getXposition() > 0)
 				.collect(Collectors.toList());
 		
 		if(workersWithPosition.size() > 0) {
@@ -102,6 +103,7 @@ public class WorkerService {
 				workersWithPosition.stream().forEach(worker -> {
 					BoardCell boardCell = board.getBoardCell(worker.getXposition(), worker.getYposition());
 					boardCell.setOccupiedBy(null);
+					boardCell.setIsDisabled(false);
 					boardCellService.saveBoardCell(boardCell);
 				});
 			}
