@@ -340,7 +340,7 @@ public class BoardController {
 		
 		String redirect = "redirect:/boards/"+ boardId +  "/game/"+gameId;
 		redirect = updateWorker(myworker, workerFound, result, redirect);
-		BoardCell boardCell = boardCellService.findByPosition(workerFound.getXposition(), workerFound.getYposition());
+		BoardCell boardCell = boardCellService.findByPosition(workerFound.getXposition(), workerFound.getYposition(), boardId);
 	
 		if(boardCell.isCellOccupied()){
 			return errors.getMessage();
