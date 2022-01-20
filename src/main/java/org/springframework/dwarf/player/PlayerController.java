@@ -81,8 +81,9 @@ public class PlayerController {
 	}
 
 	@PostMapping(value = "/players/new")
-	public String processCreationForm(@Valid Player player, BindingResult result) throws DataAccessException, DuplicatedUsernameException, DuplicatedEmailException {
+	public String processCreationForm(@Valid Player player, BindingResult result, ModelMap modelMap) throws DataAccessException, DuplicatedUsernameException, DuplicatedEmailException {
 		if (result.hasErrors()) {
+			modelMap.put("player", player);
 			return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
 		}
 		else {

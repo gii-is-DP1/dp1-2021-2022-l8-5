@@ -12,7 +12,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-
+import org.springframework.dwarf.player.PasswordConstraint;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -25,7 +25,7 @@ public class User{
 	@Id
 	String username;
 	
-
+	@PasswordConstraint
 	String password;
 	
 	@NotNull

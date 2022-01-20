@@ -27,6 +27,7 @@
                <span class="help-inline"><form:errors path="email"/></span>
                <dwarf:inputField label="AvatarUrl" name="avatarUrl"/>
             <dwarf:inputField label="Password" name="user.password"/>
+            <span class="help-inline"><form:errors path="password"/></span>
             
         </div>
         <div class="form-group">
