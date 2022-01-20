@@ -43,7 +43,6 @@ public class ActionResolution implements GamePhase{
 
 	@Override
 	public void phaseResolution(Game game) throws Exception {
-		// funcion service no testeada
 		List<BoardCell> cellsToResolve = this.getCellstoResolveActions(game);
 		
 		for(BoardCell cell: cellsToResolve) {
