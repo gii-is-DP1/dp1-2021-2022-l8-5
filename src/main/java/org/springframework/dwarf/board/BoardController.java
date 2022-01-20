@@ -64,6 +64,8 @@ public class BoardController {
     private BoardCellService boardCellService;
     @Autowired
     private SpecialDeckService specialDeckService;
+	@Autowired
+	private LoggedUserController loggedUserController;
     
     @Autowired
     private ApplicationContext applicationContext;
@@ -135,7 +137,7 @@ public class BoardController {
     	String kickOutRedirect = this.updateInactivityTimer(board, game);
     	if(!kickOutRedirect.equals(""))
     		return kickOutRedirect;
-		Player myplayer = LoggedUserController.loggedPlayer();
+		Player myplayer = loggedUserController.loggedPlayer();
 		
 		modelMap = this.setCanUseSpecial(modelMap, myplayer.getId(), gameId);
 		modelMap = this.setMyWorkerForPost(modelMap, myplayer.getId(), gameId);
@@ -169,7 +171,7 @@ public class BoardController {
     
     private String updateInactivityTimer(Board board, Game game) {
     	if(game.getCurrentPhaseName().equals(GamePhaseEnum.ACTION_SELECTION)
-    			&& game.getFirstPlayer().equals(LoggedUserController.loggedPlayer())) {
+    			&& game.getFirstPlayer().equals(loggedUserController.loggedPlayer())) {
     		LocalTime updateTimer = board.getInactivityTimer().plusSeconds(-REFRESH_TIME);
 	    	board.setInactivityTimer(updateTimer);
 	    	boardService.saveBoard(board);
@@ -246,7 +248,7 @@ public class BoardController {
 			Integer posy = Integer.parseInt(posxy[1]);
 			myworker.setXposition(posx);
 			myworker.setYposition(posy);
-			String username = LoggedUserController.returnLoggedUserName();
+			String username = loggedUserController.returnLoggedUserName();
 			Player player = playerService.findPlayerByUserName(username);
 			List<Worker> workersNotPlaced = workerService.findNotPlacedByPlayerIdAndGameId(player.getId(), game.getId());
 			
@@ -346,7 +348,7 @@ public class BoardController {
 			return errors.getMessage();
 		}
 
-		boardCell.setOccupiedBy(LoggedUserController.loggedPlayer());
+		boardCell.setOccupiedBy(loggedUserController.loggedPlayer());
 		this.boardCellService.saveBoardCell(boardCell);
 		this.boardService.saveBoard(boardService.findByBoardId(boardId).get());
 		

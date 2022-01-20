@@ -35,12 +35,14 @@ public class GameController {
 	private GameService gameService;
 	private PlayerService playerService;
 	private ResourcesService resourcesService;
+	private LoggedUserController loggedUserController;
 
 	@Autowired
-	public GameController(GameService gameService, PlayerService playerService, ResourcesService resourcesService) {
+	public GameController(GameService gameService, PlayerService playerService, ResourcesService resourcesService, LoggedUserController loggedUserController) {
 		this.gameService = gameService;
 		this.playerService = playerService;
 		this.resourcesService = resourcesService;
+		this.loggedUserController=loggedUserController;
 	}
 	
 	@GetMapping()
@@ -72,7 +74,7 @@ public class GameController {
     @GetMapping(path="/{gameId}/exit")
     public String exitGame(@PathVariable("gameId") Integer gameId, ModelMap modelMap){
         Optional<Game> game = gameService.findByGameId(gameId);
-        Player loggedPlayer = LoggedUserController.loggedPlayer();
+        Player loggedPlayer = loggedUserController.loggedPlayer();
         
         if(game.isPresent()){
         	gameService.exit(game.get(), loggedPlayer);
@@ -86,7 +88,7 @@ public class GameController {
 	@GetMapping("/searchGames")
 	public String searchGames(ModelMap modelMap) {
 		String view  = "games/searchOrCreateGames";
-		Player currentPlayer = LoggedUserController.loggedPlayer();
+		Player currentPlayer = loggedUserController.loggedPlayer();
 		Integer currentGameId = gameService.getCurrentGameId(currentPlayer);
 		Optional<Board> currentBoard =gameService.findBoardByGameId(currentGameId);
 		if (gameService.alreadyInGame(currentPlayer) && currentBoard.isPresent()){			
@@ -104,7 +106,7 @@ public class GameController {
 	@GetMapping(path="/waitingPlayers")
 	public String initCreateGame(ModelMap modelMap) {
 		Game game = new Game();
-		Player loggedPlayer = LoggedUserController.loggedPlayer();
+		Player loggedPlayer = loggedUserController.loggedPlayer();
 		
 		game.setFirstPlayer(loggedPlayer);
 		game.setCurrentPlayer(loggedPlayer);
@@ -129,7 +131,7 @@ public class GameController {
 		String view = "games/waitingPlayers";
 		
 		Game game = gameService.findByGameId(gameId).get();
-        Player loggedPlayer = LoggedUserController.loggedPlayer();
+        Player loggedPlayer = loggedUserController.loggedPlayer();
         
         // if first player started the game, go to board
         Optional<Board> board = gameService.findBoardByGameId(gameId);

@@ -2,6 +2,7 @@ package org.springframework.dwarf.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,9 +16,10 @@ import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.mountain_card.MountainDeckService;
 import org.springframework.dwarf.special_card.SpecialDeck;
+import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.stereotype.Service;
 
-@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+@DataJpaTest(includeFilters = @ComponentScan.Filter({Service.class,Component.class}))
 public class BoardServiceTest {
 		
 	
@@ -27,6 +29,8 @@ public class BoardServiceTest {
 	private GameService gameService;
 	@Autowired
 	private MountainDeckService mountainDesckService;
+	@Autowired
+	private LoggedUserController loggedUserController;
 	
 	
 	@Test

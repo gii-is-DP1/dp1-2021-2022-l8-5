@@ -14,6 +14,7 @@ import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
+import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.dwarf.worker.Worker;
 import org.springframework.dwarf.worker.WorkerService;
 import org.springframework.stereotype.Component;
@@ -29,6 +30,8 @@ public class GetHelpTests {
 	private GameService gameService;
 	@Autowired
 	private PlayerService playerService;
+	@Autowired
+	private LoggedUserController loggedUserController;
 	
 	@Autowired
 	protected GetHelp gh;

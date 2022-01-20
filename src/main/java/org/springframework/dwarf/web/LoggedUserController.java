@@ -12,15 +12,15 @@ import org.springframework.security.core.userdetails.User;
 @Controller
 public class LoggedUserController {
 	
-	private static PlayerService playerService;
+	private PlayerService playerService;
 	
 	@Autowired
 	public LoggedUserController(PlayerService playerService) {
-		LoggedUserController.playerService = playerService;
+		this.playerService = playerService;
 	}
 
 	
-	public static String returnLoggedUserName() {
+	public  String returnLoggedUserName() {
 		Authentication auth =SecurityContextHolder.getContext().getAuthentication();
 		if (auth!=null) {
 			if (auth.isAuthenticated() && auth.getPrincipal() instanceof User) {
@@ -32,8 +32,8 @@ public class LoggedUserController {
 		return null;
 	}
 	
-	public static Player loggedPlayer() {
-		String playerUsername = LoggedUserController.returnLoggedUserName();
+	public  Player loggedPlayer() {
+		String playerUsername = this.returnLoggedUserName();
 		Player player;
 		if (playerUsername == null) {
 			player = new Player();

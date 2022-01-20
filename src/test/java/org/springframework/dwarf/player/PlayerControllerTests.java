@@ -21,6 +21,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.context.annotation.Import;
 import org.springframework.dwarf.configuration.SecurityConfiguration;
 import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.user.AuthoritiesService;
@@ -38,8 +39,7 @@ import org.springframework.test.web.servlet.MockMvc;
  * @author Pablo Marín
  */
 
-@WebMvcTest(controllers = PlayerController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
-
+@WebMvcTest(controllers = {LoggedUserController.class,PlayerController.class}, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 class PlayerControllerTests {
 
 	private static final int TEST_PLAYER_ID = 1;
@@ -53,12 +53,16 @@ class PlayerControllerTests {
 	@MockBean
 	private AuthoritiesService authoritiesService;
 	
+	
 
 	@MockBean
 	private GameService gameService;
 
 	@Autowired
 	private MockMvc mockMvc;
+	
+	@Autowired
+	private LoggedUserController loggedUserController;
 
 	private Player george;
 
@@ -85,17 +89,14 @@ class PlayerControllerTests {
 	@WithMockUser(username = "paco")
 	@Test
 	void testloggedPlayerPositive() throws Exception{
-		LoggedUserController lg = new LoggedUserController(playerService);
-		String userlogged = LoggedUserController.returnLoggedUserName();
-		assertEquals(playerService.findPlayerByUserName(userlogged).getUsername(), lg.loggedPlayer().getUsername());
+		String userlogged = loggedUserController.returnLoggedUserName();
+		assertEquals(playerService.findPlayerByUserName(userlogged).getUsername(), loggedUserController.loggedPlayer().getUsername());
 		
 	}
 	
 	@Test
 	void testloggedPlayerNegative() throws Exception{
-		LoggedUserController lg = new LoggedUserController(playerService);
-		//String userlogged = LoggedUserController.returnLoggedUserName();
-		assertEquals(lg.loggedPlayer().getFirstName() , "Guest");
+		assertEquals(loggedUserController.loggedPlayer().getFirstName() , "Guest");
 		
 	}
 	
@@ -103,13 +104,13 @@ class PlayerControllerTests {
 	@WithMockUser(username = "pabmargom3")
     @Test
     void loginSuccesful() throws Exception {
-        String userLogged = LoggedUserController.returnLoggedUserName();
+        String userLogged = loggedUserController.returnLoggedUserName();
         assertEquals(userLogged, "pabmargom3");       
     }
 	@Test
 	@WithMockUser(username = "pabmargom3") 
     void loginUnSuccesful() throws Exception {
-        String userLogged = LoggedUserController.returnLoggedUserName();
+        String userLogged = loggedUserController.returnLoggedUserName();
         assertNotEquals(userLogged, "nopabmargom3");       
     }
 	

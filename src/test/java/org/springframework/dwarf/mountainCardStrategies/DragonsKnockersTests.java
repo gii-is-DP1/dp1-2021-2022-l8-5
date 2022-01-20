@@ -36,6 +36,9 @@ public class DragonsKnockersTests {
 	   
 	@Autowired
 	private GameService gameService;
+	
+	@Autowired
+	private LoggedUserController loggedUserController;
    
 	private Player p1;
 	private Player p2;

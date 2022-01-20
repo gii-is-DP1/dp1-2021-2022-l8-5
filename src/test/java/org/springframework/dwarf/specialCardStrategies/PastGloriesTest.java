@@ -17,6 +17,7 @@ import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.mountain_card.MountainCard;
 import org.springframework.dwarf.mountain_card.MountainCardService;
+import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +35,8 @@ public class PastGloriesTest {
 	
 	@Autowired
 	private MountainCardService mountainCardService;
+	@Autowired
+	private LoggedUserController loggedUserController;
 	
 	private Game game;
 	private Board board;

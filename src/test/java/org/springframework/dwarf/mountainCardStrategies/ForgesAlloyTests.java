@@ -19,6 +19,7 @@ import org.springframework.dwarf.player.PlayerService;
 import org.springframework.dwarf.resources.ResourceType;
 import org.springframework.dwarf.resources.Resources;
 import org.springframework.dwarf.resources.ResourcesService;
+import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +38,9 @@ class ForgesAlloyTests {
        
        @Autowired
        protected  ForgesAlloy fg;
+       
+   	@Autowired
+   	private LoggedUserController loggedUserController;
        
    @BeforeEach
    	void setup() throws Exception {

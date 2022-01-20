@@ -32,7 +32,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 
 
-@WebMvcTest(controllers = PlayerController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
+@WebMvcTest(controllers = {PlayerController.class,LoggedUserController.class}, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 class userStoriesManagementTest {
 
 	private static final int TEST_PLAYER_ID = 1;
@@ -53,6 +53,9 @@ class userStoriesManagementTest {
 	
 	@Autowired
 	private MockMvc mockMvc;
+	
+	@Autowired
+	private LoggedUserController loggedUserController;
     
     private Player george;
     
@@ -79,14 +82,14 @@ class userStoriesManagementTest {
     @WithMockUser(username = "alonsoPodio", password = "ElNano0")
     @Test
     void loginSuccesful() throws Exception {
-        String userLogged = LoggedUserController.returnLoggedUserName();
+        String userLogged = loggedUserController.returnLoggedUserName();
         assertEquals(userLogged, "alonsoPodio");
     }
 
     @WithMockUser(username = "alonsoPodio", password = "ElNano0")
     @Test
     void loginUnsuccesful() throws Exception {
-        String userLogged = LoggedUserController.returnLoggedUserName();
+        String userLogged = loggedUserController.returnLoggedUserName();
         assertNotEquals(userLogged, "betrayal>theneostorm");
     }
     /*

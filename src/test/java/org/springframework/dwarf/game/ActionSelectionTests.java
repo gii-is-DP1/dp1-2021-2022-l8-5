@@ -33,6 +33,8 @@ public class ActionSelectionTests {
     private WorkerService workerService;
 	@Autowired
 	private BoardService boardService;
+	@Autowired
+	private LoggedUserController loggedUserController;
 	
 	private Optional<Game> g;
 	private Player loggedUser;
@@ -49,7 +51,7 @@ public class ActionSelectionTests {
 		p1 = playerService.findPlayerById(4);
 		p2 = playerService.findPlayerById(5);
 		p3 = playerService.findPlayerById(2);
-		loggedUser = LoggedUserController.loggedPlayer();
+		loggedUser = loggedUserController.loggedPlayer();
 		currentPlayer = g.get().getCurrentPlayer();
 		currentPlayer =loggedUser;
 		

@@ -3,6 +3,8 @@ package org.springframework.dwarf.forgesAlloyResources;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import org.springframework.stereotype.Component;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +13,16 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dwarf.forgesAlloy.ForgesAlloyResources;
 import org.springframework.dwarf.forgesAlloy.ForgesAlloyResourcesService;
 import org.springframework.dwarf.resources.ResourceType;
+import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.stereotype.Service;
 
-@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+@DataJpaTest(includeFilters = @ComponentScan.Filter({Service.class,Component.class}))
 public class ForgesAlloyResourcesServiceTest {
 	
 	@Autowired
 	private ForgesAlloyResourcesService forgeAlloyResourceService;
+	@Autowired
+	private LoggedUserController loggedUserController;
 	
 	@Test
 	@DisplayName("Find ForgesAlloyResources by card name")

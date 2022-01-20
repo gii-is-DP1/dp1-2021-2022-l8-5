@@ -21,6 +21,7 @@ import org.springframework.dwarf.mountain_card.MountainCardService;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
 import org.springframework.dwarf.resources.ResourcesService;
+import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,8 @@ public class HoldACouncilTests {
 
    @Autowired
    private MountainCardService mountainCardService;
+	@Autowired
+	private LoggedUserController loggedUserController;
    
    
    private Player p1;

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dwarf.board.Board;
 import org.springframework.dwarf.board.BoardCell;
@@ -19,6 +20,7 @@ import org.springframework.dwarf.mountain_card.MountainCard;
 import org.springframework.dwarf.mountain_card.MountainCardService;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
+import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.dwarf.worker.IllegalPositionException;
 import org.springframework.dwarf.worker.Worker;
 import org.springframework.dwarf.worker.WorkerService;
@@ -27,6 +29,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(value = { Service.class, Component.class }))
+@Import(LoggedUserController.class)
 public class MineralExtractionTests {
 
 	@Autowired
@@ -50,11 +53,18 @@ public class MineralExtractionTests {
 	@Autowired
 	private GameService gameService;
 	
+	@Autowired
+	private LoggedUserController loggedUserController;
+	
 
 	@Autowired
 	private BoardService bs;
 
 	private Player p1;
+	
+	private Player p2;
+	
+	private Player p3;
 	
 	private Game g;
 	
@@ -63,10 +73,18 @@ public class MineralExtractionTests {
 	void setup() throws Exception {
 
 		p1 = playerService.findPlayerById(4);
+		p2 = playerService.findPlayerById(2);
+		p3 = playerService.findPlayerById(5);
 		g = new Game();
 		g.setId(1);
 		g.setCurrentPlayer(p1);
 		g.setFirstPlayer(p1);
+		g.setSecondPlayer(p2);
+		g.setThirdPlayer(p3);
+		
+		p1.setTurn(1);
+		p2.setTurn(2);
+		p3.setTurn(3);
 		
 
 	}
@@ -226,7 +244,7 @@ public class MineralExtractionTests {
 	@WithMockUser(username = "test")
 	@Test
 	void testPhaseResolutionNegative() {
-		g.setFirstPlayer(null);
+		g.setFirstPlayer(p2);
 		GamePhaseEnum ogphase = g.getCurrentPhaseName();
 		
 		me.phaseResolution(g);
@@ -234,6 +252,31 @@ public class MineralExtractionTests {
 		GamePhaseEnum newphase = g.getCurrentPhaseName();
 		
 		assertThat(ogphase).isEqualTo(newphase);
+		
+	}
+	
+	@WithMockUser(username = "test")
+	@Test
+	void testPhaseResolutionPositive() {
+		g.setFirstPlayer(p1);
+		List<Worker> workers = workerService.findPlacedByGameId(1);
+		
+		workers.stream().forEach(x -> x.setXposition(0));
+		workers.stream().forEach(x -> {
+			try {
+				workerService.saveWorker(x);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+		GamePhaseEnum ogphase = g.getCurrentPhaseName();
+		
+		me.phaseResolution(g);
+		
+		GamePhaseEnum newphase = g.getCurrentPhaseName();
+		
+		assertThat(ogphase).isNotEqualTo(newphase);
+		assertThat(newphase).isEqualTo(GamePhaseEnum.ACTION_SELECTION);
 		
 	}
 	
