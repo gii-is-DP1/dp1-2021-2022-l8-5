@@ -36,18 +36,16 @@ public class BoardCellService {
 		return boardCellRep.findById(id);
 	}
 	
-	// hacer test
 	@Transactional
 	public BoardCell findByPosition(Integer xposition, Integer yposition, Integer boardId) {	
 		return boardCellRep.findByPosition(xposition, yposition, boardId);
 	}
 	
-	// hacer test
 	public List<BoardCell> findOccupiedByBoardId(Integer boardId) {
 		return boardCellRep.findOccupiedByBoardId(boardId);
 	}
 	
-	// hacer test
+
 	public List<BoardCell> findAllByBoardId(Integer boardId) {
 		return boardCellRep.findAllByBoardId(boardId);
 	}
