@@ -137,7 +137,7 @@ public class GameService {
 		gameRepo.save(game);
 	}
 	
-	private void setPlayersTurns(List<Player> newPlayerList) {
+	protected void setPlayersTurns(List<Player> newPlayerList) {
 		for(int i=0; i<newPlayerList.size(); i++) {
 			Player player = newPlayerList.get(i);
 			player.setTurn(i+1);
@@ -196,7 +196,7 @@ public class GameService {
 		this.saveGame(game);
 	}
 	
-	private void deleteAllWorkers(Game game) {
+	protected void deleteAllWorkers(Game game) {
 		for(Player player: game.getPlayersList()) {
 			workerService.deletePlayerWorker(player);
 		}
