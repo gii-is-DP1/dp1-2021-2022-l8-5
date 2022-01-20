@@ -85,7 +85,7 @@ public class ActionResolution implements GamePhase{
 		return canResolve;
 	}
 	
-	private Boolean hasFourItems(Game game) {
+	protected Boolean hasFourItems(Game game) {
 		return resourcesService.findByGameId(game.getId()).stream()
 				.filter(resource -> resource.getItems() >= 4)
 				.collect(Collectors.toList()).size() >= 1;

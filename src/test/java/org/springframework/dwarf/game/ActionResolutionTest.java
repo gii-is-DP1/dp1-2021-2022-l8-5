@@ -2,8 +2,12 @@ package org.springframework.dwarf.game;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.apache.catalina.WebResourceRoot.ResourceSetType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +20,9 @@ import org.springframework.dwarf.mountain_card.MountainCard;
 import org.springframework.dwarf.mountain_card.MountainCardService;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
+import org.springframework.dwarf.resources.ResourceType;
+import org.springframework.dwarf.resources.Resources;
+import org.springframework.dwarf.resources.ResourcesService;
 import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.dwarf.worker.WorkerService;
 import org.springframework.stereotype.Component;
@@ -39,6 +46,8 @@ public class ActionResolutionTest {
 	private LoggedUserController loggedUserController;
 	@Autowired
 	private MountainCardService mountainCardService;
+	@Autowired
+	private ResourcesService resourcesService;
 	
 	
 	private Optional<Game> g;
@@ -62,6 +71,7 @@ public class ActionResolutionTest {
 		currentPlayer = loggedUser;
 		
 		mountainCard = new MountainCard();	//seteo
+		
 		
 		g.get().getPlayersList().stream().forEach(x -> x.setTurn(g.get().getPlayerPosition(x)+1));
 
@@ -109,8 +119,30 @@ public class ActionResolutionTest {
 		assertThat(canResolve).isEqualTo(false);
 	}
 	
-
+	@Test
+	void testHasFourItemsPositivo() throws Exception {
+		Game game = g.get();
+		
+		resourcesService.createPlayerResource(p1, g.get());	//creacion recursos
+		Resources resourcesP1 = resourcesService.findByPlayerIdAndGameId(p1.getId(), g.get().getId()).get();
+		resourcesP1.setItems(4);
+				
+		Boolean theGameFinishes = actionResolution.hasFourItems(game);
+		
+		assertThat(theGameFinishes).isTrue();
+	}
 	
-
+	@Test
+	void testHasFourItemsNegativo() throws Exception {
+		Game game = g.get();
+		
+		resourcesService.createPlayerResource(p1, g.get());	//creacion recursos
+		Resources resourcesP1 = resourcesService.findByPlayerIdAndGameId(p1.getId(), g.get().getId()).get();
+		resourcesP1.setItems(3); //<4
+				
+		Boolean theGameFinishes = actionResolution.hasFourItems(game);
+		
+		assertThat(theGameFinishes).isFalse();
+	}
 	
 }
