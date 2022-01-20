@@ -3,16 +3,16 @@ INSERT INTO users(username,password,enabled,email) VALUES ('admin1','4dm1n',TRUE
 INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
 -- One owner user, named owner1 with passwor 0wn3r
 INSERT INTO users(username,password,enabled,email) VALUES ('owner1','0wn3r',TRUE,'test@test.com');
-INSERT INTO users(username,password,enabled,email) VALUES ('pabmargom3','1',TRUE,'test2@test.com');
-INSERT INTO users(username,password,enabled,email) VALUES ('davzamfer','1',TRUE,'test3@test.com');
-INSERT INTO users(username,password,enabled,email) VALUES ('dieruigil','1',TRUE,'test4@test.com');
-INSERT INTO users(username,password,enabled,email) VALUES ('test','1',TRUE,'test5@test.com');
-INSERT INTO users(username,password,enabled,email) VALUES ('framigdom','1',TRUE,'test6@test.com');
-INSERT INTO users(username,password,enabled,email) VALUES ('pabalvcar','1',TRUE,'test7@test.com');
-INSERT INTO users(username,password,enabled,email) VALUES ('josgarboh','1',TRUE,'test8@test.com');
-INSERT INTO users(username,password,enabled,email) VALUES ('test2','1',TRUE,'test10@test.com');
-INSERT INTO users(username,password,enabled,email) VALUES ('test3','1',TRUE,'test11@test.com');
-INSERT INTO users(username,password,enabled,email) VALUES ('DELETED','P5xEr6oez!AH6vHBhVE8ZAeBo9&FIHdEfdB9X19fA4yPrhrKG%',FALSE,'Yh&as2FHef1O84Tfycp7ZcG@Yh&as2FHef1O84Tfycp7ZcG.n&GdiH');
+INSERT INTO users(username,password,enabled,email) VALUES ('pabmargom3','admin1',TRUE,'test2@test.com');
+INSERT INTO users(username,password,enabled,email) VALUES ('davzamfer','admin1',TRUE,'test3@test.com');
+INSERT INTO users(username,password,enabled,email) VALUES ('dieruigil','admin1',TRUE,'test4@test.com');
+INSERT INTO users(username,password,enabled,email) VALUES ('test','admin1',TRUE,'test5@test.com');
+INSERT INTO users(username,password,enabled,email) VALUES ('framigdom','admin1',TRUE,'test6@test.com');
+INSERT INTO users(username,password,enabled,email) VALUES ('pabalvcar','admin1',TRUE,'test7@test.com');
+INSERT INTO users(username,password,enabled,email) VALUES ('josgarboh','admin1',TRUE,'test8@test.com');
+INSERT INTO users(username,password,enabled,email) VALUES ('test2','admin1',TRUE,'test10@test.com');
+INSERT INTO users(username,password,enabled,email) VALUES ('test3','admin1',TRUE,'test11@test.com');
+INSERT INTO users(username,password,enabled,email) VALUES ('DELETED','P5xEr6oez!AH6vHBhVE8ZAeBo9&FIHdEfdB9X19fA4yPrhrK%',FALSE,'Yh&as2FHef1O84Tfycp7ZcG@Yh&as2FHef1O84Tfycp7ZcG.n&GdiH');
 INSERT INTO authorities(id,username,authority) VALUES (2,'owner1','owner');
 INSERT INTO authorities(id,username,authority) VALUES (3,'pabmargom3','admin');
 INSERT INTO authorities(id,username,authority) VALUES (4,'davzamfer','admin');
@@ -23,7 +23,6 @@ INSERT INTO authorities(id,username,authority) VALUES (8,'pabalvcar','player');
 INSERT INTO authorities(id,username,authority) VALUES (9,'josgarboh','player');
 INSERT INTO authorities(id,username,authority) VALUES (10,'test2','player');
 INSERT INTO authorities(id,username,authority) VALUES (11,'test3','player');
-
 
 
 -- Players

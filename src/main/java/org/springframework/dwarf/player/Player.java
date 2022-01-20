@@ -56,9 +56,6 @@ public class Player extends Person {
 	@LastModifiedDate
 	private Date lastModifiedDate;
 	
-	
-	
-	
 	public String getCreator() {
 		return creator;
 	}
@@ -94,7 +91,7 @@ public class Player extends Person {
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
-	//
+	
 	@Column(name = "avatar_url")
 	@NotEmpty
 	String avatarUrl;
