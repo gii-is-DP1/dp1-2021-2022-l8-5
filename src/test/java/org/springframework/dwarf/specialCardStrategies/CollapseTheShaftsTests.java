@@ -18,11 +18,8 @@ import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.mountain_card.MountainCard;
 import org.springframework.dwarf.mountain_card.MountainCardService;
-import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-
-
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(value= {Service.class, Component.class}))
 public class CollapseTheShaftsTests {
@@ -36,8 +33,6 @@ public class CollapseTheShaftsTests {
 		private BoardService bs;
 		@Autowired
 		private MountainCardService mcs;
-		@Autowired
-		private LoggedUserController loggedUserController;
 		
 		private Board board;
 		

@@ -21,10 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dwarf.board.Board;
 import org.springframework.dwarf.board.BoardCell;
 import org.springframework.dwarf.board.BoardService;
-import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
-import org.springframework.dwarf.player.Player;
-import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.ModelMap;

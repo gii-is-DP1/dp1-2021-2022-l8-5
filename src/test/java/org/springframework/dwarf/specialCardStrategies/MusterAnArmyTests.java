@@ -12,8 +12,6 @@ import org.springframework.dwarf.board.BoardService;
 import org.springframework.dwarf.card.StrategyName;
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
-import org.springframework.dwarf.mountain_card.CardType;
-import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
 import org.springframework.stereotype.Component;
@@ -29,9 +27,6 @@ public class MusterAnArmyTests {
 	   
 	@Autowired
 	private BoardService boardService;
-	
-	@Autowired
-	private LoggedUserController loggedUserController;
 	
 	@Autowired
 	private PlayerService playerService;

@@ -15,7 +15,6 @@
  */
 package org.springframework.dwarf.player;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.CascadeType;

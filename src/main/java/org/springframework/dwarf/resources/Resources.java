@@ -19,7 +19,6 @@ import org.springframework.dwarf.model.BaseEntity;
  */
 import org.springframework.dwarf.player.Player;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,7 +1,6 @@
 package org.springframework.dwarf.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -18,20 +17,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.dwarf.card.CardStrategy;
-import org.springframework.dwarf.card.StrategyName;
 import org.springframework.dwarf.configuration.SecurityConfiguration;
-import org.springframework.dwarf.game.Game;
-import org.springframework.dwarf.game.GameController;
-import org.springframework.dwarf.game.GamePhaseEnum;
 import org.springframework.dwarf.game.GameService;
-import org.springframework.dwarf.mountainCardStrategies.GetHelp;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
 import org.springframework.dwarf.resources.ResourcesService;
-import org.springframework.dwarf.specialCardStrategies.HoldACouncil;
-import org.springframework.dwarf.special_card.SpecialCard;
-import org.springframework.dwarf.special_card.SpecialDeck;
 import org.springframework.dwarf.special_card.SpecialDeckService;
 import org.springframework.dwarf.user.User;
 import org.springframework.dwarf.web.LoggedUserController;
@@ -47,11 +37,7 @@ class BoardControllerTests {
 	private BoardController boardController;
 	
 	@Autowired
-	private LoggedUserController loggedUserController;
-	
-	@Autowired
 	private ApplicationContext ac;
-	
 	
 	@MockBean
 	private GameService gameService;

@@ -21,7 +21,6 @@ import org.springframework.dwarf.board.BoardService;
 import org.springframework.dwarf.mountain_card.MountainDeck;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
-import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -34,8 +33,6 @@ public class GameServiceTest {
 	protected PlayerService playerService;
 	@Autowired
 	protected BoardService boardService;
-	@Autowired
-	private LoggedUserController loggedUserController;
 	
 	@Test
 	@DisplayName("Returns the number of games created")
@@ -314,6 +311,14 @@ public class GameServiceTest {
 		List<Game> finishedGames = gameService.findFinishedGames();
 		
 		assertThat(finishedGames.contains(game)).isTrue();
+	}
+	
+	@Test
+    @DisplayName("Find current games")
+	void testFindCurrentGames() {
+		List<Game> currentGames = gameService.findCurrentGames();
+		
+		assertThat(currentGames.size()).isEqualTo(0);
 	}
 	
 }

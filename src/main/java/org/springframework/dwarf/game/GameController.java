@@ -1,7 +1,6 @@
 package org.springframework.dwarf.game;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dwarf.board.Board;
 import org.springframework.dwarf.player.Player;
-import org.springframework.dwarf.player.PlayerService;
 import org.springframework.dwarf.resources.Resources;
 import org.springframework.dwarf.resources.ResourcesService;
 import org.springframework.dwarf.web.LoggedUserController;
@@ -33,14 +31,12 @@ import org.springframework.web.servlet.ModelAndView;
 public class GameController {
 	
 	private GameService gameService;
-	private PlayerService playerService;
 	private ResourcesService resourcesService;
 	private LoggedUserController loggedUserController;
 
 	@Autowired
-	public GameController(GameService gameService, PlayerService playerService, ResourcesService resourcesService, LoggedUserController loggedUserController) {
+	public GameController(GameService gameService, ResourcesService resourcesService, LoggedUserController loggedUserController) {
 		this.gameService = gameService;
-		this.playerService = playerService;
 		this.resourcesService = resourcesService;
 		this.loggedUserController=loggedUserController;
 	}
