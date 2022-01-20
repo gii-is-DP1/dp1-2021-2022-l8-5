@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -145,4 +146,18 @@ public class ActionResolutionTest {
 		assertThat(theGameFinishes).isFalse();
 	}
 	
+	@Test
+	void testGetResourcesAmount() throws Exception{
+		resourcesService.createPlayerResource(p1, g.get());	
+		resourcesService.createPlayerResource(p2, g.get());	
+		resourcesService.createPlayerResource(p3, g.get());	
+		Resources resourcesP1 = resourcesService.findByPlayerIdAndGameId(p1.getId(), g.get().getId()).get();
+		Resources resourcesP2 = resourcesService.findByPlayerIdAndGameId(p2.getId(), g.get().getId()).get();
+		Resources resourcesP3 = resourcesService.findByPlayerIdAndGameId(p3.getId(), g.get().getId()).get();
+		resourcesP1.setIron(2);
+		resourcesP2.setIron(2);
+		resourcesP3.setBadges(5);
+		Map<ResourceType, List<Integer>> recursos =actionResolution.getResourcesAmount(g.get());
+		assertThat(recursos.get(ResourceType.IRON).get(0)).isEqualTo(resourcesP1.getIron());
+	}
 }
