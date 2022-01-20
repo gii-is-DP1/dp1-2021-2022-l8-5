@@ -96,13 +96,15 @@ public class WorkerService {
 				.collect(Collectors.toList());
 		
 		if(workersWithPosition.size() > 0) {
-			Game game = gameService.findPlayerUnfinishedGames(player).get();
-			Board board = gameService.findBoardByGameId(game.getId()).get();
-			workersWithPosition.stream().forEach(worker -> {
-				BoardCell boardCell = board.getBoardCell(worker.getXposition(), worker.getYposition());
-				boardCell.setOccupiedBy(null);
-				boardCellService.saveBoardCell(boardCell);
-			});
+			Game game = gameService.findPlayerUnfinishedGames(player).orElse(null);
+			if (game != null) {
+				Board board = gameService.findBoardByGameId(game.getId()).get();
+				workersWithPosition.stream().forEach(worker -> {
+					BoardCell boardCell = board.getBoardCell(worker.getXposition(), worker.getYposition());
+					boardCell.setOccupiedBy(null);
+					boardCellService.saveBoardCell(boardCell);
+				});
+			}
 		}
 		
 		workers.stream().forEach(worker -> delete(worker));

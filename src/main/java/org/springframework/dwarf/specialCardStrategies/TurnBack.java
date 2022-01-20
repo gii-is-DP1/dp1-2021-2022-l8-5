@@ -58,7 +58,7 @@ public class TurnBack implements CardStrategy {
 				.collect(Collectors.toList());
 		
 		int indexCell = -1;
-		if(cells.size() > 1)
+		if(cells.size() >= 1)
 			indexCell = (int) Math.floor(Math.random()*(cells.size()-1));
 		
 		BoardCell cell = indexCell == -1 ? null:cells.get(indexCell);
@@ -96,6 +96,7 @@ public class TurnBack implements CardStrategy {
 		}
 		
 		boardCell.setOccupiedBy(player);
+		boardCell.setIsDisabled(true);
 		boardCellService.saveBoardCell(boardCell);
 	}
 	

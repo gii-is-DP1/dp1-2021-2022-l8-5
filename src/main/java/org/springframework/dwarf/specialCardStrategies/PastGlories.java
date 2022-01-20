@@ -38,18 +38,22 @@ public class PastGlories implements CardStrategy {
 		boardService.saveBoard(board);
 	}
 	
-	private BoardCell searchBoardCell(Board board) {
+	protected BoardCell searchBoardCell(Board board) {
 		List<BoardCell> cells = board.getBoardCells();
 		
 		cells = cells.stream()
 				.filter(cell -> cell.getMountaincards().size() > 1)
 				.collect(Collectors.toList());
-		int indexCell = (int) Math.floor(Math.random()*(cells.size()-1));
 		
-		return cells.get(indexCell);
+		int indexCell = -1;
+		if(cells.size() >= 1)
+			indexCell = (int) Math.floor(Math.random()*(cells.size()-1));
+		
+		BoardCell cell = indexCell == -1 ? null:cells.get(indexCell);
+		return cell;
 	}
 	
-	private void moveLastCardToTop(BoardCell cell) {
+	protected void moveLastCardToTop(BoardCell cell) {
 		List<MountainCard> cellCards = cell.getMountaincards();
 		MountainCard cardToMove = cellCards.get(cellCards.size()-1);
 		cellCards.remove(cardToMove);
