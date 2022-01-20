@@ -9,6 +9,9 @@ import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.player.Player;
 import org.springframework.stereotype.Component;
 import org.springframework.dwarf.card.StrategyName;
+import org.springframework.dwarf.board.Board;
+import org.springframework.dwarf.board.BoardCell;
+import org.springframework.dwarf.board.BoardCellService;
 import org.springframework.dwarf.card.CardStrategy;
 
 @StrategyPattern.ConcreteStrategy
@@ -16,11 +19,20 @@ import org.springframework.dwarf.card.CardStrategy;
 public class MusterAnArmy implements CardStrategy{
 
 	@Autowired
-	GameService gameService;
+	private GameService gameService;
+	@Autowired
+	private BoardCellService boardCellService;
 	
 	@Override
 	public void actions(Player player, String cardName) {
 		Game game = gameService.findPlayerUnfinishedGames(player).get();
+		Board board = gameService.findBoardByGameId(game.getId()).get();
+		
+		for(BoardCell cell: board.getBoardCells()) {
+			cell.setIsDisabled(false);
+			boardCellService.saveBoardCell(cell);
+		}
+		
 		game.setMusterAnArmyEffect(true);
 		try {
 			gameService.saveGame(game);

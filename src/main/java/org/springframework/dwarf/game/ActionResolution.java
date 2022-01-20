@@ -60,7 +60,6 @@ public class ActionResolution implements GamePhase{
 					game.phaseResolution(applicationContext);
 					return;
 				}
-			
 		}
 		
 		game.setCanResolveActions(true);
