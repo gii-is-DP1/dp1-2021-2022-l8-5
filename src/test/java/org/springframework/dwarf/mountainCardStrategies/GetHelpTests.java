@@ -14,7 +14,6 @@ import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
-import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.dwarf.worker.Worker;
 import org.springframework.dwarf.worker.WorkerService;
 import org.springframework.stereotype.Component;
@@ -30,8 +29,6 @@ public class GetHelpTests {
 	private GameService gameService;
 	@Autowired
 	private PlayerService playerService;
-	@Autowired
-	private LoggedUserController loggedUserController;
 	
 	@Autowired
 	protected GetHelp gh;
@@ -78,9 +75,24 @@ public class GetHelpTests {
 	 @Test
 	 void testActions() throws Exception{
 		 gh.actions(p1, "GetHelp");
-		 Collection<Worker> workers = workerService.findByPlayerId(p1.getId());
-		 workers.size();
-		 assertThat(workers.size()).isEqualTo(4);
+		 Integer workersNumber = workerService.findByPlayerId(p1.getId()).size();
+		 assertThat(workersNumber).isEqualTo(4);
+
+		 gh.actions(p1, "GetHelp");
+		 Integer workersNumber2 = workerService.findByPlayerId(p1.getId()).size();
+		 assertThat(workersNumber2).isEqualTo(6);
+
+		 gh.actions(p1, "GetHelp");
+		 Integer workersNumber3 = workerService.findByPlayerId(p1.getId()).size();
+		 assertThat(workersNumber3).isEqualTo(8);
+
+		 gh.actions(p1, "GetHelp");
+		 Integer workersNumber4 = workerService.findByPlayerId(p1.getId()).size();
+		 assertThat(workersNumber4).isEqualTo(9);
+
+		 gh.actions(p1, "GetHelp");
+		 Integer workersNumber5 = workerService.findByPlayerId(p1.getId()).size();
+		 assertThat(workersNumber5).isEqualTo(9);
 	 }
 	 @Test
 	 void testActionsGetTurn() throws Exception {

@@ -39,7 +39,7 @@ public class GetHelp implements CardStrategy{
 		Integer totalWorkers = workerService.findPlacedByGameId(game.getId()).size()
 				+ workerService.findNotPlacedByGameId(game.getId()).size();
 		
-		//check the amount of workers to not give more workers than tiles
+		//check the amount of workers not to give more workers than tiles
 		
 		if (totalWorkers < MAX_WORKERS-1) {
 			Worker extraWorker1 = new Worker(player, game, 4);
