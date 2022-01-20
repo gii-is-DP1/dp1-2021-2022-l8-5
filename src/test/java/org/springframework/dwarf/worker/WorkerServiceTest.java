@@ -16,14 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dwarf.board.Board;
 import org.springframework.dwarf.board.BoardService;
 import org.springframework.dwarf.game.CreateGameWhilePlayingException;
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
-import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.stereotype.Service;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -43,9 +41,6 @@ public class WorkerServiceTest {
 	
 	@Autowired
 	protected BoardService boardService;
-	
-	@Autowired
-	private LoggedUserController loggedUserController;
 	
 
 	@Autowired
@@ -70,7 +65,6 @@ public class WorkerServiceTest {
 		int id = 1;
 		
 		Optional<Worker> Worker = workerService.findByWorkerId(id);
-		System.out.println("------------TEST FIND BY Worker ID------------");
 		Worker p = Worker.orElse(null);
 		assertThat(p.getXposition()).isNull();
 	}
@@ -80,7 +74,6 @@ public class WorkerServiceTest {
 		int id = 50;
 		
 		Optional<Worker> Worker = workerService.findByWorkerId(id);
-		System.out.println("------------TEST FIND BY Worker ID------------");
 		assertTrue(Worker.isEmpty());
 	}
 	
@@ -90,18 +83,14 @@ public class WorkerServiceTest {
 		int id = 1;
 		
 		Collection<Worker> Worker = workerService.findByPlayerId(id);
-		System.out.println("------------TEST FIND BY Player ID------------");
 		assertThat(Worker.size()).isEqualTo(2);
-		
 	}
 	@Test
 	public void testFindByPlayerIdNegative() {
 		int id = 50;
 		
 		Collection<Worker> Worker = workerService.findByPlayerId(id);
-		System.out.println("------------TEST FIND BY Player ID------------");
 		assertThat(Worker.size()).isEqualTo(0);
-		
 	}
 	
 	
@@ -221,7 +210,6 @@ public class WorkerServiceTest {
 		int id = WorkerTest.getId();
 		
 		Optional<Worker> Worker = workerService.findByWorkerId(id);
-		System.out.println("------------TEST SAVE Worker------------");
 		Worker p = Worker.orElse(null);
 		assertEquals(p.getXposition(), 3);
 	}
@@ -262,10 +250,6 @@ public class WorkerServiceTest {
 		Boolean res = workerService.getWorkerInvalid(WorkerTest);
 		assertEquals(res, false);
 	}
-	
-
-	
-	
 	
 	@Test
 	public void testNullWorker() {
@@ -344,7 +328,7 @@ public class WorkerServiceTest {
 		
 		gameService.saveGame(g);
 	
-		Board  b = boardService.createBoard(g);
+		boardService.createBoard(g);
 		
 		w1.setId(5);
 		w1.setXposition(1);

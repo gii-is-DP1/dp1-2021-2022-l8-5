@@ -18,7 +18,6 @@ import org.springframework.dwarf.player.PlayerService;
 import org.springframework.dwarf.resources.ResourceType;
 import org.springframework.dwarf.resources.Resources;
 import org.springframework.dwarf.resources.ResourcesService;
-import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -37,8 +36,6 @@ public class SellAnItemTests {
    
    @Autowired
    private GameService gameService;
-	@Autowired
-	private LoggedUserController loggedUserController;
    
    
    private Player p1;

@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dwarf.board.Board;
-import org.springframework.dwarf.board.BoardCellService;
 import org.springframework.dwarf.board.BoardService;
 import org.springframework.dwarf.mountain_card.MountainDeck;
 import org.springframework.dwarf.player.Player;
@@ -89,6 +88,20 @@ public class GameService {
 	@Transactional(readOnly = true)
 	public Optional<Board> findBoardByGameId(Integer gameId){
 		return gameRepo.searchBoardByGameId(gameId);
+	}
+	
+	@Transactional(readOnly = true)
+	public List<Game> findFinishedGames() {
+		return gameRepo.searchFinishedGames();
+	}
+	
+	@Transactional(readOnly = true)
+	public List<Game> findCurrentGames() {
+		List<Game> games = gameRepo.searchUnfinishedGames();
+		return games.stream()
+				.filter(game -> findBoardByGameId(game.getId()).isPresent())
+				.filter(game -> game.getPlayersList().size() > 1)
+				.collect(Collectors.toList());
 	}
   
 	@Transactional

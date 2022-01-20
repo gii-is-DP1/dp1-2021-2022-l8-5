@@ -19,7 +19,6 @@ import org.springframework.dwarf.player.PlayerService;
 import org.springframework.dwarf.resources.ResourceType;
 import org.springframework.dwarf.resources.Resources;
 import org.springframework.dwarf.resources.ResourcesService;
-import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -39,9 +38,6 @@ class ForgesAlloyTests {
        @Autowired
        protected  ForgesAlloy fg;
        
-   	@Autowired
-   	private LoggedUserController loggedUserController;
-       
    @BeforeEach
    	void setup() throws Exception {
 	   Game g =  gameService.findByGameId(2).get();
@@ -55,14 +51,8 @@ class ForgesAlloyTests {
 		  Resources playerResources2 = new Resources(g, p2);
 		  playerResources.addResource(ResourceType.STEEL, 2);
 		  
-		  
-		  
-		  
 		  resourcesService.saveResources(playerResources);
 		  resourcesService.saveResources(playerResources2);
-
-
-   	
    	}
 	   
 	   @Test
