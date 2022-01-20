@@ -91,7 +91,7 @@ public class ActionResolution implements GamePhase{
 				.collect(Collectors.toList()).size() >= 1;
 	}
 	
-	private List<BoardCell> getCellstoResolveActions(Game game) {
+	protected List<BoardCell> getCellstoResolveActions(Game game) {
 		Board board = gameService.findBoardByGameId(game.getId()).get();
 		
 		// defend cards always resolve action
@@ -148,7 +148,7 @@ public class ActionResolution implements GamePhase{
 		return resourcesAmount;
 	}
 	
-	private List<Integer> addPoints(List<Integer> points, List<Integer> resourcesAmount) {
+	protected List<Integer> addPoints(List<Integer> points, List<Integer> resourcesAmount) {
 		Integer max = Collections.max(new ArrayList<Integer>(resourcesAmount));
 		
 		for(int i=0; i<resourcesAmount.size(); i++) {
