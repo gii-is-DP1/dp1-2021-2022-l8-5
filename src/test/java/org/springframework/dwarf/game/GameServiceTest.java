@@ -2,13 +2,9 @@ package org.springframework.dwarf.game;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +12,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -26,8 +21,6 @@ import org.springframework.dwarf.board.BoardService;
 import org.springframework.dwarf.mountain_card.MountainDeck;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
-import org.springframework.dwarf.web.LoggedUserController;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -40,8 +33,6 @@ public class GameServiceTest {
 	protected PlayerService playerService;
 	@Autowired
 	protected BoardService boardService;
-	@Autowired
-	private LoggedUserController loggedUserController;
 	
 	@Test
 	@DisplayName("Returns the number of games created")
@@ -187,13 +178,9 @@ public class GameServiceTest {
 		
 		gameService.joinGame(game, player);
 
-
-		
 		assertThat(game.getFirstPlayer().getId()).isNotEqualTo(player.getId());
 		assertThat(game.getSecondPlayer().getId()).isNotEqualTo(player.getId());
 		assertThat(game.getThirdPlayer().getId()).isNotEqualTo(player.getId());
-		
-		
 	}
 	
 	
@@ -288,7 +275,7 @@ public class GameServiceTest {
  	@Test
     @DisplayName("Search the game a player is currently is")
     void testGetCurrentGameId(){
-	 Player player = playerService.findPlayerById(6);
+ 		Player player = playerService.findPlayerById(6);
         Integer gameId = gameService.getCurrentGameId(player);
         assertThat(gameId).isEqualTo(1);
     }
@@ -296,7 +283,7 @@ public class GameServiceTest {
  	@Test
     @DisplayName("Search the game a player is currently is - Negative")
     void testGetCurrentGameIdNegative(){
-	 Player player = playerService.findPlayerById(3);
+ 		Player player = playerService.findPlayerById(3);
         Integer gameId = gameService.getCurrentGameId(player);
         assertThat(gameId).isEqualTo(null);
     }
@@ -304,7 +291,7 @@ public class GameServiceTest {
  	@Test
     @DisplayName("Checks if a player is in a unfinished game")
     void testAlreadyInGame(){
-	 Player player = playerService.findPlayerById(3);
+ 		Player player = playerService.findPlayerById(3);
         Boolean res = gameService.alreadyInGame(player);
         assertFalse(res);
     }
@@ -312,9 +299,26 @@ public class GameServiceTest {
 	@Test
     @DisplayName("Checks if a player is in a unfinished game (2nd condition)")
     void testAlreadyInGame2(){
-	 Player player = playerService.findPlayerById(6);
+		Player player = playerService.findPlayerById(6);
         Boolean res = gameService.alreadyInGame(player);
         assertTrue(res);
     }
-    
+	
+	@Test
+    @DisplayName("Find finished games")
+    void testFindFinishedGames() {
+		Game game = gameService.findByGameId(3).orElse(null);
+		List<Game> finishedGames = gameService.findFinishedGames();
+		
+		assertThat(finishedGames.contains(game)).isTrue();
+	}
+	
+	@Test
+    @DisplayName("Find current games")
+	void testFindCurrentGames() {
+		List<Game> currentGames = gameService.findCurrentGames();
+		
+		assertThat(currentGames.size()).isEqualTo(0);
+	}
+	
 }

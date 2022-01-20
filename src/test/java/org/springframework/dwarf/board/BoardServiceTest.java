@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.mountain_card.MountainDeckService;
 import org.springframework.dwarf.special_card.SpecialDeck;
-import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter({Service.class,Component.class}))
@@ -29,9 +27,6 @@ public class BoardServiceTest {
 	private GameService gameService;
 	@Autowired
 	private MountainDeckService mountainDesckService;
-	@Autowired
-	private LoggedUserController loggedUserController;
-	
 	
 	@Test
 	@DisplayName("Board count")

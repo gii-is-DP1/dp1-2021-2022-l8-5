@@ -121,50 +121,48 @@
 	        </tbody>
 	    </table>
     </c:if>
-    <table class="table table-striped">
-       <sec:authorize access="hasAuthority('admin')">
-	   	<h3>Auditing</h3>
-	    <thead>
-	        <tr>
-	        	<th style="width: 150px;">Creator</th>
-	             <th style="width: 150px;">Created on</th>
-	             <th style="width: 150px;">Last modified By</th>
-	             <th style="width: 150px;">Last modified on</th>
-	        </tr>
-	        </thead>
-	        
-	        <tbody>
-	            <tr>
-	            	<td>
-	            	<c:if test="${empty player.creator}">
-	            		Spring
-					</c:if>
-	                    <c:out value="${player.creator}"/>
-	            	</td>
-	                 <td>
-         	         <c:if test="${empty player.createdDateTime}">
-	            		13M+ Y
-					</c:if>
-	                    <c:out value="${player.createdDateTime}"/>
-	            	</td>
-	                 <td>
-					<c:if test="${empty player.modifier}">
-	            		Nobody
-					</c:if>
-	                    <c:out value="${player.modifier}"/>
-	            	</td>
-	                 <td>
-					<c:if test="${empty player.lastModifiedDate}">
-	            		Never
-					</c:if>
-	                    <c:out value="${player.lastModifiedDate}"/>
-	            	</td>
-	            	  
-					</tr>       
-	            </tr>
-	        </tbody>
-	    </table>
-	     </sec:authorize>
+    <sec:authorize access="hasAuthority('admin')">
+		<table class="table table-striped">
+			
+			<h3>Auditing</h3>
+			<thead>
+			<tr>
+				<th style="width: 150px;">Creator</th>
+				<th style="width: 150px;">Created on</th>
+				<th style="width: 150px;">Last modified By</th>
+				<th style="width: 150px;">Last modified on</th>
+			</tr>
+			</thead>
+		
+			<tbody>
+				<tr>
+					<td>
+						<c:if test="${not empty player.creator}">
+							<c:out value="${player.creator}"/>
+						</c:if>
+						<c:if test="${empty player.creator}">
+							Spring
+						</c:if> 
+					</td>
+					<td>
+						<c:if test="${not empty player.createdDateTime}">
+							<fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${player.createdDateTime}"/>
+						</c:if> 
+					</td>
+					<td>
+						<c:if test="${not empty player.modifier}">
+							<c:out value="${player.modifier}"/>
+						</c:if>
+					</td>
+					<td>
+						<c:if test="${not empty player.lastModifiedDate}">
+							<fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${player.lastModifiedDate}"/>
+						</c:if>
+					</td>	  
+				</tr> 
+			</tbody>
+		</table>
+	</sec:authorize>
     </div>
 </div>
 

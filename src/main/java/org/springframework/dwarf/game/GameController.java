@@ -1,7 +1,9 @@
 package org.springframework.dwarf.game;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -9,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dwarf.board.Board;
 import org.springframework.dwarf.player.Player;
-import org.springframework.dwarf.player.PlayerService;
 import org.springframework.dwarf.resources.Resources;
 import org.springframework.dwarf.resources.ResourcesService;
 import org.springframework.dwarf.web.LoggedUserController;
@@ -30,26 +31,50 @@ import org.springframework.web.servlet.ModelAndView;
 public class GameController {
 	
 	private GameService gameService;
-	private PlayerService playerService;
 	private ResourcesService resourcesService;
 	private LoggedUserController loggedUserController;
 
 	@Autowired
-	public GameController(GameService gameService, PlayerService playerService, ResourcesService resourcesService, LoggedUserController loggedUserController) {
+	public GameController(GameService gameService, ResourcesService resourcesService, LoggedUserController loggedUserController) {
 		this.gameService = gameService;
-		this.playerService = playerService;
 		this.resourcesService = resourcesService;
 		this.loggedUserController=loggedUserController;
 	}
 	
-	@GetMapping()
-	public String listGames(ModelMap modelMap) {
+	@GetMapping("/listGames/finished")
+	public String listFinishedGames(ModelMap modelMap) {
 		String view = "games/listGames";
-		Iterable<Game> games = gameService.findAll();
+		
+		List<Game> games = gameService.findFinishedGames();
+		List<Integer> indices = new ArrayList<Integer>();
+		for(int i=0; i<games.size(); i++)
+			indices.add(i);
+		
+		modelMap.addAttribute("indices", indices);
 		modelMap.addAttribute("games", games);
+		modelMap.addAttribute("type", "Finished");
 		return view;
 	}
 	
+	@GetMapping("/listGames/current")
+	public String listCurrentGames(ModelMap modelMap) {
+		String view = "games/listGames";
+		
+		List<Game> games = gameService.findCurrentGames();
+		List<Integer> boardsId = games.stream()
+				.map(game -> gameService.findBoardByGameId(game.getId()).get().getId())
+				.collect(Collectors.toList());
+
+		List<Integer> indices = new ArrayList<Integer>();
+		for(int i=0; i<games.size(); i++)
+			indices.add(i);
+		
+		modelMap.addAttribute("indices", indices);
+		modelMap.addAttribute("games", games);
+		modelMap.addAttribute("boardsId", boardsId);
+		modelMap.addAttribute("type", "Current");
+		return view;
+	}
 	
 	@GetMapping(path="/{gameId}/delete")
 	public String deleteGame(@PathVariable("gameId") Integer gameId, ModelMap modelMap) {

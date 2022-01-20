@@ -2,7 +2,6 @@ package org.springframework.dwarf.mountainCardStrategies;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +35,6 @@ public class DragonsKnockersTests {
 	   
 	@Autowired
 	private GameService gameService;
-	
-	@Autowired
-	private LoggedUserController loggedUserController;
    
 	private Player p1;
 	private Player p2;

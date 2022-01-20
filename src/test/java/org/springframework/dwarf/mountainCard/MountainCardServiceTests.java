@@ -28,16 +28,12 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dwarf.mountain_card.MountainCard;
 import org.springframework.dwarf.mountain_card.MountainCardService;
-import org.springframework.dwarf.user.User;
-import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter({Service.class,Component.class}))
 class MountainCardServiceTests {                
-        @Autowired
+	@Autowired
 	protected MountainCardService mountainCardService;
-    	@Autowired
-    	private LoggedUserController loggedUserController;
 
 	@Test
 	void shouldFindMountainCardById() {
@@ -55,7 +51,6 @@ class MountainCardServiceTests {
 	
 	@Test
 	void shouldFindByGroupCard() {
-		// mirar el numero de cartas que hay del tipo 2 cuando se actualice data.sql (actualmente 6)
 		List<MountainCard> mountainCards = mountainCardService.findByGroupCard(1);
 		assertThat(mountainCards.size()).isEqualTo(9);
 	}

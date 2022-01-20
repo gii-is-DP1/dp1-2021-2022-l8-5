@@ -5,17 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Range;
-import org.jpatterns.gof.StrategyPattern;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
 import org.springframework.dwarf.card.Card;
-import org.springframework.dwarf.card.CardStrategy;
-import org.springframework.dwarf.card.StrategyName;
-import org.springframework.dwarf.player.Player;
 
 /**
  * Simple JavaBean domain object representing a mountain card.

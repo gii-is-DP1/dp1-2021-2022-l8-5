@@ -1,28 +1,21 @@
 package org.springframework.dwarf.resources;
 
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.BDDMockito.given;
 
 import org.springframework.stereotype.Component;
 import java.util.Collection;
 import java.util.Optional;
 
-import org.hibernate.exception.ConstraintViolationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dwarf.board.Board;
 import org.springframework.dwarf.game.Game;
-import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.player.Player;
-import org.springframework.dwarf.player.PlayerService;
 import org.springframework.dwarf.user.User;
 import org.springframework.stereotype.Service;
 

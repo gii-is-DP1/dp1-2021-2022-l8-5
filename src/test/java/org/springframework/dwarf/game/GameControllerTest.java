@@ -35,8 +35,6 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest(controllers = {GameController.class,LoggedUserController.class}, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 public class GameControllerTest {
 
-	private static final int TEST_GAME_ID = 1;
-	
 	@MockBean
 	private GameService gameService;
 	
@@ -50,11 +48,7 @@ public class GameControllerTest {
 	private PlayerService playerService;
 	
 	@MockBean
-	private UserService userService;
-	
-	@Autowired
-	private LoggedUserController loggedUserController;	
-	
+	private UserService userService; 
 	@Autowired
 	private MockMvc mockMvc;
 	
@@ -96,18 +90,24 @@ public class GameControllerTest {
 	@Test
 	@WithMockUser(username = "pabmargom3")
     void testSearchGames_searchOrCreate() throws Exception {
-	 mockMvc.perform(get("/games/searchGames")).andExpect(status().isOk())
-		.andExpect(view().name("games/searchOrCreateGames"))
-		.andExpect(model().attributeExists("gamesToJoin"));
+		mockMvc.perform(get("/games/searchGames")).andExpect(status().isOk())
+			.andExpect(view().name("games/searchOrCreateGames"))
+			.andExpect(model().attributeExists("gamesToJoin"));
 	}
 	
 	@Test
 	@WithMockUser(username = "pabmargom3")
-    void listGames() throws Exception {
-	 mockMvc.perform(get("/games")).andExpect(status().isOk())
-		.andExpect(view().name("games/listGames"))
-		.andExpect(model().attributeExists("games"));
+    void listFinsihedGames() throws Exception {
+		mockMvc.perform(get("/games/listGames/finished")).andExpect(status().isOk())
+			.andExpect(view().name("games/listGames"))
+			.andExpect(model().attributeExists("games"));
 	}
 	
-	
+	@Test
+	@WithMockUser(username = "pabmargom3")
+    void listCurrentGames() throws Exception {
+		mockMvc.perform(get("/games/listGames/current")).andExpect(status().isOk())
+			.andExpect(view().name("games/listGames"))
+			.andExpect(model().attributeExists("games"));
+	}
 }

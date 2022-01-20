@@ -2,7 +2,6 @@ package org.springframework.dwarf.mountainCardStrategies;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.Collection;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,6 @@ import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
-import org.springframework.dwarf.worker.Worker;
 import org.springframework.dwarf.worker.WorkerService;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
