@@ -1,7 +1,6 @@
 package org.springframework.dwarf.specialCardStrategies;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,16 +84,16 @@ public class HoldACouncilTests {
         
         List<MountainCard> removedCardsList = hac.removeTopCards(game, board);
         
-        assertTrue(!(removedCardsList.isEmpty())); //La primera lista que obtiene no es vacía ya que el tablero tiene boardCells con más de 1 carta
+        assertThat(!(removedCardsList.isEmpty())).isTrue();
         MountainCard boardCell2 = board.getBoardCells().get(0).getMountaincards().get(0);
-        assertThat(boardCell1).isNotEqualTo(boardCell2);   //No son iguales ya que hemos eliminado las cartas de antes de cada celda del tablero
+        assertThat(boardCell1).isNotEqualTo(boardCell2);
         
 
         removedCardsList = hac.removeTopCards(game, board);
 
-        assertTrue((removedCardsList.isEmpty())); //La lista que obtiene es vacía ya que el tablero no tiene boardCells con más de 1 carta
+        assertThat((removedCardsList.isEmpty())).isTrue();
         MountainCard boardCell3 = board.getBoardCells().get(0).getMountaincards().get(0);
-        assertThat(boardCell2).isEqualTo(boardCell3); //Son iguales ya que no hemos eliminado ninguna carta de las celdas
+        assertThat(boardCell2).isEqualTo(boardCell3);
        }
 
 

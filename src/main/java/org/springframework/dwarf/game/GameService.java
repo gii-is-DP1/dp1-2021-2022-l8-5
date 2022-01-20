@@ -2,6 +2,7 @@ package org.springframework.dwarf.game;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -58,7 +59,9 @@ public class GameService {
 	
 	@Transactional(readOnly = true)
 	public List<Game> findGamesToJoin(){
-		return gameRepo.searchGamesToJoin();
+		List<Game> gamesToJoin = gameRepo.searchGamesToJoin();
+		return gamesToJoin.stream().filter(g -> this.findBoardByGameId(g.getId()).orElse(null) == null)
+				.collect(Collectors.toList());
 	}
 	
 	@Transactional(readOnly = true)
@@ -170,9 +173,9 @@ public class GameService {
 			return;
 		
 		Board board = this.findBoardByGameId(game.getId()).get();
-		boardService.delete(board);
 		
 		this.deleteAllWorkers(game);
+		boardService.delete(board);
 		
 		this.saveGame(game);
 	}

@@ -71,7 +71,7 @@
 				<form:form class="form-horizontal" id="add-player-form">
 					<div class="form-group text-center">
 					
-						<c:if test="${phaseName == 'ACTION_SELECTION' || hasAidWorkers}">
+						<c:if test="${phaseName == 'ACTION_SELECTION'}">
 							<h2>Select the tile where you'll place your worker</h2>
 							<c:set var="index" value="${0}"/>
 							<c:forEach items="${ypos}" var="y">
@@ -84,7 +84,7 @@
 							</c:forEach>
 						</c:if>
 						
-						<c:if test="${(phaseName == 'ACTION_SELECTION') && (hasEnoughWorkers || canPay)}">
+						<c:if test="${(phaseName == 'ACTION_SELECTION') && (hasEnoughWorkers || canPay) && (!hasAidWorkers)}">
 							&nbsp;
 							<h2>Select the special action to perform</h2>
 							<p>You'll use your 2 workers for this turn, but the action will be performed immediatly</p>
