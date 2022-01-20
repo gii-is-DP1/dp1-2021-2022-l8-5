@@ -45,13 +45,13 @@ public class Apprentice implements CardStrategy {
 	protected BoardCell searchBoardCell(Board board) {
 		List<BoardCell> cells = board.getBoardCells();
 		
-		int indexCell = -1;
-		if(cells.size() > 0) {
-			cells = cells.stream()
+		cells = cells.stream()
 				.filter(cell -> cell.getOccupiedBy() != null)
 				.collect(Collectors.toList());
+		
+		int indexCell = -1;
+		if(cells.size() > 0)
 			indexCell = (int) Math.floor(Math.random()*(cells.size()-1));
-		}
 		
 		BoardCell cell = indexCell==-1 ? null:cells.get(indexCell);
 		return cell;
