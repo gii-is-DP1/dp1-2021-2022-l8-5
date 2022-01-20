@@ -42,7 +42,7 @@ public class Apprentice implements CardStrategy {
 			this.placeWorker(player, boardCell);
 	}
 	
-	private BoardCell searchBoardCell(Board board) {
+	protected BoardCell searchBoardCell(Board board) {
 		List<BoardCell> cells = board.getBoardCells();
 		
 		int indexCell = -1;
@@ -57,7 +57,7 @@ public class Apprentice implements CardStrategy {
 		return cell;
 	}
 	
-	private void placeWorker(Player player, BoardCell boardCell) {
+	protected void placeWorker(Player player, BoardCell boardCell) {
 		Worker workerToPlace = workerService.findByPlayerId(player.getId()).stream()
 				.filter(worker -> worker.getXposition()==SPECIAL_CARDS_COLUMN)
 				.findFirst().orElse(null);
