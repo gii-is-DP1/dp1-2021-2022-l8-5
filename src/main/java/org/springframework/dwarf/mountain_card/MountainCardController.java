@@ -57,10 +57,7 @@ public class MountainCardController {
 		List<BoardCell> currentBoardCells = currentBoard.getBoardCells();
 		modelMap.addAttribute("boardCells", currentBoardCells);
 		
-		String view = "board/boardcards";
-		Iterable<MountainCard> mountainCards = mountainCardService.findAll();
-		modelMap.addAttribute("mountainCards", mountainCards);
-		return view;
+		return "board/boardcards";
 	}
 
 }

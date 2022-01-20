@@ -32,8 +32,11 @@ public class SpecialOrder implements CardStrategy{
 		Resources resources = resourcesService.findByPlayerIdAndGameId(player.getId(), game.getId()).get();
 		
 		try {
-			resources.addResource(ResourceType.ITEMS, 1);
-			this.setResourcesToPlayer(resources);
+			if (((resources.getIron() + resources.getSteel() + resources.getGold()) >= 5) && 
+					resources.getIron() >= 1 && resources.getSteel() >= 1 && resources.getGold() >= 1) {
+				resources.addResource(ResourceType.ITEMS, 1);
+				this.setResourcesToPlayer(resources);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
