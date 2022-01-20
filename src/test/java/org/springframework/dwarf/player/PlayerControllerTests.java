@@ -21,6 +21,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.context.annotation.Import;
 import org.springframework.dwarf.configuration.SecurityConfiguration;
 import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.user.AuthoritiesService;
@@ -38,8 +39,7 @@ import org.springframework.test.web.servlet.MockMvc;
  * @author Pablo Marín
  */
 
-@WebMvcTest(controllers = PlayerController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
-
+@WebMvcTest(controllers = {LoggedUserController.class,PlayerController.class}, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 class PlayerControllerTests {
 
 	private static final int TEST_PLAYER_ID = 1;
@@ -85,17 +85,15 @@ class PlayerControllerTests {
 	@WithMockUser(username = "paco")
 	@Test
 	void testloggedPlayerPositive() throws Exception{
-		LoggedUserController lg = new LoggedUserController(playerService);
 		String userlogged = LoggedUserController.returnLoggedUserName();
-		assertEquals(playerService.findPlayerByUserName(userlogged).getUsername(), lg.loggedPlayer().getUsername());
+		assertEquals(playerService.findPlayerByUserName(userlogged).getUsername(), LoggedUserController.loggedPlayer().getUsername());
 		
 	}
 	
 	@Test
 	void testloggedPlayerNegative() throws Exception{
 		LoggedUserController lg = new LoggedUserController(playerService);
-		//String userlogged = LoggedUserController.returnLoggedUserName();
-		assertEquals(lg.loggedPlayer().getFirstName() , "Guest");
+		assertEquals(LoggedUserController.loggedPlayer().getFirstName() , "Guest");
 		
 	}
 	
