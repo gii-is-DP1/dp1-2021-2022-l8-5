@@ -2,19 +2,24 @@ package org.springframework.dwarf.game;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.Set;
 
-import org.apache.catalina.WebResourceRoot.ResourceSetType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dwarf.board.Board;
+import org.springframework.dwarf.board.BoardCell;
+import org.springframework.dwarf.board.BoardCellService;
 import org.springframework.dwarf.board.BoardService;
+import org.springframework.dwarf.card.StrategyName;
 import org.springframework.dwarf.mountain_card.CardType;
 import org.springframework.dwarf.mountain_card.MountainCard;
 import org.springframework.dwarf.mountain_card.MountainCardService;
@@ -42,6 +47,9 @@ public class ActionResolutionTest {
     private WorkerService workerService;
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private BoardCellService boardCellService;
 	@Autowired
 	private LoggedUserController loggedUserController;
 	@Autowired
@@ -145,4 +153,180 @@ public class ActionResolutionTest {
 		assertThat(theGameFinishes).isFalse();
 	}
 	
+	@Test
+	void testGetIsTiePositivo() {
+		List<Integer> puntos = new ArrayList<>();
+		puntos.add(6);
+		puntos.add(2);
+		puntos.add(6); //puntos p1, p2, p3
+		
+		//Hay empate
+		Boolean empate = actionResolution.getIsTie(puntos);
+		assertThat(empate).isTrue();
+	}
+	
+	@Test
+	void testGetIsTieNegativo() {
+		List<Integer> puntos = new ArrayList<>();
+		puntos.add(6);
+		puntos.add(2);
+		puntos.add(4); //puntos p1, p2, p3
+		
+		//No hay empate
+		Boolean empate = actionResolution.getIsTie(puntos);
+		assertThat(empate).isFalse();
+	}
+
+	
+	@Test
+	void testTieBreakerPositivo() {
+
+		resourcesService.createPlayerResource(p1, g.get());
+		resourcesService.createPlayerResource(p2, g.get());
+		resourcesService.createPlayerResource(p3, g.get());
+		
+		Map<ResourceType, List<Integer>> map = actionResolution.getResourcesAmount(g.get());
+		List<Integer> puntosIniciales = map.get(ResourceType.BADGES);
+		
+		puntosIniciales.set(0, 1);
+		puntosIniciales.set(1, 2);
+		puntosIniciales.set(2, 3);	//Forzamos que no haya empate
+		
+		List<Integer> puntosFinales = new ArrayList<>(puntosIniciales);
+		puntosFinales = actionResolution.tieBreaker(puntosFinales, map);
+		
+		Set<Integer> comprobador = new HashSet<>(puntosFinales);
+		
+		assertThat(puntosFinales.size()).isEqualTo(comprobador.size());	//desempata por medallas (no hierro)
+	}
+	
+	@Test
+	void testTieBreakerPositivo2() {
+
+		resourcesService.createPlayerResource(p1, g.get());
+		resourcesService.createPlayerResource(p2, g.get());
+		resourcesService.createPlayerResource(p3, g.get());
+		
+		resourcesService.findByPlayerIdAndGameId(p1.getId(), g.get().getId()).get().setIron(234);	
+		//un player con hierro distinto
+		
+		Map<ResourceType, List<Integer>> map = actionResolution.getResourcesAmount(g.get());
+		List<Integer> puntosIniciales = map.get(ResourceType.BADGES);
+		
+		puntosIniciales.set(0, 3);
+		puntosIniciales.set(1, 0);
+		puntosIniciales.set(2, 3);	//Forzamos que haya empate medallas
+		
+		List<Integer> puntosFinales = new ArrayList<>(puntosIniciales);
+		puntosFinales = actionResolution.tieBreaker(puntosFinales, map);
+		
+		Set<Integer> comprobador = new HashSet<>(puntosFinales);
+		
+		assertThat(puntosFinales.size()).isEqualTo(comprobador.size());	//desempata por hierro (medallas =)
+	}
+	
+	@Test
+	void testTieBreakerNegativo() {
+
+		resourcesService.createPlayerResource(p1, g.get());
+		resourcesService.createPlayerResource(p2, g.get());
+		resourcesService.createPlayerResource(p3, g.get());
+		
+		Map<ResourceType, List<Integer>> map = actionResolution.getResourcesAmount(g.get());
+		List<Integer> puntosIniciales = map.get(ResourceType.BADGES);
+		
+		puntosIniciales.set(0, 3);
+		puntosIniciales.set(1, 1);
+		puntosIniciales.set(2, 3);	//Forzamos el empate en medallas
+		
+		List<Integer> puntosFinales = new ArrayList<>(puntosIniciales);
+		puntosFinales = actionResolution.tieBreaker(puntosFinales, map);
+		
+		Set<Integer> comprobador = new HashSet<>(puntosFinales);
+		
+		assertThat(puntosFinales.size()).isNotEqualTo(comprobador.size());	//no tienen hierro que desempate (= medallas)
+	}
+	@Test
+	void testGetName() {
+	  GamePhaseEnum name = actionResolution.getPhaseName();
+	  assertThat(name).isEqualTo(GamePhaseEnum.ACTION_RESOLUTION);
+	  
+		}
+	
+	@Test
+	void tesGetCellstoResolveActionsNegative() {
+		List<BoardCell> cells = boardCellService.findAllByBoardId(board.getId());
+		cells.stream().forEach(x -> x.setOccupiedBy(null));
+		cells.stream().forEach(x -> x.getMountaincards().get(0).setCardType(CardType.CRAFT));
+		
+		List<BoardCell> newList = actionResolution.getCellstoResolveActions(g.get());
+		
+		 assertThat(newList).isEmpty();
+	  
+		}
+	
+	@Test
+	void tesGetCellstoResolveActionsPositive() {
+		List<BoardCell> cells = boardCellService.findAllByBoardId(board.getId());
+		cells.stream().forEach(x -> x.setOccupiedBy(p1));
+		cells.stream().forEach(x -> x.getMountaincards().get(0).setCardType(CardType.CRAFT));
+		
+		List<BoardCell> newList = actionResolution.getCellstoResolveActions(g.get());
+		
+		 assertThat(newList).isNotEmpty();
+	  
+		}
+	
+	@Test
+	void tesGetCellstoResolveActionsPositive2() {
+		List<BoardCell> cells = boardCellService.findAllByBoardId(board.getId());
+		cells.stream().forEach(x -> x.setOccupiedBy(p1));
+		cells.stream().forEach(x -> x.getMountaincards().get(0).setCardType(CardType.DEFEND));
+		
+		List<BoardCell> newList = actionResolution.getCellstoResolveActions(g.get());
+		
+		 assertThat(newList).isNotEmpty();
+	  
+		}
+	
+	@Test
+	void tesGetCellstoResolveActionsPositive3() {
+		List<BoardCell> cells = boardCellService.findAllByBoardId(board.getId());
+		cells.stream().forEach(x -> x.setOccupiedBy(null));
+		cells.stream().forEach(x -> x.getMountaincards().get(0).setCardType(CardType.DEFEND));
+		
+		List<BoardCell> newList = actionResolution.getCellstoResolveActions(g.get());
+		
+		 assertThat(newList).isNotEmpty();
+	  
+		}
+	
+	@Test
+	void testAddPoints() {
+		
+		List<Integer> points = new ArrayList<Integer>(List.of(4,5,3));
+		List<Integer> resourceamount = List.of(8,3,2);
+		
+		List<Integer> newPoints = new ArrayList<Integer>(points);
+		
+		newPoints = actionResolution.addPoints(newPoints, resourceamount);
+		
+		 assertThat(points).isNotEqualTo(newPoints);
+	  
+		}
+
+	@Test	
+	void testGetResourcesAmount() throws Exception{
+		resourcesService.createPlayerResource(p1, g.get());	
+		resourcesService.createPlayerResource(p2, g.get());	
+		resourcesService.createPlayerResource(p3, g.get());	
+		Resources resourcesP1 = resourcesService.findByPlayerIdAndGameId(p1.getId(), g.get().getId()).get();
+		Resources resourcesP2 = resourcesService.findByPlayerIdAndGameId(p2.getId(), g.get().getId()).get();
+		Resources resourcesP3 = resourcesService.findByPlayerIdAndGameId(p3.getId(), g.get().getId()).get();
+		resourcesP1.setIron(2);
+		resourcesP2.setIron(2);
+		resourcesP3.setBadges(5);
+		Map<ResourceType, List<Integer>> recursos =actionResolution.getResourcesAmount(g.get());
+		assertThat(recursos.get(ResourceType.IRON).get(0)).isEqualTo(resourcesP1.getIron());
+	}
 }
