@@ -11,8 +11,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.mountain_card.MountainCard;
 import org.springframework.dwarf.mountain_card.MountainCardService;
+import org.springframework.dwarf.player.Player;
+import org.springframework.dwarf.player.PlayerService;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter({Service.class,Component.class}))
@@ -20,6 +23,17 @@ public class BoardCellServiceTest {
 	
 	@Autowired
 	private BoardCellService boardCellService;
+	
+	@Autowired
+	private BoardService boardService;
+	
+	@Autowired
+	private GameService gameService;
+	
+	
+	@Autowired
+	private PlayerService playerService;
+	
 	
 	@Autowired
 	private MountainCardService mountainCardService;
@@ -93,5 +107,65 @@ public class BoardCellServiceTest {
 		Long cellsAfterDelete = this.boardCellService.count();
 		
 		assertThat(cellsFound-1).isEqualTo(cellsAfterDelete);
+	}
+	
+	@Test
+	@DisplayName("Find By Position")
+	void testFindByPosition() {
+		Integer xposition = 2;
+		Integer yposition = 0;
+		
+		
+		Board b = boardService.createBoard(gameService.findByGameId(2).get());
+		
+		BoardCell bc = b.getBoardCell(xposition, yposition);
+		
+		BoardCell bc2 = boardCellService.findByPosition(xposition, yposition, b.getId());
+		
+		
+		assertThat(bc).isEqualTo(bc2);
+		
+	}
+	
+	@Test
+	@DisplayName("Find All By Board")
+	void testFindAllByBoard() {
+		Integer xposition = 2;
+		Integer yposition = 0;
+		
+		
+		Board b = boardService.createBoard(gameService.findByGameId(2).get());
+		
+		List<BoardCell> bcs = b.getBoardCells();
+		
+		List<BoardCell> bcs2 = boardCellService.findAllByBoardId(b.getId());
+		
+		
+		assertThat(bcs).containsAll(bcs2);
+		
+	}
+	
+	@Test
+	@DisplayName("Find Occupied By Board")
+	void testFindOccupiedByBoardId() {
+		Integer xposition = 2;
+		Integer yposition = 0;
+		
+		Player p = playerService.findPlayerById(1);
+		
+		
+		Board b = boardService.createBoard(gameService.findByGameId(2).get());
+		
+		List<BoardCell> bcs = b.getBoardCells();
+		
+		bcs.stream().forEach(x -> x.setOccupiedBy(p));
+		
+		bcs.stream().forEach(x -> boardCellService.saveBoardCell(x));
+		
+		List<BoardCell> bcs2 = boardCellService.findOccupiedByBoardId(b.getId());
+		
+		
+		assertThat(bcs).containsAll(bcs2);
+		
 	}
 }
