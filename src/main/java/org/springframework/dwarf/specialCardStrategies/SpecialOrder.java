@@ -53,11 +53,11 @@ public class SpecialOrder implements CardStrategy{
 	
 	private Map<ResourceType, Integer> giveRandomResources() {
 		Map<ResourceType, Integer> resources = new HashMap<ResourceType, Integer>();
-		resources.put(ResourceType.IRON, 0);
-		resources.put(ResourceType.GOLD, 0);
-		resources.put(ResourceType.STEEL, 0);
+		resources.put(ResourceType.IRON, 1);
+		resources.put(ResourceType.GOLD, 1);
+		resources.put(ResourceType.STEEL, 1);
 		
-		Integer totalAmount = 5;
+		Integer totalAmount = 2;
 		for(int i=0; i<totalAmount; i++) {
 			List<ResourceType> resourcesTypes = resources.keySet().stream().collect(Collectors.toList());
 			int indexResource = (int) Math.floor(Math.random()*(resourcesTypes.size()-1));
