@@ -16,6 +16,7 @@
 package org.springframework.dwarf.player;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -50,11 +51,11 @@ public class Player extends Person {
 	@CreatedBy
 	private String creator;
 	@CreatedDate
-	private LocalDateTime createdDateTime;
+	private Date createdDateTime;
 	@LastModifiedBy
 	private String modifier;
 	@LastModifiedDate
-	private LocalDateTime lastModifiedDate;
+	private Date lastModifiedDate;
 	
 	
 	
@@ -67,11 +68,11 @@ public class Player extends Person {
 		this.creator = creator;
 	}
 
-	public LocalDateTime getCreatedDateTime() {
+	public Date getCreatedDateTime() {
 		return createdDateTime;
 	}
 
-	public void setCreatedDateTime(LocalDateTime createdDateTime) {
+	public void setCreatedDateTime(Date createdDateTime) {
 		this.createdDateTime = createdDateTime;
 	}
 
@@ -83,11 +84,11 @@ public class Player extends Person {
 		this.modifier = modifier;
 	}
 
-	public LocalDateTime getLastModifiedDate() {
+	public Date getLastModifiedDate() {
 		return lastModifiedDate;
 	}
 
-	public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
+	public void setLastModifiedDate(Date lastModifiedDate) {
 		this.lastModifiedDate = lastModifiedDate;
 	}
 

@@ -7,61 +7,64 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="dwarf" tagdir="/WEB-INF/tags" %>
 
-<dwarf:layout pageName="games">
-    <h2>Games</h2>
-
+<dwarf:layout pageName="listGames">
+    
+    <h2><c:out value="${type}"/> Games</h2>
+	
+	<c:if test="${type.equals('Finished')}">
+		<spring:url value="/games/listGames/current" var="currentGames"/>
+        <a class="btn btn-default" href="${fn:escapeXml(currentGames)}">Current Games</a>
+	</c:if>
+	<c:if test="${type.equals('Current')}">
+		<spring:url value="/games/listGames/finished" var="finishedGames"/>
+        <a class="btn btn-default mb-3" href="${fn:escapeXml(finishedGames)}">Finished Games</a>
+	</c:if>
+	
     <table id="gamesTable" class="table table-striped">
         <thead>
         <tr>
-         	<th style="width: 150px;">ID</th>
             <th style="width: 150px;">Start Date</th>
             <th style="width: 150px;">Finish Date</th>
             <th style="width: 150px;">First Player</th>
             <th style="width: 150px;">Second Player</th>
             <th style="width: 150px;">Third Player</th>
-            <th style="width: 150px;">Actions</th>
+            <c:if test="${type.equals('Current')}">
+            	<th style="width: 150px;">Watch game</th>
+            </c:if>
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${games}" var="game">
+        <c:forEach items="${indices}" var="index">
             <tr>
              	<td>
-                    <c:out value="${game.id}"/>
+                    <fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${games.get(index).startDate}"/>
                 </td>
-                <td>
-                    <fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${game.startDate}"/>
-                </td>
-                <td>
-                    <fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${game.finishDate}"/>
-                </td>
-                <td>
-                    <c:out value="${game.firstPlayer.username}"/>
-                </td>
-                <td>
-                    <c:out value="${game.secondPlayer.username}"/>
-                </td>
-                <td>
-                    <c:out value="${game.thirdPlayer.username}"/>
-                </td>
-                 
-				<td> 
-					
-                    <spring:url value="/games/delete/{gameId}" var="gameUrl">
-                        <spring:param name="gameId" value="${game.id}"/>
-                    </spring:url>
-                    <a href="${fn:escapeXml(gameUrl)}"><span class=" glyphicon glyphicon-trash" aria-hidden="true"></span>
-                    <span>Delete</span></a>
-                    
-                    <spring:url value="/games/update/{playerId}" var="editUrl">
-       					 <spring:param name="gameId" value="${player.id}"/>
-    				</spring:url>
-    				 <a href="${fn:escapeXml(editUrl)}"><span class=" glyphicon glyphicon-edit" aria-hidden="true"></span>
-							<span>Update</span></a>
-                    
-				</tr>
+                <c:if test="${type.equals('Finished')}">
+	                <td>
+	                    <fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${games.get(index).finishDate}"/>
+	                </td>
+                </c:if>
                
+                <td>
+                    <c:out value="${games.get(index).firstPlayer.username}"/>
+                </td>
+                <td>
+                    <c:out value="${games.get(index).secondPlayer.username}"/>
+                </td>
+                <td>
+                    <c:out value="${games.get(index).thirdPlayer.username}"/>
+                </td>
+                <c:if test="${type.equals('Current')}">
+                	<td>
+						<spring:url value="/boards/{boardId}/game/{gameId}" var="watchGameUrl">
+							<spring:param name="gameId" value="${games.get(index).id}"/>
+							<spring:param name="boardId" value="${boardsId.get(index)}"/>
+						</spring:url>
+						<a href="${fn:escapeXml(watchGameUrl)}"><span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span>
+						<span>Spectate</span></a>
+					</td>
+                </c:if>
             </tr>
-            
         </c:forEach>
         </tbody>
     </table>
