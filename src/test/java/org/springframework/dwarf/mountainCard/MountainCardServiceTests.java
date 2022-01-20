@@ -17,6 +17,7 @@ package org.springframework.dwarf.mountainCard;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,12 +29,15 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dwarf.mountain_card.MountainCard;
 import org.springframework.dwarf.mountain_card.MountainCardService;
 import org.springframework.dwarf.user.User;
+import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.stereotype.Service;
 
-@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+@DataJpaTest(includeFilters = @ComponentScan.Filter({Service.class,Component.class}))
 class MountainCardServiceTests {                
         @Autowired
 	protected MountainCardService mountainCardService;
+    	@Autowired
+    	private LoggedUserController loggedUserController;
 
 	@Test
 	void shouldFindMountainCardById() {

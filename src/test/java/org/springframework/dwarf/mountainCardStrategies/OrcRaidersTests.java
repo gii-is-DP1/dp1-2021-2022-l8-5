@@ -37,6 +37,8 @@ public class OrcRaidersTests {
 	
 	@Autowired
 	private GameService gameService;
+	@Autowired
+	private LoggedUserController loggedUserController;
 	
 	
 	private Player p1;

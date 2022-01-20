@@ -61,6 +61,9 @@ public class GameControllerTest {
 	@MockBean
 	private UserService userService;
 	
+	@Autowired
+	private LoggedUserController loggedUserController;
+	
 	
 	
 	@Autowired

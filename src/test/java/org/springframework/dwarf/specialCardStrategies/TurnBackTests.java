@@ -20,6 +20,7 @@ import org.springframework.dwarf.mountain_card.MountainCard;
 import org.springframework.dwarf.mountain_card.MountainCardService;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
+import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.dwarf.worker.IllegalPositionException;
 import org.springframework.dwarf.worker.Worker;
 import org.springframework.dwarf.worker.WorkerService;
@@ -46,6 +47,8 @@ public class TurnBackTests {
 	
 	@Autowired
 	private MountainCardService mountainCardService;
+	@Autowired
+	private LoggedUserController loggedUserController;
 	
 	private Player p1;
 	private Game game;

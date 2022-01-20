@@ -35,6 +35,7 @@ import org.springframework.dwarf.resources.ResourceType;
 import org.springframework.dwarf.resources.Resources;
 import org.springframework.dwarf.resources.ResourcesService;
 import org.springframework.dwarf.user.User;
+import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.dwarf.worker.Worker;
 import org.springframework.dwarf.worker.WorkerService;
 import org.springframework.stereotype.Component;
@@ -58,6 +59,8 @@ public class AppretinceTests {
 		private MountainCardService mcs;
 		@Autowired
 		private PlayerService playerService;
+		@Autowired
+		private LoggedUserController loggedUserController;
 	   
 		
 		private Board board;

@@ -33,12 +33,14 @@ public class MineralExtraction implements GamePhase{
     private BoardService boardService;
 	@Autowired
 	private WorkerService workerService;
+	@Autowired
+	private LoggedUserController loggedUserController;
 
 	@Override
     public void phaseResolution(Game game) {
     	
 		// runs only once
-		if(game.getFirstPlayer()!=LoggedUserController.loggedPlayer())
+		if(game.getFirstPlayer()!=loggedUserController.loggedPlayer())
 			return;
 		
 		this.removeWorkers(game);

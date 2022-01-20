@@ -53,6 +53,9 @@ public class MineralExtractionTests {
 	@Autowired
 	private GameService gameService;
 	
+	@Autowired
+	private LoggedUserController loggedUserController;
+	
 
 	@Autowired
 	private BoardService bs;

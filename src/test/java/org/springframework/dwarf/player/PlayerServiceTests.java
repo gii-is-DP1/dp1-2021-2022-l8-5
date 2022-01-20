@@ -18,6 +18,7 @@ package org.springframework.dwarf.player;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import org.springframework.stereotype.Component;
 import java.util.Collection;
 
 import org.junit.jupiter.api.Test;
@@ -30,6 +31,7 @@ import org.springframework.dwarf.user.DuplicatedEmailException;
 import org.springframework.dwarf.user.DuplicatedUsernameException;
 import org.springframework.dwarf.user.InvalidEmailException;
 import org.springframework.dwarf.user.User;
+import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.dwarf.worker.IllegalPositionException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,10 +66,13 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Dave Syer
  */
 
-@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+@DataJpaTest(includeFilters = @ComponentScan.Filter({Service.class,Component.class}))
 class PlayerServiceTests {                
         @Autowired
 	protected PlayerService playerService;
+        
+    	@Autowired
+    	private LoggedUserController loggedUserController;
 
 	@Test
 	void shouldFindPlayersByLastName() {

@@ -36,6 +36,8 @@ public class GameService {
 	private WorkerService workerService;
 	@Autowired
 	private BoardService boardService;
+	@Autowired
+	private LoggedUserController loggedUserController;
 	
 	@Autowired
 	public GameService(GameRepository gameRepository) {
@@ -136,7 +138,7 @@ public class GameService {
 	
 	@Transactional
 	public void kickOutInactives(Game game) {
-		if(LoggedUserController.loggedPlayer().equals(game.getCurrentPlayer()))
+		if(loggedUserController.loggedPlayer().equals(game.getCurrentPlayer()))
 			this.exit(game, game.getCurrentPlayer());
 	}
 	

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import org.springframework.stereotype.Component;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +23,7 @@ import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
+import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.stereotype.Service;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -30,7 +32,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Jose Ignacio Garcia
  */
 
-@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+@DataJpaTest(includeFilters = @ComponentScan.Filter({Service.class,Component.class}))
 public class WorkerServiceTest {
     
 
@@ -41,6 +43,9 @@ public class WorkerServiceTest {
 	
 	@Autowired
 	protected BoardService boardService;
+	
+	@Autowired
+	private LoggedUserController loggedUserController;
 	
 
 	@Autowired

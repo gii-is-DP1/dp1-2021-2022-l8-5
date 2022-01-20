@@ -26,6 +26,7 @@ import org.springframework.dwarf.board.BoardService;
 import org.springframework.dwarf.mountain_card.MountainDeck;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
+import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,8 @@ public class GameServiceTest {
 	protected PlayerService playerService;
 	@Autowired
 	protected BoardService boardService;
+	@Autowired
+	private LoggedUserController loggedUserController;
 	
 	@Test
 	@DisplayName("Returns the number of games created")

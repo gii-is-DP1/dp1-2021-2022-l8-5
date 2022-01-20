@@ -53,12 +53,16 @@ class PlayerControllerTests {
 	@MockBean
 	private AuthoritiesService authoritiesService;
 	
+	
 
 	@MockBean
 	private GameService gameService;
 
 	@Autowired
 	private MockMvc mockMvc;
+	
+	@Autowired
+	private LoggedUserController loggedUserController;
 
 	private Player george;
 
@@ -85,15 +89,14 @@ class PlayerControllerTests {
 	@WithMockUser(username = "paco")
 	@Test
 	void testloggedPlayerPositive() throws Exception{
-		String userlogged = LoggedUserController.returnLoggedUserName();
-		assertEquals(playerService.findPlayerByUserName(userlogged).getUsername(), LoggedUserController.loggedPlayer().getUsername());
+		String userlogged = loggedUserController.returnLoggedUserName();
+		assertEquals(playerService.findPlayerByUserName(userlogged).getUsername(), loggedUserController.loggedPlayer().getUsername());
 		
 	}
 	
 	@Test
 	void testloggedPlayerNegative() throws Exception{
-		LoggedUserController lg = new LoggedUserController(playerService);
-		assertEquals(LoggedUserController.loggedPlayer().getFirstName() , "Guest");
+		assertEquals(loggedUserController.loggedPlayer().getFirstName() , "Guest");
 		
 	}
 	
@@ -101,13 +104,13 @@ class PlayerControllerTests {
 	@WithMockUser(username = "pabmargom3")
     @Test
     void loginSuccesful() throws Exception {
-        String userLogged = LoggedUserController.returnLoggedUserName();
+        String userLogged = loggedUserController.returnLoggedUserName();
         assertEquals(userLogged, "pabmargom3");       
     }
 	@Test
 	@WithMockUser(username = "pabmargom3") 
     void loginUnSuccesful() throws Exception {
-        String userLogged = LoggedUserController.returnLoggedUserName();
+        String userLogged = loggedUserController.returnLoggedUserName();
         assertNotEquals(userLogged, "nopabmargom3");       
     }
 	

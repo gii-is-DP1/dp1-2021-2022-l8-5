@@ -25,12 +25,15 @@ public class ActionSelection implements GamePhase{
 	@Autowired
 	private BoardService boardService;
 	
+	@Autowired
+	private LoggedUserController loggedUserController;
+	
 	private static final LocalTime INACTIVITY_TIMER = LocalTime.of(0, 1);
     
 	@Override
 	public void phaseResolution(Game game) {
 		Player currentPlayer = game.getCurrentPlayer();
-		Player loggedUser = LoggedUserController.loggedPlayer();
+		Player loggedUser = loggedUserController.loggedPlayer();
 		// runs only once
 		if (!currentPlayer.equals(loggedUser))
 			return;

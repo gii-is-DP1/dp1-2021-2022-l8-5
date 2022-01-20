@@ -14,11 +14,12 @@ import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.player.PlayerService;
 import org.springframework.dwarf.resources.ResourcesService;
 import org.springframework.dwarf.special_card.SpecialDeckService;
+import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.dwarf.worker.WorkerService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(controllers = BoardController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
+@WebMvcTest(controllers = {BoardController.class,LoggedUserController.class}, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 class BoardControllerTests {
 
 	@MockBean
@@ -35,6 +36,9 @@ class BoardControllerTests {
 	private BoardCellService boardCellService;
 	@MockBean
 	private SpecialDeckService specialDeckService;
+	
+	@Autowired
+	private LoggedUserController loggedUserController;
 
 	@Autowired
 	private MockMvc mockMvc;

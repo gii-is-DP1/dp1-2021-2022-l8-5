@@ -26,10 +26,12 @@ public class DragonsKnockers implements CardStrategy{
 	private GameService gameService;
 	@Autowired
 	private ResourcesService resourcesService;
+	@Autowired
+	private LoggedUserController loggedUserController;
 	
 	@Override
 	public void actions(Player player, String cardName) {
-		Player loggedUser = LoggedUserController.loggedPlayer();
+		Player loggedUser = loggedUserController.loggedPlayer();
 		Game game = gameService.findByGameId(gameService.getCurrentGameId(loggedUser)).get();
 		Boolean defended = player != null || game.getMusterAnArmyEffect();
 		

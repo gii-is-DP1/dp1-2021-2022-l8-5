@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 
+import org.springframework.stereotype.Component;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -30,7 +31,7 @@ import org.springframework.stereotype.Service;
  * @author Jose Ignacio Garcia
  */
 
-@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+@DataJpaTest(includeFilters = @ComponentScan.Filter({Service.class,Component.class}))
 public class ResourcesServiceTest {
     
 	private Player p = new Player();

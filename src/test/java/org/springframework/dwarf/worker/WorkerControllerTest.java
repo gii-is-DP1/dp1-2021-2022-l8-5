@@ -37,7 +37,7 @@ import org.springframework.test.web.servlet.MockMvc;
  * 
  */
 
-@WebMvcTest(controllers = WorkerController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
+@WebMvcTest(controllers = {WorkerController.class,LoggedUserController.class}, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 class WorkerControllerTest {
 	
 
@@ -48,6 +48,9 @@ class WorkerControllerTest {
 	
 	@MockBean
 	private WorkerService workerService;
+	
+	@MockBean
+	private LoggedUserController loggedUserController;
 	
 	@Autowired
 	private MockMvc mockMvc;
