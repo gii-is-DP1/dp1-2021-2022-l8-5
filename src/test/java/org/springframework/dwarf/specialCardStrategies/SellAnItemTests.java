@@ -69,11 +69,14 @@ public class SellAnItemTests {
     void testGiveRandomResources() throws Exception {
 
         Map<ResourceType, Integer> testMap = sai.giveRandomResources();
-
+        Integer totalSum = 0;
         for(ResourceType type: testMap.keySet()) {
             assertTrue(testMap.get(type)>=0);
             assertTrue(testMap.get(type)<=5);
+            totalSum += testMap.get(type);
+
         }
+        assertThat(totalSum).isEqualTo(5);
     }
 
     @Test

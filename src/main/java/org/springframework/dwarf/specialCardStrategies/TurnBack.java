@@ -96,7 +96,7 @@ public class TurnBack implements CardStrategy {
 		}
 		
 		boardCell.setOccupiedBy(player);
-		boardCell.setIsDisabled(true);
+		boardCell.setIsDisabled(false);
 		boardCellService.saveBoardCell(boardCell);
 	}
 	

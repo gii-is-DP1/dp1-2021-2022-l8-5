@@ -1,7 +1,6 @@
 package org.springframework.dwarf.specialCardStrategies;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,13 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dwarf.board.Board;
-import org.springframework.dwarf.board.BoardCell;
 import org.springframework.dwarf.board.BoardService;
 import org.springframework.dwarf.card.StrategyName;
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.mountain_card.CardType;
 import org.springframework.dwarf.web.LoggedUserController;
+import org.springframework.dwarf.player.Player;
+import org.springframework.dwarf.player.PlayerService;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -32,24 +32,26 @@ public class MusterAnArmyTests {
 	
 	@Autowired
 	private LoggedUserController loggedUserController;
+	private PlayerService playerService;
 	   
 	private Game game;
-	   
 	private Board board;
+	private Player p1;
    
 	@BeforeEach
 	void setup() throws Exception {
-		
 		game = gameService.findByGameId(2).get();
-		       
-		boardService.createBoard(game);
-		       
-		board = gameService.findBoardByGameId(game.getId()).get();
-		       
-		List<BoardCell> boardCells = board.getBoardCells();
-		boardCells.get(0).getMountaincards().get(0).setCardType(CardType.AID);
-		      
-		boardService.saveBoard(board);
+		p1 = playerService.findPlayerById(2);
+		board = boardService.createBoard(game);
+	}
+	
+	@Test
+	void testActions() {
+		mana.actions(p1, "");
+		assertThat(game.getMusterAnArmyEffect()).isTrue();
+		board.getBoardCells().stream().forEach(cell -> {
+			assertThat(cell.getIsDisabled()).isFalse();
+		});
 	}
 
 	@Test
