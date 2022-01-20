@@ -160,7 +160,7 @@ public class ActionResolution implements GamePhase{
 		return points;
 	}
 	
-	private Boolean getIsTie(List<Integer> points) {
+	protected Boolean getIsTie(List<Integer> points) {
 		Integer max = Collections.max(new ArrayList<Integer>(points));
 		Integer count = 0;
 		for(Integer point: points)
@@ -169,7 +169,7 @@ public class ActionResolution implements GamePhase{
 		return count > 1;
 	}
 	
-	private List<Integer> tieBreaker(List<Integer> points, Map<ResourceType, List<Integer>> resourcesAmount) {
+	protected List<Integer> tieBreaker(List<Integer> points, Map<ResourceType, List<Integer>> resourcesAmount) {
 		points = this.addPoints(points, resourcesAmount.get(ResourceType.BADGES));
 		if(this.getIsTie(points))
 			points = this.addPoints(points, resourcesAmount.get(ResourceType.IRON));
