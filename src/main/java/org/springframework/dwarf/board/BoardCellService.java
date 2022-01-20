@@ -38,8 +38,8 @@ public class BoardCellService {
 	
 	// hacer test
 	@Transactional
-	public BoardCell findByPosition(Integer xposition, Integer yposition) {	
-		return boardCellRep.findByPosition(xposition, yposition);
+	public BoardCell findByPosition(Integer xposition, Integer yposition, Integer boardId) {	
+		return boardCellRep.findByPosition(xposition, yposition, boardId);
 	}
 	
 	// hacer test

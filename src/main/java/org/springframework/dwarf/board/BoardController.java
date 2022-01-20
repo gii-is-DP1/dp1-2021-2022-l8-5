@@ -102,7 +102,7 @@ public class BoardController {
 	    
 	}
     
-    private void setTurns(List<Player> players) {
+    protected void setTurns(List<Player> players) {
     	Integer turn = 1;
     	for(Player player: players) {
     		player.setTurn(turn);
@@ -139,9 +139,12 @@ public class BoardController {
     		return kickOutRedirect;
 		Player myplayer = loggedUserController.loggedPlayer();
 		
-		modelMap = this.setCanUseSpecial(modelMap, myplayer.getId(), gameId);
-		modelMap = this.setMyWorkerForPost(modelMap, myplayer.getId(), gameId);
-		modelMap = this.hasAidWorkers(modelMap, gameId);
+		if(game.getPlayersList().contains(myplayer)) {
+			modelMap = this.setCanUseSpecial(modelMap, myplayer.getId(), gameId);
+			modelMap = this.setMyWorkerForPost(modelMap, myplayer.getId(), gameId);
+			modelMap = this.hasAidWorkers(modelMap, gameId);
+		}
+		
 
     	modelMap.addAttribute("myplayer", myplayer);
     	modelMap.addAttribute("board", board);
@@ -300,7 +303,7 @@ public class BoardController {
     	return redirect;
     }
     
-    private SpecialCard executeSpecialAction(SpecialDeck currentSpecialDeck, Player player) throws Exception {
+    protected SpecialCard executeSpecialAction(SpecialDeck currentSpecialDeck, Player player) throws Exception {
     	SpecialCard cardToExecute = currentSpecialDeck.getSpecialCard().remove(0);
     	cardToExecute.cardAction(player, applicationContext, true);
     	specialDeckService.saveSpecialDeck(currentSpecialDeck);
@@ -342,7 +345,7 @@ public class BoardController {
 		
 		String redirect = "redirect:/boards/"+ boardId +  "/game/"+gameId;
 		redirect = updateWorker(myworker, workerFound, result, redirect);
-		BoardCell boardCell = boardCellService.findByPosition(workerFound.getXposition(), workerFound.getYposition());
+		BoardCell boardCell = boardCellService.findByPosition(workerFound.getXposition(), workerFound.getYposition(), boardId);
 	
 		if(boardCell.isCellOccupied()){
 			return errors.getMessage();
