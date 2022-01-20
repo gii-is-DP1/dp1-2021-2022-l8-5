@@ -83,7 +83,7 @@ public class TurnBackTests {
 		boardCell.setMountaincards(cards);
 		
 		boardCellSearched = tb.searchBoardCell(board);
-		assertThat(boardCellSearched).isNull();;
+		assertThat(boardCellSearched).isNull();
 	}
 	
 	@Test
@@ -111,11 +111,6 @@ public class TurnBackTests {
 		
 		assertThat(boardCell.isCellOccupied()).isTrue();
 		assertThat(boardCell.getOccupiedBy()).isEqualTo(p1);
-	}
-	
-	@Test
-	void testActions() {
-		
 	}
 	
 	@Test
