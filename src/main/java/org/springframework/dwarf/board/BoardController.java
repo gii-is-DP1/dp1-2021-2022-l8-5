@@ -102,7 +102,7 @@ public class BoardController {
 	    
 	}
     
-    private void setTurns(List<Player> players) {
+    protected void setTurns(List<Player> players) {
     	Integer turn = 1;
     	for(Player player: players) {
     		player.setTurn(turn);
@@ -300,7 +300,7 @@ public class BoardController {
     	return redirect;
     }
     
-    private SpecialCard executeSpecialAction(SpecialDeck currentSpecialDeck, Player player) throws Exception {
+    protected SpecialCard executeSpecialAction(SpecialDeck currentSpecialDeck, Player player) throws Exception {
     	SpecialCard cardToExecute = currentSpecialDeck.getSpecialCard().remove(0);
     	cardToExecute.cardAction(player, applicationContext, true);
     	specialDeckService.saveSpecialDeck(currentSpecialDeck);
