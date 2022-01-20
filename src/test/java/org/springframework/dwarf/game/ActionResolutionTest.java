@@ -29,6 +29,7 @@ import org.springframework.dwarf.resources.ResourceType;
 import org.springframework.dwarf.resources.Resources;
 import org.springframework.dwarf.resources.ResourcesService;
 import org.springframework.dwarf.web.LoggedUserController;
+import org.springframework.dwarf.worker.Worker;
 import org.springframework.dwarf.worker.WorkerService;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -59,6 +60,7 @@ public class ActionResolutionTest {
 	
 	
 	private Optional<Game> g;
+	private Optional<Game> g2;
 	private Player loggedUser;
 	private Player p1;
 	private Player p2;
@@ -70,6 +72,7 @@ public class ActionResolutionTest {
 	@BeforeEach
 	void setup() throws Exception {
 		g = gameService.findByGameId(2);
+		g2 = gameService.findByGameId(1);
 		board = boardService.createBoard(g.get());
 		p1 = playerService.findPlayerById(4);
 		p2 = playerService.findPlayerById(5);
@@ -356,4 +359,225 @@ public class ActionResolutionTest {
 
 	}
 	
+	@Test
+	void testPhaseResolution1() throws Exception {
+
+		Game game = g.get();
+
+		game.setFirstPlayer(p2);
+		game.setSecondPlayer(p1);
+		String oldFirstPlayer= game.firstPlayer.getUsername();
+		
+		resourcesService.createPlayerResource(p1, game);	
+		resourcesService.createPlayerResource(p2, game);	
+		resourcesService.createPlayerResource(p3, game);	
+
+		Resources resourcesP1 = resourcesService.findByPlayerIdAndGameId(p1.getId(), g.get().getId()).get();
+		resourcesP1.setGold(500);
+		resourcesP1.setItems(500);
+		resourcesP1.setSteel(500);
+		
+		actionResolution.phaseResolution(game);
+
+		String newFirstPlayer= game.firstPlayer.getUsername();
+
+		assertThat(oldFirstPlayer).isNotEqualTo(newFirstPlayer);
+
+	}
+	
+	@Test
+	void testPhaseResolution2() throws Exception {
+
+		Game game = g.get();
+
+		game.setFirstPlayer(p2);
+		game.setSecondPlayer(p1);
+		String oldFirstPlayer= game.firstPlayer.getUsername();
+		
+		resourcesService.createPlayerResource(p1, game);	
+		resourcesService.createPlayerResource(p2, game);	
+		resourcesService.createPlayerResource(p3, game);	
+
+		Resources resourcesP1 = resourcesService.findByPlayerIdAndGameId(p1.getId(), g.get().getId()).get();
+		resourcesP1.setGold(500);
+		resourcesP1.setItems(500);
+		resourcesP1.setSteel(500);
+		
+		List<BoardCell> cells = boardCellService.findAllByBoardId(board.getId());
+		cells.stream().forEach(x -> x.setOccupiedBy(p1));
+		cells.stream().forEach(x -> x.getMountaincards().get(0).setCardType(CardType.CRAFT));
+		cells.stream().forEach(x -> x.setIsDisabled(true));
+		
+		game.setCanResolveActions(true);	
+		actionResolution.phaseResolution(game);
+
+		String newFirstPlayer= game.firstPlayer.getUsername();
+
+		assertThat(oldFirstPlayer).isNotEqualTo(newFirstPlayer);
+
+	}
+	
+	@Test
+	void testPhaseResolution3() throws Exception {
+
+		Game game = g.get();
+
+		game.setFirstPlayer(p2);
+		game.setSecondPlayer(p1);
+		String oldFirstPlayer= game.firstPlayer.getUsername();
+		
+		resourcesService.createPlayerResource(p1, game);	
+		resourcesService.createPlayerResource(p2, game);	
+		resourcesService.createPlayerResource(p3, game);	
+
+		Resources resourcesP1 = resourcesService.findByPlayerIdAndGameId(p1.getId(), g.get().getId()).get();
+		resourcesP1.setGold(500);
+		resourcesP1.setItems(500);
+		resourcesP1.setSteel(500);
+		
+		List<BoardCell> cells = boardCellService.findAllByBoardId(board.getId());
+		cells.stream().forEach(x -> x.setOccupiedBy(p1));
+		cells.stream().forEach(x -> x.getMountaincards().get(0).setCardType(CardType.CRAFT));
+		cells.stream().forEach(x -> x.setIsDisabled(false));
+		
+		game.setCanResolveActions(false);				
+		
+		actionResolution.phaseResolution(game);
+
+		String newFirstPlayer= game.firstPlayer.getUsername();
+
+		assertThat(oldFirstPlayer).isNotEqualTo(newFirstPlayer);
+
+	}
+	
+	@Test
+	void testPhaseResolution4() throws Exception {
+
+		Game game = g.get();
+
+		game.setFirstPlayer(p2);
+		game.setSecondPlayer(p1);
+		String oldFirstPlayer= game.firstPlayer.getUsername();
+		
+		resourcesService.createPlayerResource(p1, game);	
+		resourcesService.createPlayerResource(p2, game);	
+		resourcesService.createPlayerResource(p3, game);	
+
+		Resources resourcesP1 = resourcesService.findByPlayerIdAndGameId(p1.getId(), g.get().getId()).get();
+		resourcesP1.setGold(500);
+		resourcesP1.setItems(500);
+		resourcesP1.setSteel(500);
+		
+		List<BoardCell> cells = boardCellService.findAllByBoardId(board.getId());
+		cells.stream().forEach(x -> x.setOccupiedBy(p1));
+		cells.stream().forEach(x -> x.getMountaincards().get(0).setCardType(CardType.CRAFT));
+		cells.stream().forEach(x -> x.setIsDisabled(true));
+		
+		game.setCanResolveActions(false);				
+		
+		actionResolution.phaseResolution(game);
+
+		String newFirstPlayer= game.firstPlayer.getUsername();
+
+		assertThat(oldFirstPlayer).isNotEqualTo(newFirstPlayer);
+
+	}
+	
+	
+	@Test
+	void testPhaseResolution5() throws Exception {
+
+		Game game = g.get();
+
+		game.setFirstPlayer(p2);
+		game.setSecondPlayer(p1);
+		String oldFirstPlayer= game.firstPlayer.getUsername();
+		
+		resourcesService.createPlayerResource(p1, game);	
+		resourcesService.createPlayerResource(p2, game);	
+		resourcesService.createPlayerResource(p3, game);	
+
+		Resources resourcesP1 = resourcesService.findByPlayerIdAndGameId(p1.getId(), g.get().getId()).get();
+		resourcesP1.setGold(500);
+		resourcesP1.setItems(500);
+		resourcesP1.setSteel(500);
+		
+		List<BoardCell> cells = boardCellService.findAllByBoardId(board.getId());
+		cells.stream().forEach(x -> x.setOccupiedBy(p1));
+		cells.stream().forEach(x -> x.getMountaincards().get(0).setCardType(CardType.CRAFT));
+		cells.stream().forEach(x -> x.setIsDisabled(false));
+		
+		game.setCanResolveActions(true);				
+		
+		actionResolution.phaseResolution(game);
+
+		String newFirstPlayer= game.firstPlayer.getUsername();
+
+		assertThat(oldFirstPlayer).isNotEqualTo(newFirstPlayer);
+
+	}
+	
+	@Test
+	void testPhaseResolution6() throws Exception {
+
+		Game game = g.get();
+
+		game.setFirstPlayer(p2);
+		game.setSecondPlayer(p1);
+		
+		resourcesService.createPlayerResource(p1, game);	
+		resourcesService.createPlayerResource(p2, game);	
+		resourcesService.createPlayerResource(p3, game);	
+		Collection<Worker> workers = workerService.findNotPlacedAidByGameId(1);
+		List<Worker> workersList = new ArrayList<Worker>(workers);
+		workersList.stream().forEach(x -> x.setGame(game));
+		workerService.saveWorker(workersList.get(0));
+		Resources resourcesP1 = resourcesService.findByPlayerIdAndGameId(p1.getId(), g.get().getId()).get();
+		resourcesP1.setGold(500);
+		resourcesP1.setItems(500);
+		resourcesP1.setSteel(500);
+		
+		List<BoardCell> cells = boardCellService.findAllByBoardId(board.getId());
+		cells.stream().forEach(x -> x.setOccupiedBy(p1));
+		cells.stream().forEach(x -> x.getMountaincards().get(0).setCardType(CardType.CRAFT));
+		cells.stream().forEach(x -> x.setIsDisabled(false));
+		
+		game.setCanResolveActions(true);				
+		
+		actionResolution.phaseResolution(game);
+
+	}
+	
+	@Test
+	void testPhaseResolution7() throws Exception {
+
+		Game game = g.get();
+
+		game.setFirstPlayer(p2);
+		game.setSecondPlayer(p1);
+		
+		resourcesService.createPlayerResource(p1, game);	
+		resourcesService.createPlayerResource(p2, game);	
+		resourcesService.createPlayerResource(p3, game);	
+		Collection<Worker> workers = workerService.findNotPlacedAidByGameId(1);
+		List<Worker> workersList = new ArrayList<Worker>(workers);
+		workersList.stream().forEach(x -> x.setGame(g2.get()));
+		workerService.saveWorker(workersList.get(0));
+		Resources resourcesP1 = resourcesService.findByPlayerIdAndGameId(p1.getId(), g.get().getId()).get();
+		resourcesP1.setGold(500);
+		resourcesP1.setItems(500);
+		resourcesP1.setSteel(500);
+		resourcesP1.setItems(3);
+		game.setCurrentRound(3);
+		
+		List<BoardCell> cells = boardCellService.findAllByBoardId(board.getId());
+		cells.stream().forEach(x -> x.setOccupiedBy(p1));
+		cells.stream().forEach(x -> x.getMountaincards().get(0).setCardType(CardType.CRAFT));
+		cells.stream().forEach(x -> x.setIsDisabled(false));
+		
+		game.setCanResolveActions(true);				
+		
+		actionResolution.phaseResolution(game);
+
+	}
 }
