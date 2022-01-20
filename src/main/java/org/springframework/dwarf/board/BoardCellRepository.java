@@ -13,8 +13,8 @@ public interface BoardCellRepository extends  CrudRepository<BoardCell, Integer>
 	@Query(value = "SELECT BC.* FROM BOARDCELLS BC JOIN BOARDS B WHERE B.ID=:boardId", nativeQuery = true)
 	List<BoardCell> findAllByBoardId(@Param("boardId") Integer boardId)  throws DataAccessException;
 	
-	@Query("SELECT bc FROM BoardCell bc WHERE bc.xposition =:xposition AND bc.yposition =:yposition")
-	BoardCell findByPosition(@Param("xposition") Integer xposition, @Param("yposition") Integer yposition)  throws DataAccessException;
+	@Query(value = "SELECT BC.* FROM BOARDCELLS BC WHERE BC.BOARD_ID=:boardId AND BC.XPOSITION =:xposition AND BC.YPOSITION =:yposition", nativeQuery = true)
+	BoardCell findByPosition(@Param("xposition") Integer xposition, @Param("yposition") Integer yposition, @Param("boardId") Integer boardId)  throws DataAccessException;
 	
 	@Query(value = "SELECT BC.* FROM BOARDCELLS BC JOIN BOARDS B WHERE B.ID=:boardId AND BC.OCCUPIED_BY_ID IS NOT NULL", nativeQuery = true)
 	List<BoardCell> findOccupiedByBoardId(@Param("boardId") Integer boardId)  throws DataAccessException;
