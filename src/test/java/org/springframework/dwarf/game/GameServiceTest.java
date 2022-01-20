@@ -5,6 +5,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,11 +18,15 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dwarf.board.Board;
 import org.springframework.dwarf.board.BoardService;
 import org.springframework.dwarf.mountain_card.MountainDeck;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
+import org.springframework.dwarf.web.LoggedUserController;
+import org.springframework.dwarf.worker.Worker;
+import org.springframework.dwarf.worker.WorkerService;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +39,10 @@ public class GameServiceTest {
 	protected PlayerService playerService;
 	@Autowired
 	protected BoardService boardService;
+	@Autowired
+	private LoggedUserController loggedUserController;
+	@Autowired
+	private WorkerService workerService;
 	
 	@Test
 	@DisplayName("Returns the number of games created")
@@ -178,9 +188,13 @@ public class GameServiceTest {
 		
 		gameService.joinGame(game, player);
 
+
+		
 		assertThat(game.getFirstPlayer().getId()).isNotEqualTo(player.getId());
 		assertThat(game.getSecondPlayer().getId()).isNotEqualTo(player.getId());
 		assertThat(game.getThirdPlayer().getId()).isNotEqualTo(player.getId());
+		
+		
 	}
 	
 	
@@ -275,7 +289,7 @@ public class GameServiceTest {
  	@Test
     @DisplayName("Search the game a player is currently is")
     void testGetCurrentGameId(){
- 		Player player = playerService.findPlayerById(6);
+	 Player player = playerService.findPlayerById(6);
         Integer gameId = gameService.getCurrentGameId(player);
         assertThat(gameId).isEqualTo(1);
     }
@@ -283,7 +297,7 @@ public class GameServiceTest {
  	@Test
     @DisplayName("Search the game a player is currently is - Negative")
     void testGetCurrentGameIdNegative(){
- 		Player player = playerService.findPlayerById(3);
+	 Player player = playerService.findPlayerById(3);
         Integer gameId = gameService.getCurrentGameId(player);
         assertThat(gameId).isEqualTo(null);
     }
@@ -291,7 +305,7 @@ public class GameServiceTest {
  	@Test
     @DisplayName("Checks if a player is in a unfinished game")
     void testAlreadyInGame(){
- 		Player player = playerService.findPlayerById(3);
+	 Player player = playerService.findPlayerById(3);
         Boolean res = gameService.alreadyInGame(player);
         assertFalse(res);
     }
@@ -299,26 +313,74 @@ public class GameServiceTest {
 	@Test
     @DisplayName("Checks if a player is in a unfinished game (2nd condition)")
     void testAlreadyInGame2(){
-		Player player = playerService.findPlayerById(6);
+	 Player player = playerService.findPlayerById(6);
         Boolean res = gameService.alreadyInGame(player);
         assertTrue(res);
     }
 	
 	@Test
-    @DisplayName("Find finished games")
-    void testFindFinishedGames() {
-		Game game = gameService.findByGameId(3).orElse(null);
-		List<Game> finishedGames = gameService.findFinishedGames();
+	@DisplayName("Checks if a game is finished after executing finishGame")
+	void testFinishGame() throws DataAccessException, CreateGameWhilePlayingException {
+		Game game = gameService.findByGameId(2).get(); 	//Sin terminar		
+		boardService.createBoard(game);					//le asociamos un tablero
 		
-		assertThat(finishedGames.contains(game)).isTrue();
+		gameService.finishGame(game);					//terminamos
+		
+		Collection<Worker> workerNotPlaced = workerService.findNotPlacedByGameId(game.getId());
+		Collection<Worker> workerPlaced = workerService.findPlacedByGameId(game.getId());
+		
+		Board tablero = gameService.findBoardByGameId(game.getId()).orElse(null);	
+		
+		assertThat(workerNotPlaced).isEmpty();
+		assertThat(workerPlaced).isEmpty();
+		assertThat(tablero).isNull();
+	}
+	
+	
+	@Test
+	@DisplayName("Checks if all workers has been removed")
+	void testDeleteAllWorkers() throws DataAccessException, CreateGameWhilePlayingException {
+		Game game = gameService.findByGameId(2).get();
+		gameService.deleteAllWorkers(game);
+		
+		Collection<Worker> workerNotPlaced = workerService.findNotPlacedByGameId(game.getId());
+		Collection<Worker> workerPlaced = workerService.findPlacedByGameId(game.getId());
+		
+		assertThat(workerNotPlaced).isEmpty();
+		assertThat(workerPlaced).isEmpty();
 	}
 	
 	@Test
-    @DisplayName("Find current games")
-	void testFindCurrentGames() {
-		List<Game> currentGames = gameService.findCurrentGames();
+	@DisplayName("Check if player turns aren't null")
+	void testSetPlayersTurns() {
+		List<Player> players = new ArrayList<>();		
+		players.add(playerService.findPlayerById(1));
+		players.add(playerService.findPlayerById(2));
+		players.add(playerService.findPlayerById(3));	//jugadores
 		
-		assertThat(currentGames.size()).isEqualTo(0);
+		gameService.setPlayersTurns(players);
+		
+		assertThat(players.get(0).getTurn()).isNotNull();
+		assertThat(players.get(1).getTurn()).isNotNull();
+		assertThat(players.get(2).getTurn()).isNotNull();
 	}
 	
+	@Test
+	@DisplayName("Returns all finished Games")
+	void testFindFinishedGames() {
+		Game gameFinished = gameService.findByGameId(3).get();
+		
+		List<Game> finishedGames = gameService.findFinishedGames();
+		
+		assertThat(finishedGames.size()).isOne();
+		assertThat(finishedGames.get(0)).isEqualTo(gameFinished);	
+	}
+	
+	@Test
+	@DisplayName("Return all non-finished games")
+	void testFindCurrentGames() {
+		List<Game> currentGames = gameService.findCurrentGames();
+		assertThat(currentGames).isEmpty();
+	}
+    
 }
