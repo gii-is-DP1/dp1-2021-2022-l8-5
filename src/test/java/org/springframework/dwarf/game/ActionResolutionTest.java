@@ -2,6 +2,7 @@ package org.springframework.dwarf.game;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dwarf.board.Board;
+import org.springframework.dwarf.board.BoardCell;
+import org.springframework.dwarf.board.BoardCellService;
 import org.springframework.dwarf.board.BoardService;
+import org.springframework.dwarf.card.StrategyName;
 import org.springframework.dwarf.mountain_card.CardType;
 import org.springframework.dwarf.mountain_card.MountainCard;
 import org.springframework.dwarf.mountain_card.MountainCardService;
@@ -43,6 +47,9 @@ public class ActionResolutionTest {
     private WorkerService workerService;
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private BoardCellService boardCellService;
 	@Autowired
 	private LoggedUserController loggedUserController;
 	@Autowired
@@ -147,6 +154,73 @@ public class ActionResolutionTest {
 	}
 	
 	@Test
+	void testGetName() {
+	  GamePhaseEnum name = actionResolution.getPhaseName();
+	  assertThat(name).isEqualTo(GamePhaseEnum.ACTION_RESOLUTION);
+	  
+		}
+	
+	@Test
+	void tesGetCellstoResolveActionsNegative() {
+		List<BoardCell> cells = boardCellService.findAllByBoardId(board.getId());
+		cells.stream().forEach(x -> x.setOccupiedBy(null));
+		cells.stream().forEach(x -> x.getMountaincards().get(0).setCardType(CardType.CRAFT));
+		
+		List<BoardCell> newList = actionResolution.getCellstoResolveActions(g.get());
+		
+		 assertThat(newList).isEmpty();
+	  
+		}
+	
+	@Test
+	void tesGetCellstoResolveActionsPositive() {
+		List<BoardCell> cells = boardCellService.findAllByBoardId(board.getId());
+		cells.stream().forEach(x -> x.setOccupiedBy(p1));
+		cells.stream().forEach(x -> x.getMountaincards().get(0).setCardType(CardType.CRAFT));
+		
+		List<BoardCell> newList = actionResolution.getCellstoResolveActions(g.get());
+		
+		 assertThat(newList).isNotEmpty();
+	  
+		}
+	
+	@Test
+	void tesGetCellstoResolveActionsPositive2() {
+		List<BoardCell> cells = boardCellService.findAllByBoardId(board.getId());
+		cells.stream().forEach(x -> x.setOccupiedBy(p1));
+		cells.stream().forEach(x -> x.getMountaincards().get(0).setCardType(CardType.DEFEND));
+		
+		List<BoardCell> newList = actionResolution.getCellstoResolveActions(g.get());
+		
+		 assertThat(newList).isNotEmpty();
+	  
+		}
+	
+	@Test
+	void tesGetCellstoResolveActionsPositive3() {
+		List<BoardCell> cells = boardCellService.findAllByBoardId(board.getId());
+		cells.stream().forEach(x -> x.setOccupiedBy(null));
+		cells.stream().forEach(x -> x.getMountaincards().get(0).setCardType(CardType.DEFEND));
+		
+		List<BoardCell> newList = actionResolution.getCellstoResolveActions(g.get());
+		
+		 assertThat(newList).isNotEmpty();
+	  
+		}
+	
+	@Test
+	void testAddPoints() {
+		
+		List<Integer> points = new ArrayList<Integer>(List.of(4,5,3));
+		List<Integer> resourceamount = List.of(8,3,2);
+		
+		List<Integer> newPoints = new ArrayList<Integer>(points);
+		
+		newPoints = actionResolution.addPoints(newPoints, resourceamount);
+		
+		 assertThat(points).isNotEqualTo(newPoints);
+	  
+		}
 	void testGetResourcesAmount() throws Exception{
 		resourcesService.createPlayerResource(p1, g.get());	
 		resourcesService.createPlayerResource(p2, g.get());	
