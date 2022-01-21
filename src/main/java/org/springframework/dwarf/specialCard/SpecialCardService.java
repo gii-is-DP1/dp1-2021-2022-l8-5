@@ -41,11 +41,11 @@ public class SpecialCardService {
 		this.specialCardRepo = specialCardRepository;
 	}		
 	
-	@Transactional
+	@Transactional(readOnly = true)
 	public int cardCount() {
 		return (int) specialCardRepo.count();
 	}
-
+	@Transactional(readOnly = true)
 	public Iterable<SpecialCard> findAll() {
 		return specialCardRepo.findAll();
 	}

@@ -23,19 +23,22 @@ public class SpecialDeckService {
 		this.specialCardSer=specialCardSer;
 	}		
 	
-	@Transactional
+	@Transactional(readOnly = true)
 	public int specialDeckCount() {
 		return (int) specialDeckRepo.count();
 	}
  
+	@Transactional(readOnly = true)
 	public Iterable<SpecialDeck> findAll() {
 		return specialDeckRepo.findAll();
 	}
+	
 	@Transactional(readOnly = true)
 	public Optional<SpecialDeck> findBySpecialDeckId(int id){
 		return specialDeckRepo.findById(id);
 	}
 	
+	@Transactional(readOnly = true)
 	public void delete(SpecialDeck specialDeck) {
 		specialDeckRepo.delete(specialDeck);
 	}
