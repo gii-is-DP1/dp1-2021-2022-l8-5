@@ -28,7 +28,7 @@ public class ActionSelection implements GamePhase{
 	@Autowired
 	private LoggedUserController loggedUserController;
 	
-	private static final LocalTime INACTIVITY_TIMER = LocalTime.of(0, 1);
+	private static final LocalTime INACTIVITY_TIMER = LocalTime.of(0, 2);
     
 	@Override
 	public void phaseResolution(Game game) {

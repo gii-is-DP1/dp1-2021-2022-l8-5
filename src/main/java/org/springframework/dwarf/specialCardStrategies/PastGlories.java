@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.dwarf.card.StrategyName;
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
-import org.springframework.dwarf.mountain_card.MountainCard;
+import org.springframework.dwarf.mountainCard.MountainCard;
 
 @StrategyPattern.ConcreteStrategy
 @Component

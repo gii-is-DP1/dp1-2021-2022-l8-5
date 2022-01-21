@@ -1,4 +1,4 @@
-package org.springframework.dwarf.special_card;
+package org.springframework.dwarf.specialCard;
 
 import org.springframework.beans.factory.annotation.Autowired;
 

@@ -1,4 +1,4 @@
-package org.springframework.dwarf.mountain_card;
+package org.springframework.dwarf.mountainCard;
 
 import java.util.ArrayList;
 import java.util.List;

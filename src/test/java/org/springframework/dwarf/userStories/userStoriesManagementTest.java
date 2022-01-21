@@ -30,14 +30,12 @@ import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-
-
-@WebMvcTest(controllers = {PlayerController.class,LoggedUserController.class}, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
+@WebMvcTest(controllers = { PlayerController.class,
+		LoggedUserController.class }, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 class userStoriesManagementTest {
 
 	private static final int TEST_PLAYER_ID = 1;
-	
-	
+
 	@MockBean
 	private PlayerService playerService;
 
@@ -46,19 +44,18 @@ class userStoriesManagementTest {
 
 	@MockBean
 	private AuthoritiesService authoritiesService;
-	
 
 	@MockBean
 	private GameService gameService;
-	
+
 	@Autowired
 	private MockMvc mockMvc;
-	
+
 	@Autowired
 	private LoggedUserController loggedUserController;
-    
-    private Player george;
-    
+
+	private Player george;
+
 	@BeforeEach
 	void setup() {
 
@@ -72,82 +69,51 @@ class userStoriesManagementTest {
 		user.setEnabled(true);
 		user.setPassword("1");
 		george.setAvatarUrl("https://www.w3schools.com/w3images/avatar1.png");
-		
+
 		george.setUser(user);
 		given(this.playerService.findPlayerById(TEST_PLAYER_ID)).willReturn(george);
 
 	}
-    
 
-    @WithMockUser(username = "alonsoPodio", password = "ElNano0")
-    @Test
-    void loginSuccesful() throws Exception {
-        String userLogged = loggedUserController.returnLoggedUserName();
-        assertEquals(userLogged, "alonsoPodio");
-    }
+	@WithMockUser(username = "alonsoPodio", password = "ElNano0")
+	@Test
+	void loginSuccesful() throws Exception {
+		String userLogged = loggedUserController.returnLoggedUserName();
+		assertEquals(userLogged, "alonsoPodio");
+	}
 
-    @WithMockUser(username = "alonsoPodio", password = "ElNano0")
-    @Test
-    void loginUnsuccesful() throws Exception {
-        String userLogged = loggedUserController.returnLoggedUserName();
-        assertNotEquals(userLogged, "betrayal>theneostorm");
-    }
-    /*
-    @WithMockUser(username = "alonsoPodio", password = "ElNano0")
-    @Test
-    void logOutSuccesful() throws Exception {
-        String userLogged = CorrentUserController.returnCurrentUserName();
-        
-		mockMvc.perform(post("/logout").with(csrf()));
-		
-	   assertNotEquals(userLogged, "alonsoPodio");
-		
-    }*/
-    
-    @WithMockUser(username = "admin1")
+	@WithMockUser(username = "alonsoPodio", password = "ElNano0")
+	@Test
+	void loginUnsuccesful() throws Exception {
+		String userLogged = loggedUserController.returnLoggedUserName();
+		assertNotEquals(userLogged, "betrayal>theneostorm");
+	}
+	
+
+	@WithMockUser(username = "admin1")
 	@Test
 	void testInitFindForm() throws Exception {
 		mockMvc.perform(get("/players/find")).andExpect(status().isOk())
-		.andExpect(model().attributeExists("players"))
-		.andExpect(view().name("players/findPlayers"));
+				.andExpect(model().attributeExists("players"))
+				.andExpect(view().name("players/findPlayers"));
 	}
-    
-    /*
-	@Test
-	void testProcessCreationFormSuccess() throws Exception {
-		mockMvc.perform(post("/users/new").param("firstName", "John").param("lastName", "Bloggs").param("user.username", "joemama").param("user.email", "joemama@test.com").param("avatarUrl", "1").param("user.password", "1").with(csrf())
-				)
-		.andExpect(view().name("welcome"));
-	}*/
-    
-    
+
+	
+
 	@WithMockUser(username = "admin1")
 	@Test
 	void testInitUpdatePlayerForm() throws Exception {
 		mockMvc.perform(get("/players/1/edit")).andExpect(status().isOk())
-		.andExpect(view().name("players/createOrUpdatePlayerForm"))
-		.andExpect(model().attributeExists("player"))
-		.andExpect(model().attribute("player", hasProperty("firstName", is("Paco"))))
-		.andExpect(model().attribute("player", hasProperty("lastName", is("Fiestas"))))
-		.andExpect(model().attribute("player", hasProperty("password", is("1"))))
-		.andExpect(model().attribute("player", hasProperty("email", is("hacker@hack.com"))))
-		.andExpect(model().attribute("player", hasProperty("avatarUrl", is("https://www.w3schools.com/w3images/avatar1.png"))))
-		.andExpect(view().name("players/createOrUpdatePlayerForm"));
+				.andExpect(view().name("players/createOrUpdatePlayerForm"))
+				.andExpect(model().attributeExists("player"))
+				.andExpect(model().attribute("player", hasProperty("firstName", is("Paco"))))
+				.andExpect(model().attribute("player", hasProperty("lastName", is("Fiestas"))))
+				.andExpect(model().attribute("player", hasProperty("password", is("1"))))
+				.andExpect(model().attribute("player", hasProperty("email", is("hacker@hack.com"))))
+				.andExpect(model().attribute("player",
+						hasProperty("avatarUrl", is("https://www.w3schools.com/w3images/avatar1.png"))))
+				.andExpect(view().name("players/createOrUpdatePlayerForm"));
 	}
-	
-	/*
-	@WithMockUser(username = "paco")
-	@Test
-	void testInitUpdateMyselfForm() throws Exception {
-		mockMvc.perform(get("/editProfile")).andExpect(status().isOk())
-		.andExpect(view().name("players/createOrUpdatePlayerForm"))
-		.andExpect(model().attributeExists("player"))
-		.andExpect(model().attribute("player", hasProperty("firstName", is("Paco"))))
-		.andExpect(model().attribute("player", hasProperty("lastName", is("Fiestas"))))
-		.andExpect(model().attribute("player", hasProperty("password", is("1"))))
-		.andExpect(model().attribute("player", hasProperty("email", is("hacker@hack.com"))))
-		.andExpect(model().attribute("player", hasProperty("avatarUrl", is("https://www.w3schools.com/w3images/avatar1.png"))))
-		.andExpect(view().name("players/createOrUpdatePlayerForm"));
-	}
-	*/
+
+
 }

@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.dwarf.board.Board;
-import org.springframework.dwarf.mountain_card.MountainDeck;
+import org.springframework.dwarf.mountainCard.MountainDeck;
 import org.springframework.dwarf.player.Player;
 
 

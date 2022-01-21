@@ -5,7 +5,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-import org.springframework.dwarf.special_card.SpecialDeck;
+import org.springframework.dwarf.specialCard.SpecialDeck;
 
 public interface BoardRepository extends  CrudRepository<Board, Integer>{
 	

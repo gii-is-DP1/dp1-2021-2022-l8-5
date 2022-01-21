@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.dwarf.special_card;
+package org.springframework.dwarf.mountainCard;
 
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,27 +32,37 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 @Service
-public class SpecialCardService {
+public class MountainCardService {
 
 	
-	private SpecialCardRepository specialCardRepo;
+	private MountainCardRepository mountainCardRepo;
 	
 	@Autowired
-	public SpecialCardService(SpecialCardRepository specialCardRepository) {
-		this.specialCardRepo = specialCardRepository;
-	}		
-	
-	@Transactional
-	public int cardCount() {
-		return (int) specialCardRepo.count();
+	public MountainCardService(MountainCardRepository mountainCardRepository) {
+		this.mountainCardRepo = mountainCardRepository;
 	}
 
-	public Iterable<SpecialCard> findAll() {
-		return specialCardRepo.findAll();
+	public Iterable<MountainCard> findAll() {
+		return mountainCardRepo.findAll();
 	}
+	
 	@Transactional(readOnly = true)
-	public Optional<SpecialCard> findBySpecialCardId(int id){
-		return specialCardRepo.findById(id);
+	public List<MountainCard> findByGroupCard(Integer cardGroup){
+		return mountainCardRepo.findByGroupCards(cardGroup);
+	}
+	
+	@Transactional(readOnly = true)
+	public MountainCard findInitialCardByPosition(Integer xposition, Integer yposition) {
+		return mountainCardRepo.findInitialCardByPosition(xposition, yposition);
+	}
+	
+	@Transactional(readOnly = true)
+	public Optional<MountainCard> findByMountainCardId(int id){
+		return mountainCardRepo.findById(id);
+	}
+	
+	public void delete(MountainCard card) {
+		mountainCardRepo.delete(card);
 	}
 	
 }

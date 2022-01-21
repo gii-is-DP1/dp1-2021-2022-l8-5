@@ -1,7 +1,7 @@
 <%@ tag language="java" pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="dwarf" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ attribute name="card" required="true" rtexprvalue="true" type="org.springframework.dwarf.mountain_card.MountainCard"
+<%@ attribute name="card" required="true" rtexprvalue="true" type="org.springframework.dwarf.mountainCard.MountainCard"
 description="Card to be shown" %>
 <%@ attribute name="position" required="true" rtexprvalue="true"
 description="Position of the card in the stack" %>

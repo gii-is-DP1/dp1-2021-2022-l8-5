@@ -17,15 +17,15 @@ import org.springframework.dwarf.game.CreateGameWhilePlayingException;
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GamePhaseEnum;
 import org.springframework.dwarf.game.GameService;
-import org.springframework.dwarf.mountain_card.MountainCard;
+import org.springframework.dwarf.mountainCard.MountainCard;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
 import org.springframework.dwarf.resources.ResourceType;
 import org.springframework.dwarf.resources.Resources;
 import org.springframework.dwarf.resources.ResourcesService;
-import org.springframework.dwarf.special_card.SpecialCard;
-import org.springframework.dwarf.special_card.SpecialDeck;
-import org.springframework.dwarf.special_card.SpecialDeckService;
+import org.springframework.dwarf.specialCard.SpecialCard;
+import org.springframework.dwarf.specialCard.SpecialDeck;
+import org.springframework.dwarf.specialCard.SpecialDeckService;
 import org.springframework.dwarf.user.DuplicatedEmailException;
 import org.springframework.dwarf.user.DuplicatedUsernameException;
 import org.springframework.dwarf.user.InvalidEmailException;
@@ -70,7 +70,7 @@ public class BoardController {
     private ApplicationContext applicationContext;
     
     private static final Integer REFRESH_TIME = 4;
-    private static final LocalTime INACTIVITY_TIMER = LocalTime.of(0, 1);
+    private static final LocalTime INACTIVITY_TIMER = LocalTime.of(0, 2);
     
     private boolean boardPageLoaded;
 	
