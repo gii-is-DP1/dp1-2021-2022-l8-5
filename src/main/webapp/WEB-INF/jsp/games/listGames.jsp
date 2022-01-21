@@ -19,7 +19,8 @@
 		<spring:url value="/games/listGames/finished" var="finishedGames"/>
         <a class="btn btn-default mb-3" href="${fn:escapeXml(finishedGames)}">Finished Games</a>
 	</c:if>
-	
+	<br>
+	<br>
     <table id="gamesTable" class="table table-striped">
         <thead>
         <tr>
