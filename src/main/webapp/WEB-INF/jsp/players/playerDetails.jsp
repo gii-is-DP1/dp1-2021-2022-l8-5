@@ -35,7 +35,7 @@
         </tr>
     </table>
     <sec:authorize access="hasAuthority('admin')">
-	   <spring:url value="{playerId}/edit" var="editUrl">
+	   <spring:url value="/players/{playerId}/edit" var="editUrl">
 	       <spring:param name="playerId" value="${player.id}"/>
 	   </spring:url>
 	   <a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Edit Profile</a>
