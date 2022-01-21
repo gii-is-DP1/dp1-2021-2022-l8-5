@@ -7,8 +7,8 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dwarf.mountain_card.MountainCard;
-import org.springframework.dwarf.mountain_card.MountainCardService;
+import org.springframework.dwarf.mountainCard.MountainCard;
+import org.springframework.dwarf.mountainCard.MountainCardService;
 import org.springframework.stereotype.Service;
 
 @Service

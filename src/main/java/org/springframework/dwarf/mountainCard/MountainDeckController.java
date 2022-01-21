@@ -1,4 +1,4 @@
-package org.springframework.dwarf.mountain_card;
+package org.springframework.dwarf.mountainCard;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
