@@ -24,14 +24,17 @@ public class MountainDeckService {
 		this.mountainCardSer = mountainCardSer;
 	}		
 
+	@Transactional(readOnly = true)
 	public Iterable<MountainDeck> findAll() {
 		return mountainDeckRepo.findAll();
 	}
+	
 	@Transactional(readOnly = true)
 	public Optional<MountainDeck> findByMountainDeckId(int id){
 		return mountainDeckRepo.findById(id);
 	}
 	
+	@Transactional
 	public void delete(MountainDeck mountainDeck) {
 		mountainDeckRepo.delete(mountainDeck);
 	}

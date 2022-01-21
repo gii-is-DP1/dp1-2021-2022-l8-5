@@ -3,7 +3,7 @@ package org.springframework.dwarf.board;
 import java.util.List;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -23,33 +23,37 @@ public class BoardCellService {
 		this.mountainCardSer = mountainCardSer;
 	}
 	
+	@Transactional(readOnly = true)
 	public long count() {
 		return boardCellRep.count();
 	}
 	
+	@Transactional(readOnly = true)
 	public List<BoardCell> findAll() {
 		return boardCellRep.findAll();
 	}
 	
-	@Transactional
+	@Transactional(readOnly = true)
 	public Optional<BoardCell> findByBoardCellId(int id) {
 		return boardCellRep.findById(id);
 	}
 	
-	@Transactional
+	@Transactional(readOnly = true)
 	public BoardCell findByPosition(Integer xposition, Integer yposition, Integer boardId) {	
 		return boardCellRep.findByPosition(xposition, yposition, boardId);
 	}
 	
+	@Transactional(readOnly = true)
 	public List<BoardCell> findOccupiedByBoardId(Integer boardId) {
 		return boardCellRep.findOccupiedByBoardId(boardId);
 	}
 	
-
+	@Transactional(readOnly = true)
 	public List<BoardCell> findAllByBoardId(Integer boardId) {
 		return boardCellRep.findAllByBoardId(boardId);
 	}
 	
+	@Transactional
 	public void delete(BoardCell boardCell) {
 		boardCellRep.delete(boardCell);
 	}

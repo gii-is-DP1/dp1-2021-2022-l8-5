@@ -39,7 +39,8 @@ public class BoardService {
 	public int boardCount() {
 		return (int) boardRepo.count();
 	}
-
+	
+	@Transactional(readOnly = true)
 	public Iterable<Board> findAll() {
 		return boardRepo.findAll(); 
 	}
@@ -49,6 +50,7 @@ public class BoardService {
 		return boardRepo.findById(id);
 	}
 	
+	@Transactional
 	public void delete(Board board) {
 		for(BoardCell cell: board.getBoardCells()) {
 			boardCellSer.delete(cell);
@@ -92,7 +94,7 @@ public class BoardService {
 		return board;
 	}
 	
-
+	@Transactional(readOnly = true)
 	public List<SpecialDeck> findSpecialDeckByBoardId(int id){
 		return boardRepo.findSpecialDecksByBoardId(id);
 	}

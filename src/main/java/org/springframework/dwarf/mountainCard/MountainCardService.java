@@ -42,6 +42,7 @@ public class MountainCardService {
 		this.mountainCardRepo = mountainCardRepository;
 	}
 
+	@Transactional(readOnly = true)
 	public Iterable<MountainCard> findAll() {
 		return mountainCardRepo.findAll();
 	}
@@ -61,6 +62,7 @@ public class MountainCardService {
 		return mountainCardRepo.findById(id);
 	}
 	
+	@Transactional
 	public void delete(MountainCard card) {
 		mountainCardRepo.delete(card);
 	}

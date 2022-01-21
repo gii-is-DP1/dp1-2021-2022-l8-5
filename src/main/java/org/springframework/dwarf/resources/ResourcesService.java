@@ -44,14 +44,16 @@ public class ResourcesService {
 		this.ResourcesRepo = ResourcesRepository;
 	}		
 	
-	@Transactional
+	@Transactional(readOnly = true)
 	public int ResourcesCount() {
 		return (int) ResourcesRepo.count();
 	}
 
+	@Transactional(readOnly = true)
 	public Iterable<Resources> findAll() {
 		return ResourcesRepo.findAll();
 	}
+	
 	@Transactional(readOnly = true)
 	public Optional<Resources> findByResourcesId(int id){
 		return ResourcesRepo.findById(id);
@@ -72,6 +74,7 @@ public class ResourcesService {
 		return ResourcesRepo.findByPlayerIdAndGameId(pid,gid);
 	}
 	
+	@Transactional
 	public void delete(Resources Resources) {
 		ResourcesRepo.delete(Resources);
 	}

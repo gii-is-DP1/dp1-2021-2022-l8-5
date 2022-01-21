@@ -43,7 +43,7 @@ public class GameService {
 		this.gameRepo = gameRepository;
 	}
 	
-	@Transactional
+	@Transactional(readOnly = true)
 	public int gamesCount() {
 		return (int) gameRepo.count();
 	}
@@ -202,6 +202,7 @@ public class GameService {
 		}
 	}
     
+	@Transactional(readOnly = true)
     public Integer getCurrentGameId(Player player) {
     	return gameRepo.searchPlayerIsInGame(player);
     }

@@ -39,14 +39,16 @@ public class WorkerService {
 		this.workerRepo = WorkerRepository;
 	}		
 	
-	@Transactional
+	@Transactional(readOnly = true)
 	public int WorkerCount() {
 		return (int) workerRepo.count();
 	}
 
+	@Transactional(readOnly = true)
 	public Iterable<Worker> findAll() {
 		return workerRepo.findAll();
 	}
+	
 	@Transactional(readOnly = true)
 	public Optional<Worker> findByWorkerId(int id){
 		return workerRepo.findById(id);
@@ -62,32 +64,37 @@ public class WorkerService {
 		return workerRepo.findByPlayerIdAndGameId(pid,gid);
 	}
 	
+	@Transactional(readOnly = true)
 	public List<Worker> findNotPlacedByPlayerIdAndGameId(int pid, int gid){
 		return workerRepo.findNotPlacedByPlayerIdAndGameId(pid, gid);
 	}
 	
+	@Transactional(readOnly = true)
 	public List<Worker> findNotPlacedByGameId(int gid){
 		return workerRepo.findNotPlacedByGameId(gid);
 	}
 	
-	// need test
+	@Transactional(readOnly = true)
 	public List<Worker> findNotPlacedAidByGameId(int gid) {
 		return workerRepo.findNotPlacedAidByGameId(gid);
 	}
 	
-	// needs test
+	@Transactional(readOnly = true)
 	public List<Worker> findPlacedByGameId(int gid){
 		return workerRepo.findPlacedByGameId(gid);
 	}
 	
+	@Transactional
 	public void delete(Worker worker) {
 		workerRepo.delete(worker);
 	}
 	
+	@Transactional(readOnly = true)
 	public List<Worker> findPlayerAidWorkers(int pid) {
 		return workerRepo.findAidByPlayerId(pid);
 	}
 	
+	@Transactional
 	public void deletePlayerWorker(Player player) {
 		Collection<Worker> workers = findByPlayerId(player.getId());
 
@@ -112,6 +119,7 @@ public class WorkerService {
 		workers.stream().forEach(worker -> delete(worker));
 	}
 	
+	@Transactional
 	public void deletePlayerAidWorkers(Player player) {
 		List<Worker> workers = findPlayerAidWorkers(player.getId());
 		workers.stream().forEach(worker -> delete(worker));
