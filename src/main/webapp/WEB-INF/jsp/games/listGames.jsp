@@ -46,12 +46,21 @@
                 </c:if>
                
                 <td>
+                	<c:if test="${games.get(index).firstPlayer.username == null}">
+                		<p>none</p>
+                	</c:if>
                     <c:out value="${games.get(index).firstPlayer.username}"/>
                 </td>
                 <td>
+                	<c:if test="${games.get(index).secondPlayer.username == null}">
+                		<p>none</p>
+                	</c:if>
                     <c:out value="${games.get(index).secondPlayer.username}"/>
                 </td>
                 <td>
+                	<c:if test="${games.get(index).thirdPlayer.username == null}">
+                		<p>none</p>
+                	</c:if>
                     <c:out value="${games.get(index).thirdPlayer.username}"/>
                 </td>
                 <c:if test="${type.equals('Current')}">
