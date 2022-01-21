@@ -44,8 +44,8 @@ public class UserController {
 	private final PlayerService playerService;
 
 	@Autowired
-	public UserController(PlayerService clinicService) {
-		this.playerService = clinicService;
+	public UserController(PlayerService ps) {
+		this.playerService = ps;
 	}
 
 	@InitBinder
