@@ -4,7 +4,7 @@
  description="xSize of the card to show" %>
 <%@ attribute name="ysize" required="true" rtexprvalue="true" 
 description="ySize of the card to show" %>
-<%@ attribute name="mountainDeck" required="true" rtexprvalue="true" type="org.springframework.dwarf.mountain_card.MountainDeck"
+<%@ attribute name="mountainDeck" required="true" rtexprvalue="true" type="org.springframework.dwarf.mountainCard.MountainDeck"
 description="Cards to be rendered" %>
 
 <img id="cardImg2-${mountainDeck.getId()}" src="${mountainDeck.image}" style="display:none">

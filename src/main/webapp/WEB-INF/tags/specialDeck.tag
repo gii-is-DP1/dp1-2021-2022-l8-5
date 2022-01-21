@@ -4,7 +4,7 @@
  description="xSize of the card to show" %>
 <%@ attribute name="ysize" required="true" rtexprvalue="true" 
 description="ySize of the card to show" %>
-<%@ attribute name="specialDeck" required="true" rtexprvalue="true" type="org.springframework.dwarf.special_card.SpecialDeck"
+<%@ attribute name="specialDeck" required="true" rtexprvalue="true" type="org.springframework.dwarf.specialCard.SpecialDeck"
 description="Card to be rendered" %>
 
 <img id="specialImg-${specialDeck.specialCard.get(0).getId()}" src="${specialDeck.specialCard.get(0).image}" style="display:none">
