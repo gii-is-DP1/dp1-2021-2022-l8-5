@@ -56,14 +56,14 @@ public class Board extends BaseEntity{
     	this.background ="/resources/images/oro_erebor.jpg";
         this.width=750;
         this.height=600;
-        this.inactivityTimer = LocalTime.of(0, 1);
+        this.inactivityTimer = LocalTime.of(0, 2);
     }
     
     public Board(List<BoardCell> boardCells, MountainDeck mountainDeck, Game game, List<SpecialDeck> specialDecks){
     	this.background ="/resources/images/oro_erebor.jpg";
         this.width=750;
         this.height=600;
-        this.inactivityTimer = LocalTime.of(0, 1);
+        this.inactivityTimer = LocalTime.of(0, 2);
         
         this.boardCells = boardCells;
         this.mountainDeck = mountainDeck;
