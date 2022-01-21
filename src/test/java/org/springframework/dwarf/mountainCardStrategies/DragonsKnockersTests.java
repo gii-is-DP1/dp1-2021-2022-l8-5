@@ -21,118 +21,116 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@DataJpaTest(includeFilters = @ComponentScan.Filter(value= {Service.class, Component.class}))
+@DataJpaTest(includeFilters = @ComponentScan.Filter(value = { Service.class, Component.class }))
 @Import(LoggedUserController.class)
 public class DragonsKnockersTests {
 	@Autowired
 	protected DragonsKnockers dk;
-	    
+
 	@Autowired
 	ResourcesService resourcesService;
-	    
+
 	@Autowired
 	private PlayerService playerService;
-	   
+
 	@Autowired
 	private GameService gameService;
-   
+
 	private Player p1;
 	private Player p2;
 	private Player p3;
 	private Resources playerResources;
 	private Game game;
-    
+
 	@BeforeEach
 	void setup() throws Exception {
-	
+
 		game = gameService.findByGameId(2).get();
 		game.setMusterAnArmyEffect(false);
-		       
+
 		p1 = playerService.findPlayerById(4);
 		p2 = playerService.findPlayerById(5);
 		p3 = playerService.findPlayerById(2);
-		   
+
 		playerResources = new Resources(game, p1);
 		playerResources.addResource(ResourceType.GOLD, 2);
 		resourcesService.saveResources(playerResources);
-		       
+
 		Resources playerResources2 = new Resources(game, p2);
 		playerResources2.addResource(ResourceType.GOLD, 2);
 		resourcesService.saveResources(playerResources2);
-		       
+
 		Resources playerResources3 = new Resources(game, p3);
 		playerResources3.addResource(ResourceType.GOLD, 2);
 		resourcesService.saveResources(playerResources3);
 	}
-   
+
 	@Test
 	void testGetName() {
 		StrategyName name = dk.getName();
 		assertThat(name).isEqualTo(StrategyName.DRAGONS_KNOCKERS);
 	}
-    
+
 	@Test
 	void testSetResources() throws Exception {
-	    
+
 		String greatDragon = "Great Dragon";
 		String dragon = "Dragon";
 		String knockers = "Knockers";
-		            
-		dk.setResources(greatDragon);        
+
+		dk.setResources(greatDragon);
 		assertThat(dk.resourceType).isEqualTo(ResourceType.GOLD);
 		assertThat(dk.amount).isEqualTo(null);
-		
-		dk.setResources(dragon);        
+
+		dk.setResources(dragon);
 		assertThat(dk.resourceType).isEqualTo(ResourceType.GOLD);
 		assertThat(dk.amount).isEqualTo(-1);
-		    
-		dk.setResources(knockers);        
+
+		dk.setResources(knockers);
 		assertThat(dk.resourceType).isEqualTo(ResourceType.IRON);
 		assertThat(dk.amount).isEqualTo(-1);
 	}
-       
+
 	@Test
 	void testRemoveResources() throws Exception {
-	
-		dk.amount= 1;
-		dk.removeResources(p1,game);        
+
+		dk.amount = 1;
+		dk.removeResources(p1, game);
 		assertThat(dk.amount).isEqualTo(1);
 
-		dk.amount=null;
-		dk.removeResources(p1,game);   
-		assertThat(dk.amount).isEqualTo(-2);	
+		dk.amount = null;
+		dk.removeResources(p1, game);
+		assertThat(dk.amount).isEqualTo(-2);
 	}
 
-   
 	@Test
-	@WithMockUser(username = "test") 
+	@WithMockUser(username = "test")
 	void testActions() throws Exception {
 
 		Resources oldResources = resourcesService.findByPlayerIdAndGameId(p1.getId(), game.getId()).get();
-		int oldBadges = oldResources.getBadges();		         
+		int oldBadges = oldResources.getBadges();
 		assertThat(oldBadges).isEqualTo(0);
 
 		dk.actions(p1, "Great Dragon");
 
 		Resources newResources = resourcesService.findByPlayerIdAndGameId(p1.getId(), game.getId()).get();
-		int newBadges = newResources.getBadges();		         
+		int newBadges = newResources.getBadges();
 		assertThat(newBadges).isEqualTo(1);
 	}
-        
+
 	@Test
-	@WithMockUser(username = "test") 
+	@WithMockUser(username = "test")
 	void testActionsNull() throws Exception {
 
 		Resources oldResources = resourcesService.findByPlayerIdAndGameId(p1.getId(), game.getId()).get();
-		int oldGold = oldResources.getGold();		         
+		int oldGold = oldResources.getGold();
 		assertThat(oldGold).isEqualTo(2);
 
 		dk.actions(null, "Great Dragon");
 
 		Resources newResources = resourcesService.findByPlayerIdAndGameId(p1.getId(), game.getId()).get();
-		int newGold = newResources.getGold();		         
+		int newGold = newResources.getGold();
 		assertThat(newGold).isEqualTo(0);
 	}
 
 }
-

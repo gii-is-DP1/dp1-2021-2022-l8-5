@@ -22,44 +22,43 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@DataJpaTest(includeFilters = @ComponentScan.Filter(value= {Service.class, Component.class}))
+@DataJpaTest(includeFilters = @ComponentScan.Filter(value = { Service.class, Component.class }))
 public class SellAnItemTests {
 
-   @Autowired
-   protected SellAnItem sai;
-    
-   @Autowired
-   ResourcesService resourcesService;
-    
-   @Autowired
-   private PlayerService playerService;
-   
-   @Autowired
-   private GameService gameService;
-   
-   
-   private Player p1;
-   private Game game;
-   private Resources playerResources;
+    @Autowired
+    protected SellAnItem sai;
 
-   @BeforeEach
-   void setup() throws Exception {
+    @Autowired
+    ResourcesService resourcesService;
 
-       game = gameService.findByGameId(2).get();
-       
-       p1 = playerService.findPlayerById(2);
-       
-       playerResources = new Resources(game, p1);
-       playerResources.addResource(ResourceType.ITEMS, 1);
-       resourcesService.saveResources(playerResources);
+    @Autowired
+    private PlayerService playerService;
 
-   }
+    @Autowired
+    private GameService gameService;
+
+    private Player p1;
+    private Game game;
+    private Resources playerResources;
+
+    @BeforeEach
+    void setup() throws Exception {
+
+        game = gameService.findByGameId(2).get();
+
+        p1 = playerService.findPlayerById(2);
+
+        playerResources = new Resources(game, p1);
+        playerResources.addResource(ResourceType.ITEMS, 1);
+        resourcesService.saveResources(playerResources);
+
+    }
 
     @Test
     void testGetName() {
         StrategyName name = sai.getName();
         assertThat(name).isEqualTo(StrategyName.SELL_AN_ITEM);
- 
+
     }
 
     @Test
@@ -67,9 +66,9 @@ public class SellAnItemTests {
 
         Map<ResourceType, Integer> testMap = sai.giveRandomResources();
         Integer totalSum = 0;
-        for(ResourceType type: testMap.keySet()) {
-            assertTrue(testMap.get(type)>=0);
-            assertTrue(testMap.get(type)<=5);
+        for (ResourceType type : testMap.keySet()) {
+            assertTrue(testMap.get(type) >= 0);
+            assertTrue(testMap.get(type) <= 5);
             totalSum += testMap.get(type);
 
         }
@@ -88,12 +87,12 @@ public class SellAnItemTests {
         Integer newIron = playerResources.getIron();
         Integer newSteel = playerResources.getSteel();
 
-        assertTrue(oldGold!=newGold||oldIron!=newIron||oldSteel!=newSteel);
+        assertTrue(oldGold != newGold || oldIron != newIron || oldSteel != newSteel);
     }
 
-	@Test
-	@WithMockUser(username = "test") 
-	void testActions() throws Exception {
+    @Test
+    @WithMockUser(username = "test")
+    void testActions() throws Exception {
 
         Integer oldGold = playerResources.getGold();
         Integer oldIron = playerResources.getIron();
@@ -107,7 +106,7 @@ public class SellAnItemTests {
         Integer newSteel = playerResources.getSteel();
         Integer newItems = playerResources.getItems();
 
-        assertTrue((oldGold!=newGold||oldIron!=newIron||oldSteel!=newSteel)&&(oldItems==newItems+1));
-	}
+        assertTrue((oldGold != newGold || oldIron != newIron || oldSteel != newSteel) && (oldItems == newItems + 1));
+    }
 
 }

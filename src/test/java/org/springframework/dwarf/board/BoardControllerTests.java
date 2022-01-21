@@ -29,16 +29,17 @@ import org.springframework.dwarf.worker.WorkerService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(controllers = {BoardController.class,LoggedUserController.class}, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
+@WebMvcTest(controllers = { BoardController.class,
+		LoggedUserController.class }, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 
 class BoardControllerTests {
 
 	@Autowired
 	private BoardController boardController;
-	
+
 	@Autowired
 	private ApplicationContext ac;
-	
+
 	@MockBean
 	private GameService gameService;
 
@@ -55,14 +56,11 @@ class BoardControllerTests {
 	@MockBean
 	private SpecialDeckService specialDeckService;
 
-
 	@Autowired
 	private MockMvc mockMvc;
-	
-	
+
 	private Player george;
-	
-	
+
 	@BeforeEach
 	void setup() {
 
@@ -76,56 +74,37 @@ class BoardControllerTests {
 		user.setEnabled(true);
 		user.setPassword("1");
 		george.setAvatarUrl("https://www.w3schools.com/w3images/avatar1.png");
-		
+
 		george.setUser(user);
-		
+
 		List<Player> lista = new ArrayList<Player>(List.of(george));
-		
+
 		given(this.playerService.findPlayerById(1)).willReturn(george);
 		given(this.playerService.findPlayerByUserName("paco")).willReturn(george);
-		
+
 		given(this.playerService.findPlayerByLastName("T")).willReturn(lista);
-		
+
 	}
 
 	@Test
 	void testGetBoard() throws Exception {
 		mockMvc.perform(get("/boards")).andExpect(status().is4xxClientError());
 	}
-	
+
 	@Test
 	void testSetTurns() {
 		List<Player> players = playerService.findPlayerByLastName("T").stream().collect(Collectors.toList());
 		Player player = players.get(0);
 		Integer turnInitial = player.getTurn();
-		
+
 		assertThat(turnInitial).isEqualTo(null);
-		
+
 		boardController.setTurns(players);
-		
+
 		Integer turnFinal = player.getTurn();
-		
+
 		assertThat(turnFinal).isEqualTo(1);
 
 	}
-	/*
-	@Test
-	void testExecuteSpecialAction() throws Exception {
-		SpecialDeck deck = new SpecialDeck(1,0);
-		List<SpecialCard> spcards= new ArrayList<SpecialCard>();
-		List<Integer> specialCardsId = List.of(1,2,3);
-		for(Integer cardId:specialCardsId) {
-			SpecialCard c = new SpecialCard();
-			c.setId(cardId);
-			c.setCardStrategy(ac.getBean(HoldACouncil.class));
-			spcards.add(c);
-		}
-		deck.setSpecialCard(spcards);
-		
-		
-		SpecialCard cardF = boardController.executeSpecialAction(deck, george);
-		
-		assertThat(cardF).isNotEqualTo(null);
 
-	}*/
 }
