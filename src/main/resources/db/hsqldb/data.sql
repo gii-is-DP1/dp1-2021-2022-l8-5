@@ -1,8 +1,4 @@
--- One admin user, named admin1 with passwor 4dm1n and authority admin
-INSERT INTO users(username,password,enabled,email) VALUES ('admin1','4dm1n',TRUE,'test9@test.com');
-INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
--- One owner user, named owner1 with passwor 0wn3r
-INSERT INTO users(username,password,enabled,email) VALUES ('owner1','0wn3r',TRUE,'test@test.com');
+-- USERS
 INSERT INTO users(username,password,enabled,email) VALUES ('pabmargom3','admin1',TRUE,'test2@test.com');
 INSERT INTO users(username,password,enabled,email) VALUES ('davzamfer','admin1',TRUE,'test3@test.com');
 INSERT INTO users(username,password,enabled,email) VALUES ('dieruigil','admin1',TRUE,'test4@test.com');
@@ -13,16 +9,15 @@ INSERT INTO users(username,password,enabled,email) VALUES ('josgarboh','admin1',
 INSERT INTO users(username,password,enabled,email) VALUES ('test2','admin1',TRUE,'test10@test.com');
 INSERT INTO users(username,password,enabled,email) VALUES ('test3','admin1',TRUE,'test11@test.com');
 INSERT INTO users(username,password,enabled,email) VALUES ('DELETED','P5xEr6oez!AH6vHBhVE8ZAeBo9&FIHdEfdB9X19fA4yPrhrK%',FALSE,'Yh&as2FHef1O84Tfycp7ZcG@Yh&as2FHef1O84Tfycp7ZcG.n&GdiH');
-INSERT INTO authorities(id,username,authority) VALUES (2,'owner1','owner');
-INSERT INTO authorities(id,username,authority) VALUES (3,'pabmargom3','admin');
-INSERT INTO authorities(id,username,authority) VALUES (4,'davzamfer','admin');
-INSERT INTO authorities(id,username,authority) VALUES (5,'dieruigil','admin');
-INSERT INTO authorities(id,username,authority) VALUES (6,'test','player');
-INSERT INTO authorities(id,username,authority) VALUES (7,'framigdom','player');
-INSERT INTO authorities(id,username,authority) VALUES (8,'pabalvcar','player');
-INSERT INTO authorities(id,username,authority) VALUES (9,'josgarboh','player');
-INSERT INTO authorities(id,username,authority) VALUES (10,'test2','player');
-INSERT INTO authorities(id,username,authority) VALUES (11,'test3','player');
+INSERT INTO authorities(id,username,authority) VALUES (1,'pabmargom3','admin');
+INSERT INTO authorities(id,username,authority) VALUES (2,'davzamfer','admin');
+INSERT INTO authorities(id,username,authority) VALUES (3,'dieruigil','admin');
+INSERT INTO authorities(id,username,authority) VALUES (4,'test','player');
+INSERT INTO authorities(id,username,authority) VALUES (5,'framigdom','player');
+INSERT INTO authorities(id,username,authority) VALUES (6,'pabalvcar','player');
+INSERT INTO authorities(id,username,authority) VALUES (7,'josgarboh','player');
+INSERT INTO authorities(id,username,authority) VALUES (8,'test2','player');
+INSERT INTO authorities(id,username,authority) VALUES (9,'test3','player');
 
 
 -- Players
@@ -46,7 +41,7 @@ INSERT INTO games(currentPlayer,currentPhase,currentRound,firstPlayer,secondPlay
 
 
  -- Mountain cards
- -- SEAM,FORGES_ALLOY,GET_HELP,ORC_RAIDERS,DRAGONS_KNOCKERS,SHIDE,
+ -- SEAM,FORGES_ALLOY,GET_HELP,ORC_RAIDERS,DRAGONS_KNOCKERS,SHIDE
 
  -- Card sheet 1
  INSERT INTO mountain_cards(name, description, xposition, yposition, type, cardgroup, image, actiontype) VALUES ('Iron Seam', 'Take 3 iron from the supply', 1, 0, 'MINE', 1, '/resources/images/mountainCards/ironSeams/ironSeam1.png', 'SEAM');
