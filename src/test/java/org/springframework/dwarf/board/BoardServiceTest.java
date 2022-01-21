@@ -13,8 +13,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
-import org.springframework.dwarf.mountain_card.MountainDeckService;
-import org.springframework.dwarf.special_card.SpecialDeck;
+import org.springframework.dwarf.mountainCard.MountainDeckService;
+import org.springframework.dwarf.specialCard.SpecialDeck;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter({Service.class,Component.class}))

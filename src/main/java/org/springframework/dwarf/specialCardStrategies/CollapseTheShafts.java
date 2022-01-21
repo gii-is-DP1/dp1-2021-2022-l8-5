@@ -10,7 +10,7 @@ import org.springframework.dwarf.board.BoardCellService;
 import org.springframework.dwarf.board.BoardService;
 import org.springframework.dwarf.card.CardStrategy;
 import org.springframework.dwarf.game.GameService;
-import org.springframework.dwarf.mountain_card.MountainCard;
+import org.springframework.dwarf.mountainCard.MountainCard;
 import org.springframework.dwarf.player.Player;
 import org.springframework.stereotype.Component;
 import org.springframework.dwarf.card.StrategyName;

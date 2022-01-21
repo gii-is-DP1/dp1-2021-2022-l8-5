@@ -12,8 +12,8 @@ import javax.validation.constraints.Positive;
 
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.model.BaseEntity;
-import org.springframework.dwarf.mountain_card.MountainDeck;
-import org.springframework.dwarf.special_card.SpecialDeck;
+import org.springframework.dwarf.mountainCard.MountainDeck;
+import org.springframework.dwarf.specialCard.SpecialDeck;
 
 /**
  * @author Diego Ruiz Gil

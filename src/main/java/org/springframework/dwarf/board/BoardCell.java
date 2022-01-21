@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Range;
 import org.springframework.dwarf.model.BaseEntity;
-import org.springframework.dwarf.mountain_card.MountainCard;
+import org.springframework.dwarf.mountainCard.MountainCard;
 import org.springframework.dwarf.player.Player;
 
 import lombok.Getter;

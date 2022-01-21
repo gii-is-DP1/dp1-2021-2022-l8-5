@@ -1,4 +1,4 @@
-package org.springframework.dwarf.special_card;
+package org.springframework.dwarf.specialCard;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -6,7 +6,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.springframework.dwarf.card.Card;
-import org.springframework.dwarf.mountain_card.MountainCard;
+import org.springframework.dwarf.mountainCard.MountainCard;
 
 /**
  * Simple JavaBean domain object representing a mountain card.

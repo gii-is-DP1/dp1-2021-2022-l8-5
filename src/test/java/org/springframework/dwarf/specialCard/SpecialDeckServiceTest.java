@@ -1,4 +1,4 @@
-package org.springframework.dwarf.special_card;
+package org.springframework.dwarf.specialCard;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -12,6 +12,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dwarf.specialCard.SpecialCard;
+import org.springframework.dwarf.specialCard.SpecialCardService;
+import org.springframework.dwarf.specialCard.SpecialDeck;
+import org.springframework.dwarf.specialCard.SpecialDeckService;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter({Service.class,Component.class}))

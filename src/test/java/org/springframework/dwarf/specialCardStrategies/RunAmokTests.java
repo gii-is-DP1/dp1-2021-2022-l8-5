@@ -13,7 +13,7 @@ import org.springframework.dwarf.board.BoardService;
 import org.springframework.dwarf.card.StrategyName;
 import org.springframework.dwarf.game.Game;
 import org.springframework.dwarf.game.GameService;
-import org.springframework.dwarf.mountain_card.MountainCard;
+import org.springframework.dwarf.mountainCard.MountainCard;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
 import org.springframework.dwarf.resources.ResourceType;

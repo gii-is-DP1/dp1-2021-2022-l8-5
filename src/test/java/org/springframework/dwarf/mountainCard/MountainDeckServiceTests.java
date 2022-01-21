@@ -26,10 +26,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.dwarf.mountain_card.CardType;
-import org.springframework.dwarf.mountain_card.MountainCard;
-import org.springframework.dwarf.mountain_card.MountainDeck;
-import org.springframework.dwarf.mountain_card.MountainDeckService;
+import org.springframework.dwarf.mountainCard.CardType;
+import org.springframework.dwarf.mountainCard.MountainCard;
+import org.springframework.dwarf.mountainCard.MountainDeck;
+import org.springframework.dwarf.mountainCard.MountainDeckService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

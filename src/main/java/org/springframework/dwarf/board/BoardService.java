@@ -8,10 +8,10 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dwarf.game.Game;
-import org.springframework.dwarf.mountain_card.MountainDeck;
-import org.springframework.dwarf.mountain_card.MountainDeckService;
-import org.springframework.dwarf.special_card.SpecialDeck;
-import org.springframework.dwarf.special_card.SpecialDeckService;
+import org.springframework.dwarf.mountainCard.MountainDeck;
+import org.springframework.dwarf.mountainCard.MountainDeckService;
+import org.springframework.dwarf.specialCard.SpecialDeck;
+import org.springframework.dwarf.specialCard.SpecialDeckService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

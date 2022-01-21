@@ -22,7 +22,7 @@ import org.springframework.dwarf.game.GameService;
 import org.springframework.dwarf.player.Player;
 import org.springframework.dwarf.player.PlayerService;
 import org.springframework.dwarf.resources.ResourcesService;
-import org.springframework.dwarf.special_card.SpecialDeckService;
+import org.springframework.dwarf.specialCard.SpecialDeckService;
 import org.springframework.dwarf.user.User;
 import org.springframework.dwarf.web.LoggedUserController;
 import org.springframework.dwarf.worker.WorkerService;
