@@ -54,22 +54,7 @@ public class WorkerController {
 		return view;
 
 	}
-	/*
-	@GetMapping(path="/delete/{WorkerId}")
-	public String deleteWorker(@PathVariable("WorkerId") Integer WorkerId,ModelMap modelMap) {
-		String view = "Workers/listWorkers";
-		Optional<Worker> worker = workersService.findByWorkerId(WorkerId);
-		if (Worker.isPresent()) {
-			workersService.delete(worker.get());
-			modelMap.addAttribute("message", "Worker deleted!");
-		} else {
-			modelMap.addAttribute("message", "Worker not found!");
-		}
-		return view;
 
-	}*/
-	
-	
 	@GetMapping(value = "/update/{workerId}")
 	public String initUpdateOwnerForm(@PathVariable("workerId") int workerId, Model model) {
 		Worker Worker = this.workersService.findByWorkerId(workerId).get();

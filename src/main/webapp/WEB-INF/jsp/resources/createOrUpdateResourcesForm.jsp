@@ -28,9 +28,3 @@
     </form:form>
     
 </dwarf:layout>
-
-
-
-            <!--dwarf:inputField label="Id" name="resourcesId"/-->
-            <!--dwarf:inputField label="GameId" name="gameId"/-->
-            <!--dwarf:inputField label="PlayerId" name="playerId"/-->
