@@ -1,7 +1,0 @@
--Finish updating the SQL for cards
--Complete the code for the ActionSelection and ActionResolution classes, including the phase change and the placing workers wait currently commented
--Draw the placed workers
--Pass the services to the cardstrategy class to get it to work
--Complete cardstrategy and create specialcardstrategy
--Forms for cards that let you select resources
--Validators and exceptions
