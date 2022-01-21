@@ -70,7 +70,7 @@ public class BoardController {
     private ApplicationContext applicationContext;
     
     private static final Integer REFRESH_TIME = 4;
-    private static final LocalTime INACTIVITY_TIMER = LocalTime.of(0, 1);
+    private static final LocalTime INACTIVITY_TIMER = LocalTime.of(0, 2);
     
     private boolean boardPageLoaded;
 	
