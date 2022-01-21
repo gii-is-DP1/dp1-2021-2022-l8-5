@@ -25,20 +25,21 @@ import org.springframework.test.web.servlet.MockMvc;
  * 
  */
 
-@WebMvcTest(controllers = {WorkerController.class,LoggedUserController.class}, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
+@WebMvcTest(controllers = { WorkerController.class,
+		LoggedUserController.class }, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 class WorkerControllerTest {
-	
+
 	private static final int TEST_WORKER_ID = 1;
-	
+
 	@MockBean
 	private WorkerService workerService;
-	
+
 	@MockBean
 	private LoggedUserController loggedUserController;
-	
+
 	@Autowired
 	private MockMvc mockMvc;
-	
+
 	private Worker w0;
 
 	@BeforeEach
@@ -46,28 +47,15 @@ class WorkerControllerTest {
 		w0 = new Worker();
 		w0.setId(TEST_WORKER_ID);
 		w0.setStatus(false);
-		
-		//given(this.workerService.findByWorkerId(TEST_WORKER_ID).get()).willReturn(w0);
-	}
-	
-	@Test
-	@WithMockUser(username = "pabmargom3")
-    void listWorkers() throws Exception {
-	 mockMvc.perform(get("/workers")).andExpect(status().isOk())
-		.andExpect(view().name("workers/listWorkers"))
-		.andExpect(model().attributeExists("workers"));
-	    }
-	
-	
-	/* VIEW To Be Done
-	@Test
-	@WithMockUser(username = "pabmargom3")
-    void updateWorkers() throws Exception {
-	 mockMvc.perform(get("/workers/update/1")).andExpect(status().isOk())
-		.andExpect(view().name("workers/listWorkers"))
-		.andExpect(model().attributeExists("workers"));
-	    }
 
-	
-	*/
+	}
+
+	@Test
+	@WithMockUser(username = "pabmargom3")
+	void listWorkers() throws Exception {
+		mockMvc.perform(get("/workers")).andExpect(status().isOk())
+				.andExpect(view().name("workers/listWorkers"))
+				.andExpect(model().attributeExists("workers"));
+	}
+
 }

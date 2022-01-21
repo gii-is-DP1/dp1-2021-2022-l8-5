@@ -17,31 +17,31 @@ import org.springframework.dwarf.player.PlayerService;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@DataJpaTest(includeFilters = @ComponentScan.Filter(value= {Service.class, Component.class}))
+@DataJpaTest(includeFilters = @ComponentScan.Filter(value = { Service.class, Component.class }))
 public class MusterAnArmyTests {
 	@Autowired
 	protected MusterAnArmy mana;
-	   
+
 	@Autowired
 	private GameService gameService;
-	   
+
 	@Autowired
 	private BoardService boardService;
-	
+
 	@Autowired
 	private PlayerService playerService;
-	   
+
 	private Game game;
 	private Board board;
 	private Player p1;
-   
+
 	@BeforeEach
 	void setup() throws Exception {
 		game = gameService.findByGameId(2).get();
 		p1 = playerService.findPlayerById(2);
 		board = boardService.createBoard(game);
 	}
-	
+
 	@Test
 	void testActions() {
 		mana.actions(p1, "");
